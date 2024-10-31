@@ -59,7 +59,6 @@ dependencies:
   # Auto Size Text
   auto_size_text: ^3.0.0
 
-  syncfusion_flutter_sliders: ^27.1.57
 dev_dependencies:
   flutter_test:
     sdk: flutter
