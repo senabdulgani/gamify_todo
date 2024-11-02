@@ -1,4 +1,4 @@
-package com.example.gamify_todo
+package app.nextLevel
 
 import io.flutter.embedding.android.FlutterActivity
 
