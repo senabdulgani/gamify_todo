@@ -61,9 +61,9 @@ class AppColors {
   static Color hover = const Color.fromARGB(48, 73, 73, 73);
 
   // Theme Colors
-  static Color main = const Color.fromARGB(255, 255, 105, 0);
-  static Color lightMain = const Color.fromARGB(255, 255, 184, 134);
-  static Color deepMain = const Color.fromARGB(255, 194, 81, 0);
+  static Color main = const Color.fromARGB(255, 13, 96, 190);
+  static Color lightMain = const Color.fromARGB(255, 49, 135, 233);
+  static Color deepMain = const Color.fromARGB(255, 10, 64, 126);
 
   // TODO: boxShadows için de yap
   // Shadows
@@ -150,7 +150,7 @@ class AppColors {
     // Bottom Navigation Bar
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: main,
+      backgroundColor: panelBackground,
       elevation: 0,
       unselectedIconTheme: IconThemeData(
         color: white.withOpacity(0.7),
@@ -172,6 +172,7 @@ class AppColors {
     ),
     // AppBar
     appBarTheme: AppBarTheme(
+      toolbarHeight: 40,
       backgroundColor: appbar,
       surfaceTintColor: appbar,
       iconTheme: IconThemeData(
@@ -179,7 +180,7 @@ class AppColors {
       ),
       titleTextStyle: TextStyle(
         color: text,
-        fontSize: 25,
+        fontSize: 22,
         fontWeight: FontWeight.bold,
       ),
       actionsIconTheme: IconThemeData(
