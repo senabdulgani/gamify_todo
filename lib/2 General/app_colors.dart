@@ -486,8 +486,8 @@ class AppColors {
 
       primary: main,
       onPrimary: background,
-      secondary: const Color.fromARGB(255, 0, 255, 213),
-      onSecondary: const Color.fromARGB(255, 0, 255, 0),
+      secondary: lightMain,
+      onSecondary: const Color.fromARGB(157, 0, 241, 0),
       error: Colors.red,
       onError: const Color.fromARGB(255, 255, 0, 13),
       surface: panelBackground2,

@@ -6,6 +6,7 @@ class AddTaskProvider with ChangeNotifier {
   TimeOfDay? selectedTime;
   DateTime? selectedDate;
   bool isNotificationOn = false;
+  Duration duration = const Duration(hours: 0, minutes: 0);
 
   // update time
   void updateTime(TimeOfDay? time) {

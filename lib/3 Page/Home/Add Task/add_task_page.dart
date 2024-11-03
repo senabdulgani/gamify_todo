@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_switch.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_date.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
@@ -43,6 +44,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 NotificationSwitch(),
               ],
             ),
+            DurationPickerWidget(),
           ],
         ),
       ),
