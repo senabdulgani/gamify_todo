@@ -108,6 +108,14 @@ class AppColors {
     }
   }
 
+  static Color get panelBackground2 {
+    if (isDark) {
+      return const Color.fromARGB(255, 54, 54, 54);
+    } else {
+      return const Color.fromARGB(255, 247, 247, 247);
+    }
+  }
+
   static Color get text {
     if (isDark) {
       return const Color.fromARGB(255, 245, 245, 245);
@@ -337,7 +345,7 @@ class AppColors {
       ),
       cancelButtonStyle: ButtonStyle(
         overlayColor: WidgetStateProperty.all<Color>(hover),
-        foregroundColor: WidgetStateProperty.all<Color>(background),
+        foregroundColor: WidgetStateProperty.all<Color>(text),
       ),
     ),
 
@@ -467,14 +475,23 @@ class AppColors {
     // Color Scheme
     colorScheme: ColorScheme(
       brightness: Brightness.dark,
+      // primary: main,
+      // onPrimary: lightMain,
+      // secondary: const Color.fromARGB(255, 0, 255, 213),
+      // onSecondary: const Color.fromARGB(255, 0, 255, 0),
+      // error: Colors.red,
+      // onError: const Color.fromARGB(255, 255, 0, 13),
+      // surface: onBackground,
+      // onSurface: background,
+
       primary: main,
-      onPrimary: lightMain,
+      onPrimary: background,
       secondary: const Color.fromARGB(255, 0, 255, 213),
       onSecondary: const Color.fromARGB(255, 0, 255, 0),
       error: Colors.red,
       onError: const Color.fromARGB(255, 255, 0, 13),
-      surface: onBackground,
-      onSurface: background,
+      surface: panelBackground2,
+      onSurface: text,
 
       // TODO: düzenlenecek. gerekli değilse kaldır
       // errorContainer: const Color(0xFF93000A),

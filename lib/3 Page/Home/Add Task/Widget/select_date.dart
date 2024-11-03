@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
-class SelectTime extends StatefulWidget {
-  const SelectTime({
+class SelectDate extends StatefulWidget {
+  const SelectDate({
     super.key,
   });
 
   @override
-  State<SelectTime> createState() => _SelectTimeState();
+  State<SelectDate> createState() => _SelectDateState();
 }
 
-class _SelectTimeState extends State<SelectTime> {
+class _SelectDateState extends State<SelectDate> {
   late final addTaskProvider = context.read<AddTaskProvider>();
 
   @override
@@ -21,13 +21,13 @@ class _SelectTimeState extends State<SelectTime> {
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        child: addTaskProvider.selectedTime == null
+        child: addTaskProvider.selectedDate == null
             ? const Icon(
-                Icons.watch_later,
+                Icons.calendar_month,
                 size: 35,
               )
             : Text(
-                addTaskProvider.selectedTime!.to24hours(),
+                DateFormat(addTaskProvider.selectedDate!.year == DateTime.now().year ? "d MMM" : "d MMM y").format(addTaskProvider.selectedDate!),
                 style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -35,18 +35,16 @@ class _SelectTimeState extends State<SelectTime> {
               ),
       ),
       onTap: () async {
-        final selectedTime = await showTimePicker(
+        final selectedDate = await showDatePicker(
           context: context,
-          initialTime: const TimeOfDay(hour: 12, minute: 0),
-          initialEntryMode: TimePickerEntryMode.dialOnly,
-          builder: (context, child) {
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-              child: child!,
-            );
-          },
+          initialDate: DateTime.now(),
+          firstDate: DateTime(1950),
+          lastDate: DateTime(3333),
+          initialEntryMode: DatePickerEntryMode.calendarOnly,
         );
-        addTaskProvider.updateTime(selectedTime);
+
+        addTaskProvider.updateDate(selectedDate);
+
         setState(() {});
       },
     );

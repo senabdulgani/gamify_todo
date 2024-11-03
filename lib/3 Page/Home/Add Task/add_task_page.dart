@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_switch.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_date.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
@@ -33,7 +35,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
           children: [
             SizedBox(height: 20),
             TaskName(),
-            SelectTime(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SelectDate(),
+                SelectTime(),
+                NotificationSwitch(),
+              ],
+            ),
           ],
         ),
       ),
