@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 extension DurationFormatting on Duration {
   String formatTime() {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
@@ -15,5 +17,13 @@ extension IntFormatting on int {
     final int remainingSeconds = this % 60;
 
     return "${hours}h ${minutes}m ${remainingSeconds}s";
+  }
+}
+
+extension TimeOfDayConverter on TimeOfDay {
+  String to24hours() {
+    final hour = this.hour.toString().padLeft(2, "0");
+    final min = minute.toString().padLeft(2, "0");
+    return "$hour:$min";
   }
 }

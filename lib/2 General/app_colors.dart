@@ -266,9 +266,9 @@ class AppColors {
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: borderRadiusAll,
+        borderRadius: borderRadiusAll * 1.5,
         borderSide: BorderSide(
-          color: main,
+          color: onBackground,
           width: 2,
         ),
       ),

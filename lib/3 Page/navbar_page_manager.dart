@@ -3,6 +3,7 @@ import 'package:gamify_todo/3%20Page/Home/home_page.dart';
 import 'package:gamify_todo/3%20Page/Profile/profile_page.dart';
 import 'package:gamify_todo/3%20Page/Store/store_page.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
+import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 
 class NavbarPageManager extends StatefulWidget {
@@ -34,6 +35,15 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
                 child: CircularProgressIndicator(),
               )
             : screens[context.watch<NavbarProvider>().currentIndex],
+        floatingActionButton: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(13),
+          ),
+          onPressed: () {
+            Get.toNamed('/addTask');
+          },
+          child: const Icon(Icons.add),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: context.read<NavbarProvider>().currentIndex,
           onTap: (index) {
@@ -50,7 +60,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.home,
+                Icons.list,
               ),
               label: 'Home',
             ),
