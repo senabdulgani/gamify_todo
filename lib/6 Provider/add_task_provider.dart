@@ -9,6 +9,7 @@ class AddTaskProvider with ChangeNotifier {
   bool isNotificationOn = false;
   Duration duration = const Duration(hours: 0, minutes: 0);
   TasyType selectedTaskType = TasyType.CHECKBOX;
+  List<int> selectedDays = [];
 
   // update time
   void updateTime(TimeOfDay? time) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_switch.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_date.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_days.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
@@ -39,12 +40,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   onTap: () {
                     debugPrint("""
-                    ${addTaskProvider.taskNameController.text}
-                    ${addTaskProvider.selectedDate}
-                    ${addTaskProvider.selectedTime}
-                    ${addTaskProvider.isNotificationOn}
-                    ${addTaskProvider.duration}
-                    ${addTaskProvider.selectedTaskType}
+                    name        :   ${addTaskProvider.taskNameController.text}
+                    date        :   ${addTaskProvider.selectedDate}
+                    time        :   ${addTaskProvider.selectedTime}
+                    notificaiton:   ${addTaskProvider.isNotificationOn}
+                    duration    :   ${addTaskProvider.duration}
+                    type        :   ${addTaskProvider.selectedTaskType}
+                    days        :   ${addTaskProvider.selectedDays}
                     """);
                     Navigator.pop(context);
                   },
@@ -77,6 +79,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 SelectTaskType(),
               ],
             ),
+            SelectDays()
           ],
         ),
       ),
