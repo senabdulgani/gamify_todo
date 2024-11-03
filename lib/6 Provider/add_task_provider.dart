@@ -4,7 +4,7 @@ class AddTaskProvider with ChangeNotifier {
   // Widget variables
   TextEditingController taskNameController = TextEditingController();
   TimeOfDay? selectedTime;
-  DateTime? selectedDate;
+  DateTime? selectedDate = DateTime.now();
   bool isNotificationOn = false;
   Duration duration = const Duration(hours: 0, minutes: 0);
 

@@ -20,7 +20,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AddTaskProvider(),
+      create: (_) => AddTaskProvider(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Add Task"),
@@ -31,6 +31,29 @@ class _AddTaskPageState extends State<AddTaskPage> {
             },
             child: const Icon(Icons.arrow_back_ios),
           ),
+          actions: [
+            Consumer(
+              builder: (context, AddTaskProvider addTaskProvider, child) {
+                return InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  onTap: () {
+                    debugPrint("""
+                    ${addTaskProvider.taskNameController.text}
+                    ${addTaskProvider.selectedDate}
+                    ${addTaskProvider.selectedTime}
+                    ${addTaskProvider.isNotificationOn}
+                    ${addTaskProvider.duration}
+                    """);
+                    Navigator.pop(context);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Icon(Icons.check),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         body: const Column(
           children: [
