@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_switch.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_date.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
@@ -43,6 +44,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     ${addTaskProvider.selectedTime}
                     ${addTaskProvider.isNotificationOn}
                     ${addTaskProvider.duration}
+                    ${addTaskProvider.selectedTaskType}
                     """);
                     Navigator.pop(context);
                   },
@@ -67,7 +69,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 NotificationSwitch(),
               ],
             ),
-            DurationPickerWidget(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DurationPickerWidget(),
+                SizedBox(width: 20),
+                SelectTaskType(),
+              ],
+            ),
           ],
         ),
       ),

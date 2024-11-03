@@ -43,14 +43,17 @@ class Helper {
                   : "Succes"),
       message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: status == StatusEnum.WARNING ? AppColors.red.withOpacity(0.6) : AppColors.panelBackground.withOpacity(0.9),
+      backgroundColor: AppColors.panelBackground.withOpacity(0.9),
       animationDuration: const Duration(milliseconds: 500),
       duration: duration ?? const Duration(seconds: 2),
       dismissDirection: DismissDirection.horizontal,
       icon: icon != null
           ? Icon(icon)
           : (status == StatusEnum.WARNING
-              ? const Icon(Icons.warning)
+              ? const Icon(
+                  Icons.warning,
+                  color: AppColors.red,
+                )
               : status == StatusEnum.INFO
                   ? const Icon(Icons.info)
                   : const Icon(Icons.check)),
