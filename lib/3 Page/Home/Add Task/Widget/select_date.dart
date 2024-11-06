@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
@@ -22,31 +23,21 @@ class _SelectDateState extends State<SelectDate> {
       borderRadius: AppColors.borderRadiusAll,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        child: addTaskProvider.selectedDate == null
-            ? const Icon(
-                Icons.calendar_month,
-                size: 35,
-              )
-            : Text(
-                DateFormat(addTaskProvider.selectedDate!.year == DateTime.now().year ? "d MMM" : "d MMM y").format(addTaskProvider.selectedDate!),
-                style: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        child: Text(
+          DateFormat(addTaskProvider.selectedDate.year == DateTime.now().year ? "d MMM" : "d MMM y").format(addTaskProvider.selectedDate),
+          style: const TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       onTap: () async {
-        final selectedDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(1950),
-          lastDate: DateTime(3333),
-          initialEntryMode: DatePickerEntryMode.calendarOnly,
-        );
+        final selectedDate = await Helper().selectDate(context);
 
-        addTaskProvider.updateDate(selectedDate);
-
-        setState(() {});
+        if (selectedDate != null) {
+          addTaskProvider.selectedDate = selectedDate;
+          setState(() {});
+        }
       },
     );
   }

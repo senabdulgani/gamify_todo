@@ -248,4 +248,32 @@ class Helper {
 
     return selectedColor;
   }
+
+  Future<TimeOfDay?> selectTime(context) async {
+    final selectedTime = await showTimePicker(
+      context: context,
+      initialTime: const TimeOfDay(hour: 12, minute: 0),
+      initialEntryMode: TimePickerEntryMode.dialOnly,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
+    );
+
+    return selectedTime;
+  }
+
+  Future<DateTime?> selectDate(context) async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(3333),
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+    );
+
+    return selectedDate;
+  }
 }
