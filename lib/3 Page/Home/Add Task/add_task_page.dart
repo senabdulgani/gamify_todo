@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_switch.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_date.dart';
@@ -8,6 +9,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_trait.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
+import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
 import 'package:provider/provider.dart';
 
 class AddTaskPage extends StatefulWidget {
@@ -28,7 +30,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         appBar: AppBar(
           title: const Text("Add Task"),
           leading: InkWell(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius: AppColors.borderRadiusAll,
             onTap: () {
               Navigator.pop(context);
             },
@@ -38,7 +40,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             Consumer(
               builder: (context, AddTaskProvider addTaskProvider, child) {
                 return InkWell(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: AppColors.borderRadiusAll,
                   onTap: () {
                     debugPrint("""
                     name        :   ${addTaskProvider.taskNameController.text}
@@ -48,6 +50,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     duration    :   ${addTaskProvider.duration}
                     type        :   ${addTaskProvider.selectedTaskType}
                     days        :   ${addTaskProvider.selectedDays}
+                    skills      :   ${addTaskProvider.selectedTraits.where((trait) => trait.type == TraitTypeEnum.SKILL).map((trait) => trait.title).toList()}
+                    attirbutes  :   ${addTaskProvider.selectedTraits.where((trait) => trait.type == TraitTypeEnum.ATTIRBUTE).map((trait) => trait.title).toList()}
+
                     """);
                     Navigator.pop(context);
                   },
@@ -81,7 +86,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ],
             ),
             SelectDays(),
+            SizedBox(height: 20),
             SelectTrait(isSkill: true),
+            SizedBox(height: 10),
             SelectTrait(isSkill: false),
           ],
         ),

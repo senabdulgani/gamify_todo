@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
+import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class _NotificationSwitchState extends State<NotificationSwitch> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      borderRadius: AppColors.borderRadiusAll,
       onTap: () {
         changeNotificationStatus();
       },

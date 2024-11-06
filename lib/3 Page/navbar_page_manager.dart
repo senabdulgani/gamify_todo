@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/home_page.dart';
 import 'package:gamify_todo/3%20Page/Profile/profile_page.dart';
 import 'package:gamify_todo/3%20Page/Store/store_page.dart';
@@ -37,7 +38,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
             : screens[context.watch<NavbarProvider>().currentIndex],
         floatingActionButton: FloatingActionButton(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(13),
+            borderRadius: AppColors.borderRadiusAll,
           ),
           onPressed: () {
             Get.toNamed('/addTask');

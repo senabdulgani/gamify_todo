@@ -27,7 +27,7 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
 
   InkWell taskTypeButton(TaskTypeEnum taskType) {
     return InkWell(
-      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      borderRadius: AppColors.borderRadiusAll,
       onTap: () {
         setState(() {
           addTaskProvider.selectedTaskType = taskType;
@@ -35,7 +35,7 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          borderRadius: AppColors.borderRadiusAll,
           color: addTaskProvider.selectedTaskType == taskType ? AppColors.main : Colors.transparent,
         ),
         padding: const EdgeInsets.all(5),

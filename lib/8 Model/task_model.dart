@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
-import 'package:gamify_todo/8%20Model/attirbute_model.dart';
+import 'package:gamify_todo/8%20Model/trait_model.dart';
 
 class TaskModel {
   final String title;
@@ -10,8 +10,8 @@ class TaskModel {
   final bool isNotificationOn;
   final Duration? duration;
   final List<int>? repeatDays;
-  final List<AttirbuteModel>? attirbuteList;
-  final List<AttirbuteModel>? skillList;
+  final List<TraitModel>? attirbuteList;
+  final List<TraitModel>? skillList;
 
   // final TimerData? timerData;
   // final CounterData? counterData;

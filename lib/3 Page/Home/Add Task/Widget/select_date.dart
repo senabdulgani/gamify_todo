@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -18,7 +19,7 @@ class _SelectDateState extends State<SelectDate> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      borderRadius: AppColors.borderRadiusAll,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         child: addTaskProvider.selectedDate == null
