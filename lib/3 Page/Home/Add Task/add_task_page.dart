@@ -43,6 +43,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   borderRadius: AppColors.borderRadiusAll,
                   onTap: () {
                     debugPrint("""
+*************************************************************
                     name        :   ${addTaskProvider.taskNameController.text}
                     date        :   ${addTaskProvider.selectedDate}
                     time        :   ${addTaskProvider.selectedTime}
@@ -52,7 +53,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     days        :   ${addTaskProvider.selectedDays}
                     skills      :   ${addTaskProvider.selectedTraits.where((trait) => trait.type == TraitTypeEnum.SKILL).map((trait) => trait.title).toList()}
                     attirbutes  :   ${addTaskProvider.selectedTraits.where((trait) => trait.type == TraitTypeEnum.ATTIRBUTE).map((trait) => trait.title).toList()}
-
+*************************************************************
                     """);
                     Navigator.pop(context);
                   },
@@ -65,32 +66,34 @@ class _AddTaskPageState extends State<AddTaskPage> {
             ),
           ],
         ),
-        body: const Column(
-          children: [
-            SizedBox(height: 20),
-            TaskName(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SelectDate(),
-                SelectTime(),
-                NotificationSwitch(),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DurationPickerWidget(),
-                SizedBox(width: 20),
-                SelectTaskType(),
-              ],
-            ),
-            SelectDays(),
-            SizedBox(height: 20),
-            SelectTrait(isSkill: true),
-            SizedBox(height: 10),
-            SelectTrait(isSkill: false),
-          ],
+        body: const SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              TaskName(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SelectDate(),
+                  SelectTime(),
+                  NotificationSwitch(),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DurationPickerWidget(),
+                  SizedBox(width: 20),
+                  SelectTaskType(),
+                ],
+              ),
+              SelectDays(),
+              SizedBox(height: 20),
+              SelectTrait(isSkill: false),
+              SizedBox(height: 10),
+              SelectTrait(isSkill: true),
+            ],
+          ),
         ),
       ),
     );

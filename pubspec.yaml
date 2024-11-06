@@ -66,6 +66,9 @@ dependencies:
   # Duration Picker
   duration_picker: ^1.2.0
 
+  # Emoji Picker
+  emoji_picker_flutter: ^3.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

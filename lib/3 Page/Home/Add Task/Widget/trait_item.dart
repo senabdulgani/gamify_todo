@@ -25,6 +25,8 @@ class _TraitItemState extends State<TraitItem> {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: AppColors.borderRadiusAll,
+      highlightColor: widget.trait.color,
+      splashColor: isSelected ? null : widget.trait.color,
       onTap: () {
         if (isSelected) {
           addTaskProvider.selectedTraits.remove(widget.trait);
@@ -45,8 +47,13 @@ class _TraitItemState extends State<TraitItem> {
             color: isSelected ? widget.trait.color : AppColors.panelBackground2,
             borderRadius: AppColors.borderRadiusAll,
           ),
-          child: Icon(
-            widget.trait.icon,
+          child: Center(
+            child: Text(
+              widget.trait.icon,
+              style: const TextStyle(
+                fontSize: 25,
+              ),
+            ),
           ),
         ),
       ),

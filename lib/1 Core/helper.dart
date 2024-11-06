@@ -1,5 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/Widgets/sure_dialog.dart';
@@ -154,5 +156,96 @@ class Helper {
   void registerAdapters() {
     //  Hive.initFlutter();
     // Hive.registerAdapter(PhotoAdapter());
+  }
+
+  // Emoji Picker
+  Future<String> showEmojiPicker(BuildContext context) async {
+    late final String selectedEmoji;
+
+    await showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: SizedBox(
+            height: 0.4.sh,
+            child: EmojiPicker(
+              onEmojiSelected: (emoji, category) {
+                selectedEmoji = category.emoji;
+                Get.back();
+              },
+              config: Config(
+                bottomActionBarConfig: const BottomActionBarConfig(showBackspaceButton: false, enabled: false),
+                categoryViewConfig: CategoryViewConfig(
+                  extraTab: CategoryExtraTab.SEARCH,
+                  backgroundColor: AppColors.panelBackground,
+                ),
+                emojiViewConfig: EmojiViewConfig(
+                  backgroundColor: AppColors.panelBackground,
+                ),
+                viewOrderConfig: const ViewOrderConfig(
+                  top: EmojiPickerItem.searchBar,
+                  middle: EmojiPickerItem.categoryBar,
+                  bottom: EmojiPickerItem.emojiView,
+                ),
+                searchViewConfig: SearchViewConfig(
+                  backgroundColor: AppColors.panelBackground,
+                  buttonIconColor: AppColors.text,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    return selectedEmoji;
+  }
+
+  Future<Color> selectColor() async {
+    Color selectedColor = AppColors.main;
+
+    final List<Color> colors = [
+      Colors.red,
+      Colors.green,
+      Colors.blue,
+      Colors.yellow,
+      Colors.purple,
+      Colors.orange,
+      Colors.pink,
+      Colors.teal,
+      Colors.brown,
+      Colors.grey,
+    ];
+
+    await Get.dialog(
+      AlertDialog(
+        content: Wrap(
+          children: List.generate(
+            colors.length,
+            (index) => InkWell(
+              borderRadius: AppColors.borderRadiusAll,
+              onTap: () {
+                selectedColor = colors[index];
+                Get.back();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(3),
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: colors[index],
+                    borderRadius: AppColors.borderRadiusAll,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return selectedColor;
   }
 }
