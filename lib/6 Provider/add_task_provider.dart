@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
+import 'package:gamify_todo/8%20Model/skill_model.dart';
 
 class AddTaskProvider with ChangeNotifier {
   // Widget variables
@@ -8,8 +9,10 @@ class AddTaskProvider with ChangeNotifier {
   DateTime? selectedDate = DateTime.now();
   bool isNotificationOn = false;
   Duration duration = const Duration(hours: 0, minutes: 0);
-  TasyType selectedTaskType = TasyType.CHECKBOX;
+  TaskTypeEnum selectedTaskType = TaskTypeEnum.CHECKBOX;
   List<int> selectedDays = [];
+  List<SkillModel> selectedAttirbutes = [];
+  List<SkillModel> selectedSkills = [];
 
   // update time
   void updateTime(TimeOfDay? time) {

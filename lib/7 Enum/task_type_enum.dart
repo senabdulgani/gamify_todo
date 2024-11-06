@@ -1,4 +1,4 @@
-enum TasyType {
+enum TaskTypeEnum {
   CHECKBOX,
   COUNTER,
   TIMER,

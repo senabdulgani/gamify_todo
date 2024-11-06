@@ -18,14 +18,14 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        tasktypebutton(TasyType.CHECKBOX),
-        tasktypebutton(TasyType.COUNTER),
-        tasktypebutton(TasyType.TIMER),
+        taskTypeButton(TaskTypeEnum.CHECKBOX),
+        taskTypeButton(TaskTypeEnum.COUNTER),
+        taskTypeButton(TaskTypeEnum.TIMER),
       ],
     );
   }
 
-  InkWell tasktypebutton(TasyType taskType) {
+  InkWell taskTypeButton(TaskTypeEnum taskType) {
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       onTap: () {
@@ -40,9 +40,9 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
         ),
         padding: const EdgeInsets.all(5),
         child: Icon(
-          taskType == TasyType.CHECKBOX
+          taskType == TaskTypeEnum.CHECKBOX
               ? Icons.check_box
-              : taskType == TasyType.COUNTER
+              : taskType == TaskTypeEnum.COUNTER
                   ? Icons.add
                   : Icons.timer,
           size: 30,

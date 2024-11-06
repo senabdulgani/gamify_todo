@@ -5,6 +5,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_date.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_days.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_trait.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
@@ -79,7 +80,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 SelectTaskType(),
               ],
             ),
-            SelectDays()
+            SelectDays(),
+            SelectTrait(isSkill: true),
+            SelectTrait(isSkill: false),
           ],
         ),
       ),
