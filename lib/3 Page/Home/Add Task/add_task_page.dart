@@ -73,6 +73,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           remainingDuration: addTaskProvider.taskDuration,
                           currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
                           targetCount: addTaskProvider.targetCount,
+                          isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
                           attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
                           skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
                           isCompleted: false,

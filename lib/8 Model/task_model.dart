@@ -9,13 +9,14 @@ class TaskModel {
   final DateTime taskDate; // yapılacağı tarih
   final TimeOfDay? time; // saati
   final bool isNotificationOn; // notification açık mı
-  final Duration? currentDuration; // timer ise süre buradan takip edilecek
+  Duration? currentDuration; // timer ise süre buradan takip edilecek
   final Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
-  final int? currentCount; // counter ise sayı buradan takip edilecek
+  int? currentCount; // counter ise sayı buradan takip edilecek
   final int? targetCount; // counter ise hedef sayı
+  bool? isTimerActive; // timer aktif mi
   final List<int>? attirbuteIDList; // etki edeceği özellikler
   final List<int>? skillIDList; // etki edecği yetenekler
-  final bool? isCompleted; // tamamlandı mı
+  bool isCompleted; // tamamlandı mı
 
   TaskModel({
     required this.id,
@@ -29,6 +30,7 @@ class TaskModel {
     this.remainingDuration,
     this.currentCount,
     this.targetCount,
+    this.isTimerActive,
     this.attirbuteIDList,
     this.skillIDList,
     required this.isCompleted,
