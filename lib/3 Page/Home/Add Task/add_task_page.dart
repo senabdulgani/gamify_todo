@@ -48,7 +48,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     date        :   ${addTaskProvider.selectedDate}
                     time        :   ${addTaskProvider.selectedTime}
                     notificaiton:   ${addTaskProvider.isNotificationOn}
-                    duration    :   ${addTaskProvider.duration}
+                    target      :   ${addTaskProvider.targetCount}
+                    taskDuration:   ${addTaskProvider.taskDuration}
                     type        :   ${addTaskProvider.selectedTaskType}
                     days        :   ${addTaskProvider.selectedDays}
                     skills      :   ${addTaskProvider.selectedTraits.where((trait) => trait.type == TraitTypeEnum.SKILL).map((trait) => trait.title).toList()}

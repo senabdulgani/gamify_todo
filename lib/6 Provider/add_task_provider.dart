@@ -8,12 +8,12 @@ class AddTaskProvider with ChangeNotifier {
   TimeOfDay? selectedTime;
   DateTime selectedDate = DateTime.now();
   bool isNotificationOn = false;
-  Duration duration = const Duration(hours: 0, minutes: 0);
+  int targetCount = 0;
+  Duration taskDuration = const Duration(hours: 0, minutes: 0);
   TaskTypeEnum selectedTaskType = TaskTypeEnum.CHECKBOX;
   List<int> selectedDays = [];
   List<TraitModel> selectedTraits = [];
 
-  // update time
   void updateTime(TimeOfDay? time) {
     selectedTime = time;
 

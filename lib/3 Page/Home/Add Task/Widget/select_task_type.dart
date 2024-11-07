@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_target_count.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:provider/provider.dart';
@@ -16,11 +17,19 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        taskTypeButton(TaskTypeEnum.CHECKBOX),
-        taskTypeButton(TaskTypeEnum.COUNTER),
-        taskTypeButton(TaskTypeEnum.TIMER),
+        Row(
+          children: [
+            taskTypeButton(TaskTypeEnum.CHECKBOX),
+            taskTypeButton(TaskTypeEnum.COUNTER),
+            taskTypeButton(TaskTypeEnum.TIMER),
+          ],
+        ),
+        if (addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER) ...[
+          const SizedBox(height: 15),
+          const SelectTargetCount(),
+        ],
       ],
     );
   }

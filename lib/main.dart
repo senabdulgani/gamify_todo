@@ -28,13 +28,13 @@ class Main extends StatelessWidget {
   Main({super.key});
 
   final routeList = [
+    GetPage(name: '/register', page: () => const RegisterApp()),
+    GetPage(name: '/login', page: () => const LoginScreen()),
     GetPage(name: '/navbar', page: () => const NavbarPageManager()),
     GetPage(name: '/home', page: () => const HomePage()),
     GetPage(name: '/store', page: () => const StorePage()),
     GetPage(name: '/profile', page: () => const ProfilePage()),
     GetPage(name: '/addTask', page: () => const AddTaskPage()),
-    GetPage(name: '/register', page: () => const RegisterApp()),
-    GetPage(name: '/login', page: () => const LoginScreen()),
   ];
 
   @override

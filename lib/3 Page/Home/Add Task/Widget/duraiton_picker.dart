@@ -23,12 +23,12 @@ class _DurationPickerWidgetState extends State<DurationPickerWidget> {
           child: FittedBox(
             fit: BoxFit.contain,
             child: DurationPicker(
-              duration: addTaskProvider.duration,
+              duration: addTaskProvider.taskDuration,
               onChange: (selectedDuration) {
                 var round = (selectedDuration.inMinutes / 5).round() * 5;
                 setState(
                   () {
-                    addTaskProvider.duration = Duration(minutes: round);
+                    addTaskProvider.taskDuration = Duration(minutes: round);
                   },
                 );
               },
