@@ -5,7 +5,6 @@ class TaskModel {
   final int id; // id si
   final int? rutinID; // eğer varsa rutin id si
   final String title; // başlığı
-  final String? desc; // açıklaması
   final TaskTypeEnum type; // türü
   final DateTime taskDate; // yapılacağı tarih
   final TimeOfDay? time; // saati
@@ -22,7 +21,6 @@ class TaskModel {
     required this.id,
     this.rutinID,
     required this.title,
-    this.desc,
     required this.type,
     required this.taskDate,
     this.time,

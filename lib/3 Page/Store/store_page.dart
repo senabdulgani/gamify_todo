@@ -13,6 +13,7 @@ class _StorePageState extends State<StorePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Store'),
+        leading: const SizedBox(),
       ),
     );
   }

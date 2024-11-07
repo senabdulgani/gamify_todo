@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
+import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
+import 'package:gamify_todo/8%20Model/rutin_model.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
 
 class AddTaskProvider with ChangeNotifier {
@@ -22,5 +25,25 @@ class AddTaskProvider with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  void addRutin() {
+    rutinList.add(
+      RutinModel(
+        id: rutinList.length,
+        title: taskNameController.text,
+        type: selectedTaskType,
+        createdDate: DateTime.now(),
+        startDate: selectedDate,
+        time: selectedTime,
+        isNotificationOn: isNotificationOn,
+        remainingDuration: taskDuration,
+        targetCount: targetCount,
+        repeatDays: selectedDays,
+        attirbuteIDList: selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
+        skillIDList: selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
+        isCompleted: false,
+      ),
+    );
   }
 }

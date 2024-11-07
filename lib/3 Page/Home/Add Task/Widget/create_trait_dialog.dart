@@ -127,7 +127,12 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
               return;
             }
 
+            final int skillCount = traitList.where((trait) => trait.type == TraitTypeEnum.SKILL).toList().length;
+
+            final int attirbuteCount = traitList.where((trait) => trait.type == TraitTypeEnum.ATTIRBUTE).toList().length;
+
             traitList.add(TraitModel(
+              id: widget.isSkill ? skillCount : attirbuteCount,
               title: traitTitle.text,
               icon: traitIcon,
               color: selectedColor,
