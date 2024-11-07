@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-void main() => runApp(const LoginApp());
-
 class LoginApp extends StatelessWidget {
   const LoginApp({super.key});
 

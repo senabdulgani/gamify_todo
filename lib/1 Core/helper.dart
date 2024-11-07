@@ -270,7 +270,7 @@ class Helper {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1950),
-      lastDate: DateTime(3333),
+      lastDate: DateTime(2100),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
     );
 
