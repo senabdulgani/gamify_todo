@@ -13,7 +13,6 @@ class TaskProvider with ChangeNotifier {
         isNotificationOn: false,
         currentDuration: const Duration(hours: 0, minutes: 0),
         remainingDuration: const Duration(hours: 1, minutes: 0),
-        targetCount: 0,
         attirbuteIDList: [1, 2],
         skillIDList: [1],
         isCompleted: false,
@@ -24,7 +23,6 @@ class TaskProvider with ChangeNotifier {
       type: TaskTypeEnum.CHECKBOX,
       taskDate: DateTime.now(),
       isNotificationOn: false,
-      targetCount: 0,
       isCompleted: false,
     ),
     TaskModel(
@@ -39,6 +37,19 @@ class TaskProvider with ChangeNotifier {
       remainingDuration: const Duration(minutes: 15),
       isCompleted: false,
     ),
+    TaskModel(
+      id: 3,
+      title: "Mediate",
+      type: TaskTypeEnum.TIMER,
+      taskDate: DateTime.now(),
+      isNotificationOn: false,
+      currentDuration: const Duration(hours: 0, minutes: 0),
+      remainingDuration: const Duration(minutes: 15),
+      attirbuteIDList: [1, 2],
+      skillIDList: [1],
+      isCompleted: false,
+      isTimerActive: false,
+    ),
   ];
 
   void addTask(TaskModel taskModel) {
@@ -50,4 +61,8 @@ class TaskProvider with ChangeNotifier {
   // edit task
 
   // delete task
+
+  void updateItems() {
+    notifyListeners();
+  }
 }

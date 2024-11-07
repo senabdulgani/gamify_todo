@@ -50,6 +50,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 return InkWell(
                   borderRadius: AppColors.borderRadiusAll,
                   onTap: () {
+                    // TODO: ardarda basıp yanlış kopyalar ekleyebiliyorum düzelt. bir kere basınca tekrar basılamasın tüm sayfaya olabilir.
+
                     if (addTaskProvider.taskNameController.text.trim().isEmpty) {
                       addTaskProvider.taskNameController.clear();
 
@@ -86,6 +88,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         taskProvider.addTask(
                           TaskModel(
                             id: taskProvider.taskList.length,
+                            // !!!! id ler yanlış olacak gibi kontrol et
                             rutinID: rutinList.length,
                             title: addTaskProvider.taskNameController.text,
                             type: addTaskProvider.selectedTaskType,
@@ -96,6 +99,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             remainingDuration: addTaskProvider.taskDuration,
                             currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
                             targetCount: addTaskProvider.targetCount,
+                            isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
                             attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
                             skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
                             isCompleted: false,

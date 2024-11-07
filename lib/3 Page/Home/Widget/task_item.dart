@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/global_timer.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
@@ -55,7 +56,10 @@ class _TaskItemState extends State<TaskItem> {
         } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
           widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
         } else {
-          widget.taskModel.isTimerActive = !widget.taskModel.isTimerActive!;
+          GlobalTimer().startStopTimer(
+            context: context,
+            taskModel: widget.taskModel,
+          );
         }
 
         setState(() {});
