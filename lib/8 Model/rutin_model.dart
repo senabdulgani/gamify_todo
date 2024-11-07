@@ -1,36 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 
-class TaskModel {
+class RutinModel {
   final int id; // id si
-  final int? rutinID; // eğer varsa rutin id si
   final String title; // başlığı
-  final String? desc; // açıklaması
   final TaskTypeEnum type; // türü
-  final DateTime taskDate; // yapılacağı tarih
+  final DateTime createdDate; // oluşturulma tarihi
+  final DateTime startDate; // başlama tarihi
   final TimeOfDay? time; // saati
   final bool isNotificationOn; // notification açık mı
-  final Duration? currentDuration; // timer ise süre buradan takip edilecek
   final Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
-  final int? currentCount; // counter ise sayı buradan takip edilecek
   final int? targetCount; // counter ise hedef sayı
+  final List<int> repeatDays; // tekrar günleri
   final List<int>? attirbuteIDList; // etki edeceği özellikler
   final List<int>? skillIDList; // etki edecği yetenekler
-  final bool? isCompleted; // tamamlandı mı
+  final bool isCompleted; // tamamlandı mı
 
-  TaskModel({
+  RutinModel({
     required this.id,
-    this.rutinID,
     required this.title,
-    this.desc,
     required this.type,
-    required this.taskDate,
+    required this.createdDate,
+    required this.startDate,
     this.time,
     required this.isNotificationOn,
-    this.currentDuration,
     this.remainingDuration,
-    this.currentCount,
     this.targetCount,
+    required this.repeatDays,
     this.attirbuteIDList,
     this.skillIDList,
     required this.isCompleted,
