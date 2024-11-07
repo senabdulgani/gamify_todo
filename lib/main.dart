@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/3%20Page/Home/home_page.dart';
+import 'package:gamify_todo/3%20Page/Login/login_page.dart';
+import 'package:gamify_todo/3%20Page/Login/register_page.dart';
 import 'package:gamify_todo/3%20Page/Profile/profile_page.dart';
 import 'package:gamify_todo/3%20Page/Store/store_page.dart';
 import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
@@ -31,6 +33,8 @@ class Main extends StatelessWidget {
     GetPage(name: '/store', page: () => const StorePage()),
     GetPage(name: '/profile', page: () => const ProfilePage()),
     GetPage(name: '/addTask', page: () => const AddTaskPage()),
+    GetPage(name: '/register', page: () => const RegisterApp()),
+    GetPage(name: '/login', page: () => const LoginScreen()),
   ];
 
   @override
@@ -43,7 +47,7 @@ class Main extends StatelessWidget {
         return GetMaterialApp(
           title: 'NextLevel',
           getPages: routeList,
-          initialRoute: '/navbar',
+          initialRoute: '/login',
           theme: AppColors().appTheme,
           debugShowCheckedModeBanner: true,
           showPerformanceOverlay: false,
