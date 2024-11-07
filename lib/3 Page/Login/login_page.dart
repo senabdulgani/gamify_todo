@@ -79,11 +79,19 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildFooterLinks() {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Hesap oluştur', style: TextStyle(color: Colors.white70)),
-        Text('Şifremi unuttum', style: TextStyle(color: Colors.white70)),
+        GestureDetector(
+          onTap: () {
+            Get.toNamed('/register');
+          },
+          child: const Text(
+            'Hesap oluştur',
+            style: TextStyle(color: Colors.white70),
+          ),
+        ),
+        const Text('Şifremi unuttum', style: TextStyle(color: Colors.white70)),
       ],
     );
   }
