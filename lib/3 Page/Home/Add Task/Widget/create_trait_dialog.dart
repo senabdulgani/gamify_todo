@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
@@ -19,7 +20,7 @@ class CreateTraitDialog extends StatefulWidget {
 }
 
 class _CreateTraitDialogState extends State<CreateTraitDialog> {
-  String traitTitle = "";
+  TextEditingController traitTitle = TextEditingController();
   String traitIcon = "🎯";
   Color selectedColor = AppColors.main;
 
@@ -37,10 +38,11 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
         children: [
           // Name
           TextField(
+            controller: traitTitle,
             decoration: const InputDecoration(hintText: "Name"),
-            onChanged: (value) {
-              traitTitle = value;
-            },
+            // onChanged: (value) {
+            //   traitTitle = value;
+            // },
           ),
           const SizedBox(height: 10),
           Row(
@@ -117,8 +119,19 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
         InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
+            if (traitTitle.text.trim().isEmpty) {
+              traitTitle.clear();
+
+              Helper().getMessage(
+                message: "Trait name cant be empty",
+                status: StatusEnum.WARNING,
+              );
+
+              return;
+            }
+
             traitList.add(TraitModel(
-              title: traitTitle,
+              title: traitTitle.text,
               icon: traitIcon,
               color: selectedColor,
               type: widget.isSkill ? TraitTypeEnum.SKILL : TraitTypeEnum.ATTIRBUTE,

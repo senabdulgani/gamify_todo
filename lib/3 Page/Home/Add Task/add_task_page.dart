@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
+import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_switch.dart';
@@ -42,6 +44,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 return InkWell(
                   borderRadius: AppColors.borderRadiusAll,
                   onTap: () {
+                    if (addTaskProvider.taskNameController.text.trim().isEmpty) {
+                      addTaskProvider.taskNameController.clear();
+
+                      Helper().getMessage(
+                        message: "Task name cant be empty",
+                        status: StatusEnum.WARNING,
+                      );
+                      return;
+                    }
+
                     debugPrint("""
 *************************************************************
                     name        :   ${addTaskProvider.taskNameController.text}
