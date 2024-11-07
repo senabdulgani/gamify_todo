@@ -78,7 +78,7 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
               InkWell(
                 borderRadius: AppColors.borderRadiusAll,
                 onTap: () async {
-                  await Helper().selectColor();
+                  selectedColor = await Helper().selectColor();
                   setState(() {});
                 },
                 child: Padding(
