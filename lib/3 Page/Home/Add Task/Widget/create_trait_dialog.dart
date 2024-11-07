@@ -40,9 +40,6 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
           TextField(
             controller: traitTitle,
             decoration: const InputDecoration(hintText: "Name"),
-            // onChanged: (value) {
-            //   traitTitle = value;
-            // },
           ),
           const SizedBox(height: 10),
           Row(
