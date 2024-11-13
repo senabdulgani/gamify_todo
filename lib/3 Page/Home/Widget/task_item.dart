@@ -27,7 +27,7 @@ class _TaskItemState extends State<TaskItem> {
         // task detaylarına git ordan da düzenlemek için ayrı gidecek
       },
       onLongPress: () {
-        // taskı tamamlayamadın
+        // taskı tamamlayamadım veya yapmama gerek kalmadı olarak işaretle ??
       },
       borderRadius: AppColors.borderRadiusAll,
       child: Container(
@@ -38,7 +38,7 @@ class _TaskItemState extends State<TaskItem> {
           children: [
             taskActionIcon(),
             const SizedBox(width: 10),
-            titleAndCountWidgets(),
+            titleAndProgressWidgets(),
             const Spacer(),
             notificationWidgets(),
           ],
@@ -55,6 +55,10 @@ class _TaskItemState extends State<TaskItem> {
           widget.taskModel.isCompleted = !widget.taskModel.isCompleted;
         } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
           widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
+
+          if (widget.taskModel.currentCount! >= widget.taskModel.targetCount!) {
+            widget.taskModel.isCompleted = true;
+          }
         } else {
           GlobalTimer().startStopTimer(
             context: context,
@@ -82,16 +86,17 @@ class _TaskItemState extends State<TaskItem> {
     );
   }
 
-  Widget titleAndCountWidgets() {
+  Widget titleAndProgressWidgets() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           widget.taskModel.title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
+            decoration: widget.taskModel.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
           ),
         ),
         widget.taskModel.type == TaskTypeEnum.CHECKBOX
