@@ -15,8 +15,14 @@ class NavbarPageManager extends StatefulWidget {
 }
 
 class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindingObserver {
-  // TODO: şimdilik burası true normalde veritabanından yanıt gelene kadar loading olacak.
-  bool isLoading = true;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,5 +81,12 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
         ),
       ),
     );
+  }
+
+  Future getData() async {
+    // todo: veriler veritabanından çekilecek
+
+    isLoading = true;
+    setState(() {});
   }
 }

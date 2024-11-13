@@ -6,7 +6,7 @@ class TaskModel {
   final int? rutinID; // eğer varsa rutin id si
   final String title; // başlığı
   final TaskTypeEnum type; // türü
-  final DateTime taskDate; // yapılacağı tarih
+  DateTime taskDate; // yapılacağı tarih
   final TimeOfDay? time; // saati
   final bool isNotificationOn; // notification açık mı
   Duration? currentDuration; // timer ise süre buradan takip edilecek
