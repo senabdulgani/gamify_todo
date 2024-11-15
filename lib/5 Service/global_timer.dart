@@ -43,17 +43,19 @@ class GlobalTimer {
         const Duration(seconds: 1),
         (timer) {
           for (var id in activeTimerTaskId) {
-            taskProvider.taskList[id].currentDuration = taskProvider.taskList[id].currentDuration! + const Duration(seconds: 1);
+            final task = taskProvider.taskList.firstWhere((element) => element.id == id);
+
+            task.currentDuration = task.currentDuration! + const Duration(seconds: 1);
 
             // tamamlandı olarak işaretle
-            if (taskProvider.taskList[id].currentDuration! >= taskProvider.taskList[id].remainingDuration!) {
-              taskProvider.taskList[id].isCompleted = true;
+            if (task.currentDuration! >= task.remainingDuration!) {
+              task.isCompleted = true;
             }
 
             context.read<TaskProvider>().updateItems();
 
             // her dakika veri tabanı güncelle
-            if (taskProvider.taskList[id].currentDuration!.inSeconds % 60 == 0) {
+            if (task.currentDuration!.inSeconds % 60 == 0) {
               // TODO: update database
 
               // TODO: task tamamnlandıysa bildirim veya alarm
