@@ -38,9 +38,9 @@ class HomePage extends StatelessWidget {
               return [
                 PopupMenuItem(
                   onTap: () {
-                    // TaskProvider().changeShowCompleted();
+                    TaskProvider().changeShowCompleted();
                   },
-                  child: const Text("Hide Completed"),
+                  child: Text("${TaskProvider().showCompleted ? "Hide" : "Show"} Completed"),
                 ),
                 const PopupMenuItem(
                   child: Text("Hakkında"),

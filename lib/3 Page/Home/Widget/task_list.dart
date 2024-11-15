@@ -23,7 +23,13 @@ class _TaskListState extends State<TaskList> {
     selectedDateTaskList.clear();
     for (var task in context.read<TaskProvider>().taskList) {
       if (Helper().isSameDay(task.taskDate, context.read<TaskProvider>().selectedDate)) {
-        selectedDateTaskList.add(task);
+        if (context.read<TaskProvider>().showCompleted && task.isCompleted) {
+          selectedDateTaskList.add(task);
+        } else if (!context.read<TaskProvider>().showCompleted && task.isCompleted) {
+          continue;
+        } else {
+          selectedDateTaskList.insert(0, task);
+        }
       }
     }
 

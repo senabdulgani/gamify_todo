@@ -73,6 +73,7 @@ class TaskProvider with ChangeNotifier {
 
   // ? saat 00:00:00 geçtikten sonra hala dünü gösterecek muhtemelen her ana sayfaya gidişte. bunu düzelt
   DateTime selectedDate = DateTime.now();
+  bool showCompleted = true;
 
   void addTask(TaskModel taskModel) {
     taskList.add(taskModel);
@@ -120,6 +121,12 @@ class TaskProvider with ChangeNotifier {
 
     // TODO: !!!!!!!!!!!!!! şuan direkt listeden sildim ama normalde task listten silinmeyece kgaliba statusu cancel beceremedin veya complete olarak değişecek. loho larak hep tutulacak
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
+    notifyListeners();
+  }
+
+  void changeShowCompleted() {
+    showCompleted = !showCompleted;
+
     notifyListeners();
   }
 }
