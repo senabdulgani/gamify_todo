@@ -42,9 +42,6 @@ class HomePage extends StatelessWidget {
                   },
                   child: Text("${TaskProvider().showCompleted ? "Hide" : "Show"} Completed"),
                 ),
-                const PopupMenuItem(
-                  child: Text("Hakkında"),
-                ),
               ];
             },
           ),
