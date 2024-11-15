@@ -1,9 +1,6 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
-import 'package:provider/provider.dart';
 
 class GlobalTimer {
   static final GlobalTimer _instance = GlobalTimer._internal();
@@ -16,51 +13,42 @@ class GlobalTimer {
 
   Timer? _timer;
 
-  final List<int> activeTimerTaskId = [];
-
   void startStopTimer({
-    required BuildContext context,
     required TaskModel taskModel,
   }) {
     taskModel.isTimerActive = !taskModel.isTimerActive!;
 
-    if (taskModel.isTimerActive!) {
-      activeTimerTaskId.add(taskModel.id);
-    } else {
-      activeTimerTaskId.remove(taskModel.id);
-    }
-
-    startStopGlobalTimer(context);
+    startStopGlobalTimer();
   }
 
-  void startStopGlobalTimer(BuildContext context) {
-    final TaskProvider taskProvider = context.read<TaskProvider>();
+  void startStopGlobalTimer() {
+    final bool isAllTimersOff = !TaskProvider().taskList.any((element) => element.isTimerActive != null && element.isTimerActive!);
 
-    if (_timer != null && _timer!.isActive && (activeTimerTaskId.isEmpty)) {
+    if (_timer != null && _timer!.isActive && isAllTimersOff) {
       _timer!.cancel();
     } else if (_timer == null || !_timer!.isActive) {
       _timer = Timer.periodic(
         const Duration(seconds: 1),
         (timer) {
-          for (var id in activeTimerTaskId) {
-            final task = taskProvider.taskList.firstWhere((element) => element.id == id);
+          for (var task in TaskProvider().taskList) {
+            if (task.isTimerActive != null || task.isTimerActive == true) {
+              task.currentDuration = task.currentDuration! + const Duration(seconds: 1);
 
-            task.currentDuration = task.currentDuration! + const Duration(seconds: 1);
+              // tamamlandı olarak işaretle
+              if (task.currentDuration! >= task.remainingDuration!) {
+                task.isCompleted = true;
+              }
 
-            // tamamlandı olarak işaretle
-            if (task.currentDuration! >= task.remainingDuration!) {
-              task.isCompleted = true;
-            }
+              // her dakika veri tabanında güncelle
+              if (task.currentDuration!.inSeconds % 60 == 0) {
+                // TODO: update database
 
-            context.read<TaskProvider>().updateItems();
-
-            // her dakika veri tabanı güncelle
-            if (task.currentDuration!.inSeconds % 60 == 0) {
-              // TODO: update database
-
-              // TODO: task tamamnlandıysa bildirim veya alarm
+                // TODO: task tamamnlandıysa bildirim veya alarm
+              }
             }
           }
+
+          TaskProvider().updateItems();
         },
       );
     }

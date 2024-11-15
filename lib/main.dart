@@ -51,7 +51,7 @@ class Main extends StatelessWidget {
           getPages: routeList,
           initialRoute: '/login',
           theme: AppColors().appTheme,
-          debugShowCheckedModeBanner: true,
+          debugShowCheckedModeBanner: false,
           showPerformanceOverlay: false,
         );
       },

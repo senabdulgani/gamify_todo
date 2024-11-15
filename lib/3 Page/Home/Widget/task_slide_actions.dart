@@ -33,7 +33,7 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
         closeThreshold: 0.1,
         openThreshold: 0.1,
         dismissible: DismissiblePane(
-          dismissThreshold: 0.4,
+          dismissThreshold: 0.3,
           closeOnCancel: true,
           confirmDismiss: () async {
             taskProvider.changeTaskDate(

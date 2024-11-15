@@ -79,7 +79,6 @@ class _TaskItemState extends State<TaskItem> {
       }
     } else {
       GlobalTimer().startStopTimer(
-        context: context,
         taskModel: widget.taskModel,
       );
     }

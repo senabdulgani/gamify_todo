@@ -4,6 +4,15 @@ import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
 class TaskProvider with ChangeNotifier {
+  // burayı singelton yaptım gayet de iyi oldu neden normalde de context den kullanıyoruz anlamadım. galiba "watch" için olabilir. sibelton kısmını global timer için yaptım.
+  static final TaskProvider _instance = TaskProvider._internal();
+
+  factory TaskProvider() {
+    return _instance;
+  }
+
+  TaskProvider._internal();
+
   List<TaskModel> taskList = [
     TaskModel(
         id: 0,
@@ -79,6 +88,9 @@ class TaskProvider with ChangeNotifier {
     final selectedDate = await Helper().selectDate(context);
 
     if (selectedDate != null) {
+      if (taskModel.type == TaskTypeEnum.TIMER && taskModel.isTimerActive == true) {
+        taskModel.isTimerActive = false;
+      }
       taskModel.taskDate = selectedDate;
     }
 
@@ -88,6 +100,7 @@ class TaskProvider with ChangeNotifier {
   // iptal de kullanıcıya ceza yansıtılmayacak
   cancelTask(TaskModel taskModel) {
     taskList.remove(taskModel);
+
     // TODO: !!!!!!!!!!!!!! şuan direkt listeden sildim ama normalde task listten silinmeyece kgaliba statusu cancel beceremedin veya complete olarak değişecek. loho larak hep tutulacak
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
@@ -95,6 +108,7 @@ class TaskProvider with ChangeNotifier {
 
   beceremedinTask(TaskModel taskModel) {
     taskList.remove(taskModel);
+
     // TODO: !!!!!!!!!!!!!! şuan direkt listeden sildim ama normalde task listten silinmeyece kgaliba statusu cancel beceremedin veya complete olarak değişecek. loho larak hep tutulacak
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
