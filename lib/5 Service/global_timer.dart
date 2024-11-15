@@ -31,7 +31,7 @@ class GlobalTimer {
         const Duration(seconds: 1),
         (timer) {
           for (var task in TaskProvider().taskList) {
-            if (task.isTimerActive != null || task.isTimerActive == true) {
+            if (task.isTimerActive != null && task.isTimerActive == true) {
               task.currentDuration = task.currentDuration! + const Duration(seconds: 1);
 
               // tamamlandı olarak işaretle

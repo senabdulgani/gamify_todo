@@ -60,6 +60,15 @@ class TaskProvider with ChangeNotifier {
       isCompleted: false,
       isTimerActive: false,
     ),
+    TaskModel(
+      id: 4,
+      title: "su iç",
+      type: TaskTypeEnum.CHECKBOX,
+      taskDate: DateTime(2024, 11, 16),
+      isNotificationOn: false,
+      isCompleted: false,
+      isTimerActive: false,
+    ),
   ];
 
   // ? saat 00:00:00 geçtikten sonra hala dünü gösterecek muhtemelen her ana sayfaya gidişte. bunu düzelt

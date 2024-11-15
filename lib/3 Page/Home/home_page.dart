@@ -1,20 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/3%20Page/Home/Widget/day_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_list.dart';
+import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
   Widget build(BuildContext context) {
+    final selectedDate = context.watch<TaskProvider>().selectedDate;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
-        leading: const SizedBox(),
+        leadingWidth: 200,
+        leading: Row(
+          children: [
+            DayItem(date: selectedDate.subtract(const Duration(days: 1))),
+            DayItem(date: selectedDate),
+            DayItem(date: selectedDate.add(const Duration(days: 1))),
+            InkWell(
+              borderRadius: AppColors.borderRadiusAll,
+              onTap: () {
+                TaskProvider().changeSelectedDate(DateTime.now());
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(Icons.today),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  onTap: () {
+                    // TaskProvider().changeShowCompleted();
+                  },
+                  child: const Text("Hide Completed"),
+                ),
+                const PopupMenuItem(
+                  child: Text("Hakkında"),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: const TaskList(),
     );
