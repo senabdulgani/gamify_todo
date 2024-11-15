@@ -49,7 +49,7 @@ class Main extends StatelessWidget {
         return GetMaterialApp(
           title: 'NextLevel',
           getPages: routeList,
-          initialRoute: '/home',
+          initialRoute: '/navbar',
           theme: AppColors().appTheme,
           debugShowCheckedModeBanner: false,
           showPerformanceOverlay: false,

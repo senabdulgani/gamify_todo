@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_slide_actions.dart';
@@ -24,29 +25,52 @@ class _TaskItemState extends State<TaskItem> {
   Widget build(BuildContext context) {
     return TaskSlideActinos(
       taskModel: widget.taskModel,
-      child: InkWell(
-        onTap: () {
-          // ??? direkt containere basınca da icon butona basmış gibi mi osun emin olamadım deneyeceğim.
-          taskAction();
-        },
-        onLongPress: () {
-          // task detaylarına git ordan da düzenlemek için ayrı gidecek
-        },
-        borderRadius: AppColors.borderRadiusAll,
-        child: Container(
-          height: 70,
-          color: AppColors.transparent,
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            children: [
-              taskActionIcon(),
-              const SizedBox(width: 10),
-              titleAndProgressWidgets(),
-              const Spacer(),
-              notificationWidgets(),
-            ],
+      child: Stack(
+        alignment: Alignment.bottomLeft,
+        children: [
+          progress(),
+          InkWell(
+            onTap: () {
+              // ??? direkt containere basınca da icon butona basmış gibi mi osun emin olamadım deneyeceğim.
+              taskAction();
+            },
+            onLongPress: () {
+              // task detaylarına git ordan da düzenlemek için ayrı gidecek
+            },
+            borderRadius: AppColors.borderRadiusAll,
+            child: Container(
+              height: 70,
+              padding: const EdgeInsets.all(8),
+              color: AppColors.transparent,
+              child: Row(
+                children: [
+                  taskActionIcon(),
+                  const SizedBox(width: 10),
+                  titleAndProgressWidgets(),
+                  const Spacer(),
+                  notificationWidgets(),
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+
+  AnimatedContainer progress() {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      height: 2,
+      width: widget.taskModel.isCompleted
+          ? 1.sw
+          : widget.taskModel.type == TaskTypeEnum.TIMER
+              ? widget.taskModel.currentDuration!.inMilliseconds / widget.taskModel.remainingDuration!.inMilliseconds * 1.sw
+              : widget.taskModel.type == TaskTypeEnum.COUNTER
+                  ? widget.taskModel.currentCount! / widget.taskModel.targetCount! * 1.sw
+                  : 0.sw,
+      decoration: BoxDecoration(
+        color: AppColors.deepMain,
       ),
     );
   }
