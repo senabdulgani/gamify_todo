@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
+import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_slide_actions.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
@@ -31,8 +33,15 @@ class _TaskItemState extends State<TaskItem> {
           progress(),
           InkWell(
             onTap: () {
-              // ??? direkt containere basınca da icon butona basmış gibi mi osun emin olamadım deneyeceğim.
-              taskAction();
+              // rutin bugüne ait olmadığı için etkilşime bulunulamaz
+              if (widget.taskModel.rutinID != null && !Helper().isSameDay(widget.taskModel.taskDate, DateTime.now())) {
+                Helper().getMessage(
+                  status: StatusEnum.WARNING,
+                  message: "Rutin bugüne ait olmadığı için etkilşime bulunulamaz" "${widget.taskModel.rutinID}",
+                );
+              } else {
+                taskAction();
+              }
             },
             onLongPress: () {
               // task detaylarına git ordan da düzenlemek için ayrı gidecek

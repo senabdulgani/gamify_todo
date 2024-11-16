@@ -15,7 +15,7 @@ List<RutinModel> rutinList = [
     startDate: DateTime.now(),
     isNotificationOn: false,
     remainingDuration: const Duration(hours: 1, minutes: 0),
-    repeatDays: [1, 5],
+    repeatDays: [1, 2, 3, 4, 5, 6],
     isCompleted: false,
     attirbuteIDList: [1, 2],
     skillIDList: [1],
@@ -31,7 +31,19 @@ List<RutinModel> rutinList = [
     targetCount: 10,
     repeatDays: [1, 5],
     isCompleted: false,
-  )
+  ),
+  RutinModel(
+    id: 2,
+    title: "Su iç",
+    type: TaskTypeEnum.CHECKBOX,
+    createdDate: DateTime.now(),
+    startDate: DateTime.now().add(const Duration(days: 2)),
+    isNotificationOn: false,
+    remainingDuration: const Duration(minutes: 15),
+    targetCount: 10,
+    repeatDays: [1, 2, 3, 4, 5, 6, 7],
+    isCompleted: false,
+  ),
 ];
 
 List<TraitModel> traitList = [

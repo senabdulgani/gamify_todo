@@ -36,6 +36,8 @@ class Helper {
     Function? onMainButtonPressed,
     String? mainButtonText,
   }) {
+    Get.closeCurrentSnackbar();
+
     Get.snackbar(
       title ??
           (status == StatusEnum.WARNING
@@ -46,8 +48,8 @@ class Helper {
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: AppColors.panelBackground.withOpacity(0.9),
-      animationDuration: const Duration(milliseconds: 500),
-      duration: duration ?? const Duration(seconds: 2),
+      animationDuration: const Duration(milliseconds: 400),
+      duration: duration ?? const Duration(milliseconds: 1300),
       dismissDirection: DismissDirection.horizontal,
       icon: icon != null
           ? Icon(icon)
