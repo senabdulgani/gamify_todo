@@ -88,8 +88,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         taskProvider.addTask(
                           TaskModel(
                             id: taskProvider.taskList.length,
-                            // !!!! id ler yanlış olacak gibi kontrol et
-                            rutinID: rutinList.length,
+                            // TODO: !!!! id ler yanlış olacak gibi kontrol et
+                            rutinID: routineList.length,
                             title: addTaskProvider.taskNameController.text,
                             type: addTaskProvider.selectedTaskType,
                             taskDate: addTaskProvider.selectedDate,
@@ -112,7 +112,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     *************************************************************
                     isRutin: ${addTaskProvider.selectedDays.isNotEmpty}
                     id: ${taskProvider.taskList.length}
-                    rutinID: ${rutinList.length}
+                    rutinID: ${routineList.length}
                     title: ${addTaskProvider.taskNameController.text}
                     type: ${addTaskProvider.selectedTaskType}
                     taskDate: ${addTaskProvider.selectedDate}

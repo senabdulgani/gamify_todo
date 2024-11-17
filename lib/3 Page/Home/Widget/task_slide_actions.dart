@@ -68,19 +68,10 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
         dismissible: DismissiblePane(
           dismissThreshold: 0.01,
           onDismissed: () {
-            taskProvider.cancelTask(widget.taskModel);
+            taskProvider.beceremedinTask(widget.taskModel);
           },
         ),
         children: [
-          SlidableAction(
-            onPressed: (context) {
-              taskProvider.cancelTask(widget.taskModel);
-            },
-            backgroundColor: AppColors.purple,
-            icon: Icons.block,
-            label: 'Cancel',
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-          ),
           SlidableAction(
             onPressed: (context) {
               taskProvider.beceremedinTask(widget.taskModel);
@@ -88,6 +79,15 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
             backgroundColor: AppColors.red,
             icon: Icons.close,
             label: 'Beceremedin',
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+          ),
+          SlidableAction(
+            onPressed: (context) {
+              taskProvider.cancelTask(widget.taskModel);
+            },
+            backgroundColor: AppColors.purple,
+            icon: Icons.block,
+            label: 'Cancel',
             padding: const EdgeInsets.symmetric(horizontal: 5),
           ),
         ],

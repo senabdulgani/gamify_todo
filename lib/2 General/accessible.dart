@@ -6,7 +6,7 @@ import 'package:gamify_todo/8%20Model/trait_model.dart';
 
 // TODO: test için el ile verildi normalde veritabınndan gelecek
 
-List<RutinModel> rutinList = [
+List<RutinModel> routineList = [
   RutinModel(
     id: 0,
     title: "Python",
@@ -29,7 +29,7 @@ List<RutinModel> rutinList = [
     isNotificationOn: false,
     remainingDuration: const Duration(minutes: 15),
     targetCount: 10,
-    repeatDays: [1, 5],
+    repeatDays: [1, 5, 7],
     isCompleted: false,
   ),
   RutinModel(
@@ -37,7 +37,7 @@ List<RutinModel> rutinList = [
     title: "Su iç",
     type: TaskTypeEnum.CHECKBOX,
     createdDate: DateTime.now(),
-    startDate: DateTime.now().add(const Duration(days: 2)),
+    startDate: DateTime.now(),
     isNotificationOn: false,
     remainingDuration: const Duration(minutes: 15),
     targetCount: 10,

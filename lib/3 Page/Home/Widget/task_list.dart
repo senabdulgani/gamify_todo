@@ -43,7 +43,7 @@ class _TaskListState extends State<TaskList> {
     }
 
     if (!Helper().isBeforeDay(context.read<TaskProvider>().selectedDate, DateTime.now())) {
-      for (var rutin in rutinList) {
+      for (var rutin in routineList) {
         if (rutin.repeatDays.contains(context.read<TaskProvider>().selectedDate.weekday) && Helper().isBeforeDay(rutin.startDate, context.read<TaskProvider>().selectedDate)) {
           if (!rutin.isCompleted) {
             selectedDateGhostRutinTaskList.add(
@@ -71,7 +71,7 @@ class _TaskListState extends State<TaskList> {
       }
     }
 
-    return selectedDateTaskList.isEmpty && selectedDateGhostRutinTaskList.isEmpty
+    return selectedDateTaskList.isEmpty && selectedDateGhostRutinTaskList.isEmpty && selectedDateRutinTaskList.isEmpty
         ? const Center(
             child: Text(
               "No task for today",
@@ -91,7 +91,7 @@ class _TaskListState extends State<TaskList> {
                 ),
 
                 // Routine Tasks
-                if (selectedDateTaskList.isNotEmpty) const SizedBox(height: 20),
+                const SizedBox(height: 20),
                 if (selectedDateRutinTaskList.isNotEmpty)
                   const Text(
                     "Routines",
