@@ -42,7 +42,7 @@ class _TaskListState extends State<TaskList> {
       }
     }
 
-    if (!Helper().isBeforeDay(context.read<TaskProvider>().selectedDate, DateTime.now())) {
+    if (!Helper().isBeforeDay(context.read<TaskProvider>().selectedDate, DateTime.now()) && !Helper().isSameDay(context.read<TaskProvider>().selectedDate, DateTime.now())) {
       for (var rutin in routineList) {
         if (rutin.repeatDays.contains(context.read<TaskProvider>().selectedDate.weekday) && Helper().isBeforeDay(rutin.startDate, context.read<TaskProvider>().selectedDate)) {
           if (!rutin.isCompleted) {
@@ -91,7 +91,7 @@ class _TaskListState extends State<TaskList> {
                 ),
 
                 // Routine Tasks
-                const SizedBox(height: 20),
+                if (selectedDateRutinTaskList.isNotEmpty) const SizedBox(height: 20),
                 if (selectedDateRutinTaskList.isNotEmpty)
                   const Text(
                     "Routines",
