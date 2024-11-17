@@ -68,9 +68,6 @@ dependencies:
   # Slide Action
   flutter_slidable: ^3.1.1
 
-  # background process
-  workmanager: ^0.5.2
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
