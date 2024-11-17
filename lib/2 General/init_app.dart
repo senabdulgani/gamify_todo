@@ -1,18 +1,11 @@
 import 'dart:async';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
-import 'package:gamify_todo/firebase_options.dart';
 
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   // Lock Orientation to Portrait
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
