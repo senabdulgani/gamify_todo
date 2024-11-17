@@ -7,6 +7,7 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_slide_actions.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
@@ -71,7 +72,7 @@ class _TaskItemState extends State<TaskItem> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       height: 2,
-      width: widget.taskModel.isCompleted
+      width: widget.taskModel.status == TaskStatusEnum.COMPLETED
           ? 1.sw
           : widget.taskModel.type == TaskTypeEnum.TIMER
               ? widget.taskModel.currentDuration!.inMilliseconds / widget.taskModel.remainingDuration!.inMilliseconds * 1.sw
@@ -89,7 +90,7 @@ class _TaskItemState extends State<TaskItem> {
       padding: const EdgeInsets.all(5),
       child: Icon(
         widget.taskModel.type == TaskTypeEnum.CHECKBOX
-            ? widget.taskModel.isCompleted
+            ? widget.taskModel.status == TaskStatusEnum.COMPLETED
                 ? Icons.check_box
                 : Icons.check_box_outline_blank
             : widget.taskModel.type == TaskTypeEnum.COUNTER
@@ -104,12 +105,12 @@ class _TaskItemState extends State<TaskItem> {
 
   void taskAction() {
     if (widget.taskModel.type == TaskTypeEnum.CHECKBOX) {
-      widget.taskModel.isCompleted = !widget.taskModel.isCompleted;
+      widget.taskModel.status = (widget.taskModel.status == null ? TaskStatusEnum.COMPLETED : null);
     } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
       widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
 
       if (widget.taskModel.currentCount! >= widget.taskModel.targetCount!) {
-        widget.taskModel.isCompleted = true;
+        widget.taskModel.status = TaskStatusEnum.COMPLETED;
       }
     } else {
       GlobalTimer().startStopTimer(
@@ -130,7 +131,7 @@ class _TaskItemState extends State<TaskItem> {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            decoration: widget.taskModel.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+            decoration: widget.taskModel.status == TaskStatusEnum.COMPLETED ? TextDecoration.lineThrough : TextDecoration.none,
           ),
         ),
         widget.taskModel.type == TaskTypeEnum.CHECKBOX

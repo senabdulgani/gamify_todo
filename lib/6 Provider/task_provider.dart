@@ -33,7 +33,6 @@ class TaskProvider with ChangeNotifier {
       type: TaskTypeEnum.CHECKBOX,
       taskDate: DateTime.now(),
       isNotificationOn: false,
-      isCompleted: false,
     ),
     // TaskModel(
     //   id: 2,
@@ -66,7 +65,6 @@ class TaskProvider with ChangeNotifier {
       type: TaskTypeEnum.CHECKBOX,
       taskDate: DateTime.now().add(const Duration(days: 2)),
       isNotificationOn: false,
-      isCompleted: false,
       isTimerActive: false,
     ),
     // TaskModel(
@@ -93,7 +91,7 @@ class TaskProvider with ChangeNotifier {
     // ),
   ];
 
-  // ? saat 00:00:00 geçtikten sonra hala dünü gösterecek muhtemelen her ana sayfaya gidişte. bunu düzelt
+  // TODO: saat 00:00:00 geçtikten sonra hala dünü gösterecek muhtemelen her ana sayfaya gidişte. bunu düzelt. yani değişken uygulama açıldığında belirlendiği için 12 den sonra değişmeyecek.
   DateTime selectedDate = DateTime.now();
   bool showCompleted = true;
 
@@ -133,15 +131,15 @@ class TaskProvider with ChangeNotifier {
   cancelTask(TaskModel taskModel) {
     taskList.remove(taskModel);
 
-    // TODO: !!!!!!!!!!!!!! şuan direkt listeden sildim ama normalde task listten silinmeyece kgaliba statusu cancel beceremedin veya complete olarak değişecek. loho larak hep tutulacak
+    // TODO: !!!!!!!!!!!!!! şuan direkt listeden sildim ama normalde task listten silinmeyece kgaliba statusu cancel failed veya complete olarak değişecek. loho larak hep tutulacak
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
   }
 
-  beceremedinTask(TaskModel taskModel) {
+  failedTask(TaskModel taskModel) {
     taskList.remove(taskModel);
 
-    // TODO: !!!!!!!!!!!!!! şuan direkt listeden sildim ama normalde task listten silinmeyece kgaliba statusu cancel beceremedin veya complete olarak değişecek. loho larak hep tutulacak
+    // TODO: !!!!!!!!!!!!!! şuan direkt listeden sildim ama normalde task listten silinmeyece kgaliba statusu cancel failed veya complete olarak değişecek. loho larak hep tutulacak
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
   }

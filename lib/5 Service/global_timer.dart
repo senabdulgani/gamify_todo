@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
 class GlobalTimer {
@@ -36,7 +37,7 @@ class GlobalTimer {
 
               // tamamlandı olarak işaretle
               if (task.currentDuration! >= task.remainingDuration!) {
-                task.isCompleted = true;
+                task.status = TaskStatusEnum.COMPLETED;
               }
 
               // her dakika veri tabanında güncelle

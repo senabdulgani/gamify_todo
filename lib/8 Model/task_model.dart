@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 
 class TaskModel {
@@ -16,7 +17,7 @@ class TaskModel {
   bool? isTimerActive; // timer aktif mi
   final List<int>? attirbuteIDList; // etki edeceği özellikler
   final List<int>? skillIDList; // etki edecği yetenekler
-  bool isCompleted; // tamamlandı mı
+  TaskStatusEnum? status; // tamamlandı mı
 
   TaskModel({
     required this.id,
@@ -33,6 +34,6 @@ class TaskModel {
     this.isTimerActive,
     this.attirbuteIDList,
     this.skillIDList,
-    required this.isCompleted,
+    this.status,
   });
 }

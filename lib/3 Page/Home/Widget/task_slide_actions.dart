@@ -68,17 +68,17 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
         dismissible: DismissiblePane(
           dismissThreshold: 0.01,
           onDismissed: () {
-            taskProvider.beceremedinTask(widget.taskModel);
+            taskProvider.failedTask(widget.taskModel);
           },
         ),
         children: [
           SlidableAction(
             onPressed: (context) {
-              taskProvider.beceremedinTask(widget.taskModel);
+              taskProvider.failedTask(widget.taskModel);
             },
             backgroundColor: AppColors.red,
             icon: Icons.close,
-            label: 'Beceremedin',
+            label: 'Failed',
             padding: const EdgeInsets.symmetric(horizontal: 5),
           ),
           SlidableAction(

@@ -129,7 +129,6 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
               isTimerActive: rutin.type == TaskTypeEnum.TIMER ? false : null,
               attirbuteIDList: rutin.attirbuteIDList,
               skillIDList: rutin.skillIDList,
-              isCompleted: false,
             ),
           );
         }
