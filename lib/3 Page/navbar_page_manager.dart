@@ -19,21 +19,24 @@ class NavbarPageManager extends StatefulWidget {
 class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindingObserver {
   bool isLoading = false;
 
+  late PageController _pageController;
+
   @override
   void initState() {
     super.initState();
 
     getData();
+    _pageController = PageController(initialPage: 1);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> screens = [
-      const StorePage(),
-      const HomePage(),
-      const ProfilePage(),
-    ];
-
     return IgnorePointer(
       ignoring: !isLoading,
       child: Scaffold(
@@ -43,7 +46,19 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : screens[context.watch<NavbarProvider>().currentIndex],
+            : SizedBox.expand(
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (index) {
+                    setState(() => context.read<NavbarProvider>().currentIndex = index);
+                  },
+                  children: const <Widget>[
+                    StorePage(),
+                    HomePage(),
+                    ProfilePage(),
+                  ],
+                ),
+              ),
         floatingActionButton: context.read<NavbarProvider>().currentIndex == 1
             ? FloatingActionButton(
                 shape: RoundedRectangleBorder(
@@ -66,9 +81,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
           child: BottomNavigationBar(
             currentIndex: context.read<NavbarProvider>().currentIndex,
             onTap: (index) {
-              setState(() {
-                context.read<NavbarProvider>().currentIndex = index;
-              });
+              _onItemTapped(index);
             },
             items: const [
               BottomNavigationBarItem(
@@ -97,9 +110,19 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
   }
 
   Future getData() async {
-    // todo: veriler veritabanından çekilecek
+    // TODO: veriler veritabanından çekilecek
 
     isLoading = true;
     setState(() {});
+  }
+
+  void _onItemTapped(int index) {
+    context.read<NavbarProvider>().currentIndex = index;
+
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 }
