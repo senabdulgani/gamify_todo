@@ -49,7 +49,7 @@
 //       Helper().getDialog(
 //         message: LocaleKeys.SettingsPage_SettingsTiles_DailyReminder_AccessNotificaitonDialog.tr(),
 //         onAccept: () async {
-//           Navigator.pop(context);
+//              Get.back();
 //           openAppSettings();
 //         },
 //       );

@@ -42,42 +42,50 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
                 child: CircularProgressIndicator(),
               )
             : screens[context.watch<NavbarProvider>().currentIndex],
-        floatingActionButton: FloatingActionButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: AppColors.borderRadiusAll,
+        floatingActionButton: context.read<NavbarProvider>().currentIndex == 1
+            ? FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: AppColors.borderRadiusAll,
+                ),
+                onPressed: () {
+                  Get.toNamed('/addTask');
+                },
+                child: const Icon(Icons.add),
+              )
+            : const SizedBox(),
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            splashColor: AppColors.transparent,
+            highlightColor: AppColors.transparent,
           ),
-          onPressed: () {
-            Get.toNamed('/addTask');
-          },
-          child: const Icon(Icons.add),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: context.read<NavbarProvider>().currentIndex,
-          onTap: (index) {
-            setState(() {
-              context.read<NavbarProvider>().currentIndex = index;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.store,
+          child: BottomNavigationBar(
+            currentIndex: context.read<NavbarProvider>().currentIndex,
+            onTap: (index) {
+              setState(() {
+                context.read<NavbarProvider>().currentIndex = index;
+              });
+            },
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.store,
+                ),
+                label: 'Store',
               ),
-              label: 'Store',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.list,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.list,
+                ),
+                label: 'Home',
               ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person_rounded,
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person_rounded,
+                ),
+                label: 'Profile',
               ),
-              label: 'Profile',
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

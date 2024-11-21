@@ -7,6 +7,8 @@ import 'package:gamify_todo/3%20Page/Login/login_page.dart';
 import 'package:gamify_todo/3%20Page/Login/register_page.dart';
 import 'package:gamify_todo/3%20Page/Profile/profile_page.dart';
 import 'package:gamify_todo/3%20Page/Store/store_page.dart';
+import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/task_detail_page.dart';
+import 'package:gamify_todo/3%20Page/Trait%20Detail%20Page/tarit_detail_page.dart';
 import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
 import 'package:gamify_todo/2%20General/init_app.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
@@ -37,6 +39,8 @@ class Main extends StatelessWidget {
     GetPage(name: '/store', page: () => const StorePage()),
     GetPage(name: '/profile', page: () => const ProfilePage()),
     GetPage(name: '/addTask', page: () => const AddTaskPage()),
+    GetPage(name: '/traitDetail', page: () => const TraitDetailPage()),
+    GetPage(name: '/taskDetail', page: () => const TaskDetailPage()),
   ];
 
   @override

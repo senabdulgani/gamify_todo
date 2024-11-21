@@ -129,7 +129,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     Get.back();
                   },
                   child: const Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Icon(Icons.check),
                   ),
                 );
@@ -160,9 +160,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
               SelectDays(),
               SizedBox(height: 20),
-              SelectTrait(isSkill: false),
+              SelectTraitList(isSkill: false),
               SizedBox(height: 10),
-              SelectTrait(isSkill: true),
+              SelectTraitList(isSkill: true),
             ],
           ),
         ),

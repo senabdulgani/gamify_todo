@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:get/route_manager.dart';
 
 class CustomDialogWidget extends StatefulWidget {
   final String? title;
@@ -68,7 +69,7 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
               backgroundColor: AppColors.transparent,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              Get.back();
             },
             child: const Text("Okay"),
           ),
@@ -79,7 +80,7 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
               backgroundColor: AppColors.transparent,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              Get.back();
             },
             child: Text(_declineButton),
           ),
@@ -97,7 +98,7 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
               // Accept
               ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Get.back();
 
                     if (widget.onAccept != null) {
                       widget.onAccept!();
