@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 extension DurationFormatting on Duration {
   String integer2() {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
-    final minutes = twoDigits(inMinutes.remainder(60));
+    final minutes = twoDigits(inMinutes);
     final seconds = twoDigits(inSeconds.remainder(60));
 
     return [minutes, seconds].join(':');
@@ -27,7 +27,7 @@ extension DurationFormatting on Duration {
   }
 
   String textLong2() {
-    final minutes = inMinutes.remainder(60);
+    final minutes = inMinutes;
     final seconds = inSeconds.remainder(60);
 
     return "$minutes minutes $seconds seconds";
@@ -50,14 +50,14 @@ extension DurationFormatting on Duration {
   }
 
   String textShort2() {
-    final minutes = inMinutes.remainder(60);
+    final minutes = inMinutes;
     final seconds = inSeconds.remainder(60);
 
     return "${minutes}m ${seconds}s";
   }
 
   String textShort2hour() {
-    final hours = inHours.remainder(60);
+    final hours = inHours;
     final minutes = inMinutes.remainder(60);
 
     return "${hours}h ${minutes}m";

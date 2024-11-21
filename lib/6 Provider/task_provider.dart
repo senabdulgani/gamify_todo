@@ -76,6 +76,27 @@ class TaskProvider with ChangeNotifier {
       taskDate: DateTime.now(),
       isNotificationOn: false,
     ),
+    TaskModel(
+      id: 5,
+      title: "Uyu",
+      type: TaskTypeEnum.CHECKBOX,
+      remainingDuration: const Duration(hours: 20, minutes: 0),
+      status: TaskStatusEnum.COMPLETED,
+      taskDate: DateTime.now(),
+      attirbuteIDList: [1],
+      isNotificationOn: false,
+    ),
+    TaskModel(
+      id: 6,
+      title: "Spor",
+      type: TaskTypeEnum.CHECKBOX,
+      remainingDuration: const Duration(hours: 7),
+      status: TaskStatusEnum.COMPLETED,
+      taskDate: DateTime.now(),
+      attirbuteIDList: [1, 2],
+      isNotificationOn: false,
+    ),
+
     // TaskModel(
     //   id: 2,
     //   rutinID: 1,

@@ -4,6 +4,7 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Trait%20Detail%20Page/tarit_detail_page.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:get/route_manager.dart';
@@ -33,6 +34,9 @@ class _TraitItemDetailedState extends State<TraitItemDetailed> {
       Duration.zero,
       (previousValue, element) {
         if (((element.skillIDList != null && element.skillIDList!.contains(widget.trait.id)) || (element.attirbuteIDList != null && element.attirbuteIDList!.contains(widget.trait.id))) && element.remainingDuration != null) {
+          if (element.type == TaskTypeEnum.CHECKBOX && element.status != TaskStatusEnum.COMPLETED) {
+            return previousValue;
+          }
           return previousValue +
               (element.type == TaskTypeEnum.CHECKBOX
                   ? element.remainingDuration!
