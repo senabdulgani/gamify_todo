@@ -1,11 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
-// ? veri gönder
+class NavigatorService {
+  static void goTo(
+    Widget page, {
+    Transition? transition,
+  }) {
+    Get.to(
+      () => page,
+      transition: transition ?? Transition.native,
+      fullscreenDialog: true,
+    );
+  }
+
+  static void goBack() {
+    Get.back();
+  }
+
+  static void goBackAll() {
+    Get.offAllNamed('/navbar');
+  }
+}
+
+
+
+// ! veri gönder
 // Get.toNamed('/second', arguments: {
 //   'name': 'Joseph Onalo',
 //   'age': 24,
 // });
 
-// ? veri al
+// ! veri al
 // class SecondScreen extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {

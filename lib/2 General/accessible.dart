@@ -11,7 +11,7 @@ List<RutinModel> routineList = [
     id: 0,
     title: "Python",
     type: TaskTypeEnum.TIMER,
-    createdDate: DateTime.now(),
+    createdDate: DateTime.now().subtract(const Duration(days: 3)),
     startDate: DateTime.now(),
     isNotificationOn: false,
     remainingDuration: const Duration(hours: 1, minutes: 0),
@@ -21,7 +21,7 @@ List<RutinModel> routineList = [
     skillIDList: [1],
   ),
   RutinModel(
-    id: 0,
+    id: 1,
     title: "Meditasyon",
     type: TaskTypeEnum.TIMER,
     createdDate: DateTime.now(),
@@ -34,7 +34,7 @@ List<RutinModel> routineList = [
     skillIDList: [1],
   ),
   RutinModel(
-    id: 1,
+    id: 2,
     title: "Makale oku",
     type: TaskTypeEnum.COUNTER,
     createdDate: DateTime.now(),
@@ -46,7 +46,7 @@ List<RutinModel> routineList = [
     isCompleted: false,
   ),
   RutinModel(
-    id: 2,
+    id: 3,
     title: "Su iç",
     type: TaskTypeEnum.COUNTER,
     createdDate: DateTime.now(),
@@ -82,14 +82,21 @@ List<TraitModel> traitList = [
   ),
   // Skill
   TraitModel(
-    id: 0,
+    id: 3,
     title: 'Flutter',
     icon: "💻",
     type: TraitTypeEnum.SKILL,
     color: AppColors.red,
   ),
   TraitModel(
-    id: 1,
+    id: 4,
+    title: 'Python',
+    icon: "💻",
+    type: TraitTypeEnum.SKILL,
+    color: AppColors.yellow,
+  ),
+  TraitModel(
+    id: 5,
     title: 'Book',
     icon: "📖",
     type: TraitTypeEnum.SKILL,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/3%20Page/Home/home_page.dart';
 import 'package:gamify_todo/3%20Page/Profile/profile_page.dart';
 import 'package:gamify_todo/3%20Page/Store/store_page.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:provider/provider.dart';
 
 class NavbarPageManager extends StatefulWidget {
@@ -48,7 +50,10 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
                   borderRadius: AppColors.borderRadiusAll,
                 ),
                 onPressed: () {
-                  Get.toNamed('/addTask');
+                  NavigatorService.goTo(
+                    const AddTaskPage(),
+                    transition: Transition.downToUp,
+                  );
                 },
                 child: const Icon(Icons.add),
               )

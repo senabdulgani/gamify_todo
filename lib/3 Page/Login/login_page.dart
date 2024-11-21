@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:gamify_todo/3%20Page/Login/register_page.dart';
+import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 
 class LoginApp extends StatelessWidget {
   const LoginApp({super.key});
@@ -64,7 +66,9 @@ class LoginScreen extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          Get.toNamed('/navbar');
+          NavigatorService.goTo(
+            const NavbarPageManager(),
+          );
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
@@ -82,7 +86,9 @@ class LoginScreen extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Get.toNamed('/register');
+            NavigatorService.goTo(
+              const RegisterApp(),
+            );
           },
           child: const Text(
             'Hesap oluştur',

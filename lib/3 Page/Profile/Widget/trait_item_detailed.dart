@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/3%20Page/Trait%20Detail%20Page/tarit_detail_page.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
+import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:get/route_manager.dart';
 
@@ -16,9 +21,28 @@ class TraitItemDetailed extends StatefulWidget {
 }
 
 class _TraitItemDetailedState extends State<TraitItemDetailed> {
+  late Duration totalDuration;
+
   @override
   void initState() {
     super.initState();
+
+    // TODO: burada her seferinde tüm listeyi kontrol etmek yerine bir üst sayfada tek seferde listeyi kontrol ederken süreleri dağıtmak olabilir mi?
+    // bu trait ile bağlantılı taskların sürelerini topla
+    totalDuration = TaskProvider().taskList.fold(
+      Duration.zero,
+      (previousValue, element) {
+        if (((element.skillIDList != null && element.skillIDList!.contains(widget.trait.id)) || (element.attirbuteIDList != null && element.attirbuteIDList!.contains(widget.trait.id))) && element.remainingDuration != null) {
+          return previousValue +
+              (element.type == TaskTypeEnum.CHECKBOX
+                  ? element.remainingDuration!
+                  : element.type == TaskTypeEnum.COUNTER
+                      ? element.remainingDuration! * element.currentCount!
+                      : element.currentDuration!);
+        }
+        return previousValue;
+      },
+    );
   }
 
   @override
@@ -30,7 +54,10 @@ class _TraitItemDetailedState extends State<TraitItemDetailed> {
         highlightColor: widget.trait.color,
         splashColor: widget.trait.color,
         onTap: () {
-          Get.toNamed('/traitDetail');
+          NavigatorService.goTo(
+            const TraitDetailPage(),
+            transition: Transition.rightToLeft,
+          );
         },
         child: Container(
           decoration: BoxDecoration(
@@ -60,18 +87,18 @@ class _TraitItemDetailedState extends State<TraitItemDetailed> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
-                    "120h 28m",
-                    style: TextStyle(
+                  Text(
+                    totalDuration.textShort2hour(),
+                    style: const TextStyle(
                       fontSize: 15,
                     ),
                   ),
                 ],
               ),
               const Spacer(),
-              const Text(
-                "12 LVL",
-                style: TextStyle(
+              Text(
+                totalDuration.toLevel(),
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),

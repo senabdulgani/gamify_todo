@@ -56,6 +56,13 @@ extension DurationFormatting on Duration {
     return "${minutes}m ${seconds}s";
   }
 
+  String textShort2hour() {
+    final hours = inHours.remainder(60);
+    final minutes = inMinutes.remainder(60);
+
+    return "${hours}h ${minutes}m";
+  }
+
   String textShort3() {
     final hours = inHours;
     final minutes = inMinutes.remainder(60);
@@ -70,6 +77,12 @@ extension DurationFormatting on Duration {
     } else {
       return textShort2();
     }
+  }
+
+  String toLevel() {
+    // TODO direkt her 15 saat 1 lvl olmasın. 1.1x olarak daha zorlaşsın mesela lvl atlamak veya 10,20,35,50,70,100 gibi manuel kontrol
+
+    return "${inHours ~/ 15} LVL";
   }
 }
 
