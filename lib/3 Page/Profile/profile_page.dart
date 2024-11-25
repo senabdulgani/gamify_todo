@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/3%20Page/Profile/Widget/top_item.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/weekly_progress_chart.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/profile_page_top_section.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/trait_list.dart';
@@ -49,6 +50,8 @@ class _ProfilePageState extends State<ProfilePage> {
               TraitList(isSkill: true),
               SizedBox(height: 40),
               WeeklyProgressChart(),
+              SizedBox(height: 40),
+              TopItem(),
               SizedBox(height: 80),
             ],
           ),
