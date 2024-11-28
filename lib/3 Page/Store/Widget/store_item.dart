@@ -59,6 +59,8 @@ class _StoreItemState extends State<StoreItem> {
   }
 
   Widget creditAmount() {
+    if (widget.storeItemModel.credit == 0) return const SizedBox();
+
     return SizedBox(
       width: 50,
       child: Row(
@@ -105,7 +107,7 @@ class _StoreItemState extends State<StoreItem> {
         padding: const EdgeInsets.all(10),
         child: Center(
           child: Text(
-            "Buy ${widget.storeItemModel.type == TaskTypeEnum.COUNTER ? "1 Piece" : widget.storeItemModel.addDuration?.textLongDynamicWithoutZero()} ",
+            "${widget.storeItemModel.credit == 0 ? "Add" : "Buy"} ${widget.storeItemModel.type == TaskTypeEnum.COUNTER ? "1 Piece" : widget.storeItemModel.addDuration?.textLongDynamicWithoutZero()} ",
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
