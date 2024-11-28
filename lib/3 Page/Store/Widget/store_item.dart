@@ -43,49 +43,76 @@ class _StoreItemState extends State<StoreItem> {
                 const SizedBox(width: 10),
                 titleAndProgressWidgets(),
                 const Spacer(),
-                InkWell(
-                  borderRadius: AppColors.borderRadiusAll,
-                  onTap: () {
-                    userCredit -= widget.storeItemModel.credit;
-
-                    if (widget.storeItemModel.type == TaskTypeEnum.TIMER) {
-                      widget.storeItemModel.currentDuration = widget.storeItemModel.currentDuration! + widget.storeItemModel.addDuration!;
-                    } else {
-                      widget.storeItemModel.currentCount = widget.storeItemModel.currentCount! + widget.storeItemModel.addCount!;
-                    }
-
-                    StoreProvider().updateItems();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: AppColors.borderRadiusAll,
-                      color: AppColors.panelBackground2,
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Text(
-                          // TODO:
-                          "add 1 hour ${widget.storeItemModel.credit}",
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 3),
-                        const Icon(
-                          Icons.monetization_on,
-                          size: 20,
-                        ),
-                      ],
-                    ),
-                  ),
+                Row(
+                  children: [
+                    creditAmount(),
+                    const SizedBox(width: 10),
+                    buyButton(),
+                  ],
                 ),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget creditAmount() {
+    return SizedBox(
+      width: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            "${widget.storeItemModel.credit}",
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(width: 3),
+          const Icon(
+            Icons.monetization_on,
+            size: 20,
+          ),
+        ],
+      ),
+    );
+  }
+
+  InkWell buyButton() {
+    return InkWell(
+      borderRadius: AppColors.borderRadiusAll,
+      onTap: () {
+        userCredit -= widget.storeItemModel.credit;
+
+        if (widget.storeItemModel.type == TaskTypeEnum.TIMER) {
+          widget.storeItemModel.currentDuration = widget.storeItemModel.currentDuration! + widget.storeItemModel.addDuration!;
+        } else {
+          widget.storeItemModel.currentCount = widget.storeItemModel.currentCount! + 1;
+        }
+
+        StoreProvider().updateItems();
+      },
+      child: Container(
+        width: 115,
+        height: 45,
+        decoration: BoxDecoration(
+          borderRadius: AppColors.borderRadiusAll,
+          color: AppColors.panelBackground2,
+        ),
+        padding: const EdgeInsets.all(10),
+        child: Center(
+          child: Text(
+            "Buy ${widget.storeItemModel.type == TaskTypeEnum.COUNTER ? "1 Piece" : widget.storeItemModel.addDuration?.textLongDynamicWithoutZero()} ",
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
     );
   }
 

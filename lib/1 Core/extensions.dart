@@ -72,10 +72,29 @@ extension DurationFormatting on Duration {
   }
 
   String textShortDynamic() {
-    if (inHours > 0) {
-      return textShort3();
+    final minutes = inMinutes;
+    final seconds = inSeconds.remainder(60);
+
+    return "${minutes}m ${seconds}s";
+  }
+
+  String textLongDynamicWithoutZero() {
+    final seconds = inSeconds.remainder(60);
+    final minutes = inMinutes.remainder(60);
+    final hours = inHours;
+
+    if (hours > 0 && minutes > 0 && seconds == 0) {
+      return "${hours}h ${minutes}m";
+    } else if (hours == 0 && minutes > 0 && seconds == 0) {
+      return "${minutes}m";
+    } else if (hours > 0 && minutes == 0 && seconds == 0) {
+      return "${hours}h";
+    } else if (hours == 0 && minutes == 0 && seconds > 0) {
+      return "${seconds}s";
+    } else if (hours == 0 && minutes > 0 && seconds > 0) {
+      return "${minutes}m ${seconds}s";
     } else {
-      return textShort2();
+      return "${hours}h ${minutes}m ${seconds}s";
     }
   }
 
