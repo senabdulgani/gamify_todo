@@ -103,3 +103,5 @@ List<TraitModel> traitList = [
     color: AppColors.deepPurple,
   ),
 ];
+
+int userCredit = 0;

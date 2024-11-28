@@ -59,14 +59,16 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
                   ],
                 ),
               ),
-        floatingActionButton: context.read<NavbarProvider>().currentIndex == 1
+        floatingActionButton: context.read<NavbarProvider>().currentIndex == 1 || context.read<NavbarProvider>().currentIndex == 0
             ? FloatingActionButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: AppColors.borderRadiusAll,
                 ),
                 onPressed: () {
                   NavigatorService.goTo(
-                    const AddTaskPage(),
+                    AddTaskPage(
+                      isStore: context.read<NavbarProvider>().currentIndex == 0,
+                    ),
                     transition: Transition.downToUp,
                   );
                 },

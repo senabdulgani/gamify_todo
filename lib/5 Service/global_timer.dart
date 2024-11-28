@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
+import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
+import 'package:gamify_todo/8%20Model/store_item_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
 class GlobalTimer {
@@ -15,15 +18,20 @@ class GlobalTimer {
   Timer? _timer;
 
   void startStopTimer({
-    required TaskModel taskModel,
+    TaskModel? taskModel,
+    StoreItemModel? storeItemModel,
   }) {
-    taskModel.isTimerActive = !taskModel.isTimerActive!;
+    if (taskModel != null) {
+      taskModel.isTimerActive = !taskModel.isTimerActive!;
+    } else if (storeItemModel != null) {
+      storeItemModel.isTimerActive = !storeItemModel.isTimerActive!;
+    }
 
     startStopGlobalTimer();
   }
 
   void startStopGlobalTimer() {
-    final bool isAllTimersOff = !TaskProvider().taskList.any((element) => element.isTimerActive != null && element.isTimerActive!);
+    final bool isAllTimersOff = !TaskProvider().taskList.any((element) => element.isTimerActive != null && element.isTimerActive!) && !StoreProvider().storeItemList.any((element) => element.isTimerActive != null && element.isTimerActive!);
 
     if (_timer != null && _timer!.isActive && isAllTimersOff) {
       _timer!.cancel();
@@ -49,7 +57,24 @@ class GlobalTimer {
             }
           }
 
-          TaskProvider().updateItems();
+          for (var storeItem in StoreProvider().storeItemList) {
+            if (storeItem.isTimerActive != null && storeItem.isTimerActive == true) {
+              storeItem.currentDuration = storeItem.currentDuration! - const Duration(seconds: 1);
+
+              // her dakika veri tabanında güncelle
+              if (storeItem.currentDuration!.inSeconds % 60 == 0) {
+                // TODO: update database
+
+                // TODO: task tamamnlandıysa bildirim veya alarm
+              }
+            }
+          }
+
+          if (NavbarProvider().currentIndex == 0) {
+            StoreProvider().updateItems();
+          } else if (NavbarProvider().currentIndex == 1) {
+            TaskProvider().updateItems();
+          }
         },
       );
     }

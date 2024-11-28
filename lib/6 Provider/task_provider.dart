@@ -66,7 +66,7 @@ class TaskProvider with ChangeNotifier {
       currentDuration: const Duration(hours: 14, minutes: 49),
       attirbuteIDList: [0],
       skillIDList: [3],
-      status: TaskStatusEnum.FAILED,
+      status: TaskStatusEnum.COMPLETED,
       isTimerActive: false,
     ),
     TaskModel(

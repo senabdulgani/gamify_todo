@@ -1,1 +1,0 @@
-// tıpkı task gibi ama yapmakla bitmeyecek counter veya timer olabilecek. - ye düşebilecke credi ile satın alınabilecek.
