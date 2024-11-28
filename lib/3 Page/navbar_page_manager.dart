@@ -3,6 +3,7 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/3%20Page/Home/home_page.dart';
 import 'package:gamify_todo/3%20Page/Profile/profile_page.dart';
+import 'package:gamify_todo/3%20Page/Store/add_store_item_page.dart';
 import 'package:gamify_todo/3%20Page/Store/store_page.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
@@ -66,9 +67,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
                 ),
                 onPressed: () {
                   NavigatorService.goTo(
-                    AddTaskPage(
-                      isStore: context.read<NavbarProvider>().currentIndex == 0,
-                    ),
+                    context.read<NavbarProvider>().currentIndex == 1 ? const AddTaskPage() : const AddStoreItemPage(),
                     transition: Transition.downToUp,
                   );
                 },

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
-import 'package:gamify_todo/3%20Page/Store/store_item.dart';
+import 'package:gamify_todo/3%20Page/Store/Widget/store_item.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:provider/provider.dart';
 

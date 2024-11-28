@@ -1,17 +1,23 @@
 import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
 
 class DurationPickerWidget extends StatefulWidget {
-  const DurationPickerWidget({super.key});
+  const DurationPickerWidget({
+    super.key,
+    this.isStore = false,
+  });
+
+  final bool isStore;
 
   @override
   State<DurationPickerWidget> createState() => _DurationPickerWidgetState();
 }
 
 class _DurationPickerWidgetState extends State<DurationPickerWidget> {
-  late final addTaskProvider = context.read<AddTaskProvider>();
+  late final dynamic provider = widget.isStore ? context.read<AddStoreItemProvider>() : context.read<AddTaskProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +29,12 @@ class _DurationPickerWidgetState extends State<DurationPickerWidget> {
           child: FittedBox(
             fit: BoxFit.contain,
             child: DurationPicker(
-              duration: addTaskProvider.taskDuration,
+              duration: provider.taskDuration,
               onChange: (selectedDuration) {
                 var round = (selectedDuration.inMinutes / 5).round() * 5;
                 setState(
                   () {
-                    addTaskProvider.taskDuration = Duration(minutes: round);
+                    provider.taskDuration = Duration(minutes: round);
                   },
                 );
               },

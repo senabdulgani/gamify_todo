@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
 
 class SelectTargetCount extends StatefulWidget {
   const SelectTargetCount({
     super.key,
+    this.isStore = false,
   });
+
+  final bool isStore;
 
   @override
   State<SelectTargetCount> createState() => _SelectTargetCountState();
 }
 
 class _SelectTargetCountState extends State<SelectTargetCount> {
-  late final addTaskProvider = context.read<AddTaskProvider>();
+  late final dynamic provider = widget.isStore ? context.read<AddStoreItemProvider>() : context.read<AddTaskProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +27,9 @@ class _SelectTargetCountState extends State<SelectTargetCount> {
         InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
-            if (addTaskProvider.targetCount > 0) {
+            if (provider.targetCount > 0) {
               setState(() {
-                addTaskProvider.targetCount--;
+                provider.targetCount--;
               });
             }
           },
@@ -46,7 +50,7 @@ class _SelectTargetCountState extends State<SelectTargetCount> {
           ),
           padding: const EdgeInsets.all(5),
           child: Text(
-            addTaskProvider.targetCount.toString(),
+            provider.targetCount.toString(),
             style: const TextStyle(
               fontSize: 20,
               color: Colors.white,
@@ -57,12 +61,12 @@ class _SelectTargetCountState extends State<SelectTargetCount> {
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
             setState(() {
-              addTaskProvider.targetCount++;
+              provider.targetCount++;
             });
           },
           onLongPress: () {
             setState(() {
-              addTaskProvider.targetCount += 20;
+              provider.targetCount += 20;
             });
           },
           child: Container(
