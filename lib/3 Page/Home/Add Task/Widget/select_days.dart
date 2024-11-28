@@ -55,7 +55,14 @@ class DayButton extends StatefulWidget {
 class _DayButtonState extends State<DayButton> {
   late final addTaskProvider = context.read<AddTaskProvider>();
 
-  bool isSelected = false;
+  late bool isSelected;
+
+  @override
+  void initState() {
+    super.initState();
+
+    isSelected = addTaskProvider.selectedDays.contains(widget.index);
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -58,7 +58,7 @@ class _TraitItemDetailedState extends State<TraitItemDetailed> {
         highlightColor: widget.trait.color,
         splashColor: widget.trait.color,
         onTap: () {
-          NavigatorService.goTo(
+          NavigatorService().goTo(
             const TraitDetailPage(),
             transition: Transition.rightToLeft,
           );

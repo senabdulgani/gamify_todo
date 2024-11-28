@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 class NavigatorService {
-  static void goTo(
+  Future goTo(
     Widget page, {
     Transition? transition,
-  }) {
-    Get.to(
-      () => page,
+  }) async {
+    await Get.to(
+      () {
+        return page;
+      },
       transition: transition ?? Transition.native,
       fullscreenDialog: true,
     );

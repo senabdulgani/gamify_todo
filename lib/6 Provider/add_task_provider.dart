@@ -29,7 +29,7 @@ class AddTaskProvider with ChangeNotifier {
 
   void addRutin() {
     routineList.add(
-      RutinModel(
+      RoutineModel(
         id: routineList.length,
         title: taskNameController.text,
         type: selectedTaskType,

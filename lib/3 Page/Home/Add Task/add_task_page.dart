@@ -20,7 +20,12 @@ import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({super.key});
+  const AddTaskPage({
+    super.key,
+    this.editTask,
+  });
+
+  final TaskModel? editTask;
 
   @override
   State<AddTaskPage> createState() => _AddTaskPageState();
@@ -31,120 +36,166 @@ class _AddTaskPageState extends State<AddTaskPage> {
   late final taskProvider = context.read<TaskProvider>();
 
   @override
+  void initState() {
+    super.initState();
+
+    if (widget.editTask != null) {
+      addTaskProvider.taskNameController.text = widget.editTask!.title;
+      addTaskProvider.selectedTime = widget.editTask!.time;
+      addTaskProvider.selectedDate = widget.editTask!.taskDate;
+      addTaskProvider.isNotificationOn = widget.editTask!.isNotificationOn;
+      addTaskProvider.targetCount = widget.editTask!.targetCount ?? 0;
+      addTaskProvider.taskDuration = widget.editTask!.remainingDuration ?? const Duration(hours: 0, minutes: 0);
+      addTaskProvider.selectedTaskType = widget.editTask!.type;
+      addTaskProvider.selectedDays = widget.editTask!.rutinID == null ? [] : routineList.firstWhere((element) => element.id == widget.editTask!.rutinID).repeatDays;
+      addTaskProvider.selectedTraits = traitList.where((element) => (widget.editTask!.attirbuteIDList != null && widget.editTask!.attirbuteIDList!.contains(element.id)) || (widget.editTask!.skillIDList != null && widget.editTask!.skillIDList!.contains(element.id))).toList();
+    } else {
+      addTaskProvider.taskNameController.clear();
+      addTaskProvider.selectedTime = null;
+      addTaskProvider.selectedDate = DateTime.now();
+      addTaskProvider.isNotificationOn = false;
+      addTaskProvider.targetCount = 0;
+      addTaskProvider.taskDuration = const Duration(hours: 0, minutes: 0);
+      addTaskProvider.selectedTaskType = TaskTypeEnum.CHECKBOX;
+      addTaskProvider.selectedDays.clear();
+      addTaskProvider.selectedTraits.clear();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AddTaskProvider(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Add Task"),
-          leading: InkWell(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.editTask != null
+            ? "Edit Task"
+            : widget.editTask?.rutinID != null
+                ? "Edit Routine"
+                : "Add Task"),
+        leading: InkWell(
+          borderRadius: AppColors.borderRadiusAll,
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back_ios),
+        ),
+        actions: [
+          InkWell(
             borderRadius: AppColors.borderRadiusAll,
             onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back_ios),
-          ),
-          actions: [
-            Consumer(
-              builder: (context, AddTaskProvider addTaskProvider, child) {
-                return InkWell(
-                  borderRadius: AppColors.borderRadiusAll,
-                  onTap: () {
-                    // TODO: ardarda basıp yanlış kopyalar ekleyebiliyorum düzelt. bir kere basınca tekrar basılamasın tüm sayfaya olabilir.
+              // TODO: ardarda basıp yanlış kopyalar ekleyebiliyorum düzelt. bir kere basınca tekrar basılamasın tüm sayfaya olabilir.
 
-                    if (addTaskProvider.taskNameController.text.trim().isEmpty) {
-                      addTaskProvider.taskNameController.clear();
+              if (addTaskProvider.taskNameController.text.trim().isEmpty) {
+                addTaskProvider.taskNameController.clear();
 
-                      Helper().getMessage(
-                        message: "Task name cant be empty",
-                        status: StatusEnum.WARNING,
-                      );
-                      return;
-                    }
+                Helper().getMessage(
+                  message: "Task name cant be empty",
+                  status: StatusEnum.WARNING,
+                );
+                return;
+              }
 
-                    if (addTaskProvider.selectedDays.isEmpty) {
-                      taskProvider.addTask(
-                        TaskModel(
-                          id: taskProvider.taskList.length,
-                          title: addTaskProvider.taskNameController.text,
-                          type: addTaskProvider.selectedTaskType,
-                          taskDate: addTaskProvider.selectedDate,
-                          time: addTaskProvider.selectedTime,
-                          isNotificationOn: addTaskProvider.isNotificationOn,
-                          currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? Duration.zero : null,
-                          remainingDuration: addTaskProvider.taskDuration,
-                          currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
-                          targetCount: addTaskProvider.targetCount,
-                          isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
-                          attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
-                          skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
-                        ),
-                      );
-                    } else {
-                      addTaskProvider.addRutin();
-
-                      if (Helper().isSameDay(addTaskProvider.selectedDate, DateTime.now())) {
-                        taskProvider.addTask(
-                          TaskModel(
-                            id: taskProvider.taskList.length,
-                            // TODO: !!!! id ler yanlış olacak gibi kontrol et
-                            rutinID: routineList.length,
-                            title: addTaskProvider.taskNameController.text,
-                            type: addTaskProvider.selectedTaskType,
-                            taskDate: addTaskProvider.selectedDate,
-                            time: addTaskProvider.selectedTime,
-                            isNotificationOn: addTaskProvider.isNotificationOn,
-                            currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? Duration.zero : null,
-                            remainingDuration: addTaskProvider.taskDuration,
-                            currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
-                            targetCount: addTaskProvider.targetCount,
-                            isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
-                            attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
-                            skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
-                          ),
-                        );
-                      }
-                    }
-
-                    Get.back();
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Icon(Icons.check),
+              if (widget.editTask != null) {
+                taskProvider.editTask(
+                  selectedDays: addTaskProvider.selectedDays,
+                  taskModel: TaskModel(
+                    id: widget.editTask!.id,
+                    rutinID: widget.editTask!.rutinID,
+                    title: addTaskProvider.taskNameController.text,
+                    type: addTaskProvider.selectedTaskType,
+                    taskDate: addTaskProvider.selectedDate,
+                    time: addTaskProvider.selectedTime,
+                    isNotificationOn: addTaskProvider.isNotificationOn,
+                    currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? widget.editTask!.currentDuration ?? const Duration(seconds: 0) : null,
+                    remainingDuration: addTaskProvider.taskDuration,
+                    currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? widget.editTask!.currentCount ?? 0 : null,
+                    targetCount: addTaskProvider.targetCount,
+                    isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
+                    attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
+                    skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
                   ),
                 );
-              },
+              } else {
+                if (addTaskProvider.selectedDays.isEmpty) {
+                  taskProvider.addTask(
+                    TaskModel(
+                      id: taskProvider.taskList.length,
+                      title: addTaskProvider.taskNameController.text,
+                      type: addTaskProvider.selectedTaskType,
+                      taskDate: addTaskProvider.selectedDate,
+                      time: addTaskProvider.selectedTime,
+                      isNotificationOn: addTaskProvider.isNotificationOn,
+                      currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? Duration.zero : null,
+                      remainingDuration: addTaskProvider.taskDuration,
+                      currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
+                      targetCount: addTaskProvider.targetCount,
+                      isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
+                      attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
+                      skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
+                    ),
+                  );
+                } else {
+                  addTaskProvider.addRutin();
+
+                  if (Helper().isSameDay(addTaskProvider.selectedDate, DateTime.now())) {
+                    taskProvider.addTask(
+                      TaskModel(
+                        id: taskProvider.taskList.length,
+                        // TODO: !!!! id ler yanlış olacak gibi kontrol et
+                        rutinID: routineList.length - 1,
+                        title: addTaskProvider.taskNameController.text,
+                        type: addTaskProvider.selectedTaskType,
+                        taskDate: addTaskProvider.selectedDate,
+                        time: addTaskProvider.selectedTime,
+                        isNotificationOn: addTaskProvider.isNotificationOn,
+                        currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? Duration.zero : null,
+                        remainingDuration: addTaskProvider.taskDuration,
+                        currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
+                        targetCount: addTaskProvider.targetCount,
+                        isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
+                        attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
+                        skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
+                      ),
+                    );
+                  }
+                }
+              }
+
+              Get.back();
+            },
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Icon(Icons.check),
             ),
-          ],
-        ),
-        body: const SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              TaskName(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SelectDate(),
-                  SelectTime(),
-                  NotificationSwitch(),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DurationPickerWidget(),
-                  SizedBox(width: 20),
-                  SelectTaskType(),
-                ],
-              ),
-              SelectDays(),
-              SizedBox(height: 20),
-              SelectTraitList(isSkill: false),
-              SizedBox(height: 10),
-              SelectTraitList(isSkill: true),
-            ],
           ),
+        ],
+      ),
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            TaskName(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SelectDate(),
+                SelectTime(),
+                NotificationSwitch(),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DurationPickerWidget(),
+                SizedBox(width: 20),
+                SelectTaskType(),
+              ],
+            ),
+            SelectDays(),
+            SizedBox(height: 20),
+            SelectTraitList(isSkill: false),
+            SizedBox(height: 10),
+            SelectTraitList(isSkill: true),
+          ],
         ),
       ),
     );

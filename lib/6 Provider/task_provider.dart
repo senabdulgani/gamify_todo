@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
+import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
+import 'package:gamify_todo/8%20Model/rutin_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
 class TaskProvider with ChangeNotifier {
@@ -160,6 +162,32 @@ class TaskProvider with ChangeNotifier {
 
   void addTask(TaskModel taskModel) {
     taskList.add(taskModel);
+
+    notifyListeners();
+  }
+
+  void editTask({
+    required TaskModel taskModel,
+    required List<int> selectedDays,
+  }) {
+    if (taskModel.rutinID != null) {
+      RoutineModel routine = routineList[taskModel.rutinID!];
+
+      routine.title = taskModel.title;
+      routine.type = taskModel.type;
+      routine.startDate = taskModel.taskDate;
+      routine.time = taskModel.time;
+      routine.isNotificationOn = taskModel.isNotificationOn;
+      routine.remainingDuration = taskModel.remainingDuration;
+      routine.targetCount = taskModel.targetCount;
+      routine.repeatDays = selectedDays;
+      routine.attirbuteIDList = taskModel.attirbuteIDList;
+      routine.skillIDList = taskModel.skillIDList;
+      routine.isCompleted = taskModel.status == TaskStatusEnum.COMPLETED ? true : false;
+    } else {
+      final index = taskList.indexWhere((element) => element.id == taskModel.id);
+      taskList[index] = taskModel;
+    }
 
     notifyListeners();
   }

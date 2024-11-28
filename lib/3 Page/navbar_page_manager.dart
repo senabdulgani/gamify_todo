@@ -66,7 +66,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
                   borderRadius: AppColors.borderRadiusAll,
                 ),
                 onPressed: () {
-                  NavigatorService.goTo(
+                  NavigatorService().goTo(
                     context.read<NavbarProvider>().currentIndex == 1 ? const AddTaskPage() : const AddStoreItemPage(),
                     transition: Transition.downToUp,
                   );

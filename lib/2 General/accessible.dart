@@ -6,8 +6,8 @@ import 'package:gamify_todo/8%20Model/trait_model.dart';
 
 // TODO: test için el ile verildi normalde veritabınndan gelecek
 
-List<RutinModel> routineList = [
-  RutinModel(
+List<RoutineModel> routineList = [
+  RoutineModel(
     id: 0,
     title: "Python",
     type: TaskTypeEnum.TIMER,
@@ -20,7 +20,7 @@ List<RutinModel> routineList = [
     attirbuteIDList: [1, 2],
     skillIDList: [1],
   ),
-  RutinModel(
+  RoutineModel(
     id: 1,
     title: "Meditasyon",
     type: TaskTypeEnum.TIMER,
@@ -33,7 +33,7 @@ List<RutinModel> routineList = [
     attirbuteIDList: [1, 2],
     skillIDList: [1],
   ),
-  RutinModel(
+  RoutineModel(
     id: 2,
     title: "Makale oku",
     type: TaskTypeEnum.COUNTER,
@@ -45,7 +45,7 @@ List<RutinModel> routineList = [
     repeatDays: [1, 5, 7],
     isCompleted: false,
   ),
-  RutinModel(
+  RoutineModel(
     id: 3,
     title: "Su iç",
     type: TaskTypeEnum.COUNTER,

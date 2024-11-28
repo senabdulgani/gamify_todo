@@ -66,7 +66,7 @@ class LoginScreen extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          NavigatorService.goTo(
+          NavigatorService().goTo(
             const NavbarPageManager(),
           );
         },
@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            NavigatorService.goTo(
+            NavigatorService().goTo(
               const RegisterApp(),
             );
           },

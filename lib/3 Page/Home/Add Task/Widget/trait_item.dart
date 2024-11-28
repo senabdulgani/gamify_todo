@@ -19,7 +19,14 @@ class TraitItem extends StatefulWidget {
 class _TraitItemState extends State<TraitItem> {
   late final addTaskProvider = context.read<AddTaskProvider>();
 
-  bool isSelected = false;
+  late bool isSelected;
+
+  @override
+  void initState() {
+    super.initState();
+
+    isSelected = addTaskProvider.selectedTraits.contains(widget.trait);
+  }
 
   @override
   Widget build(BuildContext context) {

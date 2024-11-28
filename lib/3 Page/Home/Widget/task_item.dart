@@ -4,13 +4,17 @@ import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_slide_actions.dart';
+import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/task_detail_page.dart';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 class TaskItem extends StatefulWidget {
   const TaskItem({
@@ -46,7 +50,21 @@ class _TaskItemState extends State<TaskItem> {
               }
             },
             onLongPress: () {
-              // task detaylarına git ordan da düzenlemek için ayrı gidecek
+              if (widget.taskModel.rutinID != null) {
+                NavigatorService().goTo(
+                  TaskDetailPage(
+                    taskModel: widget.taskModel,
+                  ),
+                  transition: Transition.size,
+                );
+              } else {
+                NavigatorService().goTo(
+                  AddTaskPage(
+                    editTask: widget.taskModel,
+                  ),
+                  transition: Transition.size,
+                );
+              }
             },
             borderRadius: AppColors.borderRadiusAll,
             child: Container(
