@@ -5,6 +5,7 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
+import 'package:gamify_todo/3%20Page/Store/Widget/set_credit.dart';
 import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:get/route_manager.dart';
@@ -73,8 +74,7 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
             children: [
               SizedBox(height: 20),
               TaskName(isStore: true),
-              // set credit
-
+              SetCredit(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
