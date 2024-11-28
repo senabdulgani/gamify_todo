@@ -20,7 +20,7 @@ class StoreProvider with ChangeNotifier {
       isTimerActive: false,
       addDuration: const Duration(hours: 1),
       currentDuration: const Duration(minutes: 0),
-      credit: 5,
+      credit: 6,
     ),
     StoreItemModel(
       id: 1,
