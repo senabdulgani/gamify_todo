@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
@@ -53,6 +54,8 @@ class GlobalTimer {
                 // TODO: update database
 
                 // TODO: task tamamnlandıysa bildirim veya alarm
+
+                AppHelper().addCreditByProgress(const Duration(seconds: 60));
               }
             }
           }

@@ -104,4 +104,6 @@ List<TraitModel> traitList = [
   ),
 ];
 
+Duration tasksTotalProgressForCalculateCredit = const Duration(hours: 0, minutes: 0, seconds: 0);
+
 int userCredit = 0;

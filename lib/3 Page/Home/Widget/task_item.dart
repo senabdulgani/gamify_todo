@@ -5,6 +5,7 @@ import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_slide_actions.dart';
+import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
@@ -108,6 +109,8 @@ class _TaskItemState extends State<TaskItem> {
       widget.taskModel.status = (widget.taskModel.status == null ? TaskStatusEnum.COMPLETED : null);
     } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
       widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
+
+      AppHelper().addCreditByProgress(widget.taskModel.remainingDuration!);
 
       if (widget.taskModel.currentCount! >= widget.taskModel.targetCount!) {
         widget.taskModel.status = TaskStatusEnum.COMPLETED;
