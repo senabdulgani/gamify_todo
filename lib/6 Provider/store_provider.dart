@@ -26,7 +26,6 @@ class StoreProvider with ChangeNotifier {
       id: 1,
       title: "Movie",
       type: TaskTypeEnum.COUNTER,
-      addCount: 1,
       currentCount: 0,
       credit: 3,
     ),

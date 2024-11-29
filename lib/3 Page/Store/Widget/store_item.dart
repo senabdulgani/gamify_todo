@@ -87,7 +87,7 @@ class _StoreItemState extends State<StoreItem> {
     return InkWell(
       borderRadius: AppColors.borderRadiusAll,
       onTap: () {
-        userCredit -= widget.storeItemModel.credit;
+        user.userCredit -= widget.storeItemModel.credit;
 
         if (widget.storeItemModel.type == TaskTypeEnum.TIMER) {
           widget.storeItemModel.currentDuration = widget.storeItemModel.currentDuration! + widget.storeItemModel.addDuration!;

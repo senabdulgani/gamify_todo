@@ -19,7 +19,6 @@ class AddStoreItemProvider with ChangeNotifier {
         type: selectedTaskType,
         credit: credit,
         currentCount: selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
-        addCount: targetCount,
         currentDuration: selectedTaskType == TaskTypeEnum.TIMER ? Duration.zero : null,
         addDuration: taskDuration,
         isTimerActive: selectedTaskType == TaskTypeEnum.TIMER ? false : null,

@@ -9,7 +9,6 @@ class StoreItemModel {
   Duration? currentDuration; // timer ise süre buradan takip edilecek
   final Duration? addDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
   int? currentCount; // counter ise sayı buradan takip edilecek
-  final int? addCount; // counter ise hedef sayı
   bool? isTimerActive; // timer aktif mi
   int credit; // timer aktif mi
 
@@ -20,7 +19,6 @@ class StoreItemModel {
     this.currentDuration,
     this.addDuration,
     this.currentCount,
-    this.addCount,
     this.isTimerActive,
     required this.credit,
   });

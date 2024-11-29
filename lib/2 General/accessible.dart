@@ -106,11 +106,12 @@ List<TraitModel> traitList = [
 ];
 
 // TODO: bir değişiklik olduğunda veritabanuna kaydet
-Duration tasksTotalProgressForCalculateCredit = const Duration(hours: 0, minutes: 0, seconds: 0);
-
-int userCredit = 0;
 
 UserModel user = UserModel(
   id: 1,
   username: "User15446",
+  email: "m.islam0422@gmail.com",
+  password: "123456",
+  tasksTotalProgressForCalculateCredit: const Duration(hours: 0, minutes: 0, seconds: 0),
+  userCredit: 30,
 );

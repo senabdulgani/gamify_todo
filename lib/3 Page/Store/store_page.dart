@@ -19,7 +19,7 @@ class _StorePageState extends State<StorePage> {
         title: const Text('Store'),
         leading: const SizedBox(),
         actions: [
-          Text(userCredit.toString(), style: const TextStyle(fontSize: 18)),
+          Text(user.userCredit.toString(), style: const TextStyle(fontSize: 18)),
           const SizedBox(width: 2),
           const Icon(Icons.monetization_on),
           const SizedBox(width: 10),
