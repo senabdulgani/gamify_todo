@@ -109,9 +109,8 @@ List<TraitModel> traitList = [
 
 UserModel user = UserModel(
   id: 1,
-  username: "User15446",
   email: "m.islam0422@gmail.com",
   password: "123456",
-  tasksTotalProgressForCalculateCredit: const Duration(hours: 0, minutes: 0, seconds: 0),
+  creditProgress: const Duration(hours: 0, minutes: 0, seconds: 0),
   userCredit: 30,
 );

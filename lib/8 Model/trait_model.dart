@@ -7,6 +7,7 @@ class TraitModel {
   String icon;
   Color color;
   TraitTypeEnum type;
+  bool isArchived;
 
   TraitModel({
     required this.id,
@@ -14,5 +15,6 @@ class TraitModel {
     required this.icon,
     required this.color,
     required this.type,
+    this.isArchived = false,
   });
 }
