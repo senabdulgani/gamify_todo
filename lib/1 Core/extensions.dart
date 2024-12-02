@@ -72,10 +72,11 @@ extension DurationFormatting on Duration {
   }
 
   String textShortDynamic() {
-    final minutes = inMinutes;
-    final seconds = inSeconds.remainder(60);
-
-    return "${minutes}m ${seconds}s";
+    if (inHours > 0) {
+      return textShort3();
+    } else {
+      return textShort2();
+    }
   }
 
   String textLongDynamicWithoutZero() {
@@ -102,6 +103,15 @@ extension DurationFormatting on Duration {
     // TODO direkt her 15 saat 1 lvl olmasın. 1.1x olarak daha zorlaşsın mesela lvl atlamak veya 10,20,35,50,70,100 gibi manuel kontrol
 
     return "${inHours ~/ 15} LVL";
+  }
+
+  // divide duration
+  Duration operator /(int value) {
+    return Duration(
+      hours: inHours ~/ value,
+      minutes: (inMinutes ~/ value) % 60,
+      seconds: (inSeconds ~/ value) % 60,
+    );
   }
 }
 
