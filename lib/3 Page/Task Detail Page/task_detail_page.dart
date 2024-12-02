@@ -126,6 +126,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.check_circle),
+              const SizedBox(width: 3),
               Text("$completedTaskCount Times"),
             ],
           ),
@@ -133,6 +134,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.close),
+              const SizedBox(width: 3),
               Text("$failedTaskCount Times"),
             ],
           ),
@@ -140,7 +142,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.tour_rounded),
-              Text("% ${(completedTaskCount + failedTaskCount) == 0 ? "0" : ((completedTaskCount / (completedTaskCount + failedTaskCount)) * 100).toInt()}"),
+              const SizedBox(width: 3),
+              Text("%${(completedTaskCount + failedTaskCount) == 0 ? "0" : ((completedTaskCount / (completedTaskCount + failedTaskCount)) * 100).toInt()}"),
             ],
           ),
           // const SizedBox(height: 40),
