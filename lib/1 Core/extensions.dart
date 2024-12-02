@@ -105,8 +105,11 @@ extension DurationFormatting on Duration {
     return "${inHours ~/ 15} LVL";
   }
 
-  // divide duration
   Duration operator /(int value) {
+    if (inSeconds == 0) {
+      return Duration.zero;
+    }
+
     return Duration(
       hours: inHours ~/ value,
       minutes: (inMinutes ~/ value) % 60,

@@ -30,9 +30,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   void initState() {
     super.initState();
 
-    // all time duration
-    // tüm tasklara bak taskmodel ile aynı id ye sahip taskların current durationlarını topla
-
     for (var task in TaskProvider().taskList) {
       if (task.rutinID == widget.taskModel.rutinID) {
         if (widget.taskModel.type == TaskTypeEnum.TIMER) {
@@ -69,7 +66,15 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
       body: Column(
         children: [
           const SizedBox(height: 30),
-          Text("${widget.taskModel.currentDuration?.textShort3()} / ${widget.taskModel.remainingDuration?.textLongDynamicWithoutZero()}"),
+          if (widget.taskModel.type == TaskTypeEnum.TIMER)
+            Text(
+              "${widget.taskModel.currentDuration?.textShort3()} / ${widget.taskModel.remainingDuration?.textLongDynamicWithoutZero()}",
+            )
+          else
+            Text(
+              "${widget.taskModel.currentCount} / ${widget.taskModel.targetCount}",
+            ),
+
           const Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -82,18 +87,11 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               ),
             ],
           ),
-          // const Text("Avarage 1h 10m in aday"),
           Text("Avarage ${(allTimeDuration / (DateTime.now().difference(taskRutinCreatedDate).inDays).abs()).textShortDynamic()} in aday"),
           const SizedBox(height: 30),
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                children: [
-                  Text("Best hour"),
-                  Text("15:00"),
-                ],
-              ),
               Column(
                 children: [
                   Text("Best Day"),
