@@ -4,6 +4,7 @@ import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
@@ -33,6 +34,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   // skills
   List<TraitModel>? skillList;
 
+  int completedTaskCount = 0;
+  int failedTaskCount = 0;
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +47,12 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           allTimeDuration += task.currentDuration!;
         } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
           allTimeCount += task.currentCount!;
+        }
+        //
+        if (task.status == TaskStatusEnum.COMPLETED) {
+          completedTaskCount++;
+        } else if (task.status == TaskStatusEnum.FAILED) {
+          failedTaskCount++;
         }
       }
     }
@@ -112,25 +122,25 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             ],
           ),
           const SizedBox(height: 40),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.check_circle),
-              Text("20 Times"),
+              const Icon(Icons.check_circle),
+              Text("$completedTaskCount Times"),
             ],
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.close),
-              Text("15 Times"),
+              const Icon(Icons.close),
+              Text("$failedTaskCount Times"),
             ],
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.tour_rounded),
-              Text("% 64"),
+              const Icon(Icons.tour_rounded),
+              Text("% ${(completedTaskCount + failedTaskCount) == 0 ? "0" : ((completedTaskCount / (completedTaskCount + failedTaskCount)) * 100).toInt()}"),
             ],
           ),
           // const SizedBox(height: 40),
