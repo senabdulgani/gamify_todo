@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/8%20Model/trait_model.dart';
 
 class TraitDetailPage extends StatefulWidget {
-  const TraitDetailPage({super.key});
+  const TraitDetailPage({
+    super.key,
+    required this.traitModel,
+  });
+
+  final TraitModel traitModel;
 
   @override
   State<TraitDetailPage> createState() => _TraitDetailPageState();

@@ -49,16 +49,16 @@ class _TaskItemState extends State<TaskItem> {
                 taskAction();
               }
             },
-            onLongPress: () {
+            onLongPress: () async {
               if (widget.taskModel.rutinID != null) {
-                NavigatorService().goTo(
+                await NavigatorService().goTo(
                   TaskDetailPage(
                     taskModel: widget.taskModel,
                   ),
                   transition: Transition.size,
                 );
               } else {
-                NavigatorService().goTo(
+                await NavigatorService().goTo(
                   AddTaskPage(
                     editTask: widget.taskModel,
                   ),

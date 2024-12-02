@@ -57,9 +57,11 @@ class _TraitItemDetailedState extends State<TraitItemDetailed> {
         borderRadius: AppColors.borderRadiusAll,
         highlightColor: widget.trait.color,
         splashColor: widget.trait.color,
-        onTap: () {
-          NavigatorService().goTo(
-            const TraitDetailPage(),
+        onTap: () async {
+          await NavigatorService().goTo(
+            TraitDetailPage(
+              traitModel: widget.trait,
+            ),
             transition: Transition.rightToLeft,
           );
         },

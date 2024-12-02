@@ -65,8 +65,8 @@ class LoginScreen extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          NavigatorService().goTo(
+        onPressed: () async {
+          await NavigatorService().goTo(
             const NavbarPageManager(),
           );
         },
@@ -85,8 +85,8 @@ class LoginScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTap: () {
-            NavigatorService().goTo(
+          onTap: () async {
+            await NavigatorService().goTo(
               const RegisterApp(),
             );
           },

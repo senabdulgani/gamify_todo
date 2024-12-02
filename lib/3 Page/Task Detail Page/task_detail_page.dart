@@ -3,6 +3,7 @@ import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -72,8 +73,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         actions: [
           IconButton(
             onPressed: () async {
-              await Get.to(
-                () => AddTaskPage(
+              await NavigatorService().goTo(
+                AddTaskPage(
                   editTask: widget.taskModel,
                 ),
                 transition: Transition.rightToLeft,
@@ -110,6 +111,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           ),
           Text("Avarage ${(allTimeDuration / (DateTime.now().difference(taskRutinCreatedDate).inDays).abs()).textShortDynamic()} in aday"),
           const SizedBox(height: 30),
+          // TODO: en iyi gün
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -146,6 +148,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               Text("%${(completedTaskCount + failedTaskCount) == 0 ? "0" : ((completedTaskCount / (completedTaskCount + failedTaskCount)) * 100).toInt()}"),
             ],
           ),
+          // TODO: en uzun streak
           // const SizedBox(height: 40),
           // const Text("Longest Streak"),
           // const Text("24 day"),
@@ -181,6 +184,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   isStatisticsPage: true,
                 ),
                 const SizedBox(width: 10),
+                // TODO:
                 Text("60% of the ${trait.title}"),
               ],
             ),

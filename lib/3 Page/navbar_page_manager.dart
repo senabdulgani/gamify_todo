@@ -65,8 +65,8 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
                 shape: RoundedRectangleBorder(
                   borderRadius: AppColors.borderRadiusAll,
                 ),
-                onPressed: () {
-                  NavigatorService().goTo(
+                onPressed: () async {
+                  await NavigatorService().goTo(
                     context.read<NavbarProvider>().currentIndex == 1 ? const AddTaskPage() : const AddStoreItemPage(),
                     transition: Transition.downToUp,
                   );

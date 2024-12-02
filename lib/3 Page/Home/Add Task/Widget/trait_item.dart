@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/3%20Page/Trait%20Detail%20Page/tarit_detail_page.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:provider/provider.dart';
@@ -44,20 +46,22 @@ class _TraitItemState extends State<TraitItem> {
           borderRadius: AppColors.borderRadiusAll,
           highlightColor: widget.trait.color,
           splashColor: isSelected ? null : widget.trait.color,
-          onTap: () {
+          onTap: () async {
             if (widget.isStatisticsPage) {
-              return;
-            }
-
-            if (isSelected) {
-              addTaskProvider.selectedTraits.remove(widget.trait);
+              await NavigatorService().goTo(
+                TraitDetailPage(traitModel: widget.trait),
+              );
             } else {
-              addTaskProvider.selectedTraits.add(widget.trait);
-            }
+              if (isSelected) {
+                addTaskProvider.selectedTraits.remove(widget.trait);
+              } else {
+                addTaskProvider.selectedTraits.add(widget.trait);
+              }
 
-            setState(() {
-              isSelected = !isSelected;
-            });
+              setState(() {
+                isSelected = !isSelected;
+              });
+            }
           },
           child: Container(
             decoration: BoxDecoration(

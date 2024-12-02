@@ -2,24 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 class NavigatorService {
-  Future goTo(
+  static final NavigatorService _instance = NavigatorService._internal();
+  factory NavigatorService() => _instance;
+  NavigatorService._internal();
+
+  Future<dynamic> goTo(
     Widget page, {
     Transition? transition,
   }) async {
     await Get.to(
-      () {
-        return page;
-      },
+      page,
       transition: transition ?? Transition.native,
       fullscreenDialog: true,
     );
   }
 
-  static void goBack() {
+  void goBack() {
     Get.back();
   }
 
-  static void goBackAll() {
+  void goBackAll() {
     Get.offAllNamed('/navbar');
   }
 }

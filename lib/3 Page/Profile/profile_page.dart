@@ -25,8 +25,8 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           InkWell(
             borderRadius: AppColors.borderRadiusAll,
-            onTap: () {
-              NavigatorService().goTo(
+            onTap: () async {
+              await NavigatorService().goTo(
                 const SettingsPage(),
                 transition: Transition.rightToLeft,
               );
