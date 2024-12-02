@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
+import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:get/route_manager.dart';
 
 class TaskDetailPage extends StatefulWidget {
@@ -26,6 +28,11 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
   late DateTime taskRutinCreatedDate;
 
+  // attirbutes
+  List<TraitModel>? attributeList;
+  // skills
+  List<TraitModel>? skillList;
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +48,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     }
 
     taskRutinCreatedDate = routineList.firstWhere((element) => element.id == widget.taskModel.rutinID).createdDate;
+
+    attributeList = widget.taskModel.attirbuteIDList!.map((e) => traitList.firstWhere((element) => element.id == e)).toList();
+    skillList = widget.taskModel.skillIDList!.map((e) => traitList.firstWhere((element) => element.id == e)).toList();
   }
 
   @override
@@ -64,6 +74,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 30),
           if (widget.taskModel.type == TaskTypeEnum.TIMER)
@@ -122,26 +133,44 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               Text("% 64"),
             ],
           ),
+          // const SizedBox(height: 40),
+          // const Text("Longest Streak"),
+          // const Text("24 day"),
           const SizedBox(height: 40),
-          const Text("Longest Streak"),
-          const Text("24 day"),
-          const SizedBox(height: 40),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+
+          Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.star),
-              Text("20% of the power"),
-            ],
-          ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.star),
-              Text("20% of the power"),
+              traitItemList(attributeList),
+              traitItemList(skillList),
             ],
           ),
 
           // TODO: haftalık çalışma saat grafiği
+        ],
+      ),
+    );
+  }
+
+  Widget traitItemList(List<TraitModel>? traitList) {
+    return SizedBox(
+      width: 200,
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          for (TraitModel trait in traitList!)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TraitItem(
+                  trait: trait,
+                  isStatisticsPage: true,
+                ),
+                const SizedBox(width: 10),
+                Text("60% of the ${trait.title}"),
+              ],
+            ),
         ],
       ),
     );

@@ -8,9 +8,11 @@ class TraitItem extends StatefulWidget {
   const TraitItem({
     super.key,
     required this.trait,
+    this.isStatisticsPage = false,
   });
 
   final TraitModel trait;
+  final bool isStatisticsPage;
 
   @override
   State<TraitItem> createState() => _TraitItemState();
@@ -24,41 +26,50 @@ class _TraitItemState extends State<TraitItem> {
   @override
   void initState() {
     super.initState();
-
-    isSelected = addTaskProvider.selectedTraits.contains(widget.trait);
+    if (widget.isStatisticsPage) {
+      isSelected = true;
+    } else {
+      isSelected = addTaskProvider.selectedTraits.contains(widget.trait);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: AppColors.borderRadiusAll,
-      highlightColor: widget.trait.color,
-      splashColor: isSelected ? null : widget.trait.color,
-      onTap: () {
-        if (isSelected) {
-          addTaskProvider.selectedTraits.remove(widget.trait);
-        } else {
-          addTaskProvider.selectedTraits.add(widget.trait);
-        }
+    return Padding(
+      padding: const EdgeInsets.all(2),
+      child: SizedBox(
+        width: 50,
+        height: 50,
+        child: InkWell(
+          borderRadius: AppColors.borderRadiusAll,
+          highlightColor: widget.trait.color,
+          splashColor: isSelected ? null : widget.trait.color,
+          onTap: () {
+            if (widget.isStatisticsPage) {
+              return;
+            }
 
-        setState(() {
-          isSelected = !isSelected;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(2),
-        child: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: isSelected ? widget.trait.color : AppColors.panelBackground2,
-            borderRadius: AppColors.borderRadiusAll,
-          ),
-          child: Center(
-            child: Text(
-              widget.trait.icon,
-              style: const TextStyle(
-                fontSize: 25,
+            if (isSelected) {
+              addTaskProvider.selectedTraits.remove(widget.trait);
+            } else {
+              addTaskProvider.selectedTraits.add(widget.trait);
+            }
+
+            setState(() {
+              isSelected = !isSelected;
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: isSelected ? widget.trait.color : AppColors.panelBackground2,
+              borderRadius: AppColors.borderRadiusAll,
+            ),
+            child: Center(
+              child: Text(
+                widget.trait.icon,
+                style: const TextStyle(
+                  fontSize: 25,
+                ),
               ),
             ),
           ),

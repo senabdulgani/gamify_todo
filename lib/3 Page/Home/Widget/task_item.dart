@@ -70,7 +70,10 @@ class _TaskItemState extends State<TaskItem> {
             child: Container(
               height: 70,
               padding: const EdgeInsets.all(8),
-              color: AppColors.transparent,
+              decoration: BoxDecoration(
+                borderRadius: AppColors.borderRadiusAll,
+                color: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? AppColors.main : AppColors.transparent,
+              ),
               child: Row(
                 children: [
                   taskActionIcon(),

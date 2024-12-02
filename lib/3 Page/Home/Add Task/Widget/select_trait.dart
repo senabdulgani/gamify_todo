@@ -63,7 +63,19 @@ class _SelectTraitListState extends State<SelectTraitList> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              children: widget.isSkill ? traitList.where((trait) => trait.type == TraitTypeEnum.SKILL).map((skill) => TraitItem(trait: skill)).toList() : traitList.where((trait) => trait.type == TraitTypeEnum.ATTIRBUTE).map((attirbute) => TraitItem(trait: attirbute)).toList(),
+              children: widget.isSkill
+                  ? traitList
+                      .where((trait) => trait.type == TraitTypeEnum.SKILL)
+                      .map((skill) => TraitItem(
+                            trait: skill,
+                          ))
+                      .toList()
+                  : traitList
+                      .where((trait) => trait.type == TraitTypeEnum.ATTIRBUTE)
+                      .map((attirbute) => TraitItem(
+                            trait: attirbute,
+                          ))
+                      .toList(),
             ),
           )
         ],
