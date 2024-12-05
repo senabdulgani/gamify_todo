@@ -43,7 +43,7 @@ List<RoutineModel> routineList = [
     isNotificationOn: false,
     remainingDuration: const Duration(minutes: 15),
     targetCount: 10,
-    repeatDays: [1, 5, 7],
+    repeatDays: [1, 5],
     isCompleted: false,
   ),
   RoutineModel(
@@ -54,7 +54,7 @@ List<RoutineModel> routineList = [
     startDate: DateTime.now().subtract(const Duration(days: 3)),
     isNotificationOn: false,
     targetCount: 4,
-    repeatDays: [1, 2, 3, 4, 5, 6, 7],
+    repeatDays: [1, 2, 3, 4, 5, 6],
     isCompleted: false,
   ),
 ];

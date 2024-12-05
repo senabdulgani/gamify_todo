@@ -42,10 +42,10 @@ class _TaskListState extends State<TaskList> {
         }
       }
     }
-
+    // TODO: taskalr direkt geliyor ama rutinlerde bir sıkıntı var.
     if (!Helper().isBeforeDay(context.read<TaskProvider>().selectedDate, DateTime.now()) && !Helper().isSameDay(context.read<TaskProvider>().selectedDate, DateTime.now())) {
       for (var rutin in routineList) {
-        if (rutin.repeatDays.contains(context.read<TaskProvider>().selectedDate.weekday) && Helper().isBeforeDay(rutin.startDate, context.read<TaskProvider>().selectedDate)) {
+        if (rutin.repeatDays.contains(context.read<TaskProvider>().selectedDate.weekday - 1) && Helper().isBeforeDay(rutin.startDate, context.read<TaskProvider>().selectedDate)) {
           if (!rutin.isCompleted) {
             selectedDateGhostRutinTaskList.add(
               TaskModel(
