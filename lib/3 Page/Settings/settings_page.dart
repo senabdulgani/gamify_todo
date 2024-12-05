@@ -30,6 +30,12 @@ class SettingsPage extends StatelessWidget {
                 hakkimizdaDialog(context);
               },
             ),
+            _settingsOption(
+              title: "Çıkış Yap",
+              onTap: () {
+                hakkimizdaDialog(context);
+              },
+            ),
             // TODO: tema ayaralnınca açılacak
             // _settingsOption(
             //   title: "Tema Seçimi",
@@ -76,7 +82,7 @@ class SettingsPage extends StatelessWidget {
 
   Widget _settingsOption({
     required String title,
-    required String subtitle,
+    String? subtitle,
     Widget? trailing,
     VoidCallback? onTap,
   }) {
@@ -100,13 +106,15 @@ class SettingsPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 14,
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
+                    ]
                   ],
                 ),
               ),
