@@ -112,17 +112,17 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           Text("Avarage ${(allTimeDuration / (DateTime.now().difference(taskRutinCreatedDate).inDays).abs()).textShortDynamic()} in aday"),
           const SizedBox(height: 30),
           // TODO: en iyi gün
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  Text("Best Day"),
-                  Text("Wednesday"),
-                ],
-              ),
-            ],
-          ),
+          // const Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Column(
+          //       children: [
+          //         Text("Best Day"),
+          //         Text("Wednesday"),
+          //       ],
+          //     ),
+          //   ],
+          // ),
           const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

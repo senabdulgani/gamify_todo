@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
-import 'package:gamify_todo/3%20Page/Trait%20Detail%20Page/tarit_detail_page.dart';
+import 'package:gamify_todo/3%20Page/Trait%20Detail%20Page/trait_detail_page.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
