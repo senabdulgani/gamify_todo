@@ -35,6 +35,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
   late final addTaskProvider = context.read<AddTaskProvider>();
   late final taskProvider = context.read<TaskProvider>();
 
+  bool isLoadign = false;
+
   @override
   void initState() {
     super.initState();
@@ -93,6 +95,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 );
                 return;
               }
+
+              if (isLoadign) return;
+
+              isLoadign = true;
 
               if (widget.editTask != null) {
                 taskProvider.editTask(
