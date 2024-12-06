@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
@@ -77,7 +78,7 @@ class _TaskItemState extends State<TaskItem> {
               child: Row(
                 children: [
                   taskActionIcon(),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                   titleAndProgressWidgets(),
                   const Spacer(),
                   notificationWidgets(),
@@ -150,12 +151,18 @@ class _TaskItemState extends State<TaskItem> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          widget.taskModel.title,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            decoration: widget.taskModel.status == TaskStatusEnum.COMPLETED ? TextDecoration.lineThrough : TextDecoration.none,
+        SizedBox(
+          width: 0.65.sw,
+          child: AutoSizeText(
+            widget.taskModel.title,
+            maxLines: widget.taskModel.type == TaskTypeEnum.CHECKBOX ? 2 : 1,
+            minFontSize: 13,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              decoration: widget.taskModel.status == TaskStatusEnum.COMPLETED ? TextDecoration.lineThrough : TextDecoration.none,
+            ),
           ),
         ),
         widget.taskModel.type == TaskTypeEnum.CHECKBOX
@@ -164,14 +171,14 @@ class _TaskItemState extends State<TaskItem> {
                 ? Text(
                     "${widget.taskModel.currentCount ?? 0}/${widget.taskModel.targetCount ?? 0}",
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                   )
                 : Text(
                     "${widget.taskModel.remainingDuration!.inHours > 0 ? widget.taskModel.currentDuration!.textShort3() : widget.taskModel.currentDuration!.textShort2()}/${widget.taskModel.remainingDuration!.textShortDynamic()}",
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
