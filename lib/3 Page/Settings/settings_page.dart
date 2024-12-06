@@ -25,15 +25,23 @@ class SettingsPage extends StatelessWidget {
           children: [
             _settingsOption(
               title: "Hakkımızda",
-              subtitle: "Bu proje Görsel Programlama 2 dersi için yapılmıştır.",
+              subtitle: "Bu proje Görsel Programlama 2 dersi için yapılmıştır",
               onTap: () {
                 hakkimizdaDialog(context);
               },
             ),
             _settingsOption(
-              title: "Çıkış Yap",
+              title: "Yardım",
+              subtitle: "Uygulamanın amacı ve ipuçları",
               onTap: () {
-                hakkimizdaDialog(context);
+                yardimDialog(context);
+              },
+            ),
+            _settingsOption(
+              title: "Çıkış Yap",
+              color: AppColors.red,
+              onTap: () {
+                // TODO: exit app
               },
             ),
             // TODO: tema ayaralnınca açılacak
@@ -66,16 +74,36 @@ class SettingsPage extends StatelessWidget {
           "Hakkımızda",
         ),
         content: const Text(
-          "Bu mobil uygulama Bilgisayar Programcılığı 2. sınıf öğrencileri Sümeyye Aycan ve Muhammed İslam Bilseloğlu tarafından Görsel Programlama 2 dersi için Flutter kullanılarak geliştirilmiştir.",
+          """Bu mobil uygulama Bilgisayar Programcılığı 2. sınıf öğrencileri Sümeyye Aycan ve Muhammed İslam Bilseloğlu tarafından Görsel Programlama 2 dersi için Flutter kullanılarak geliştirilmiştir.
+          
+Sümeyye Aycan:
++90
+
+Muhammed İslam Bilseloğlu: 
++90 551 394 47 26
+m.islam0422@gmail.com
+""",
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              "Kapat",
-            ),
-          ),
-        ],
+      ),
+    );
+  }
+
+  Future<dynamic> yardimDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppColors.background,
+        title: const Text(
+          "Yardım",
+        ),
+        content: const Text(
+          // TODO:
+          """Bu uygulama ile yapılacaklar listenizi oluşturabilir, düzenleyebilir ve silebilirsiniz.
+1 saat çalışma 1 krediye denk gelmektedir.
+rutin günleri seçilirse o task rutin olarak kaydedilir. Eğer seçilmezse normal task olarak kaydedilir.
+
+""",
+        ),
       ),
     );
   }
@@ -83,42 +111,44 @@ class SettingsPage extends StatelessWidget {
   Widget _settingsOption({
     required String title,
     String? subtitle,
-    Widget? trailing,
     VoidCallback? onTap,
+    Color? color,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: AppColors.panelBackground,
-        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        color: color ?? AppColors.panelBackground,
+        margin: const EdgeInsets.symmetric(vertical: 4),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 12,
+            horizontal: 20,
+          ),
           child: Row(
+            mainAxisAlignment: subtitle != null ? MainAxisAlignment.start : MainAxisAlignment.center,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 4),
                     Text(
-                      title,
+                      subtitle,
                       style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
                       ),
                     ),
-                    if (subtitle != null) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        subtitle,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ]
-                  ],
-                ),
+                  ]
+                ],
               ),
-              if (trailing != null) trailing,
             ],
           ),
         ),
