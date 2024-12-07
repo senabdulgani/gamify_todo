@@ -27,39 +27,41 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
     return Slidable(
       // key required for dismissible
       key: ValueKey(widget.taskModel.id),
-      endActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        extentRatio: 0.3,
-        closeThreshold: 0.1,
-        openThreshold: 0.1,
-        dismissible: DismissiblePane(
-          dismissThreshold: 0.3,
-          closeOnCancel: true,
-          confirmDismiss: () async {
-            taskProvider.changeTaskDate(
-              context: context,
-              taskModel: widget.taskModel,
-            );
+      endActionPane: widget.taskModel.rutinID != null
+          ? null
+          : ActionPane(
+              motion: const ScrollMotion(),
+              extentRatio: 0.3,
+              closeThreshold: 0.1,
+              openThreshold: 0.1,
+              dismissible: DismissiblePane(
+                dismissThreshold: 0.3,
+                closeOnCancel: true,
+                confirmDismiss: () async {
+                  taskProvider.changeTaskDate(
+                    context: context,
+                    taskModel: widget.taskModel,
+                  );
 
-            return false;
-          },
-          onDismissed: () {},
-        ),
-        children: [
-          SlidableAction(
-            onPressed: (context) {
-              taskProvider.changeTaskDate(
-                context: context,
-                taskModel: widget.taskModel,
-              );
-            },
-            backgroundColor: AppColors.orange,
-            icon: Icons.calendar_month,
-            label: 'Change Date',
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-          ),
-        ],
-      ),
+                  return false;
+                },
+                onDismissed: () {},
+              ),
+              children: [
+                SlidableAction(
+                  onPressed: (context) {
+                    taskProvider.changeTaskDate(
+                      context: context,
+                      taskModel: widget.taskModel,
+                    );
+                  },
+                  backgroundColor: AppColors.orange,
+                  icon: Icons.calendar_month,
+                  label: 'Change Date',
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                ),
+              ],
+            ),
       startActionPane: ActionPane(
         motion: const ScrollMotion(),
         extentRatio: 0.5,

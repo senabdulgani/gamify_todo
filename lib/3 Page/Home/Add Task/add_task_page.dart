@@ -91,32 +91,32 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
         ],
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
-            TaskName(),
+            const SizedBox(height: 20),
+            const TaskName(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SelectDate(),
-                SelectTime(),
-                NotificationSwitch(),
+                if (widget.editTask?.rutinID == null) const SelectDate(),
+                const SelectTime(),
+                const NotificationSwitch(),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                DurationPickerWidget(),
-                SizedBox(width: 20),
-                SelectTaskType(),
+                const DurationPickerWidget(),
+                const SizedBox(width: 20),
+                if (widget.editTask == null) const SelectTaskType(),
               ],
             ),
-            SelectDays(),
-            SizedBox(height: 20),
-            SelectTraitList(isSkill: false),
-            SizedBox(height: 10),
-            SelectTraitList(isSkill: true),
+            if (widget.editTask == null || (widget.editTask != null && widget.editTask!.rutinID != null)) const SelectDays(),
+            const SizedBox(height: 20),
+            const SelectTraitList(isSkill: false),
+            const SizedBox(height: 10),
+            const SelectTraitList(isSkill: true),
           ],
         ),
       ),
