@@ -3,7 +3,6 @@ import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_item.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
-import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +30,7 @@ class _TaskListState extends State<TaskList> {
 
     for (var task in context.read<TaskProvider>().taskList) {
       if (Helper().isSameDay(task.taskDate, context.read<TaskProvider>().selectedDate)) {
-        if ((!context.read<TaskProvider>().showCompleted && task.status == TaskStatusEnum.COMPLETED) && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)) {
+        if ((!context.read<TaskProvider>().showCompleted && task.status != null) && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)) {
           continue;
         } else {
           if (task.rutinID == null) {

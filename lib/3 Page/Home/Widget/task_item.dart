@@ -81,7 +81,13 @@ class _TaskItemState extends State<TaskItem> {
                   const SizedBox(width: 5),
                   titleAndProgressWidgets(),
                   const Spacer(),
-                  notificationWidgets(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      notificationWidgets(),
+                      statusWidget(),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -128,7 +134,7 @@ class _TaskItemState extends State<TaskItem> {
 
   void taskAction() {
     if (widget.taskModel.type == TaskTypeEnum.CHECKBOX) {
-      widget.taskModel.status = (widget.taskModel.status == null ? TaskStatusEnum.COMPLETED : null);
+      widget.taskModel.status = ((widget.taskModel.status == null || widget.taskModel.status != TaskStatusEnum.COMPLETED) ? TaskStatusEnum.COMPLETED : null);
     } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
       widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
 
@@ -203,5 +209,45 @@ class _TaskItemState extends State<TaskItem> {
         ],
       ],
     );
+  }
+
+  Widget statusWidget() {
+    if (widget.taskModel.status == null) {
+      return const SizedBox();
+    } else if (widget.taskModel.status == TaskStatusEnum.COMPLETED) {
+      return const Text(
+        "Completed",
+        style: TextStyle(
+          color: AppColors.green,
+          fontSize: 13,
+        ),
+      );
+    } else if (widget.taskModel.status == TaskStatusEnum.FAILED) {
+      return const Row(
+        children: [
+          Text(
+            "Failed",
+            style: TextStyle(
+              color: AppColors.red,
+              fontSize: 13,
+            ),
+          ),
+          SizedBox(width: 5),
+        ],
+      );
+    } else {
+      return const Row(
+        children: [
+          Text(
+            "Cancel",
+            style: TextStyle(
+              color: AppColors.purple,
+              fontSize: 13,
+            ),
+          ),
+          SizedBox(width: 5),
+        ],
+      );
+    }
   }
 }
