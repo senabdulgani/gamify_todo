@@ -224,18 +224,34 @@ class TaskProvider with ChangeNotifier {
 
   // iptal de kullanıcıya ceza yansıtılmayacak
   cancelTask(TaskModel taskModel) {
-    taskList.remove(taskModel);
+    taskModel.status = TaskStatusEnum.CANCEL;
 
-    // TODO: !!!!!!!!!!!!!! şuan direkt listeden sildim ama normalde task listten silinmeyece kgaliba statusu cancel failed veya complete olarak değişecek. loho larak hep tutulacak
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
   }
 
   failedTask(TaskModel taskModel) {
+    taskModel.status = TaskStatusEnum.FAILED;
+
+    // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
+    notifyListeners();
+  }
+
+  // TODO: delete
+  deleteTask(TaskModel taskModel) {
     taskList.remove(taskModel);
 
-    // TODO: !!!!!!!!!!!!!! şuan direkt listeden sildim ama normalde task listten silinmeyece kgaliba statusu cancel failed veya complete olarak değişecek. loho larak hep tutulacak
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
+    notifyListeners();
+  }
+
+  // TODO: just for routine
+  // ? rutin model mi task model mi
+  completeRoutine(TaskModel taskModel) {
+    taskModel.status = TaskStatusEnum.COMPLETED;
+
+    // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
+    // TODO: arşivden çıkar ekle
     notifyListeners();
   }
 
