@@ -73,16 +73,32 @@ class SettingsPage extends StatelessWidget {
         title: const Text(
           "Hakkımızda",
         ),
-        content: const Text(
-          """Bu mobil uygulama Bilgisayar Programcılığı 2. sınıf öğrencileri Sümeyye Aycan ve Muhammed İslam Bilseloğlu tarafından Görsel Programlama 2 dersi için Flutter kullanılarak geliştirilmiştir.
-          
-Sümeyye Aycan:
-+90
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Bu mobil uygulama Bilgisayar Programcılığı 2. sınıf öğrencileri Sümeyye Aycan ve Muhammed İslam Bilseloğlu tarafından Görsel Programlama 2 dersi için Flutter kullanılarak geliştirilmiştir.",
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            Text(
+              """
 
-Muhammed İslam Bilseloğlu: 
-+90 551 394 47 26
+Sümeyye Aycan
+Smaycan69@gmail.com
++90 546 685 32 23
+
+Muhammed İslam Bilseloğlu
 m.islam0422@gmail.com
++90 551 394 47 26
 """,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ],
         ),
       ),
     );
