@@ -31,7 +31,7 @@ class _TaskListState extends State<TaskList> {
 
     for (var task in context.read<TaskProvider>().taskList) {
       if (Helper().isSameDay(task.taskDate, context.read<TaskProvider>().selectedDate)) {
-        if (!context.read<TaskProvider>().showCompleted && task.status == TaskStatusEnum.COMPLETED) {
+        if ((!context.read<TaskProvider>().showCompleted && task.status == TaskStatusEnum.COMPLETED) && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)) {
           continue;
         } else {
           if (task.rutinID == null) {
