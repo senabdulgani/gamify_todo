@@ -69,8 +69,8 @@ class _TaskItemState extends State<TaskItem> {
             },
             borderRadius: AppColors.borderRadiusAll,
             child: Container(
-              height: 70,
-              padding: const EdgeInsets.all(8),
+              height: 65,
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: AppColors.borderRadiusAll,
                 color: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? AppColors.main : AppColors.transparent,
@@ -156,7 +156,7 @@ class _TaskItemState extends State<TaskItem> {
           child: AutoSizeText(
             widget.taskModel.title,
             maxLines: widget.taskModel.type == TaskTypeEnum.CHECKBOX ? 2 : 1,
-            minFontSize: 13,
+            minFontSize: 14,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 18,
