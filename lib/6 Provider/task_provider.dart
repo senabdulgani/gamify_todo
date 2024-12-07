@@ -185,6 +185,16 @@ class TaskProvider with ChangeNotifier {
       routine.attirbuteIDList = taskModel.attirbuteIDList;
       routine.skillIDList = taskModel.skillIDList;
       routine.isCompleted = taskModel.status == TaskStatusEnum.COMPLETED ? true : false;
+
+      // rutinin ismi değişmişse o rutine ait taskalrın ismi de değişsin
+      // eğer ilgili traitler değişmişse o rutine ait taskalrın traitleri de değişsin
+      for (var task in taskList) {
+        if (task.rutinID == taskModel.rutinID) {
+          task.title = taskModel.title;
+          task.attirbuteIDList = taskModel.attirbuteIDList;
+          task.skillIDList = taskModel.skillIDList;
+        }
+      }
     } else {
       final index = taskList.indexWhere((element) => element.id == taskModel.id);
       taskList[index] = taskModel;

@@ -5,7 +5,7 @@ import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 class TaskModel {
   final int id; // id si
   final int? rutinID; // eğer varsa rutin id si
-  final String title; // başlığı
+  String title; // başlığı
   final TaskTypeEnum type; // türü
   DateTime taskDate; // yapılacağı tarih
   final TimeOfDay? time; // saati
@@ -15,8 +15,8 @@ class TaskModel {
   int? currentCount; // counter ise sayı buradan takip edilecek
   final int? targetCount; // counter ise hedef sayı
   bool? isTimerActive; // timer aktif mi
-  final List<int>? attirbuteIDList; // etki edeceği özellikler
-  final List<int>? skillIDList; // etki edecği yetenekler
+  List<int>? attirbuteIDList; // etki edeceği özellikler
+  List<int>? skillIDList; // etki edecği yetenekler
   TaskStatusEnum? status; // tamamlandı mı
 
   TaskModel({
