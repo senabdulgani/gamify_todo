@@ -32,7 +32,10 @@ class _SelectDateState extends State<SelectDate> {
         ),
       ),
       onTap: () async {
-        final selectedDate = await Helper().selectDate(context);
+        final selectedDate = await Helper().selectDate(
+          context: context,
+          initialDate: addTaskProvider.selectedDate,
+        );
 
         if (selectedDate != null) {
           addTaskProvider.selectedDate = selectedDate;

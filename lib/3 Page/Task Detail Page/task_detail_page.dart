@@ -60,8 +60,11 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
     taskRutinCreatedDate = routineList.firstWhere((element) => element.id == widget.taskModel.rutinID).createdDate;
 
-    attributeList = widget.taskModel.attirbuteIDList!.map((e) => traitList.firstWhere((element) => element.id == e)).toList();
-    skillList = widget.taskModel.skillIDList!.map((e) => traitList.firstWhere((element) => element.id == e)).toList();
+    if (widget.taskModel.attirbuteIDList != null && widget.taskModel.attirbuteIDList!.isNotEmpty) {
+      attributeList = widget.taskModel.attirbuteIDList!.map((e) => traitList.firstWhere((element) => element.id == e)).toList();
+    } else if (widget.taskModel.skillIDList != null && widget.taskModel.skillIDList!.isNotEmpty) {
+      skillList = widget.taskModel.skillIDList!.map((e) => traitList.firstWhere((element) => element.id == e)).toList();
+    }
   }
 
   @override
@@ -157,8 +160,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              traitItemList(attributeList),
-              traitItemList(skillList),
+              if (attributeList != null) traitItemList(attributeList),
+              if (skillList != null) traitItemList(skillList),
             ],
           ),
 

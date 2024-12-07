@@ -207,7 +207,10 @@ class TaskProvider with ChangeNotifier {
     required BuildContext context,
     required TaskModel taskModel,
   }) async {
-    final selectedDate = await Helper().selectDate(context);
+    final selectedDate = await Helper().selectDate(
+      context: context,
+      initialDate: taskModel.taskDate,
+    );
 
     if (selectedDate != null) {
       if (taskModel.type == TaskTypeEnum.TIMER && taskModel.isTimerActive == true) {

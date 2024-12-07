@@ -149,6 +149,10 @@ class Helper {
     return date1.year < date2.year || (date1.year == date2.year && date1.month < date2.month) || (date1.year == date2.year && date1.month == date2.month && date1.day < date2.day);
   }
 
+  bool isBeforeOrSameDay(DateTime date1, DateTime date2) {
+    return date1.year < date2.year || (date1.year == date2.year && date1.month < date2.month) || (date1.year == date2.year && date1.month == date2.month && date1.day <= date2.day);
+  }
+
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
@@ -267,10 +271,13 @@ class Helper {
     return selectedTime;
   }
 
-  Future<DateTime?> selectDate(context) async {
+  Future<DateTime?> selectDate({
+    required BuildContext context,
+    DateTime? initialDate,
+  }) async {
     final selectedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: initialDate ?? DateTime.now(),
       firstDate: DateTime(1950),
       lastDate: DateTime(2100),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
