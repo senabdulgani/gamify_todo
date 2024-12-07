@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/rutin_model.dart';
@@ -161,7 +162,9 @@ class TaskProvider with ChangeNotifier {
   DateTime selectedDate = DateTime.now();
   bool showCompleted = true;
 
-  void addTask(TaskModel taskModel) {
+  void addTask(TaskModel taskModel) async {
+    await ServerManager().addTask(taskModel: taskModel);
+
     taskList.add(taskModel);
 
     notifyListeners();
