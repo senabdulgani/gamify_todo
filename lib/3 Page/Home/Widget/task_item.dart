@@ -41,17 +41,17 @@ class _TaskItemState extends State<TaskItem> {
           InkWell(
             onTap: () {
               // rutin bugüne ait olmadığı için etkilşime bulunulamaz
-              if (widget.taskModel.rutinID != null && !Helper().isSameDay(widget.taskModel.taskDate, DateTime.now())) {
+              if (widget.taskModel.routineID != null && !Helper().isSameDay(widget.taskModel.taskDate, DateTime.now())) {
                 Helper().getMessage(
                   status: StatusEnum.WARNING,
-                  message: "Rutin bugüne ait olmadığı için etkilşime bulunulamaz" "${widget.taskModel.rutinID}",
+                  message: "Rutin bugüne ait olmadığı için etkilşime bulunulamaz" "${widget.taskModel.routineID}",
                 );
               } else {
                 taskAction();
               }
             },
             onLongPress: () async {
-              if (widget.taskModel.rutinID != null) {
+              if (widget.taskModel.routineID != null) {
                 await NavigatorService().goTo(
                   TaskDetailPage(
                     taskModel: widget.taskModel,

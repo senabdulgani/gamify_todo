@@ -66,13 +66,13 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
     // relaited tasks
     TaskProvider().taskList.where((element) {
       if (element.skillIDList != null && element.skillIDList!.contains(widget.traitModel.id)) {
-        if (element.rutinID != null) {
+        if (element.routineID != null) {
           relaitedRoutines.add(element);
         } else {
           relaitedTasks.add(element);
         }
       } else if (element.attirbuteIDList != null && element.attirbuteIDList!.contains(widget.traitModel.id)) {
-        if (element.rutinID != null) {
+        if (element.routineID != null) {
           relaitedRoutines.add(element);
         } else {
           relaitedTasks.add(element);
@@ -233,7 +233,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                       int allTimeCount = 0;
 
                       for (var task in TaskProvider().taskList) {
-                        if (task.rutinID == task.rutinID) {
+                        if (task.routineID == task.routineID) {
                           if (task.type == TaskTypeEnum.TIMER) {
                             allTimeDuration += task.currentDuration!;
                           } else if (task.type == TaskTypeEnum.COUNTER) {
@@ -282,7 +282,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                       int allTimeCount = 0;
 
                       for (var task in TaskProvider().taskList) {
-                        if (task.rutinID == task.rutinID) {
+                        if (task.routineID == task.routineID) {
                           if (task.type == TaskTypeEnum.TIMER) {
                             allTimeDuration += task.currentDuration!;
                           } else if (task.type == TaskTypeEnum.COUNTER) {

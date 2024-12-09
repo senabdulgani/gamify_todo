@@ -43,7 +43,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     super.initState();
 
     for (var task in TaskProvider().taskList) {
-      if (task.rutinID == widget.taskModel.rutinID) {
+      if (task.routineID == widget.taskModel.routineID) {
         if (widget.taskModel.type == TaskTypeEnum.TIMER) {
           allTimeDuration += task.currentDuration!;
         } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
@@ -58,7 +58,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
       }
     }
 
-    taskRutinCreatedDate = routineList.firstWhere((element) => element.id == widget.taskModel.rutinID).createdDate;
+    taskRutinCreatedDate = routineList.firstWhere((element) => element.id == widget.taskModel.routineID).createdDate;
 
     if (widget.taskModel.attirbuteIDList != null && widget.taskModel.attirbuteIDList!.isNotEmpty) {
       attributeList = widget.taskModel.attirbuteIDList!.map((e) => traitList.firstWhere((element) => element.id == e)).toList();

@@ -27,7 +27,7 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
     return Slidable(
       // key required for dismissible
       key: ValueKey(widget.taskModel.id),
-      endActionPane: widget.taskModel.rutinID != null
+      endActionPane: widget.taskModel.routineID != null
           ? null
           : ActionPane(
               motion: const ScrollMotion(),

@@ -174,8 +174,8 @@ class TaskProvider with ChangeNotifier {
     required TaskModel taskModel,
     required List<int> selectedDays,
   }) {
-    if (taskModel.rutinID != null) {
-      RoutineModel routine = routineList[taskModel.rutinID!];
+    if (taskModel.routineID != null) {
+      RoutineModel routine = routineList[taskModel.routineID!];
 
       routine.title = taskModel.title;
       routine.type = taskModel.type;
@@ -192,7 +192,7 @@ class TaskProvider with ChangeNotifier {
       // rutinin ismi değişmişse o rutine ait taskalrın ismi de değişsin
       // eğer ilgili traitler değişmişse o rutine ait taskalrın traitleri de değişsin
       for (var task in taskList) {
-        if (task.rutinID == taskModel.rutinID) {
+        if (task.routineID == taskModel.routineID) {
           task.title = taskModel.title;
           task.attirbuteIDList = taskModel.attirbuteIDList;
           task.skillIDList = taskModel.skillIDList;

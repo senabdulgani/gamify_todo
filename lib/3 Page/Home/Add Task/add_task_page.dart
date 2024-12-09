@@ -49,7 +49,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.targetCount = widget.editTask!.targetCount ?? 0;
       addTaskProvider.taskDuration = widget.editTask!.remainingDuration ?? const Duration(hours: 0, minutes: 0);
       addTaskProvider.selectedTaskType = widget.editTask!.type;
-      addTaskProvider.selectedDays = widget.editTask!.rutinID == null ? [] : routineList.firstWhere((element) => element.id == widget.editTask!.rutinID).repeatDays;
+      addTaskProvider.selectedDays = widget.editTask!.routineID == null ? [] : routineList.firstWhere((element) => element.id == widget.editTask!.routineID).repeatDays;
       addTaskProvider.selectedTraits = traitList.where((element) => (widget.editTask!.attirbuteIDList != null && widget.editTask!.attirbuteIDList!.contains(element.id)) || (widget.editTask!.skillIDList != null && widget.editTask!.skillIDList!.contains(element.id))).toList();
     } else {
       addTaskProvider.taskNameController.clear();
@@ -70,7 +70,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       appBar: AppBar(
         title: Text(widget.editTask != null
             ? "Edit Task"
-            : widget.editTask?.rutinID != null
+            : widget.editTask?.routineID != null
                 ? "Edit Routine"
                 : "Add Task"),
         leading: InkWell(
@@ -99,7 +99,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (widget.editTask?.rutinID == null) const SelectDate(),
+                if (widget.editTask?.routineID == null) const SelectDate(),
                 const SelectTime(),
                 const NotificationSwitch(),
               ],
@@ -112,7 +112,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 if (widget.editTask == null) const SelectTaskType(),
               ],
             ),
-            if (widget.editTask == null || (widget.editTask != null && widget.editTask!.rutinID != null)) const SelectDays(),
+            if (widget.editTask == null || (widget.editTask != null && widget.editTask!.routineID != null)) const SelectDays(),
             const SizedBox(height: 20),
             const SelectTraitList(isSkill: false),
             const SizedBox(height: 10),
@@ -154,7 +154,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         selectedDays: addTaskProvider.selectedDays,
         taskModel: TaskModel(
           id: widget.editTask!.id,
-          rutinID: widget.editTask!.rutinID,
+          routineID: widget.editTask!.routineID,
           title: addTaskProvider.taskNameController.text,
           type: addTaskProvider.selectedTaskType,
           taskDate: addTaskProvider.selectedDate,
@@ -196,7 +196,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             TaskModel(
               id: taskProvider.taskList.length,
               // TODO: !!!! id ler yanlış olacak gibi kontrol et
-              rutinID: routineList.length - 1,
+              routineID: routineList.length - 1,
               title: addTaskProvider.taskNameController.text,
               type: addTaskProvider.selectedTaskType,
               taskDate: addTaskProvider.selectedDate,

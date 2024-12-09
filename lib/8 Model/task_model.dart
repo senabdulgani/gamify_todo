@@ -4,7 +4,7 @@ import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 
 class TaskModel {
   final int id; // id si
-  final int? rutinID; // eğer varsa rutin id si
+  final int? routineID; // eğer varsa rutin id si
   String title; // başlığı
   final TaskTypeEnum type; // türü
   DateTime taskDate; // yapılacağı tarih
@@ -21,7 +21,7 @@ class TaskModel {
 
   TaskModel({
     required this.id,
-    this.rutinID,
+    this.routineID,
     required this.title,
     required this.type,
     required this.taskDate,
@@ -49,7 +49,7 @@ class TaskModel {
 
     return TaskModel(
       id: json['id'],
-      rutinID: json['rutinID'],
+      routineID: json['rutinID'],
       title: json['title'],
       type: type,
       taskDate: DateTime.parse(json['task_date']),
@@ -73,7 +73,7 @@ class TaskModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'rutinID': rutinID,
+      'rutinID': routineID,
       'title': title,
       'type': type.index + 1,
       'taskDate': taskDate.toIso8601String(),

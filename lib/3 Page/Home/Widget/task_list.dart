@@ -33,7 +33,7 @@ class _TaskListState extends State<TaskList> {
         if ((!context.read<TaskProvider>().showCompleted && task.status != null) && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)) {
           continue;
         } else {
-          if (task.rutinID == null) {
+          if (task.routineID == null) {
             selectedDateTaskList.add(task);
           } else {
             selectedDateRutinTaskList.add(task);
@@ -50,7 +50,7 @@ class _TaskListState extends State<TaskList> {
               TaskModel(
                 // TODO: id si benzersiz olsun
                 id: selectedDateTaskList.length + selectedDateGhostRutinTaskList.length,
-                rutinID: rutin.id,
+                routineID: rutin.id,
                 title: rutin.title,
                 type: rutin.type,
                 taskDate: context.read<TaskProvider>().selectedDate,
