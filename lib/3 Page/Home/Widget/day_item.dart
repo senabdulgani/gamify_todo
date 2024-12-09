@@ -28,7 +28,7 @@ class _DayItemState extends State<DayItem> {
       child: Container(
         width: 50,
         height: 50,
-        padding: const EdgeInsets.all(3),
+        padding: const EdgeInsets.all(1),
         decoration: BoxDecoration(
           color: Helper().isSameDay(TaskProvider().selectedDate, widget.date) ? AppColors.main : AppColors.transparent,
           borderRadius: AppColors.borderRadiusAll,

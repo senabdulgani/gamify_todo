@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
 class ServerManager {
@@ -28,27 +29,49 @@ class ServerManager {
 
   // ********************************************
 
+  // get all task
+  Future<List<TaskModel>> getAllTask() async {
+    var response = await dio.request(
+      "$_baseUrl/getAllTask?user_id=${user!.id}",
+      // queryParameters: {
+      //   'user_id': user.id,
+      // },
+      options: Options(
+        method: 'GET',
+      ),
+    );
+
+    checkRequest(response);
+
+    return (response.data as List).map((e) => TaskModel.fromJson(e)).toList();
+  }
+
   Future<void> addTask({
     required TaskModel taskModel,
   }) async {
     var response = await dio.request(
-      "$_baseUrl/add/task",
-      data: {
-        // 'rutinID': tasModel.rutinID,
-        // 'title': tasModel.title,
-        // 'type': tasModel.type.index + 1,
-        // 'taskDate': tasModel.taskDate.toIso8601String(),
-        // 'time': tasModel.time?.format(context),
-        // 'isNotificationOn': tasModel.isNotificationOn,
-        // 'currentDuration': tasModel.currentDuration?.inSeconds,
-        // 'remainingDuration': tasModel.remainingDuration?.inSeconds,
-        // 'currentCount': tasModel.currentCount,
-        // 'targetCount': tasModel.targetCount,
-        // 'isTimerActive': tasModel.isTimerActive,
-        // 'attirbuteIDList': tasModel.attirbuteIDList,
-        // 'skillIDList': tasModel.skillIDList,
-        // 'status': tasModel.status?.index + 1,
+      "$_baseUrl/addTask",
+      queryParameters: {
+        'user_id': user!.id,
       },
+      data:
+          // {
+          // 'rutinID': taskModel.rutinID,
+          // 'title': taskModel.title,
+          // 'type': taskModel.type.index + 1,
+          // 'taskDate': taskModel.taskDate.toIso8601String(),
+          // 'time': taskModel.time,
+          // 'isNotificationOn': taskModel.isNotificationOn,
+          // 'currentDuration': taskModel.currentDuration?.inSeconds,
+          // 'remainingDuration': taskModel.remainingDuration?.inSeconds,
+          // 'currentCount': taskModel.currentCount,
+          // 'targetCount': taskModel.targetCount,
+          // 'isTimerActive': taskModel.isTimerActive,
+          // 'attirbuteIDList': taskModel.attirbuteIDList,
+          // 'skillIDList': taskModel.skillIDList,
+          // 'status': taskModel.status?.index,
+          // },
+          taskModel.toJson(),
       options: Options(
         method: 'POST',
       ),
