@@ -12,8 +12,8 @@ class StoreProvider with ChangeNotifier {
 
   StoreProvider._internal();
 // ?? - kredi ve itemler - ye düşebilecek ama bu disipinden eksilmesine sebep oalcak
-  List<StoreItemModel> storeItemList = [
-    StoreItemModel(
+  List<ItemModel> storeItemList = [
+    ItemModel(
       id: 0,
       title: "Game",
       type: TaskTypeEnum.TIMER,
@@ -22,7 +22,7 @@ class StoreProvider with ChangeNotifier {
       currentDuration: const Duration(minutes: 0),
       credit: 6,
     ),
-    StoreItemModel(
+    ItemModel(
       id: 1,
       title: "Movie",
       type: TaskTypeEnum.COUNTER,
@@ -31,7 +31,7 @@ class StoreProvider with ChangeNotifier {
     ),
   ];
 
-  void addItem(StoreItemModel taskModel) {
+  void addItem(ItemModel taskModel) {
     storeItemList.add(taskModel);
 
     notifyListeners();

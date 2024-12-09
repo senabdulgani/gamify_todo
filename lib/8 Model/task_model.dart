@@ -38,8 +38,6 @@ class TaskModel {
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
-    // "string to duration" "00:30:00"
-
     Duration stringToDuration(String timeString) {
       List<String> split = timeString.split(':');
       return Duration(hours: int.parse(split[0]), minutes: int.parse(split[1]), seconds: int.parse(split[2]));

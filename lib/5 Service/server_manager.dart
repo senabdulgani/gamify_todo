@@ -1,7 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
+import 'package:gamify_todo/8%20Model/rutin_model.dart';
+import 'package:gamify_todo/8%20Model/store_item_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
+import 'package:gamify_todo/8%20Model/trait_model.dart';
+import 'package:gamify_todo/8%20Model/user_model.dart';
 
 class ServerManager {
   ServerManager._privateConstructor();
@@ -28,14 +32,68 @@ class ServerManager {
   }
 
   // ********************************************
-
-  // get all task
-  Future<List<TaskModel>> getAllTask() async {
+  // get user
+  Future<UserModel> getUser() async {
     var response = await dio.request(
-      "$_baseUrl/getAllTask?user_id=${user!.id}",
-      // queryParameters: {
-      //   'user_id': user.id,
-      // },
+      // TODO: user id shared pref den alınacak
+      // "$_baseUrl/getUser?user_id=${user!.id}",
+      "$_baseUrl/getUser?user_id=${1}",
+      options: Options(
+        method: 'GET',
+      ),
+    );
+
+    checkRequest(response);
+
+    return UserModel.fromJson(response.data[0]);
+  }
+
+  // get items
+  Future<List<ItemModel>> getItems() async {
+    var response = await dio.request(
+      "$_baseUrl/getItems?user_id=${user!.id}",
+      options: Options(
+        method: 'GET',
+      ),
+    );
+
+    checkRequest(response);
+
+    return (response.data as List).map((e) => ItemModel.fromJson(e)).toList();
+  }
+
+  // get traits
+  Future<List<TraitModel>> getTraits() async {
+    var response = await dio.request(
+      "$_baseUrl/getTraits?user_id=${user!.id}",
+      options: Options(
+        method: 'GET',
+      ),
+    );
+
+    checkRequest(response);
+
+    return (response.data as List).map((e) => TraitModel.fromJson(e)).toList();
+  }
+
+  // get routines
+  Future<List<RoutineModel>> getRoutines() async {
+    var response = await dio.request(
+      "$_baseUrl/getRoutines?user_id=${user!.id}",
+      options: Options(
+        method: 'GET',
+      ),
+    );
+
+    checkRequest(response);
+
+    return (response.data as List).map((e) => RoutineModel.fromJson(e)).toList();
+  }
+
+  // get tasks
+  Future<List<TaskModel>> getTasks() async {
+    var response = await dio.request(
+      "$_baseUrl/getTasks?user_id=${user!.id}",
       options: Options(
         method: 'GET',
       ),

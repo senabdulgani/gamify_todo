@@ -13,7 +13,7 @@ class StoreItem extends StatefulWidget {
     required this.storeItemModel,
   });
 
-  final StoreItemModel storeItemModel;
+  final ItemModel storeItemModel;
 
   @override
   State<StoreItem> createState() => _StoreItemState();

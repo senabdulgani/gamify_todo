@@ -31,4 +31,30 @@ class RoutineModel {
     this.skillIDList,
     required this.isCompleted,
   });
+
+  factory RoutineModel.fromJson(Map<String, dynamic> json) {
+    TaskTypeEnum type = TaskTypeEnum.values.firstWhere((e) => e.toString().split('.').last == json['type']);
+
+    Duration stringToDuration(String timeString) {
+      List<String> split = timeString.split(':');
+      return Duration(hours: int.parse(split[0]), minutes: int.parse(split[1]), seconds: int.parse(split[2]));
+    }
+
+    return RoutineModel(
+      id: json['id'],
+      title: json['title'],
+      type: type,
+      createdDate: DateTime.parse(json['created_date']),
+      startDate: DateTime.parse(json['start_date']),
+      time: json['time'] != null ? TimeOfDay.fromDateTime(DateTime.parse("1970-01-01 ${json['time']}")) : null,
+      isNotificationOn: json['is_notification_on'],
+      remainingDuration: json['remaining_duration'] != null ? stringToDuration(json['remaining_duration']) : null,
+      targetCount: json['target_count'],
+      // repeatDays: List<int>.from(json['repeat_days']),
+// Fix List<int> parsing from string array
+      repeatDays: (json['repeat_days'] as List).map((e) => int.parse(e.toString())).toList(), attirbuteIDList: json['attirbute_id_list'] != null ? List<int>.from(json['attirbute_id_list']) : null,
+      skillIDList: json['skill_id_list'] != null ? List<int>.from(json['skill_id_list']) : null,
+      isCompleted: json['is_completed'],
+    );
+  }
 }

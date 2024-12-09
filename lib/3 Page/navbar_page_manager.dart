@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/3%20Page/Home/home_page.dart';
@@ -8,6 +11,7 @@ import 'package:gamify_todo/3%20Page/Store/store_page.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
+import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:provider/provider.dart';
@@ -113,8 +117,17 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
   }
 
   Future getData() async {
-    context.read<TaskProvider>().taskList = await ServerManager().getAllTask();
     // TODO: bütün veirler gelecek user bilgisi itemler rutinler tritler.....
+    // user
+    user = await ServerManager().getUser();
+    // item
+    context.read<StoreProvider>().storeItemList = await ServerManager().getItems();
+    // trait
+    traitList = await ServerManager().getTraits();
+    // routine
+    routineList = await ServerManager().getRoutines();
+    // task
+    context.read<TaskProvider>().taskList = await ServerManager().getTasks();
 
     isLoading = true;
     setState(() {});

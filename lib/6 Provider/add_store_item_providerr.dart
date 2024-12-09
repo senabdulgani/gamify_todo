@@ -13,7 +13,7 @@ class AddStoreItemProvider with ChangeNotifier {
 
   void addStoreItem() {
     StoreProvider().addItem(
-      StoreItemModel(
+      ItemModel(
         id: 0,
         title: taskNameController.text,
         type: selectedTaskType,

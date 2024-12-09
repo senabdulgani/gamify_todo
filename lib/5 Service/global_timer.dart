@@ -20,7 +20,7 @@ class GlobalTimer {
 
   void startStopTimer({
     TaskModel? taskModel,
-    StoreItemModel? storeItemModel,
+    ItemModel? storeItemModel,
   }) {
     if (taskModel != null) {
       taskModel.isTimerActive = !taskModel.isTimerActive!;
