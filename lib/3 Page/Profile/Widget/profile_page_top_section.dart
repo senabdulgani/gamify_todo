@@ -61,14 +61,14 @@ class _ProfilePageTopSectionState extends State<ProfilePageTopSection> {
             ),
           ],
         ),
-        const Spacer(),
-        const Text(
-          // TODO: karma eklenince gelecek
-          'Karma -57',
-          style: TextStyle(
-            fontSize: 18,
-          ),
-        ),
+        // const Spacer(),
+        // const Text(
+        //   // TODO: karma eklenince gelecek
+        //   'Karma -57',
+        //   style: TextStyle(
+        //     fontSize: 18,
+        //   ),
+        // ),
       ],
     );
   }
