@@ -27,8 +27,6 @@ class TraitProvider with ChangeNotifier {
 
     traitList.add(traitModel);
 
-    await ServerManager().addTrait(traitModel: traitModel);
-
     notifyListeners();
   }
 }
