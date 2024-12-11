@@ -36,6 +36,7 @@ class ServerManager {
 
   // ********************************************
   // get user
+  // TODO: auto login system
   Future<UserModel> getUser() async {
     var response = await dio.get(
       // TODO: user id shared pref den alınacak
