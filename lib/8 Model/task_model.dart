@@ -3,7 +3,7 @@ import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 
 class TaskModel {
-  final int id; // id si
+  int id; // id si
   final int? routineID; // eğer varsa rutin id si
   String title; // başlığı
   final TaskTypeEnum type; // türü
@@ -20,7 +20,7 @@ class TaskModel {
   TaskStatusEnum? status; // tamamlandı mı
 
   TaskModel({
-    required this.id,
+    this.id = 0,
     this.routineID,
     required this.title,
     required this.type,
@@ -58,7 +58,7 @@ class TaskModel {
       currentCount: json['current_count'],
       targetCount: json['target_count'],
       isTimerActive: json['is_timer_active'] ?? (type == TaskTypeEnum.TIMER ? false : null),
-      attributeIDList: json['attirbute_id_list'] != null ? (json['attirbute_id_list'] as List).map((i) => i as int).toList() : null,
+      attributeIDList: json['attribute_id_list'] != null ? (json['attribute_id_list'] as List).map((i) => i as int).toList() : null,
       skillIDList: json['skill_id_list'] != null ? (json['skill_id_list'] as List).map((i) => i as int).toList() : null,
       status: json['status'] != null ? TaskStatusEnum.values.firstWhere((e) => e.toString().split('.').last == json['status']) : null,
     );
@@ -71,19 +71,18 @@ class TaskModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'rutinID': routineID,
+      'routine_id': routineID,
       'title': title,
-      'type': type.index + 1,
-      'taskDate': taskDate.toIso8601String(),
-      'time': time != null ? DateTime(taskDate.year, taskDate.month, taskDate.day, time!.hour, time!.minute).toIso8601String() : null,
-      'isNotificationOn': isNotificationOn,
-      'currentDuration': currentDuration?.inSeconds,
-      'remainingDuration': remainingDuration?.inSeconds,
-      'currentCount': currentCount,
-      'targetCount': targetCount,
-      'isTimerActive': isTimerActive,
-      'attirbuteIDList': attributeIDList,
-      'skillIDList': skillIDList,
+      'type': type.toString().split('.').last,
+      'task_date': taskDate.toIso8601String(),
+      'time': time != null ? "${time!.hour.toString().padLeft(2, '0')}:${time!.minute.toString().padLeft(2, '0')}:00" : null,
+      'is_notification_on': isNotificationOn,
+      'current_duration': currentDuration != null ? "${currentDuration!.inHours.toString().padLeft(2, '0')}:${currentDuration!.inMinutes.remainder(60).toString().padLeft(2, '0')}:${currentDuration!.inSeconds.remainder(60).toString().padLeft(2, '0')}" : null,
+      'remaining_duration': remainingDuration != null ? "${remainingDuration!.inHours.toString().padLeft(2, '0')}:${remainingDuration!.inMinutes.remainder(60).toString().padLeft(2, '0')}:${remainingDuration!.inSeconds.remainder(60).toString().padLeft(2, '0')}" : null,
+      'current_count': currentCount,
+      'target_count': targetCount,
+      'attribute_id_list': attributeIDList,
+      'skill_id_list': skillIDList,
       'status': status?.index,
     };
   }

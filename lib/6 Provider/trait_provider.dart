@@ -15,7 +15,7 @@ class TraitProvider with ChangeNotifier {
   void editTrait(TraitModel traitModel) async {
     traitList[traitList.indexWhere((element) => element.id == traitModel.id)] = traitModel;
 
-    await ServerManager().editTrait(traitModel: traitModel);
+    await ServerManager().updateTrait(traitModel: traitModel);
 
     notifyListeners();
   }

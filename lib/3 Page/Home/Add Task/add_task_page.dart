@@ -174,7 +174,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
       if (addTaskProvider.selectedDays.isEmpty) {
         taskProvider.addTask(
           TaskModel(
-            id: taskProvider.taskList.length,
             title: addTaskProvider.taskNameController.text,
             type: addTaskProvider.selectedTaskType,
             taskDate: addTaskProvider.selectedDate,
@@ -190,13 +189,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
         );
       } else {
-        addTaskProvider.addRutin();
+        addTaskProvider.addRoutine();
 
         if (addTaskProvider.selectedDays.contains(DateTime.now().weekday - 1) && (Helper().isBeforeOrSameDay(addTaskProvider.selectedDate, DateTime.now()))) {
           taskProvider.addTask(
             TaskModel(
-              id: taskProvider.taskList.length,
-              // TODO: !!!! id ler yanlış olacak gibi kontrol et
               routineID: routineList.length - 1,
               title: addTaskProvider.taskNameController.text,
               type: addTaskProvider.selectedTaskType,

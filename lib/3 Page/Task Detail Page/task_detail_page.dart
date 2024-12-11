@@ -11,6 +11,7 @@ import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:get/route_manager.dart';
+import 'package:provider/provider.dart';
 
 class TaskDetailPage extends StatefulWidget {
   const TaskDetailPage({
@@ -70,6 +71,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<TaskProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.taskModel.title),

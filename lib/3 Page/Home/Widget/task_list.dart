@@ -48,8 +48,6 @@ class _TaskListState extends State<TaskList> {
           if (!rutin.isCompleted) {
             selectedDateGhostRutinTaskList.add(
               TaskModel(
-                // TODO: id si benzersiz olsun
-                id: selectedDateTaskList.length + selectedDateGhostRutinTaskList.length,
                 routineID: rutin.id,
                 title: rutin.title,
                 type: rutin.type,

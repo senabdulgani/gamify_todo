@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 
 class RoutineModel {
-  final int id; // id si
+  int id; // id si
   String title; // başlığı
   TaskTypeEnum type; // türü
   final DateTime createdDate; // oluşturulma tarihi
@@ -17,7 +17,7 @@ class RoutineModel {
   bool isCompleted; // tamamlandı mı
 
   RoutineModel({
-    required this.id,
+    this.id = 0,
     required this.title,
     required this.type,
     required this.createdDate,
@@ -50,9 +50,8 @@ class RoutineModel {
       isNotificationOn: json['is_notification_on'],
       remainingDuration: json['remaining_duration'] != null ? stringToDuration(json['remaining_duration']) : null,
       targetCount: json['target_count'],
-      // repeatDays: List<int>.from(json['repeat_days']),
-// Fix List<int> parsing from string array
-      repeatDays: (json['repeat_days'] as List).map((e) => int.parse(e.toString())).toList(), attirbuteIDList: json['attirbute_id_list'] != null ? List<int>.from(json['attirbute_id_list']) : null,
+      repeatDays: (json['repeat_days'] as List).map((e) => int.parse(e.toString())).toList(),
+      attirbuteIDList: json['attribute_id_list'] != null ? List<int>.from(json['attribute_id_list']) : null,
       skillIDList: json['skill_id_list'] != null ? List<int>.from(json['skill_id_list']) : null,
       isCompleted: json['is_completed'],
     );
@@ -74,7 +73,7 @@ class RoutineModel {
       'remaining_duration': remainingDuration != null ? durationToString(remainingDuration!) : null,
       'target_count': targetCount,
       'repeat_days': repeatDays,
-      'attirbute_id_list': attirbuteIDList,
+      'attribute_id_list': attirbuteIDList,
       'skill_id_list': skillIDList,
       'is_completed': isCompleted,
     };

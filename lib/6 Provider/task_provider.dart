@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/rutin_model.dart';
@@ -162,7 +163,9 @@ class TaskProvider with ChangeNotifier {
   bool showCompleted = true;
 
   void addTask(TaskModel taskModel) async {
-    // await ServerManager().addTask(taskModel: taskModel);
+    final int taskId = await ServerManager().addTask(taskModel: taskModel);
+
+    taskModel.id = taskId;
 
     taskList.add(taskModel);
 
@@ -188,6 +191,8 @@ class TaskProvider with ChangeNotifier {
       routine.skillIDList = taskModel.skillIDList;
       routine.isCompleted = taskModel.status == TaskStatusEnum.COMPLETED ? true : false;
 
+      ServerManager().updateRoutine(routineModel: routine);
+
       // rutinin ismi değişmişse o rutine ait taskalrın ismi de değişsin
       // eğer ilgili traitler değişmişse o rutine ait taskalrın traitleri de değişsin
       for (var task in taskList) {
@@ -195,11 +200,15 @@ class TaskProvider with ChangeNotifier {
           task.title = taskModel.title;
           task.attributeIDList = taskModel.attributeIDList;
           task.skillIDList = taskModel.skillIDList;
+
+          ServerManager().updateTask(taskModel: task);
         }
       }
     } else {
       final index = taskList.indexWhere((element) => element.id == taskModel.id);
       taskList[index] = taskModel;
+
+      ServerManager().updateTask(taskModel: taskModel);
     }
 
     notifyListeners();

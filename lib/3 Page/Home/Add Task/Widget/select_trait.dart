@@ -5,6 +5,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
 import 'package:get/route_manager.dart';
+import 'package:provider/provider.dart';
 
 class SelectTraitList extends StatefulWidget {
   const SelectTraitList({
@@ -21,6 +22,8 @@ class SelectTraitList extends StatefulWidget {
 class _SelectTraitListState extends State<SelectTraitList> {
   @override
   Widget build(BuildContext context) {
+    context.watch<TraitProvider>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(

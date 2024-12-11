@@ -180,7 +180,7 @@ class ServerManager {
   }
 
 // add task
-  Future<void> addTask({
+  Future<int> addTask({
     required TaskModel taskModel,
   }) async {
     var response = await dio.post(
@@ -188,27 +188,12 @@ class ServerManager {
       queryParameters: {
         'user_id': user!.id,
       },
-      data:
-          // {
-          // 'routineID': taskModel.routineID,
-          // 'title': taskModel.title,
-          // 'type': taskModel.type.index + 1,
-          // 'taskDate': taskModel.taskDate.toIso8601String(),
-          // 'time': taskModel.time,
-          // 'isNotificationOn': taskModel.isNotificationOn,
-          // 'currentDuration': taskModel.currentDuration?.inSeconds,
-          // 'remainingDuration': taskModel.remainingDuration?.inSeconds,
-          // 'currentCount': taskModel.currentCount,
-          // 'targetCount': taskModel.targetCount,
-          // 'isTimerActive': taskModel.isTimerActive,
-          // 'attirbuteIDList': taskModel.attirbuteIDList,
-          // 'skillIDList': taskModel.skillIDList,
-          // 'status': taskModel.status?.index,
-          // },
-          taskModel.toJson(),
+      data: taskModel.toJson(),
     );
 
     checkRequest(response);
+
+    return response.data['id'];
   }
 
   // ------------------------
