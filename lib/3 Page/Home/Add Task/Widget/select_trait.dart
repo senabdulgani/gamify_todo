@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/create_trait_dialog.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
+import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
 import 'package:get/route_manager.dart';
 
@@ -64,14 +64,16 @@ class _SelectTraitListState extends State<SelectTraitList> {
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               children: widget.isSkill
-                  ? traitList
+                  ? TraitProvider()
+                      .traitList
                       .where((trait) => trait.type == TraitTypeEnum.SKILL)
                       .map((skill) => TraitItem(
                             trait: skill,
                           ))
                       .toList()
-                  : traitList
-                      .where((trait) => trait.type == TraitTypeEnum.ATTIRBUTE)
+                  : TraitProvider()
+                      .traitList
+                      .where((trait) => trait.type == TraitTypeEnum.ATTRIBUTE)
                       .map((attirbute) => TraitItem(
                             trait: attirbute,
                           ))

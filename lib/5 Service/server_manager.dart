@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/8%20Model/rutin_model.dart';
@@ -16,8 +17,9 @@ class ServerManager {
     return _instance;
   }
 
-  static const String _baseUrl = 'http://localhost:3001';
-  // static const String _baseUrl = 'http://192.168.1.18:3001';
+  // static const String _baseUrl = 'http://localhost:3001';
+  // static const String _baseUrl = 'http://10.103.138.106:3001';
+  static const String _baseUrl = 'http://192.168.1.18:3001';
 
   var dio = Dio();
 
@@ -35,13 +37,10 @@ class ServerManager {
   // ********************************************
   // get user
   Future<UserModel> getUser() async {
-    var response = await dio.request(
+    var response = await dio.get(
       // TODO: user id shared pref den alınacak
       // "$_baseUrl/getUser?user_id=${user!.id}",
       "$_baseUrl/getUser?user_id=${1}",
-      options: Options(
-        method: 'GET',
-      ),
     );
 
     checkRequest(response);
@@ -51,11 +50,8 @@ class ServerManager {
 
   // get items
   Future<List<ItemModel>> getItems() async {
-    var response = await dio.request(
+    var response = await dio.get(
       "$_baseUrl/getItems?user_id=${user!.id}",
-      options: Options(
-        method: 'GET',
-      ),
     );
 
     checkRequest(response);
@@ -65,11 +61,8 @@ class ServerManager {
 
   // get traits
   Future<List<TraitModel>> getTraits() async {
-    var response = await dio.request(
+    var response = await dio.get(
       "$_baseUrl/getTraits?user_id=${user!.id}",
-      options: Options(
-        method: 'GET',
-      ),
     );
 
     checkRequest(response);
@@ -79,11 +72,8 @@ class ServerManager {
 
   // get routines
   Future<List<RoutineModel>> getRoutines() async {
-    var response = await dio.request(
+    var response = await dio.get(
       "$_baseUrl/getRoutines?user_id=${user!.id}",
-      options: Options(
-        method: 'GET',
-      ),
     );
 
     checkRequest(response);
@@ -93,11 +83,8 @@ class ServerManager {
 
   // get tasks
   Future<List<TaskModel>> getTasks() async {
-    var response = await dio.request(
+    var response = await dio.get(
       "$_baseUrl/getTasks?user_id=${user!.id}",
-      options: Options(
-        method: 'GET',
-      ),
     );
 
     checkRequest(response);
@@ -105,10 +92,98 @@ class ServerManager {
     return (response.data as List).map((e) => TaskModel.fromJson(e)).toList();
   }
 
+// -------------------
+
+// add user
+  Future<int> addUser({
+    required UserModel userModel,
+  }) async {
+    try {
+      var response = await dio.post(
+        "$_baseUrl/addUser",
+        data: userModel.toJson(),
+      );
+
+      checkRequest(response);
+
+      return response.data['id'];
+    } on DioException catch (e) {
+      debugPrint('Error adding user: ${e.message}');
+      rethrow;
+    }
+  }
+
+// add item
+  Future<int> addItem({
+    required ItemModel itemModel,
+  }) async {
+    try {
+      var response = await dio.post(
+        "$_baseUrl/addItem",
+        queryParameters: {
+          'user_id': user!.id,
+        },
+        data: itemModel.toJson(),
+      );
+
+      checkRequest(response);
+
+      return response.data['id'];
+    } on DioException catch (e) {
+      debugPrint('Error adding item: ${e.message}');
+      rethrow;
+    }
+  }
+
+// add trait
+  Future<int> addTrait({
+    required TraitModel traitModel,
+  }) async {
+    try {
+      var response = await dio.post(
+        "$_baseUrl/addTrait",
+        queryParameters: {
+          'user_id': user!.id,
+        },
+        data: traitModel.toJson(),
+      );
+
+      checkRequest(response);
+
+      return response.data['id'];
+    } on DioException catch (e) {
+      debugPrint('Error adding trait: ${e.message}');
+      rethrow;
+    }
+  }
+
+// add routine
+  Future<int> addRoutine({
+    required RoutineModel routineModel,
+  }) async {
+    try {
+      var response = await dio.post(
+        "$_baseUrl/addRoutine",
+        queryParameters: {
+          'user_id': user!.id,
+        },
+        data: routineModel.toJson(),
+      );
+
+      checkRequest(response);
+
+      return response.data['id'];
+    } on DioException catch (e) {
+      debugPrint('Error adding routine: ${e.message}');
+      rethrow;
+    }
+  }
+
+// add task
   Future<void> addTask({
     required TaskModel taskModel,
   }) async {
-    var response = await dio.request(
+    var response = await dio.post(
       "$_baseUrl/addTask",
       queryParameters: {
         'user_id': user!.id,
@@ -131,114 +206,70 @@ class ServerManager {
           // 'status': taskModel.status?.index,
           // },
           taskModel.toJson(),
-      options: Options(
-        method: 'POST',
-      ),
     );
 
     checkRequest(response);
   }
 
-  // !!!!!!!!!!!!!!!!!!!! for example !!!!!!!!!!!!!!!!!!!!
+  // ------------------------
 
-  // // get all genres
-  // Future<List<GenreModel>> getGenres() async {
-  //   var response = await dio.request(
-  //     "$_baseUrl/genre",
-  //     options: Options(
-  //       method: 'GET',
-  //     ),
-  //   );
+  // edit user
+  Future<void> editUser({
+    required UserModel userModel,
+  }) async {
+    var response = await dio.put(
+      "$_baseUrl/editUser",
+      data: userModel.toJson(),
+    );
 
-  //   checkRequest(response);
+    checkRequest(response);
+  }
 
-  //   return (response.data as List).map((e) => GenreModel.fromJson(e)).toList();
-  // }
+  // edit items
+  Future<void> editItem({
+    required ItemModel itemModel,
+  }) async {
+    var response = await dio.put(
+      "$_baseUrl/editItem",
+      data: itemModel.toJson(),
+    );
 
-  // // get all movie
-  // Future<List<ContentModel>> getAllMovie() async {
-  //   var response = await dio.request(
-  //     "$_baseUrl/movie",
-  //     options: Options(
-  //       method: 'GET',
-  //     ),
-  //   );
+    checkRequest(response);
+  }
 
-  //   checkRequest(response);
+  // edit trait
+  Future<void> editTrait({
+    required TraitModel traitModel,
+  }) async {
+    var response = await dio.put(
+      "$_baseUrl/editTrait",
+      data: traitModel.toJson(),
+    );
 
-  //   return (response.data as List).map((e) => ContentModel.fromJson(e)).toList();
-  // }
+    checkRequest(response);
+  }
 
-  // get all movie for showcase with user id
-  // Future<List<ShowcaseContentModel>> getExploreContent({
-  //   required ContentTypeEnum? contentType,
-  //   required int userId,
-  // }) async {
-  //   var response = await dio.request(
-  //     "$_baseUrl/explore?user_id=$userId${contentType != null ? "&content_type_id=${contentType.index + 1}" : ""}",
-  //     options: Options(
-  //       method: 'GET',
-  //     ),
-  //   );
+  // edit routines
+  Future<void> editRoutine({
+    required RoutineModel routineModel,
+  }) async {
+    var response = await dio.put(
+      "$_baseUrl/editRoutine",
+      data: routineModel.toJson(),
+    );
 
-  //   checkRequest(response);
+    checkRequest(response);
+  }
 
-  //   return (response.data as List).map((e) => ShowcaseContentModel.fromJson(e)).toList();
-  // }
+  // edit tasks
+  Future<void> editTask({
+    required TaskModel taskModel,
+  }) async {
+    var response = await dio.put(
+      "$_baseUrl/editTask",
+      data: taskModel.toJson(),
+    );
 
-  // // add genre
-  // Future<void> addGenre(String name) async {
-  //   var response = await dio.request(
-  //     "$_baseUrl/genre",
-  //     data: {
-  //       'name': name,
-  //     },
-  //     options: Options(
-  //       method: 'POST',
-  //     ),
-  //   );
-
-  //   checkRequest(response);
-  // }
-
-  //conent_user_action
-  // Future<void> contentUserAction({
-  //   required ContentLogModel contentLogModel,
-  // }) async {
-  //   var response = await dio.request(
-  //     "$_baseUrl/content_user_action",
-  //     data: {
-  //       'user_id': contentLogModel.userID,
-  //       'content_id': contentLogModel.contentID,
-  //       'content_status_id': contentLogModel.contentStatus == null ? null : contentLogModel.contentStatus!.index + 1,
-  //       'content_type_id': contentLogModel.contentType.index + 1,
-  //       'rating': contentLogModel.rating == 0 ? null : contentLogModel.rating,
-  //       'is_favorite': contentLogModel.isFavorite,
-  //       'is_consume_later': contentLogModel.isConsumeLater,
-  //       'review': contentLogModel.review,
-  //     },
-  //     options: Options(
-  //       method: 'POST',
-  //     ),
-  //   );
-
-  //   checkRequest(response);
-  // }
-
-  // Future<ContentModel> getContentDetail({
-  //   required int contentId,
-  //   required ContentTypeEnum contentType,
-  //   int? userId,
-  // }) async {
-  //   var response = await dio.request(
-  //     "$_baseUrl/content_detail?content_id=$contentId&user_id=${userId ?? userID}&content_type_id=${contentType.index + 1}",
-  //     options: Options(
-  //       method: 'GET',
-  //     ),
-  //   );
-
-  //   checkRequest(response);
-
-  //   return ContentModel.fromJson(response.data);
-  // }
+    checkRequest(response);
+  }
 }

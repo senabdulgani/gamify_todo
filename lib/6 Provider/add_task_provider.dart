@@ -40,7 +40,7 @@ class AddTaskProvider with ChangeNotifier {
         remainingDuration: taskDuration,
         targetCount: targetCount,
         repeatDays: selectedDays,
-        attirbuteIDList: selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
+        attirbuteIDList: selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
         skillIDList: selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
         isCompleted: false,
       ),

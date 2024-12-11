@@ -13,6 +13,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_trait.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
@@ -50,7 +51,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.taskDuration = widget.editTask!.remainingDuration ?? const Duration(hours: 0, minutes: 0);
       addTaskProvider.selectedTaskType = widget.editTask!.type;
       addTaskProvider.selectedDays = widget.editTask!.routineID == null ? [] : routineList.firstWhere((element) => element.id == widget.editTask!.routineID).repeatDays;
-      addTaskProvider.selectedTraits = traitList.where((element) => (widget.editTask!.attirbuteIDList != null && widget.editTask!.attirbuteIDList!.contains(element.id)) || (widget.editTask!.skillIDList != null && widget.editTask!.skillIDList!.contains(element.id))).toList();
+      addTaskProvider.selectedTraits = TraitProvider().traitList.where((element) => (widget.editTask!.attributeIDList != null && widget.editTask!.attributeIDList!.contains(element.id)) || (widget.editTask!.skillIDList != null && widget.editTask!.skillIDList!.contains(element.id))).toList();
     } else {
       addTaskProvider.taskNameController.clear();
       addTaskProvider.selectedTime = null;
@@ -165,7 +166,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? widget.editTask!.currentCount ?? 0 : null,
           targetCount: addTaskProvider.targetCount,
           isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
-          attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
+          attributeIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
           skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
         ),
       );
@@ -184,7 +185,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
             targetCount: addTaskProvider.targetCount,
             isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
-            attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
+            attributeIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
             skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
           ),
         );
@@ -207,7 +208,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
               targetCount: addTaskProvider.targetCount,
               isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
-              attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTIRBUTE).map((e) => e.id).toList(),
+              attributeIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
               skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
             ),
           );

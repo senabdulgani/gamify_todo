@@ -61,7 +61,7 @@ class _TaskListState extends State<TaskList> {
                 currentCount: rutin.type == TaskTypeEnum.COUNTER ? 0 : null,
                 targetCount: rutin.targetCount,
                 isTimerActive: rutin.type == TaskTypeEnum.TIMER ? false : null,
-                attirbuteIDList: rutin.attirbuteIDList,
+                attributeIDList: rutin.attirbuteIDList,
                 skillIDList: rutin.skillIDList,
               ),
             );

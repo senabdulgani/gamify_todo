@@ -42,4 +42,21 @@ class ItemModel {
       credit: json['credit'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    String durationToString(Duration duration) {
+      return '${duration.inHours.toString().padLeft(2, '0')}:${duration.inMinutes.remainder(60).toString().padLeft(2, '0')}:${duration.inSeconds.remainder(60).toString().padLeft(2, '0')}';
+    }
+
+    return {
+      'id': id,
+      'title': title,
+      'type': type.toString().split('.').last,
+      'current_duration': currentDuration != null ? durationToString(currentDuration!) : null,
+      'add_duration': addDuration != null ? durationToString(addDuration!) : null,
+      'current_count': currentCount,
+      'is_timer_active': isTimerActive,
+      'credit': credit,
+    };
+  }
 }

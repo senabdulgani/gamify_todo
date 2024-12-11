@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
-import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:get/route_manager.dart';
@@ -115,7 +115,7 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
         // Create
         InkWell(
           borderRadius: AppColors.borderRadiusAll,
-          onTap: () {
+          onTap: () async {
             if (traitTitle.text.trim().isEmpty) {
               traitTitle.clear();
 
@@ -127,17 +127,14 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
               return;
             }
 
-            final int skillCount = traitList.where((trait) => trait.type == TraitTypeEnum.SKILL).toList().length;
-
-            final int attirbuteCount = traitList.where((trait) => trait.type == TraitTypeEnum.ATTIRBUTE).toList().length;
-
-            traitList.add(TraitModel(
-              id: widget.isSkill ? skillCount : attirbuteCount,
+            final newTrait = TraitModel(
               title: traitTitle.text,
               icon: traitIcon,
               color: selectedColor,
-              type: widget.isSkill ? TraitTypeEnum.SKILL : TraitTypeEnum.ATTIRBUTE,
-            ));
+              type: widget.isSkill ? TraitTypeEnum.SKILL : TraitTypeEnum.ATTRIBUTE,
+            );
+
+            TraitProvider().addTrait(newTrait);
 
             Get.back();
           },

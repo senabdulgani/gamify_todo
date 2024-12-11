@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/create_trait_dialog.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/trait_item_detailed.dart';
+import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
 import 'package:get/route_manager.dart';
+import 'package:provider/provider.dart';
 
 class TraitList extends StatefulWidget {
   const TraitList({
@@ -57,7 +58,9 @@ class _TraitListState extends State<TraitList> {
         ),
         // List of Traits
         Column(
-          children: widget.isSkill ? traitList.where((trait) => trait.type == TraitTypeEnum.SKILL).map((skill) => TraitItemDetailed(trait: skill)).toList() : traitList.where((trait) => trait.type == TraitTypeEnum.ATTIRBUTE).map((attirbute) => TraitItemDetailed(trait: attirbute)).toList(),
+          children: widget.isSkill
+              ? Provider.of<TraitProvider>(context, listen: true).traitList.where((trait) => trait.type == TraitTypeEnum.SKILL).map((skill) => TraitItemDetailed(trait: skill)).toList()
+              : Provider.of<TraitProvider>(context, listen: true).traitList.where((trait) => trait.type == TraitTypeEnum.ATTRIBUTE).map((attirbute) => TraitItemDetailed(trait: attirbute)).toList(),
         )
       ],
     );

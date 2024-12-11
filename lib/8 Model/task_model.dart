@@ -15,7 +15,7 @@ class TaskModel {
   int? currentCount; // counter ise sayı buradan takip edilecek
   final int? targetCount; // counter ise hedef sayı
   bool? isTimerActive; // timer aktif mi
-  List<int>? attirbuteIDList; // etki edeceği özellikler
+  List<int>? attributeIDList; // etki edeceği özellikler
   List<int>? skillIDList; // etki edecği yetenekler
   TaskStatusEnum? status; // tamamlandı mı
 
@@ -32,7 +32,7 @@ class TaskModel {
     this.currentCount,
     this.targetCount,
     this.isTimerActive,
-    this.attirbuteIDList,
+    this.attributeIDList,
     this.skillIDList,
     this.status,
   });
@@ -58,7 +58,7 @@ class TaskModel {
       currentCount: json['current_count'],
       targetCount: json['target_count'],
       isTimerActive: json['is_timer_active'] ?? (type == TaskTypeEnum.TIMER ? false : null),
-      attirbuteIDList: json['attirbute_id_list'] != null ? (json['attirbute_id_list'] as List).map((i) => i as int).toList() : null,
+      attributeIDList: json['attirbute_id_list'] != null ? (json['attirbute_id_list'] as List).map((i) => i as int).toList() : null,
       skillIDList: json['skill_id_list'] != null ? (json['skill_id_list'] as List).map((i) => i as int).toList() : null,
       status: json['status'] != null ? TaskStatusEnum.values.firstWhere((e) => e.toString().split('.').last == json['status']) : null,
     );
@@ -82,7 +82,7 @@ class TaskModel {
       'currentCount': currentCount,
       'targetCount': targetCount,
       'isTimerActive': isTimerActive,
-      'attirbuteIDList': attirbuteIDList,
+      'attirbuteIDList': attributeIDList,
       'skillIDList': skillIDList,
       'status': status?.index,
     };

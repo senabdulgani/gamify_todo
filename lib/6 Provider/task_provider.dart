@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
-import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/rutin_model.dart';
@@ -163,7 +162,7 @@ class TaskProvider with ChangeNotifier {
   bool showCompleted = true;
 
   void addTask(TaskModel taskModel) async {
-    await ServerManager().addTask(taskModel: taskModel);
+    // await ServerManager().addTask(taskModel: taskModel);
 
     taskList.add(taskModel);
 
@@ -175,7 +174,7 @@ class TaskProvider with ChangeNotifier {
     required List<int> selectedDays,
   }) {
     if (taskModel.routineID != null) {
-      RoutineModel routine = routineList[taskModel.routineID!];
+      RoutineModel routine = routineList.where((element) => element.id == taskModel.routineID).first;
 
       routine.title = taskModel.title;
       routine.type = taskModel.type;
@@ -185,7 +184,7 @@ class TaskProvider with ChangeNotifier {
       routine.remainingDuration = taskModel.remainingDuration;
       routine.targetCount = taskModel.targetCount;
       routine.repeatDays = selectedDays;
-      routine.attirbuteIDList = taskModel.attirbuteIDList;
+      routine.attirbuteIDList = taskModel.attributeIDList;
       routine.skillIDList = taskModel.skillIDList;
       routine.isCompleted = taskModel.status == TaskStatusEnum.COMPLETED ? true : false;
 
@@ -194,7 +193,7 @@ class TaskProvider with ChangeNotifier {
       for (var task in taskList) {
         if (task.routineID == taskModel.routineID) {
           task.title = taskModel.title;
-          task.attirbuteIDList = taskModel.attirbuteIDList;
+          task.attributeIDList = taskModel.attributeIDList;
           task.skillIDList = taskModel.skillIDList;
         }
       }

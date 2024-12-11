@@ -57,4 +57,26 @@ class RoutineModel {
       isCompleted: json['is_completed'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    String durationToString(Duration duration) {
+      return '${duration.inHours.toString().padLeft(2, '0')}:${duration.inMinutes.remainder(60).toString().padLeft(2, '0')}:${duration.inSeconds.remainder(60).toString().padLeft(2, '0')}';
+    }
+
+    return {
+      'id': id,
+      'title': title,
+      'type': type.toString().split('.').last,
+      'created_date': createdDate.toIso8601String(),
+      'start_date': startDate.toIso8601String(),
+      'time': time != null ? '${time!.hour.toString().padLeft(2, '0')}:${time!.minute.toString().padLeft(2, '0')}:00' : null,
+      'is_notification_on': isNotificationOn,
+      'remaining_duration': remainingDuration != null ? durationToString(remainingDuration!) : null,
+      'target_count': targetCount,
+      'repeat_days': repeatDays,
+      'attirbute_id_list': attirbuteIDList,
+      'skill_id_list': skillIDList,
+      'is_completed': isCompleted,
+    };
+  }
 }

@@ -33,7 +33,7 @@ class _TraitItemDetailedState extends State<TraitItemDetailed> {
     totalDuration = TaskProvider().taskList.fold(
       Duration.zero,
       (previousValue, element) {
-        if (((element.skillIDList != null && element.skillIDList!.contains(widget.trait.id)) || (element.attirbuteIDList != null && element.attirbuteIDList!.contains(widget.trait.id))) && element.remainingDuration != null) {
+        if (((element.skillIDList != null && element.skillIDList!.contains(widget.trait.id)) || (element.attributeIDList != null && element.attributeIDList!.contains(widget.trait.id))) && element.remainingDuration != null) {
           if (element.type == TaskTypeEnum.CHECKBOX && element.status != TaskStatusEnum.COMPLETED) {
             return previousValue;
           }

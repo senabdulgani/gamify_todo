@@ -7,6 +7,7 @@ import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => TaskProvider()),
       ChangeNotifierProvider(create: (context) => StoreProvider()),
       ChangeNotifierProvider(create: (context) => AddTaskProvider()),
+      ChangeNotifierProvider(create: (context) => TraitProvider()),
     ],
     child: const Main(),
   ));

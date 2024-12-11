@@ -1,5 +1,4 @@
 import 'package:gamify_todo/8%20Model/rutin_model.dart';
-import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:gamify_todo/8%20Model/user_model.dart';
 
 // TODO: test için el ile verildi normalde veritabınndan gelecek
@@ -53,52 +52,6 @@ List<RoutineModel> routineList = [
   //   targetCount: 4,
   //   repeatDays: [1, 2, 3, 4, 5, 6],
   //   isCompleted: false,
-  // ),
-];
-
-List<TraitModel> traitList = [
-  // TraitModel(
-  //   id: 0,
-  //   title: 'Brain',
-  //   icon: "🧠",
-  //   type: TraitTypeEnum.ATTIRBUTE,
-  //   color: AppColors.red,
-  // ),
-  // TraitModel(
-  //   id: 1,
-  //   title: 'Health',
-  //   icon: "❤️",
-  //   type: TraitTypeEnum.ATTIRBUTE,
-  //   color: AppColors.blue,
-  // ),
-  // TraitModel(
-  //   id: 2,
-  //   title: 'Power',
-  //   icon: "💪",
-  //   type: TraitTypeEnum.ATTIRBUTE,
-  //   color: AppColors.deepGreen,
-  // ),
-  // // Skill
-  // TraitModel(
-  //   id: 3,
-  //   title: 'Flutter',
-  //   icon: "💻",
-  //   type: TraitTypeEnum.SKILL,
-  //   color: AppColors.red,
-  // ),
-  // TraitModel(
-  //   id: 4,
-  //   title: 'Python',
-  //   icon: "💻",
-  //   type: TraitTypeEnum.SKILL,
-  //   color: AppColors.yellow,
-  // ),
-  // TraitModel(
-  //   id: 5,
-  //   title: 'Book',
-  //   icon: "📖",
-  //   type: TraitTypeEnum.SKILL,
-  //   color: AppColors.deepPurple,
   // ),
 ];
 

@@ -10,7 +10,7 @@ class TraitModel {
   bool isArchived;
 
   TraitModel({
-    required this.id,
+    this.id = 0,
     required this.title,
     required this.icon,
     required this.color,
@@ -25,10 +25,20 @@ class TraitModel {
       id: json['id'],
       title: json['title'],
       icon: json['icon'],
-      // color: Color(json['color']),
-      color: Color(int.parse(json['color'].replaceAll("#", "0xff"))),
+      color: Color(int.parse(json['color'].toString().replaceAll("#", ""), radix: 16)),
       type: type,
       isArchived: json['is_archived'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'icon': icon,
+      'color': color.value.toRadixString(16),
+      'type': type.toString().split('.').last,
+      'is_archived': isArchived,
+    };
   }
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
-import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
@@ -48,7 +48,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
     totalDuration = TaskProvider().taskList.fold(
       Duration.zero,
       (previousValue, element) {
-        if (((element.skillIDList != null && element.skillIDList!.contains(widget.traitModel.id)) || (element.attirbuteIDList != null && element.attirbuteIDList!.contains(widget.traitModel.id))) && element.remainingDuration != null) {
+        if (((element.skillIDList != null && element.skillIDList!.contains(widget.traitModel.id)) || (element.attributeIDList != null && element.attributeIDList!.contains(widget.traitModel.id))) && element.remainingDuration != null) {
           if (element.type == TaskTypeEnum.CHECKBOX && element.status != TaskStatusEnum.COMPLETED) {
             return previousValue;
           }
@@ -71,7 +71,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
         } else {
           relaitedTasks.add(element);
         }
-      } else if (element.attirbuteIDList != null && element.attirbuteIDList!.contains(widget.traitModel.id)) {
+      } else if (element.attributeIDList != null && element.attributeIDList!.contains(widget.traitModel.id)) {
         if (element.routineID != null) {
           relaitedRoutines.add(element);
         } else {
@@ -99,7 +99,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
         actions: [
           InkWell(
             borderRadius: AppColors.borderRadiusAll,
-            onTap: () {
+            onTap: () async {
               if (traitTitle.text.trim().isEmpty) {
                 traitTitle.clear();
 
@@ -113,17 +113,15 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
 
               // TODO add değil edit olacak
 
-              final int skillCount = traitList.where((trait) => trait.type == TraitTypeEnum.SKILL).toList().length;
-
-              final int attirbuteCount = traitList.where((trait) => trait.type == TraitTypeEnum.ATTIRBUTE).toList().length;
-
-              traitList.add(TraitModel(
-                id: widget.traitModel.type == TraitTypeEnum.SKILL ? skillCount : attirbuteCount,
+              final TraitModel updatedTrait = TraitModel(
+                id: widget.traitModel.id,
                 title: traitTitle.text,
                 icon: traitIcon,
                 color: selectedColor,
-                type: widget.traitModel.type == TraitTypeEnum.SKILL ? TraitTypeEnum.SKILL : TraitTypeEnum.ATTIRBUTE,
-              ));
+                type: widget.traitModel.type == TraitTypeEnum.SKILL ? TraitTypeEnum.SKILL : TraitTypeEnum.ATTRIBUTE,
+              );
+
+              TraitProvider().editTrait(updatedTrait);
 
               Get.back();
             },

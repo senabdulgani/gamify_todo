@@ -5,6 +5,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
@@ -60,10 +61,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
     taskRutinCreatedDate = routineList.firstWhere((element) => element.id == widget.taskModel.routineID).createdDate;
 
-    if (widget.taskModel.attirbuteIDList != null && widget.taskModel.attirbuteIDList!.isNotEmpty) {
-      attributeList = widget.taskModel.attirbuteIDList!.map((e) => traitList.firstWhere((element) => element.id == e)).toList();
+    if (widget.taskModel.attributeIDList != null && widget.taskModel.attributeIDList!.isNotEmpty) {
+      attributeList = widget.taskModel.attributeIDList!.map((e) => TraitProvider().traitList.firstWhere((element) => element.id == e)).toList();
     } else if (widget.taskModel.skillIDList != null && widget.taskModel.skillIDList!.isNotEmpty) {
-      skillList = widget.taskModel.skillIDList!.map((e) => traitList.firstWhere((element) => element.id == e)).toList();
+      skillList = widget.taskModel.skillIDList!.map((e) => TraitProvider().traitList.firstWhere((element) => element.id == e)).toList();
     }
   }
 
