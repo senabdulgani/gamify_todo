@@ -213,60 +213,60 @@ class ServerManager {
 
   // ------------------------
 
-  // edit user
-  Future<void> editUser({
+  // update user
+  Future<void> updateUser({
     required UserModel userModel,
   }) async {
     var response = await dio.put(
-      "$_baseUrl/editUser",
+      "$_baseUrl/updateUser",
       data: userModel.toJson(),
     );
 
     checkRequest(response);
   }
 
-  // edit items
-  Future<void> editItem({
+  // update items
+  Future<void> updateItem({
     required ItemModel itemModel,
   }) async {
     var response = await dio.put(
-      "$_baseUrl/editItem",
+      "$_baseUrl/updateItem",
       data: itemModel.toJson(),
     );
 
     checkRequest(response);
   }
 
-  // edit trait
-  Future<void> editTrait({
+  // update trait
+  Future<void> updateTrait({
     required TraitModel traitModel,
   }) async {
     var response = await dio.put(
-      "$_baseUrl/editTrait",
+      "$_baseUrl/updateTrait",
       data: traitModel.toJson(),
     );
 
     checkRequest(response);
   }
 
-  // edit routines
-  Future<void> editRoutine({
+  // update routines
+  Future<void> updateRoutine({
     required RoutineModel routineModel,
   }) async {
     var response = await dio.put(
-      "$_baseUrl/editRoutine",
+      "$_baseUrl/updateRoutine",
       data: routineModel.toJson(),
     );
 
     checkRequest(response);
   }
 
-  // edit tasks
-  Future<void> editTask({
+  // update tasks
+  Future<void> updateTask({
     required TaskModel taskModel,
   }) async {
     var response = await dio.put(
-      "$_baseUrl/editTask",
+      "$_baseUrl/updateTask",
       data: taskModel.toJson(),
     );
 
