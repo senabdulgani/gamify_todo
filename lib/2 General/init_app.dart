@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
@@ -6,6 +7,10 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  // Easy Localization paketinini sürekli print atmasını engellemek için
+  EasyLocalization.logger.enableBuildModes = [];
 
   // Lock Orientation to Portrait
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

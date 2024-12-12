@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/create_trait_dialog.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
 import 'package:get/route_manager.dart';
@@ -33,7 +35,7 @@ class _SelectTraitListState extends State<SelectTraitList> {
             children: [
               // Title
               Text(
-                " ${widget.isSkill ? "Skill" : "Attirbute"}",
+                " ${widget.isSkill ? LocaleKeys.Skills.tr() : LocaleKeys.Attributes.tr()}",
                 style: TextStyle(
                   color: AppColors.text,
                   fontSize: 25,

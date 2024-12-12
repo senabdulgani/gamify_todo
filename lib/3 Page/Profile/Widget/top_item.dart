@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -32,7 +34,7 @@ class TopItem extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Weekly Work Hour',
+          LocaleKeys.WeeklyWorkHour.tr(),
           style: TextStyle(
             color: AppColors.main,
             fontSize: 18,

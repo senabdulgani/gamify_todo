@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/2%20General/init_app.dart';
 import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
+import 'package:gamify_todo/5%20Service/product_localization.dart';
 import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
@@ -24,7 +26,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => AddStoreItemProvider()),
       ChangeNotifierProvider(create: (context) => TraitProvider()),
     ],
-    child: const Main(),
+    child: ProductLocalization(child: const Main()),
   ));
 }
 
@@ -44,6 +46,9 @@ class Main extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           showPerformanceOverlay: false,
           home: const NavbarPageManager(),
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
         );
       },
     );

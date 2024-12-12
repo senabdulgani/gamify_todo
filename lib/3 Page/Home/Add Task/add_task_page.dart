@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
@@ -11,6 +12,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dar
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_trait.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
@@ -70,10 +72,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.editTask != null
-            ? "Edit Task"
+            ? LocaleKeys.EditTask.tr()
             : widget.editTask?.routineID != null
-                ? "Edit Routine"
-                : "Add Task"),
+                ? LocaleKeys.EditRoutine.tr()
+                : LocaleKeys.AddTask.tr()),
         leading: InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
@@ -131,7 +133,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.taskNameController.clear();
 
       Helper().getMessage(
-        message: "Task name cant be empty",
+        message: LocaleKeys.TraitNameEmpty.tr(),
         status: StatusEnum.WARNING,
       );
       return;
@@ -140,7 +142,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     // eğer rutin ise başlangıç tarihi geçmiş olamaz
     if (addTaskProvider.selectedDays.isNotEmpty && Helper().isBeforeDay(addTaskProvider.selectedDate, DateTime.now())) {
       Helper().getMessage(
-        message: "Rutin start date cant be before day",
+        message: LocaleKeys.RoutineStartDateError.tr(),
         status: StatusEnum.WARNING,
       );
       return;

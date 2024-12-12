@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/1%20Core/Widgets/language_pop.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -10,7 +13,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(LocaleKeys.Settings.tr()),
         leading: InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
@@ -24,21 +27,30 @@ class SettingsPage extends StatelessWidget {
         child: Column(
           children: [
             _settingsOption(
-              title: "Hakkımızda",
-              subtitle: "Bu proje Görsel Programlama 2 dersi için yapılmıştır",
+              title: LocaleKeys.SelectLanguage.tr(),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const LanguageSelectionPopup(),
+                );
+              },
+            ),
+            _settingsOption(
+              title: LocaleKeys.AboutUs.tr(),
+              subtitle: LocaleKeys.AboutUsText.tr(),
               onTap: () {
                 hakkimizdaDialog(context);
               },
             ),
             _settingsOption(
-              title: "Yardım",
-              subtitle: "Uygulamanın amacı ve ipuçları",
+              title: LocaleKeys.Help.tr(),
+              subtitle: LocaleKeys.HelpText.tr(),
               onTap: () {
                 yardimDialog(context);
               },
             ),
             _settingsOption(
-              title: "Çıkış Yap",
+              title: LocaleKeys.Exit.tr(),
               color: AppColors.red,
               onTap: () {
                 // TODO: exit app
@@ -70,20 +82,20 @@ class SettingsPage extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.background,
-        title: const Text(
-          "Hakkımızda",
+        title: Text(
+          LocaleKeys.AboutUs.tr(),
         ),
-        content: const Column(
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Bu mobil uygulama Bilgisayar Programcılığı 2. sınıf öğrencileri Sümeyye Aycan ve Muhammed İslam Bilseloğlu tarafından Görsel Programlama 2 dersi için Flutter kullanılarak geliştirilmiştir.",
-              style: TextStyle(
+              LocaleKeys.AboutUsDialog.tr(),
+              style: const TextStyle(
                 fontSize: 14,
               ),
             ),
-            Text(
+            const Text(
               """
 
 Sümeyye Aycan
@@ -109,16 +121,12 @@ m.islam0422@gmail.com
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.background,
-        title: const Text(
-          "Yardım",
+        title: Text(
+          LocaleKeys.Help.tr(),
         ),
-        content: const Text(
+        content: Text(
           // TODO:
-          """Bu uygulama ile yapılacaklar listenizi oluşturabilir, düzenleyebilir ve silebilirsiniz.
-1 saat çalışma 1 krediye denk gelmektedir.
-rutin günleri seçilirse o task rutin olarak kaydedilir. Eğer seçilmezse normal task olarak kaydedilir.
-
-""",
+          LocaleKeys.HelpDialog.tr(),
         ),
       ),
     );
@@ -159,7 +167,7 @@ rutin günleri seçilirse o task rutin olarak kaydedilir. Eğer seçilmezse norm
                     Text(
                       subtitle,
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                     ),
                   ]

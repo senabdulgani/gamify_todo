@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Store/add_store_item_page.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -116,7 +118,7 @@ class _StoreItemState extends State<StoreItem> {
         padding: const EdgeInsets.all(10),
         child: Center(
           child: Text(
-            "${widget.storeItemModel.credit == 0 ? "Add" : "Buy"} ${widget.storeItemModel.type == TaskTypeEnum.COUNTER ? "1 Piece" : widget.storeItemModel.addDuration?.textLongDynamicWithoutZero()} ",
+            "${widget.storeItemModel.credit == 0 ? LocaleKeys.Add.tr() : LocaleKeys.Buy.tr()} ${widget.storeItemModel.type == TaskTypeEnum.COUNTER ? LocaleKeys.OnePiece.tr() : widget.storeItemModel.addDuration?.textLongDynamicWithoutZero()} ",
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/top_item.dart';
@@ -5,6 +6,7 @@ import 'package:gamify_todo/3%20Page/Profile/Widget/weekly_progress_chart.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/profile_page_top_section.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/trait_list.dart';
 import 'package:gamify_todo/3%20Page/Settings/settings_page.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
@@ -20,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(LocaleKeys.Profile.tr()),
         leading: const SizedBox(),
         actions: [
           InkWell(

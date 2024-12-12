@@ -1,7 +1,9 @@
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:get/route_manager.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/Widgets/sure_dialog.dart';
@@ -41,10 +43,10 @@ class Helper {
     Get.snackbar(
       title ??
           (status == StatusEnum.WARNING
-              ? "Warning"
+              ? LocaleKeys.Warning.tr()
               : status == StatusEnum.INFO
-                  ? "Info"
-                  : "Succes"),
+                  ? LocaleKeys.Info.tr()
+                  : LocaleKeys.Success.tr()),
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: AppColors.panelBackground.withOpacity(0.9),

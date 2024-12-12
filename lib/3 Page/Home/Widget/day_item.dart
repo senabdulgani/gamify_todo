@@ -20,6 +20,7 @@ class DayItem extends StatefulWidget {
 class _DayItemState extends State<DayItem> {
   @override
   Widget build(BuildContext context) {
+    Locale locale = Localizations.localeOf(context);
     return InkWell(
       borderRadius: AppColors.borderRadiusAll,
       onTap: () {
@@ -35,7 +36,7 @@ class _DayItemState extends State<DayItem> {
         ),
         child: Column(
           children: [
-            Text(DateFormat('EEE').format(widget.date)),
+            Text(DateFormat('EEE', locale.languageCode).format(widget.date)),
             Text(widget.date.day.toString()),
           ],
         ),

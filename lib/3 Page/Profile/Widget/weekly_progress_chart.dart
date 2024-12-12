@@ -1,7 +1,9 @@
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 
 // TODO:
 // TODO:
@@ -28,7 +30,7 @@ class WeeklyProgressChartState extends State<WeeklyProgressChart> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
-                'Weekly Progress',
+                LocaleKeys.WeeklyProgress.tr(),
                 style: TextStyle(
                   color: AppColors.main,
                   fontSize: 25,
@@ -61,6 +63,48 @@ class _LineChart extends StatelessWidget {
 
     List<LineChartBarData> dataList = [];
     // List<TraitModel> topSkillsList = [];
+
+    Widget bottomTitleWidgets(
+      double value,
+      TitleMeta meta,
+    ) {
+      late List<String> days;
+
+      if (context.locale == const Locale('en', 'US')) {
+        days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      } else {
+        days = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+      }
+
+      return SideTitleWidget(
+        axisSide: meta.axisSide,
+        space: 10,
+        child: Text(
+          days[value.toInt()],
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+      );
+    }
+
+    Widget leftTitleWidgets(double value, TitleMeta meta) {
+      late List<String> hours;
+
+      if (context.locale == const Locale('en', 'US')) {
+        hours = ['0h', '1h', '2h', '3h', '4h', '5h'];
+      } else {
+        hours = ['0s', '1s', '2s', '3s', '4s', '5s'];
+      }
+
+      return Text(hours[value.toInt()],
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+          textAlign: TextAlign.center);
+    }
 
     for (int i = 0; i < 3; i++) {
       dataList.add(LineChartBarData(
@@ -130,33 +174,6 @@ class _LineChart extends StatelessWidget {
         maxX: 6,
         maxY: 5,
         minY: 0,
-      ),
-    );
-  }
-
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    final List<String> hours = ['0h', '1h', '2h', '3h', '4h', '5h'];
-
-    return Text(hours[value.toInt()],
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
-        textAlign: TextAlign.center);
-  }
-
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    final List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 10,
-      child: Text(
-        days[value.toInt()],
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
       ),
     );
   }

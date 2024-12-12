@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/3%20Page/Store/Widget/store_item.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +18,7 @@ class _StorePageState extends State<StorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Store'),
+        title: Text(LocaleKeys.Store.tr()),
         leading: const SizedBox(),
         actions: [
           Text(user!.userCredit.toString(), style: const TextStyle(fontSize: 18)),

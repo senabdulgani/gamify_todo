@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 
 extension DurationFormatting on Duration {
   String integer2() {
@@ -30,7 +32,7 @@ extension DurationFormatting on Duration {
     final minutes = inMinutes;
     final seconds = inSeconds.remainder(60);
 
-    return "$minutes minutes $seconds seconds";
+    return "$minutes ${LocaleKeys.Minute.tr()} $seconds ${LocaleKeys.Second.tr()}";
   }
 
   String textLong3() {
@@ -38,7 +40,7 @@ extension DurationFormatting on Duration {
     final minutes = inMinutes.remainder(60);
     final seconds = inSeconds.remainder(60);
 
-    return "$hours hours $minutes minutes $seconds seconds";
+    return "$hours ${LocaleKeys.Hour.tr()} $minutes ${LocaleKeys.Minute.tr()} $seconds ${LocaleKeys.Second.tr()}";
   }
 
   String textLongDynamic() {
@@ -53,14 +55,14 @@ extension DurationFormatting on Duration {
     final minutes = inMinutes;
     final seconds = inSeconds.remainder(60);
 
-    return "${minutes}m ${seconds}s";
+    return "$minutes${LocaleKeys.m.tr()} $seconds${LocaleKeys.s.tr()}";
   }
 
   String textShort2hour() {
     final hours = inHours;
     final minutes = inMinutes.remainder(60);
 
-    return "${hours}h ${minutes}m";
+    return "$hours${LocaleKeys.h.tr()} $minutes${LocaleKeys.m.tr()}";
   }
 
   String textShort3() {
@@ -68,7 +70,7 @@ extension DurationFormatting on Duration {
     final minutes = inMinutes.remainder(60);
     final seconds = inSeconds.remainder(60);
 
-    return "${hours}h ${minutes}m ${seconds}s";
+    return "$hours${LocaleKeys.h.tr()} $minutes${LocaleKeys.m.tr()} $seconds${LocaleKeys.s.tr()}";
   }
 
   String textShortDynamic() {
@@ -85,17 +87,17 @@ extension DurationFormatting on Duration {
     final hours = inHours;
 
     if (hours > 0 && minutes > 0 && seconds == 0) {
-      return "${hours}h ${minutes}m";
+      return "$hours${LocaleKeys.h.tr()} $minutes${LocaleKeys.m.tr()}";
     } else if (hours == 0 && minutes > 0 && seconds == 0) {
-      return "${minutes}m";
+      return "$minutes${LocaleKeys.m.tr()}";
     } else if (hours > 0 && minutes == 0 && seconds == 0) {
-      return "${hours}h";
+      return "$hours${LocaleKeys.h.tr()}";
     } else if (hours == 0 && minutes == 0 && seconds > 0) {
-      return "${seconds}s";
+      return "$seconds${LocaleKeys.s.tr()}";
     } else if (hours == 0 && minutes > 0 && seconds > 0) {
-      return "${minutes}m ${seconds}s";
+      return "$minutes${LocaleKeys.m.tr()} $seconds${LocaleKeys.s.tr()}";
     } else {
-      return "${hours}h ${minutes}m ${seconds}s";
+      return "$hours${LocaleKeys.h.tr()} $minutes${LocaleKeys.m.tr()} $seconds${LocaleKeys.s.tr()}";
     }
   }
 

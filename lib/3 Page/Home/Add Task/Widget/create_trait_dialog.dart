@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
@@ -30,7 +32,7 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
       // Title
       title: Center(
         child: Text(
-          "Create ${widget.isSkill ? "Skill" : "Attirbute"}",
+          widget.isSkill ? LocaleKeys.CreateSkill.tr() : LocaleKeys.CreateAttribute.tr(),
         ),
       ),
       content: Column(
@@ -39,7 +41,7 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
           // Name
           TextField(
             controller: traitTitle,
-            decoration: const InputDecoration(hintText: "Name"),
+            decoration: InputDecoration(hintText: LocaleKeys.Name.tr()),
           ),
           const SizedBox(height: 10),
           Row(
@@ -109,7 +111,7 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
               color: AppColors.transparent,
               borderRadius: AppColors.borderRadiusAll,
             ),
-            child: const Text("Cancel"),
+            child: Text(LocaleKeys.Cancel.tr()),
           ),
         ),
         // Create
@@ -120,7 +122,7 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
               traitTitle.clear();
 
               Helper().getMessage(
-                message: "Trait name cant be empty",
+                message: LocaleKeys.TraitNameEmpty.tr(),
                 status: StatusEnum.WARNING,
               );
 
@@ -146,7 +148,7 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
                 color: AppColors.main,
                 borderRadius: AppColors.borderRadiusAll,
               ),
-              child: const Text("Create"),
+              child: Text(LocaleKeys.Create.tr()),
             ),
           ),
         ),
