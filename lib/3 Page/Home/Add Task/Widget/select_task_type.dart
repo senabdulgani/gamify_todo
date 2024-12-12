@@ -32,7 +32,7 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
       children: [
         Row(
           children: [
-            taskTypeButton(TaskTypeEnum.CHECKBOX),
+            if (!widget.isStore) taskTypeButton(TaskTypeEnum.CHECKBOX),
             taskTypeButton(TaskTypeEnum.COUNTER),
             taskTypeButton(TaskTypeEnum.TIMER),
           ],

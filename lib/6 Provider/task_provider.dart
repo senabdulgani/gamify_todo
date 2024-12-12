@@ -193,14 +193,13 @@ class TaskProvider with ChangeNotifier {
 
       ServerManager().updateRoutine(routineModel: routine);
 
-      // rutinin ismi değişmişse o rutine ait taskalrın ismi de değişsin
-      // eğer ilgili traitler değişmişse o rutine ait taskalrın traitleri de değişsin
       for (var task in taskList) {
         if (task.routineID == taskModel.routineID) {
           task.title = taskModel.title;
           task.attributeIDList = taskModel.attributeIDList;
           task.skillIDList = taskModel.skillIDList;
 
+          //TODO: tek tek güncelleme istekleri yapmak yerine bir kerede güncelleme yapmak daha mantıklı
           ServerManager().updateTask(taskModel: task);
         }
       }

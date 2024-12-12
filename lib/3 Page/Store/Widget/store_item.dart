@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/3%20Page/Store/add_store_item_page.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/store_item_model.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 class StoreItem extends StatefulWidget {
   const StoreItem({
@@ -29,14 +32,20 @@ class _StoreItemState extends State<StoreItem> {
           onTap: () {
             storeItemAction();
           },
-          onLongPress: () {
-            // task detaylarına git ordan da düzenlemek için ayrı gidecek
+          onLongPress: () async {
+            await NavigatorService().goTo(
+              AddStoreItemPage(editItemModel: widget.storeItemModel),
+              transition: Transition.size,
+            );
           },
           borderRadius: AppColors.borderRadiusAll,
           child: Container(
             height: 70,
             padding: const EdgeInsets.all(8),
-            color: AppColors.transparent,
+            decoration: BoxDecoration(
+              borderRadius: AppColors.borderRadiusAll,
+              color: widget.storeItemModel.isTimerActive! ? AppColors.main : AppColors.transparent,
+            ),
             child: Row(
               children: [
                 storeItemIcon(),
@@ -95,7 +104,7 @@ class _StoreItemState extends State<StoreItem> {
           widget.storeItemModel.currentCount = widget.storeItemModel.currentCount! + 1;
         }
 
-        StoreProvider().updateItems();
+        StoreProvider().setStateItems();
       },
       child: Container(
         width: 115,
@@ -143,7 +152,7 @@ class _StoreItemState extends State<StoreItem> {
       );
     }
 
-    StoreProvider().updateItems();
+    StoreProvider().setStateItems();
   }
 
   Widget titleAndProgressWidgets() {

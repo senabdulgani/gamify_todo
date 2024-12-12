@@ -8,13 +8,27 @@ class AddStoreItemProvider with ChangeNotifier {
   TextEditingController taskNameController = TextEditingController();
   int targetCount = 0;
   Duration taskDuration = const Duration(hours: 0, minutes: 0);
-  TaskTypeEnum selectedTaskType = TaskTypeEnum.CHECKBOX;
+  TaskTypeEnum selectedTaskType = TaskTypeEnum.COUNTER;
   int credit = 0;
 
-  void addStoreItem() {
+  void addItem() {
     StoreProvider().addItem(
       ItemModel(
-        id: 0,
+        title: taskNameController.text,
+        type: selectedTaskType,
+        credit: credit,
+        currentCount: selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
+        currentDuration: selectedTaskType == TaskTypeEnum.TIMER ? Duration.zero : null,
+        addDuration: taskDuration,
+        isTimerActive: selectedTaskType == TaskTypeEnum.TIMER ? false : null,
+      ),
+    );
+  }
+
+  void updateItem(int id) {
+    StoreProvider().updateItem(
+      ItemModel(
+        id: id,
         title: taskNameController.text,
         type: selectedTaskType,
         credit: credit,

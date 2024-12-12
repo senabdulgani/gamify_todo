@@ -3,7 +3,7 @@ import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 // !!!! şuan için sadece yapılacak. skillere etki etmeyecek
 
 class ItemModel {
-  final int id; // id si
+  int id; // id si
   final String title; // başlığı
   final TaskTypeEnum type; // türü
   Duration? currentDuration; // timer ise süre buradan takip edilecek
@@ -13,7 +13,7 @@ class ItemModel {
   int credit; // timer aktif mi
 
   ItemModel({
-    required this.id,
+    this.id = 0,
     required this.title,
     required this.type,
     this.currentDuration,
@@ -55,7 +55,6 @@ class ItemModel {
       'current_duration': currentDuration != null ? durationToString(currentDuration!) : null,
       'add_duration': addDuration != null ? durationToString(addDuration!) : null,
       'current_count': currentCount,
-      'is_timer_active': isTimerActive,
       'credit': credit,
     };
   }

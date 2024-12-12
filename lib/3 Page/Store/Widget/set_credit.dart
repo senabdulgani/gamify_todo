@@ -29,6 +29,15 @@ class _SetCreditState extends State<SetCredit> {
               });
             }
           },
+          onLongPress: () {
+            setState(() {
+              if (provider.credit >= 20) {
+                provider.credit -= 20;
+              } else {
+                provider.credit = 0;
+              }
+            });
+          },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: AppColors.borderRadiusAll,

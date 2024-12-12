@@ -74,7 +74,7 @@ class GlobalTimer {
           }
 
           if (NavbarProvider().currentIndex == 0) {
-            StoreProvider().updateItems();
+            StoreProvider().setStateItems();
           } else if (NavbarProvider().currentIndex == 1) {
             TaskProvider().updateItems();
           }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/store_item_model.dart';
 
@@ -31,13 +32,35 @@ class StoreProvider with ChangeNotifier {
     ),
   ];
 
-  void addItem(ItemModel taskModel) {
-    storeItemList.add(taskModel);
+  void addItem(ItemModel itemModel) async {
+    final int storeItemId = await ServerManager().addItem(itemModel: itemModel);
+
+    itemModel.id = storeItemId;
+
+    storeItemList.add(itemModel);
 
     notifyListeners();
   }
 
-  void updateItems() {
+  // void removeItem(int id) async {
+  //   await ServerManager().removeItem(id: id);
+
+  //   storeItemList.removeWhere((element) => element.id == id);
+
+  //   notifyListeners();
+  // }
+
+  void updateItem(ItemModel itemModel) async {
+    await ServerManager().updateItem(itemModel: itemModel);
+
+    final int index = storeItemList.indexWhere((element) => element.id == itemModel.id);
+
+    storeItemList[index] = itemModel;
+
+    notifyListeners();
+  }
+
+  void setStateItems() {
     notifyListeners();
   }
 }

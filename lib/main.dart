@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/2%20General/init_app.dart';
 import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
+import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
@@ -20,6 +21,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => TaskProvider()),
       ChangeNotifierProvider(create: (context) => StoreProvider()),
       ChangeNotifierProvider(create: (context) => AddTaskProvider()),
+      ChangeNotifierProvider(create: (context) => AddStoreItemProvider()),
       ChangeNotifierProvider(create: (context) => TraitProvider()),
     ],
     child: const Main(),

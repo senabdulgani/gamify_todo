@@ -8,13 +8,18 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
 import 'package:gamify_todo/3%20Page/Store/Widget/set_credit.dart';
 import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
+import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
+import 'package:gamify_todo/8%20Model/store_item_model.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 
 class AddStoreItemPage extends StatefulWidget {
   const AddStoreItemPage({
     super.key,
+    this.editItemModel,
   });
+
+  final ItemModel? editItemModel;
 
   @override
   State<AddStoreItemPage> createState() => _AddStoreItemPageState();
@@ -25,66 +30,84 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
   late final storeProvider = context.read<StoreProvider>();
 
   @override
+  void initState() {
+    super.initState();
+
+    if (widget.editItemModel != null) {
+      addStoreItemProvider.taskNameController.text = widget.editItemModel!.title;
+      addStoreItemProvider.credit = widget.editItemModel!.credit;
+      addStoreItemProvider.taskDuration = widget.editItemModel!.addDuration!;
+      addStoreItemProvider.selectedTaskType = widget.editItemModel!.type;
+    } else {
+      addStoreItemProvider.taskNameController.clear();
+      addStoreItemProvider.credit = 0;
+      addStoreItemProvider.taskDuration = const Duration(hours: 0, minutes: 0);
+      addStoreItemProvider.selectedTaskType = TaskTypeEnum.COUNTER;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AddStoreItemProvider(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Add Store Item"),
-          leading: InkWell(
-            borderRadius: AppColors.borderRadiusAll,
-            onTap: () {
-              Navigator.pop(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Add Store Item"),
+        leading: InkWell(
+          borderRadius: AppColors.borderRadiusAll,
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back_ios),
+        ),
+        actions: [
+          Consumer(
+            builder: (context, AddStoreItemProvider addStoreItemProvider, child) {
+              return InkWell(
+                borderRadius: AppColors.borderRadiusAll,
+                onTap: () {
+                  // TODO: ardarda basıp yanlış kopyalar ekleyebiliyorum düzelt. bir kere basınca tekrar basılamasın tüm sayfaya olabilir.
+
+                  if (addStoreItemProvider.taskNameController.text.trim().isEmpty) {
+                    addStoreItemProvider.taskNameController.clear();
+
+                    Helper().getMessage(
+                      message: "Name cant be empty",
+                      status: StatusEnum.WARNING,
+                    );
+                    return;
+                  }
+
+                  if (widget.editItemModel != null) {
+                    addStoreItemProvider.updateItem(widget.editItemModel!.id);
+                  } else {
+                    addStoreItemProvider.addItem();
+                  }
+
+                  Get.back();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Icon(Icons.check),
+                ),
+              );
             },
-            child: const Icon(Icons.arrow_back_ios),
           ),
-          actions: [
-            Consumer(
-              builder: (context, AddStoreItemProvider addStoreItemProvider, child) {
-                return InkWell(
-                  borderRadius: AppColors.borderRadiusAll,
-                  onTap: () {
-                    // TODO: ardarda basıp yanlış kopyalar ekleyebiliyorum düzelt. bir kere basınca tekrar basılamasın tüm sayfaya olabilir.
-
-                    if (addStoreItemProvider.taskNameController.text.trim().isEmpty) {
-                      addStoreItemProvider.taskNameController.clear();
-
-                      Helper().getMessage(
-                        message: "Name cant be empty",
-                        status: StatusEnum.WARNING,
-                      );
-                      return;
-                    }
-
-                    addStoreItemProvider.addStoreItem();
-
-                    Get.back();
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Icon(Icons.check),
-                  ),
-                );
-              },
+        ],
+      ),
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            TaskName(isStore: true),
+            SetCredit(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DurationPickerWidget(isStore: true),
+                SizedBox(width: 20),
+                SelectTaskType(isStore: true),
+              ],
             ),
           ],
-        ),
-        body: const SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              TaskName(isStore: true),
-              SetCredit(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DurationPickerWidget(isStore: true),
-                  SizedBox(width: 20),
-                  SelectTaskType(isStore: true),
-                ],
-              ),
-            ],
-          ),
         ),
       ),
     );
