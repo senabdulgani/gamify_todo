@@ -175,6 +175,8 @@ class _TaskItemState extends State<TaskItem> {
             ? const SizedBox()
             : widget.taskModel.type == TaskTypeEnum.COUNTER
                 ? Text(
+                    // TODODOODODOD:
+                    // 4/0 = unknown
                     "${widget.taskModel.currentCount ?? 0}/${widget.taskModel.targetCount ?? 0}",
                     style: const TextStyle(
                       fontSize: 14,
