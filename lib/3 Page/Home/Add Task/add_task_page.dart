@@ -120,6 +120,34 @@ class _AddTaskPageState extends State<AddTaskPage> {
             const SelectTraitList(isSkill: false),
             const SizedBox(height: 10),
             const SelectTraitList(isSkill: true),
+            const SizedBox(height: 50),
+            if (widget.editTask != null)
+              InkWell(
+                borderRadius: AppColors.borderRadiusAll,
+                onTap: () {
+                  if (widget.editTask?.routineID == null) {
+                    taskProvider.deleteTask(widget.editTask!);
+                  } else {
+                    taskProvider.deleteRoutine(widget.editTask!.routineID!);
+                  }
+
+                  // TODO:
+                  Get.back();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: AppColors.borderRadiusAll,
+                    color: AppColors.red,
+                  ),
+                  child: Text(
+                    LocaleKeys.Delete.tr(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
@@ -196,7 +224,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
         if (addTaskProvider.selectedDays.contains(DateTime.now().weekday - 1) && (Helper().isBeforeOrSameDay(addTaskProvider.selectedDate, DateTime.now()))) {
           taskProvider.addTask(
             TaskModel(
-              routineID: routineList.length - 1,
               title: addTaskProvider.taskNameController.text,
               type: addTaskProvider.selectedTaskType,
               taskDate: addTaskProvider.selectedDate,

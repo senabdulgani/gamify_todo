@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
@@ -6,6 +7,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
 import 'package:gamify_todo/3%20Page/Store/Widget/set_credit.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -93,13 +95,13 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
           ),
         ],
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
-            TaskName(isStore: true),
-            SetCredit(),
-            Row(
+            const SizedBox(height: 20),
+            const TaskName(isStore: true),
+            const SetCredit(),
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DurationPickerWidget(isStore: true),
@@ -107,6 +109,27 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
                 SelectTaskType(isStore: true),
               ],
             ),
+            const SizedBox(height: 50),
+            if (widget.editItemModel != null)
+              InkWell(
+                borderRadius: AppColors.borderRadiusAll,
+                onTap: () {
+                  storeProvider.removeItem(widget.editItemModel!.id);
+
+                  // TODO:
+                  Get.back();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: AppColors.borderRadiusAll,
+                    color: AppColors.red,
+                  ),
+                  child: Text(
+                    LocaleKeys.Delete.tr(),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

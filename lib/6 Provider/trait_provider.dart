@@ -29,4 +29,12 @@ class TraitProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void removeTrait(int id) async {
+    await ServerManager().deleteTrait(id: id);
+
+    traitList.removeWhere((element) => element.id == id);
+
+    notifyListeners();
+  }
 }

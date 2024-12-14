@@ -46,7 +46,7 @@ class _StoreItemState extends State<StoreItem> {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: AppColors.borderRadiusAll,
-              color: widget.storeItemModel.isTimerActive! ? AppColors.main : AppColors.transparent,
+              color: widget.storeItemModel.type == TaskTypeEnum.TIMER && widget.storeItemModel.isTimerActive! ? AppColors.main : AppColors.transparent,
             ),
             child: Row(
               children: [

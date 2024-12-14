@@ -260,9 +260,18 @@ class TaskProvider with ChangeNotifier {
   // TODO: delete
   deleteTask(TaskModel taskModel) {
     taskList.remove(taskModel);
+    ServerManager().deleteTask(id: taskModel.id);
 
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
+  }
+
+  // Delete routine
+  deleteRoutine(int routineID) {
+    final routineModel = routineList.where((element) => element.id == routineID).first;
+
+    routineList.remove(routineModel);
+    ServerManager().deleteRoutine(id: routineModel.id);
   }
 
   // TODO: just for routine

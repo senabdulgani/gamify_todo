@@ -41,8 +41,10 @@ class ServerManager {
   Future<UserModel> getUser() async {
     var response = await dio.get(
       // TODO: user id shared pref den alınacak
-      // "$_baseUrl/getUser?user_id=${user!.id}",
-      "$_baseUrl/getUser?user_id=${2}",
+      "$_baseUrl/getUser",
+      queryParameters: {
+        'user_id': 1,
+      },
     );
 
     checkRequest(response);
@@ -53,7 +55,10 @@ class ServerManager {
   // get items
   Future<List<ItemModel>> getItems() async {
     var response = await dio.get(
-      "$_baseUrl/getItems?user_id=${user!.id}",
+      "$_baseUrl/getItems",
+      queryParameters: {
+        'user_id': 1,
+      },
     );
 
     checkRequest(response);
@@ -64,7 +69,10 @@ class ServerManager {
   // get traits
   Future<List<TraitModel>> getTraits() async {
     var response = await dio.get(
-      "$_baseUrl/getTraits?user_id=${user!.id}",
+      "$_baseUrl/getTraits",
+      queryParameters: {
+        'user_id': 1,
+      },
     );
 
     checkRequest(response);
@@ -75,7 +83,10 @@ class ServerManager {
   // get routines
   Future<List<RoutineModel>> getRoutines() async {
     var response = await dio.get(
-      "$_baseUrl/getRoutines?user_id=${user!.id}",
+      "$_baseUrl/getRoutines",
+      queryParameters: {
+        'user_id': 1,
+      },
     );
 
     checkRequest(response);
@@ -86,7 +97,10 @@ class ServerManager {
   // get tasks
   Future<List<TaskModel>> getTasks() async {
     var response = await dio.get(
-      "$_baseUrl/getTasks?user_id=${user!.id}",
+      "$_baseUrl/getTasks",
+      queryParameters: {
+        'user_id': 1,
+      },
     );
 
     checkRequest(response);
@@ -255,6 +269,62 @@ class ServerManager {
     var response = await dio.put(
       "$_baseUrl/updateTask",
       data: taskModel.toJson(),
+    );
+
+    checkRequest(response);
+  }
+
+  // delete item
+  Future<void> deleteItem({
+    required int id,
+  }) async {
+    var response = await dio.delete(
+      "$_baseUrl/deleteItem",
+      queryParameters: {
+        'item_id': id,
+      },
+    );
+
+    checkRequest(response);
+  }
+
+  // delete trait
+  Future<void> deleteTrait({
+    required int id,
+  }) async {
+    var response = await dio.delete(
+      "$_baseUrl/deleteTrait",
+      queryParameters: {
+        'trait_id': id,
+      },
+    );
+
+    checkRequest(response);
+  }
+
+  // delete routine
+  Future<void> deleteRoutine({
+    required int id,
+  }) async {
+    var response = await dio.delete(
+      "$_baseUrl/deleteRoutine",
+      queryParameters: {
+        'routine_id': id,
+      },
+    );
+
+    checkRequest(response);
+  }
+
+  // delete task
+  Future<void> deleteTask({
+    required int id,
+  }) async {
+    var response = await dio.delete(
+      "$_baseUrl/deleteTask",
+      queryParameters: {
+        'task_id': id,
+      },
     );
 
     checkRequest(response);

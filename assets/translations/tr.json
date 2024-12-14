@@ -42,5 +42,6 @@
     "NoTaskForToday": "Bugün için görev yok",
     "Turkish": "Türkçe",
     "English": "İngilizce",
-    "RoutineNotToday": "Rutin bugüne ait olmadığı için etkilşime bulunulamaz"
+    "RoutineNotToday": "Rutin bugüne ait olmadığı için etkilşime bulunulamaz",
+    "Delete": "Sil"
 }

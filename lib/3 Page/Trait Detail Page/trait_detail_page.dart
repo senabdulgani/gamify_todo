@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
@@ -315,6 +317,26 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 50),
+            // delete button
+            InkWell(
+              borderRadius: AppColors.borderRadiusAll,
+              onTap: () {
+                TraitProvider().removeTrait(widget.traitModel.id);
+                // TODO:
+                Get.back();
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: AppColors.borderRadiusAll,
+                  color: AppColors.red,
+                ),
+                child: Text(
+                  LocaleKeys.Delete.tr(),
+                ),
+              ),
             ),
           ],
         ),

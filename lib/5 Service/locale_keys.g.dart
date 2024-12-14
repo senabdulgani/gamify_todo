@@ -45,5 +45,6 @@ abstract class  LocaleKeys {
   static const Turkish = 'Turkish';
   static const English = 'English';
   static const RoutineNotToday = 'RoutineNotToday';
+  static const Delete = 'Delete';
 
 }

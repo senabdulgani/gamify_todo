@@ -42,13 +42,13 @@ class StoreProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // void removeItem(int id) async {
-  //   await ServerManager().removeItem(id: id);
+  void removeItem(int id) async {
+    await ServerManager().deleteItem(id: id);
 
-  //   storeItemList.removeWhere((element) => element.id == id);
+    storeItemList.removeWhere((element) => element.id == id);
 
-  //   notifyListeners();
-  // }
+    notifyListeners();
+  }
 
   void updateItem(ItemModel itemModel) async {
     await ServerManager().updateItem(itemModel: itemModel);

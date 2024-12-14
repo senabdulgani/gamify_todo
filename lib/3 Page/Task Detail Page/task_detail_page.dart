@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
+import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
@@ -76,7 +77,13 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.taskModel.title),
-        leading: const SizedBox(),
+        leading: InkWell(
+          borderRadius: AppColors.borderRadiusAll,
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back_ios),
+        ),
         actions: [
           IconButton(
             onPressed: () async {
