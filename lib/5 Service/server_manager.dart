@@ -42,7 +42,7 @@ class ServerManager {
     var response = await dio.get(
       // TODO: user id shared pref den alınacak
       // "$_baseUrl/getUser?user_id=${user!.id}",
-      "$_baseUrl/getUser?user_id=${1}",
+      "$_baseUrl/getUser?user_id=${2}",
     );
 
     checkRequest(response);
