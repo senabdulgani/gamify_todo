@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
@@ -10,6 +11,7 @@ import 'package:gamify_todo/3%20Page/Home/Widget/task_slide_actions.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/task_detail_page.dart';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
@@ -44,7 +46,7 @@ class _TaskItemState extends State<TaskItem> {
               if (widget.taskModel.routineID != null && !Helper().isSameDay(widget.taskModel.taskDate, DateTime.now())) {
                 Helper().getMessage(
                   status: StatusEnum.WARNING,
-                  message: "Rutin bugüne ait olmadığı için etkilşime bulunulamaz" "${widget.taskModel.routineID}",
+                  message: LocaleKeys.RoutineNotToday.tr(),
                 );
               } else {
                 taskAction();

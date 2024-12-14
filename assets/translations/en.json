@@ -41,5 +41,6 @@
     "Success": "Success",
     "NoTaskForToday": "No task for today",
     "Turkish": "Turkish",
-    "English": "English"
+    "English": "English",
+    "RoutineNotToday": "Routine is not for today, so it cannot be interacted"
 }

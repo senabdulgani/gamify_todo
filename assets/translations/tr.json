@@ -41,5 +41,6 @@
     "Success": "Başarılı",
     "NoTaskForToday": "Bugün için görev yok",
     "Turkish": "Türkçe",
-    "English": "İngilizce"
+    "English": "İngilizce",
+    "RoutineNotToday": "Rutin bugüne ait olmadığı için etkilşime bulunulamaz"
 }

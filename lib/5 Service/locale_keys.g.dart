@@ -44,5 +44,6 @@ abstract class  LocaleKeys {
   static const NoTaskForToday = 'NoTaskForToday';
   static const Turkish = 'Turkish';
   static const English = 'English';
+  static const RoutineNotToday = 'RoutineNotToday';
 
 }
