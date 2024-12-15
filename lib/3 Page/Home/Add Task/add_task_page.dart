@@ -154,7 +154,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
   }
 
-  void addTask() {
+  void addTask() async {
     // TODO: ardarda basıp yanlış kopyalar ekleyebiliyorum düzelt. bir kere basınca tekrar basılamasın tüm sayfaya olabilir.
 
     if (addTaskProvider.taskNameController.text.trim().isEmpty) {
@@ -220,12 +220,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
         );
       } else {
-        addTaskProvider.addRoutine();
+        await addTaskProvider.addRoutine();
 
         if (addTaskProvider.selectedDays.contains(DateTime.now().weekday - 1) && (Helper().isBeforeOrSameDay(addTaskProvider.selectedDate, DateTime.now()))) {
           taskProvider.addTask(
             TaskModel(
               title: addTaskProvider.taskNameController.text,
+              routineID: routineList.last.id,
               type: addTaskProvider.selectedTaskType,
               taskDate: addTaskProvider.selectedDate,
               time: addTaskProvider.selectedTime,

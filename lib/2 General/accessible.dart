@@ -55,13 +55,11 @@ List<RoutineModel> routineList = [
   // ),
 ];
 
-// TODO: bir değişiklik olduğunda veritabanuna kaydet
-
-UserModel? user;
-// = UserModel(
-//   id: 1,
-//   email: "user_mda@gmail.com",
-//   password: "123456",
-//   creditProgress: const Duration(hours: 0, minutes: 0, seconds: 0),
-//   userCredit: 30,
-// );
+// TODO: login register / auto login
+UserModel? user = UserModel(
+  id: 1,
+  email: "user_mda@gmail.com",
+  password: "123456",
+  creditProgress: const Duration(hours: 0, minutes: 0, seconds: 0),
+  userCredit: 30,
+);

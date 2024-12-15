@@ -28,7 +28,7 @@ class AddTaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addRoutine() async {
+  Future addRoutine() async {
     final RoutineModel newRoutine = RoutineModel(
       title: taskNameController.text,
       type: selectedTaskType,

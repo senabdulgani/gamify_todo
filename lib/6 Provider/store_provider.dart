@@ -42,7 +42,7 @@ class StoreProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeItem(int id) async {
+  void deleteItem(int id) async {
     await ServerManager().deleteItem(id: id);
 
     storeItemList.removeWhere((element) => element.id == id);

@@ -246,12 +246,16 @@ class TaskProvider with ChangeNotifier {
   cancelTask(TaskModel taskModel) {
     taskModel.status = TaskStatusEnum.CANCEL;
 
+    ServerManager().updateTask(taskModel: taskModel);
+
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
   }
 
   failedTask(TaskModel taskModel) {
     taskModel.status = TaskStatusEnum.FAILED;
+
+    ServerManager().updateTask(taskModel: taskModel);
 
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
@@ -260,6 +264,7 @@ class TaskProvider with ChangeNotifier {
   // TODO: delete
   deleteTask(TaskModel taskModel) {
     taskList.remove(taskModel);
+
     ServerManager().deleteTask(id: taskModel.id);
 
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre

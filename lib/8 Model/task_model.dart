@@ -83,7 +83,7 @@ class TaskModel {
       'target_count': targetCount,
       'attribute_id_list': attributeIDList,
       'skill_id_list': skillIDList,
-      'status': status?.index,
+      'status': status?.toString().split('.').last,
     };
   }
 }

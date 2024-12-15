@@ -13,6 +13,7 @@ import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -137,10 +138,11 @@ class _TaskItemState extends State<TaskItem> {
   void taskAction() {
     if (widget.taskModel.type == TaskTypeEnum.CHECKBOX) {
       widget.taskModel.status = ((widget.taskModel.status == null || widget.taskModel.status != TaskStatusEnum.COMPLETED) ? TaskStatusEnum.COMPLETED : null);
+      AppHelper().addCreditByProgress(widget.taskModel.remainingDuration);
     } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
       widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
 
-      AppHelper().addCreditByProgress(widget.taskModel.remainingDuration!);
+      AppHelper().addCreditByProgress(widget.taskModel.remainingDuration);
 
       if (widget.taskModel.currentCount! >= widget.taskModel.targetCount!) {
         widget.taskModel.status = TaskStatusEnum.COMPLETED;
@@ -150,6 +152,8 @@ class _TaskItemState extends State<TaskItem> {
         taskModel: widget.taskModel,
       );
     }
+
+    ServerManager().updateTask(taskModel: widget.taskModel);
 
     TaskProvider().updateItems();
   }

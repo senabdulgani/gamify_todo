@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
@@ -51,9 +52,9 @@ class GlobalTimer {
 
               // her dakika veri tabanında güncelle
               if (task.currentDuration!.inSeconds % 60 == 0) {
-                // TODO: update database
-
                 // TODO: task tamamnlandıysa bildirim veya alarm
+
+                ServerManager().updateTask(taskModel: task);
 
                 AppHelper().addCreditByProgress(const Duration(seconds: 60));
               }

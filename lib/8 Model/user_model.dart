@@ -33,8 +33,8 @@ class UserModel {
       'id': id,
       'email': email,
       'password': password,
-      'creditProgress': creditProgress.inSeconds,
-      'userCredit': userCredit,
+      'credit_progress': '${creditProgress.inHours.toString().padLeft(2, '0')}:${(creditProgress.inMinutes % 60).toString().padLeft(2, '0')}:${(creditProgress.inSeconds % 60).toString().padLeft(2, '0')}',
+      'user_credit': userCredit,
     };
   }
 }

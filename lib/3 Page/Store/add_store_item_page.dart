@@ -114,10 +114,7 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
               InkWell(
                 borderRadius: AppColors.borderRadiusAll,
                 onTap: () {
-                  storeProvider.removeItem(widget.editItemModel!.id);
-
-                  // TODO:
-                  Get.back();
+                  storeProvider.deleteItem(widget.editItemModel!.id);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

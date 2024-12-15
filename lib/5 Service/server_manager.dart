@@ -19,8 +19,8 @@ class ServerManager {
 
   // static const String _baseUrl = 'http://localhost:3001';
   // static const String _baseUrl = 'http://10.103.138.106:3001';
-  // static const String _baseUrl = 'http://192.168.1.18:3001';
-  static const String _baseUrl = 'https://gamify-273bac1e9487.herokuapp.com';
+  static const String _baseUrl = 'http://192.168.1.18:3001';
+  // static const String _baseUrl = 'https://gamify-273bac1e9487.herokuapp.com';
 
   var dio = Dio();
 
@@ -43,7 +43,7 @@ class ServerManager {
       // TODO: user id shared pref den alınacak
       "$_baseUrl/getUser",
       queryParameters: {
-        'user_id': 0,
+        'user_id': user!.id,
       },
     );
 
