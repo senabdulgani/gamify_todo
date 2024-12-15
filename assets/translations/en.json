@@ -51,5 +51,6 @@
     "DaysInProgress": "days in progress",
     "AvarageDay": "Avarage day",
     "Routines": "Routines",
-    "FutureRoutines": "Future Routines"
+    "FutureRoutines": "Future Routines",
+    "Completed": "Completed"
 }

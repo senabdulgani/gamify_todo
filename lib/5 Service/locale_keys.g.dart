@@ -54,5 +54,6 @@ abstract class  LocaleKeys {
   static const AvarageDay = 'AvarageDay';
   static const Routines = 'Routines';
   static const FutureRoutines = 'FutureRoutines';
+  static const Completed = 'Completed';
 
 }

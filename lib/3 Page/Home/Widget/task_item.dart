@@ -221,37 +221,37 @@ class _TaskItemState extends State<TaskItem> {
     if (widget.taskModel.status == null) {
       return const SizedBox();
     } else if (widget.taskModel.status == TaskStatusEnum.COMPLETED) {
-      return const Text(
-        "Completed",
-        style: TextStyle(
+      return Text(
+        LocaleKeys.Completed.tr(),
+        style: const TextStyle(
           color: AppColors.green,
           fontSize: 13,
         ),
       );
     } else if (widget.taskModel.status == TaskStatusEnum.FAILED) {
-      return const Row(
+      return Row(
         children: [
           Text(
-            "Failed",
-            style: TextStyle(
+            LocaleKeys.Failed.tr(),
+            style: const TextStyle(
               color: AppColors.red,
               fontSize: 13,
             ),
           ),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
         ],
       );
     } else {
-      return const Row(
+      return Row(
         children: [
           Text(
-            "Cancel",
-            style: TextStyle(
+            LocaleKeys.Cancel.tr(),
+            style: const TextStyle(
               color: AppColors.purple,
               fontSize: 13,
             ),
           ),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
         ],
       );
     }
