@@ -43,7 +43,7 @@ class ServerManager {
       // TODO: user id shared pref den alınacak
       "$_baseUrl/getUser",
       queryParameters: {
-        'user_id': 1,
+        'user_id': 0,
       },
     );
 
@@ -57,7 +57,7 @@ class ServerManager {
     var response = await dio.get(
       "$_baseUrl/getItems",
       queryParameters: {
-        'user_id': 1,
+        'user_id': user!.id,
       },
     );
 
@@ -71,7 +71,7 @@ class ServerManager {
     var response = await dio.get(
       "$_baseUrl/getTraits",
       queryParameters: {
-        'user_id': 1,
+        'user_id': user!.id,
       },
     );
 
@@ -85,7 +85,7 @@ class ServerManager {
     var response = await dio.get(
       "$_baseUrl/getRoutines",
       queryParameters: {
-        'user_id': 1,
+        'user_id': user!.id,
       },
     );
 
@@ -99,7 +99,7 @@ class ServerManager {
     var response = await dio.get(
       "$_baseUrl/getTasks",
       queryParameters: {
-        'user_id': 1,
+        'user_id': user!.id,
       },
     );
 
