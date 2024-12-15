@@ -27,19 +27,17 @@ class NavbarPageManager extends StatefulWidget {
 class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindingObserver {
   bool isLoading = false;
 
-  late PageController _pageController;
-
   @override
   void initState() {
     super.initState();
 
     getData();
-    _pageController = PageController(initialPage: 1);
+    context.read<NavbarProvider>().pageController = PageController(initialPage: 1);
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
+    context.read<NavbarProvider>().pageController.dispose();
     super.dispose();
   }
 
@@ -56,7 +54,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
               )
             : SizedBox.expand(
                 child: PageView(
-                  controller: _pageController,
+                  controller: context.read<NavbarProvider>().pageController,
                   onPageChanged: (index) {
                     setState(() => context.read<NavbarProvider>().currentIndex = index);
                   },
@@ -137,10 +135,10 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
   void _onItemTapped(int index) {
     context.read<NavbarProvider>().currentIndex = index;
 
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
+    context.read<NavbarProvider>().pageController.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
   }
 }

@@ -27,7 +27,7 @@ class _SelectTargetCountState extends State<SelectTargetCount> {
         InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
-            if (provider.targetCount > 0) {
+            if (provider.targetCount > 1) {
               setState(() {
                 provider.targetCount--;
               });

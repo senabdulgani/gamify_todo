@@ -11,6 +11,8 @@ class NavbarProvider with ChangeNotifier {
 
   int currentIndex = 1;
 
+  late PageController pageController;
+
   void updateIndex(int index) {
     currentIndex = index;
     notifyListeners();

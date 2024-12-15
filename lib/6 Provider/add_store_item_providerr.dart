@@ -6,7 +6,7 @@ import 'package:gamify_todo/8%20Model/store_item_model.dart';
 class AddStoreItemProvider with ChangeNotifier {
   // Widget variables
   TextEditingController taskNameController = TextEditingController();
-  int targetCount = 0;
+  int targetCount = 1;
   Duration taskDuration = const Duration(hours: 0, minutes: 0);
   TaskTypeEnum selectedTaskType = TaskTypeEnum.COUNTER;
   int credit = 0;
