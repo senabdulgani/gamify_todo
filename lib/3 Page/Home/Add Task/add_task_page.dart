@@ -49,7 +49,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.selectedTime = widget.editTask!.time;
       addTaskProvider.selectedDate = widget.editTask!.taskDate;
       addTaskProvider.isNotificationOn = widget.editTask!.isNotificationOn;
-      addTaskProvider.targetCount = widget.editTask!.targetCount ?? 0;
+      addTaskProvider.targetCount = widget.editTask!.targetCount ?? 1;
       addTaskProvider.taskDuration = widget.editTask!.remainingDuration ?? const Duration(hours: 0, minutes: 0);
       addTaskProvider.selectedTaskType = widget.editTask!.type;
       addTaskProvider.selectedDays = widget.editTask!.routineID == null ? [] : routineList.firstWhere((element) => element.id == widget.editTask!.routineID).repeatDays;
@@ -59,7 +59,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.selectedTime = null;
       addTaskProvider.selectedDate = context.read<TaskProvider>().selectedDate;
       addTaskProvider.isNotificationOn = false;
-      addTaskProvider.targetCount = 0;
+      addTaskProvider.targetCount = 1;
       addTaskProvider.taskDuration = const Duration(hours: 0, minutes: 0);
       addTaskProvider.selectedTaskType = TaskTypeEnum.CHECKBOX;
       addTaskProvider.selectedDays.clear();
