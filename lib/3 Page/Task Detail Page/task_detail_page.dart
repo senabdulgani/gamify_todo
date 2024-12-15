@@ -66,7 +66,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
     if (widget.taskModel.attributeIDList != null && widget.taskModel.attributeIDList!.isNotEmpty) {
       attributeList = widget.taskModel.attributeIDList!.map((e) => TraitProvider().traitList.firstWhere((element) => element.id == e)).toList();
-    } else if (widget.taskModel.skillIDList != null && widget.taskModel.skillIDList!.isNotEmpty) {
+    }
+    if (widget.taskModel.skillIDList != null && widget.taskModel.skillIDList!.isNotEmpty) {
       skillList = widget.taskModel.skillIDList!.map((e) => TraitProvider().traitList.firstWhere((element) => element.id == e)).toList();
     }
   }
