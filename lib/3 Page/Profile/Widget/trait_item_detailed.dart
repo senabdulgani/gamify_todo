@@ -65,6 +65,14 @@ class _TraitItemDetailedState extends State<TraitItemDetailed> {
             transition: Transition.rightToLeft,
           );
         },
+        onLongPress: () async {
+          await NavigatorService().goTo(
+            TraitDetailPage(
+              traitModel: widget.trait,
+            ),
+            transition: Transition.rightToLeft,
+          );
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: AppColors.borderRadiusAll,
