@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
-import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
@@ -63,7 +62,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
       }
     }
 
-    taskRutinCreatedDate = routineList.firstWhere((element) => element.id == widget.taskModel.routineID).createdDate;
+    taskRutinCreatedDate = TaskProvider().routineList.firstWhere((element) => element.id == widget.taskModel.routineID).createdDate;
 
     if (widget.taskModel.attributeIDList != null && widget.taskModel.attributeIDList!.isNotEmpty) {
       attributeList = widget.taskModel.attributeIDList!.map((e) => TraitProvider().traitList.firstWhere((element) => element.id == e)).toList();

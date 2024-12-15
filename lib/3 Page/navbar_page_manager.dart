@@ -124,7 +124,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
     // trait
     context.read<TraitProvider>().traitList = await ServerManager().getTraits();
     // routine
-    routineList = await ServerManager().getRoutines();
+    context.read<TaskProvider>().routineList = await ServerManager().getRoutines();
     // task
     context.read<TaskProvider>().taskList = await ServerManager().getTasks();
 

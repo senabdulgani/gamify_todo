@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
-import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_switch.dart';
@@ -18,6 +17,7 @@ import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
+import 'package:gamify_todo/8%20Model/rutin_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +52,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.targetCount = widget.editTask!.targetCount ?? 1;
       addTaskProvider.taskDuration = widget.editTask!.remainingDuration ?? const Duration(hours: 0, minutes: 0);
       addTaskProvider.selectedTaskType = widget.editTask!.type;
-      addTaskProvider.selectedDays = widget.editTask!.routineID == null ? [] : routineList.firstWhere((element) => element.id == widget.editTask!.routineID).repeatDays;
+      addTaskProvider.selectedDays = widget.editTask!.routineID == null ? [] : taskProvider.routineList.firstWhere((element) => element.id == widget.editTask!.routineID).repeatDays;
       addTaskProvider.selectedTraits = TraitProvider().traitList.where((element) => (widget.editTask!.attributeIDList != null && widget.editTask!.attributeIDList!.contains(element.id)) || (widget.editTask!.skillIDList != null && widget.editTask!.skillIDList!.contains(element.id))).toList();
     } else {
       addTaskProvider.taskNameController.clear();
@@ -220,13 +220,28 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
         );
       } else {
-        await addTaskProvider.addRoutine();
+        await taskProvider.addRoutine(
+          RoutineModel(
+            title: addTaskProvider.taskNameController.text,
+            type: addTaskProvider.selectedTaskType,
+            createdDate: DateTime.now(),
+            startDate: addTaskProvider.selectedDate,
+            time: addTaskProvider.selectedTime,
+            isNotificationOn: addTaskProvider.isNotificationOn,
+            remainingDuration: addTaskProvider.taskDuration,
+            targetCount: addTaskProvider.targetCount,
+            repeatDays: addTaskProvider.selectedDays,
+            attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
+            skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
+            isCompleted: false,
+          ),
+        );
 
         if (addTaskProvider.selectedDays.contains(DateTime.now().weekday - 1) && (Helper().isBeforeOrSameDay(addTaskProvider.selectedDate, DateTime.now()))) {
           taskProvider.addTask(
             TaskModel(
               title: addTaskProvider.taskNameController.text,
-              routineID: routineList.last.id,
+              routineID: taskProvider.routineList.last.id,
               type: addTaskProvider.selectedTaskType,
               taskDate: addTaskProvider.selectedDate,
               time: addTaskProvider.selectedTime,
@@ -240,6 +255,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
               skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
             ),
           );
+        } else {
+          taskProvider.updateItems();
         }
       }
     }

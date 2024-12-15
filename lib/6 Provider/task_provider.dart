@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
-import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -17,146 +16,9 @@ class TaskProvider with ChangeNotifier {
 
   TaskProvider._internal();
 
-  List<TaskModel> taskList = [
-    // TaskModel(
-    //   id: 0,
-    //   rutinID: 0,
-    //   title: "Python",
-    //   type: TaskTypeEnum.TIMER,
-    //   taskDate: DateTime.now(),
-    //   isNotificationOn: false,
-    //   currentDuration: const Duration(hours: 7, minutes: 10),
-    //   remainingDuration: const Duration(hours: 5, minutes: 0),
-    //   attirbuteIDList: [0],
-    //   skillIDList: [4],
-    //   status: TaskStatusEnum.COMPLETED,
-    //   isTimerActive: false,
-    // ),
-    // TaskModel(
-    //   id: 3,
-    //   rutinID: 0,
-    //   title: "Python",
-    //   type: TaskTypeEnum.TIMER,
-    //   taskDate: DateTime.now().subtract(const Duration(days: 1)),
-    //   isNotificationOn: false,
-    //   currentDuration: const Duration(hours: 3, minutes: 30),
-    //   remainingDuration: const Duration(hours: 5, minutes: 0),
-    //   attirbuteIDList: [0],
-    //   skillIDList: [4],
-    //   status: null,
-    //   isTimerActive: false,
-    // ),
-    // TaskModel(
-    //   id: 1,
-    //   title: "makale",
-    //   type: TaskTypeEnum.COUNTER,
-    //   taskDate: DateTime.now(),
-    //   isNotificationOn: false,
-    //   remainingDuration: const Duration(hours: 0, minutes: 15),
-    //   targetCount: 50,
-    //   currentCount: 20,
-    //   attirbuteIDList: [0],
-    //   skillIDList: [5],
-    //   status: TaskStatusEnum.FAILED,
-    //   isTimerActive: false,
-    // ),
-    // TaskModel(
-    //   id: 2,
-    //   title: "next level",
-    //   type: TaskTypeEnum.TIMER,
-    //   taskDate: DateTime.now().subtract(const Duration(days: 1)),
-    //   isNotificationOn: false,
-    //   remainingDuration: const Duration(hours: 6, minutes: 0),
-    //   currentDuration: const Duration(hours: 14, minutes: 49),
-    //   attirbuteIDList: [0],
-    //   skillIDList: [3],
-    //   status: TaskStatusEnum.FAILED,
-    //   isTimerActive: false,
-    // ),
-    // TaskModel(
-    //   id: 4,
-    //   title: "çöp at",
-    //   type: TaskTypeEnum.CHECKBOX,
-    //   taskDate: DateTime.now(),
-    //   isNotificationOn: false,
-    // ),
-    // TaskModel(
-    //   id: 5,
-    //   title: "Uyu",
-    //   type: TaskTypeEnum.CHECKBOX,
-    //   remainingDuration: const Duration(hours: 20, minutes: 0),
-    //   status: TaskStatusEnum.COMPLETED,
-    //   taskDate: DateTime.now(),
-    //   attirbuteIDList: [1],
-    //   isNotificationOn: false,
-    // ),
-    // TaskModel(
-    //   id: 6,
-    //   title: "Spor",
-    //   type: TaskTypeEnum.CHECKBOX,
-    //   remainingDuration: const Duration(hours: 7),
-    //   status: TaskStatusEnum.COMPLETED,
-    //   taskDate: DateTime.now(),
-    //   attirbuteIDList: [1, 2],
-    //   isNotificationOn: false,
-    // ),
+  List<RoutineModel> routineList = [];
 
-    // TaskModel(
-    //   id: 2,
-    //   rutinID: 1,
-    //   title: "Makale oku",
-    //   type: TaskTypeEnum.COUNTER,
-    //   taskDate: DateTime.now(),
-    //   isNotificationOn: false,
-    //   currentCount: 3,
-    //   targetCount: 10,
-    //   remainingDuration: const Duration(minutes: 15),
-    //   isCompleted: false,
-    // ),
-    // TaskModel(
-    //   id: 3,
-    //   title: "Mediate",
-    //   type: TaskTypeEnum.TIMER,
-    //   taskDate: DateTime.now(),
-    //   isNotificationOn: false,
-    //   currentDuration: const Duration(hours: 0, minutes: 0),
-    //   remainingDuration: const Duration(minutes: 15),
-    //   attirbuteIDList: [1, 2],
-    //   skillIDList: [1],
-    //   isCompleted: false,
-    //   isTimerActive: false,
-    // ),
-    // TaskModel(
-    //   id: 7,
-    //   title: "Koşuya çık",
-    //   type: TaskTypeEnum.CHECKBOX,
-    //   taskDate: DateTime.now().add(const Duration(days: 2)),
-    //   isNotificationOn: false,
-    //   isTimerActive: false,
-    // ),
-    // TaskModel(
-    //   id: 4,
-    //   title: "Kelime Ezberle",
-    //   type: TaskTypeEnum.COUNTER,
-    //   targetCount: 20,
-    //   currentCount: 0,
-    //   taskDate: DateTime.now().add(const Duration(days: 2)),
-    //   isNotificationOn: false,
-    //   isCompleted: false,
-    //   isTimerActive: false,
-    // ),
-    // TaskModel(
-    //   id: 4,
-    //   title: "Kelime Ezberle",
-    //   type: TaskTypeEnum.COUNTER,
-    //   targetCount: 20,
-    //   currentCount: 0,
-    //   taskDate: DateTime.now().add(const Duration(days: 3)),
-    //   isNotificationOn: false,
-    //   isCompleted: false,
-    //   isTimerActive: false,
-    // ),
-  ];
+  List<TaskModel> taskList = [];
 
   // TODO: saat 00:00:00 geçtikten sonra hala dünü gösterecek muhtemelen her ana sayfaya gidişte. bunu düzelt. yani değişken uygulama açıldığında belirlendiği için 12 den sonra değişmeyecek.
   DateTime selectedDate = DateTime.now();
@@ -170,6 +32,14 @@ class TaskProvider with ChangeNotifier {
     taskList.add(taskModel);
 
     notifyListeners();
+  }
+
+  Future addRoutine(RoutineModel routineModel) async {
+    final int routineId = await ServerManager().addRoutine(routineModel: routineModel);
+
+    routineModel.id = routineId;
+
+    routineList.add(routineModel);
   }
 
   void editTask({

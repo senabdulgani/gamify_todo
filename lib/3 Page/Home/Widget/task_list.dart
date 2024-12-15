@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
-import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_item.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
+import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
@@ -24,6 +24,7 @@ class _TaskListState extends State<TaskList> {
   @override
   Widget build(BuildContext context) {
     context.watch<TaskProvider>();
+    context.watch<AddTaskProvider>();
 
     // !!!!!!!!!!!!! TODO:: AAAAAAAAAAAAAA bu fonskiyonun ve bu sayfanın çok verimiz olduğunu düşünüyorum. daha iyi bir yol bul
     selectedDateTaskList.clear();
@@ -45,7 +46,7 @@ class _TaskListState extends State<TaskList> {
     }
 
     if (!Helper().isBeforeOrSameDay(context.read<TaskProvider>().selectedDate, DateTime.now())) {
-      for (var rutin in routineList) {
+      for (var rutin in context.read<TaskProvider>().routineList) {
         if (rutin.repeatDays.contains(context.read<TaskProvider>().selectedDate.weekday - 1) && Helper().isBeforeOrSameDay(rutin.startDate, context.read<TaskProvider>().selectedDate)) {
           if (!rutin.isCompleted) {
             selectedDateGhostRutinTaskList.add(
