@@ -52,5 +52,7 @@
     "AvarageDay": "Avarage day",
     "Routines": "Routines",
     "FutureRoutines": "Future Routines",
-    "Completed": "Completed"
+    "Completed": "Completed",
+    "NameEmpty": "Name cannot be empty.",
+    "AddItem": "Add Item"
 }

@@ -52,6 +52,8 @@
     "AvarageDay": "Günde ortalama",
     "Routines": "Rutinler",
     "FutureRoutines": "Gelecek Rutinler",
-    "Completed": "Tamamlandı"
+    "Completed": "Tamamlandı",
+    "NameEmpty": "İsim boş bırakılamaz.",
+    "AddItem": "Ürün Ekle"
 
 }

@@ -106,7 +106,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                 traitTitle.clear();
 
                 Helper().getMessage(
-                  message: "Trait name cant be empty",
+                  message: LocaleKeys.NameEmpty.tr(),
                   status: StatusEnum.WARNING,
                 );
 
@@ -324,7 +324,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
               borderRadius: AppColors.borderRadiusAll,
               onTap: () {
                 TraitProvider().removeTrait(widget.traitModel.id);
-                // TODO:
+
                 Get.back();
               },
               child: Container(

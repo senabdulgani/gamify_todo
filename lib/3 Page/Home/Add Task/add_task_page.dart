@@ -11,8 +11,8 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dar
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_trait.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
-import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
@@ -80,7 +80,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         leading: InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
-            Navigator.pop(context);
+            Get.back();
           },
           child: const Icon(Icons.arrow_back_ios),
         ),
@@ -132,8 +132,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     taskProvider.deleteRoutine(widget.editTask!.routineID!);
                   }
 
-                  // TODO:
-                  Get.back();
+                  NavigatorService().goBackAll();
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -261,9 +260,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         }
       }
     }
-    Get.offUntil(
-      GetPageRoute(page: () => const NavbarPageManager()),
-      (route) => route.settings.name == '/navbar',
-    );
+
+    NavigatorService().goBackAll();
   }
 }

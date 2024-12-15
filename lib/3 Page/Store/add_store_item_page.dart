@@ -52,7 +52,7 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Store Item"),
+        title: Text(LocaleKeys.AddItem.tr()),
         leading: InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
@@ -72,7 +72,7 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
                     addStoreItemProvider.taskNameController.clear();
 
                     Helper().getMessage(
-                      message: "Name cant be empty",
+                      message: LocaleKeys.NameEmpty.tr(),
                       status: StatusEnum.WARNING,
                     );
                     return;
@@ -115,6 +115,8 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
                 borderRadius: AppColors.borderRadiusAll,
                 onTap: () {
                   storeProvider.deleteItem(widget.editItemModel!.id);
+
+                  Get.back();
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

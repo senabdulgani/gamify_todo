@@ -147,6 +147,8 @@ class TaskProvider with ChangeNotifier {
 
     routineList.remove(routineModel);
     ServerManager().deleteRoutine(id: routineModel.id);
+
+    notifyListeners();
   }
 
   // TODO: just for routine

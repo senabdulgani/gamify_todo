@@ -22,7 +22,7 @@ class NavigatorService {
   }
 
   void goBackAll() {
-    Get.offAllNamed('/navbar');
+    Get.until((route) => route.settings.name == '/');
   }
 }
 

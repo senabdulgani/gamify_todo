@@ -36,12 +36,6 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
   }
 
   @override
-  void dispose() {
-    context.read<NavbarProvider>().pageController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return IgnorePointer(
       ignoring: !isLoading,

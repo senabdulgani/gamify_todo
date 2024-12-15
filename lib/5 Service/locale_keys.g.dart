@@ -55,5 +55,7 @@ abstract class  LocaleKeys {
   static const Routines = 'Routines';
   static const FutureRoutines = 'FutureRoutines';
   static const Completed = 'Completed';
+  static const NameEmpty = 'NameEmpty';
+  static const AddItem = 'AddItem';
 
 }
