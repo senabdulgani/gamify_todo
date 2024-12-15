@@ -11,6 +11,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dar
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_trait.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
+import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
@@ -260,7 +261,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
         }
       }
     }
-
-    Get.back();
+    Get.offUntil(
+      GetPageRoute(page: () => const NavbarPageManager()),
+      (route) => route.settings.name == '/navbar',
+    );
   }
 }
