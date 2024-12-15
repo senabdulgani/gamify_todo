@@ -18,9 +18,10 @@ class DayItem extends StatefulWidget {
 }
 
 class _DayItemState extends State<DayItem> {
+  late Locale locale = Localizations.localeOf(context);
+
   @override
   Widget build(BuildContext context) {
-    Locale locale = Localizations.localeOf(context);
     return InkWell(
       borderRadius: AppColors.borderRadiusAll,
       onTap: () {

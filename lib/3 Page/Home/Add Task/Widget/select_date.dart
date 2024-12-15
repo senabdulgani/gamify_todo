@@ -16,6 +16,7 @@ class SelectDate extends StatefulWidget {
 
 class _SelectDateState extends State<SelectDate> {
   late final addTaskProvider = context.read<AddTaskProvider>();
+  late Locale locale = Localizations.localeOf(context);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class _SelectDateState extends State<SelectDate> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         child: Text(
-          DateFormat(addTaskProvider.selectedDate.year == DateTime.now().year ? "d MMM" : "d MMM y").format(addTaskProvider.selectedDate),
+          DateFormat(addTaskProvider.selectedDate.year == DateTime.now().year ? "d MMM" : "d MMM y", locale.languageCode).format(addTaskProvider.selectedDate),
           style: const TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,

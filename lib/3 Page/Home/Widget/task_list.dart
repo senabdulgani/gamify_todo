@@ -92,9 +92,9 @@ class _TaskListState extends State<TaskList> {
                 // Routine Tasks
                 if (selectedDateRutinTaskList.isNotEmpty) const SizedBox(height: 20),
                 if (selectedDateRutinTaskList.isNotEmpty)
-                  const Text(
-                    "Routines",
-                    style: TextStyle(
+                  Text(
+                    LocaleKeys.Routines.tr(),
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -109,9 +109,9 @@ class _TaskListState extends State<TaskList> {
                 // future routines ghosts
                 if (selectedDateTaskList.isEmpty) const SizedBox(height: 20),
                 if (selectedDateGhostRutinTaskList.isNotEmpty)
-                  const Text(
-                    "Future Routines",
-                    style: TextStyle(
+                  Text(
+                    LocaleKeys.FutureRoutines.tr(),
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),

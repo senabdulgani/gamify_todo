@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
@@ -13,18 +14,16 @@ class SelectDays extends StatefulWidget {
 class _SelectDaysState extends State<SelectDays> {
   late final addTaskProvider = context.read<AddTaskProvider>();
 
-  List<String> days = [
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-    'Sun',
-  ];
+  late List<String> days;
 
   @override
   Widget build(BuildContext context) {
+    if (context.locale == const Locale('en', 'US')) {
+      days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    } else {
+      days = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+    }
+
     return SizedBox(
       height: 50,
       child: ListView.builder(

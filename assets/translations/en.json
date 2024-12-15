@@ -49,5 +49,7 @@
     "Times": "Times",
     "AllTime": "All Time",
     "DaysInProgress": "days in progress",
-    "AvarageDay": "Avarage day"
+    "AvarageDay": "Avarage day",
+    "Routines": "Routines",
+    "FutureRoutines": "Future Routines"
 }

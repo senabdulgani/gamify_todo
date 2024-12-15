@@ -52,5 +52,7 @@ abstract class  LocaleKeys {
   static const AllTime = 'AllTime';
   static const DaysInProgress = 'DaysInProgress';
   static const AvarageDay = 'AvarageDay';
+  static const Routines = 'Routines';
+  static const FutureRoutines = 'FutureRoutines';
 
 }
