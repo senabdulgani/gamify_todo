@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +59,7 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
                   },
                   backgroundColor: AppColors.orange,
                   icon: Icons.calendar_month,
-                  label: 'Change Date',
+                  label: LocaleKeys.ChangeDate.tr(),
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                 ),
               ],
@@ -80,7 +82,7 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
             },
             backgroundColor: AppColors.red,
             icon: Icons.close,
-            label: 'Failed',
+            label: LocaleKeys.Failed.tr(),
             padding: const EdgeInsets.symmetric(horizontal: 5),
           ),
           SlidableAction(
@@ -89,7 +91,7 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
             },
             backgroundColor: AppColors.purple,
             icon: Icons.block,
-            label: 'Cancel',
+            label: LocaleKeys.Cancel.tr(),
             padding: const EdgeInsets.symmetric(horizontal: 5),
           ),
         ],

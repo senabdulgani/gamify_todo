@@ -43,5 +43,11 @@
     "Turkish": "Türkçe",
     "English": "İngilizce",
     "RoutineNotToday": "Rutin bugüne ait olmadığı için etkilşime bulunulamaz",
-    "Delete": "Sil"
+    "Delete": "Sil",
+    "Failed": "Başarısız",
+    "ChangeDate": "Tarihi Değiştir",
+    "Times": "Kez",
+    "AllTime": "Tüm Zamanlar",
+    "DaysInProgress": "gündür devam ediyor",
+    "AvarageDay": "Günde ortalama"
 }

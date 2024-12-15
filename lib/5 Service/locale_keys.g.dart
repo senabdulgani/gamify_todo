@@ -46,5 +46,11 @@ abstract class  LocaleKeys {
   static const English = 'English';
   static const RoutineNotToday = 'RoutineNotToday';
   static const Delete = 'Delete';
+  static const Failed = 'Failed';
+  static const ChangeDate = 'ChangeDate';
+  static const Times = 'Times';
+  static const AllTime = 'AllTime';
+  static const DaysInProgress = 'DaysInProgress';
+  static const AvarageDay = 'AvarageDay';
 
 }

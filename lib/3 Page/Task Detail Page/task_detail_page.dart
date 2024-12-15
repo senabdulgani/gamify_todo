@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
@@ -106,24 +108,30 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             Text(
               "${widget.taskModel.currentDuration?.textShort3()} / ${widget.taskModel.remainingDuration?.textLongDynamicWithoutZero()}",
             )
-          else
+          else if (widget.taskModel.type == TaskTypeEnum.COUNTER)
             Text(
               "${widget.taskModel.currentCount} / ${widget.taskModel.targetCount}",
-            ),
+            )
+          else
+            Text(widget.taskModel.status == TaskStatusEnum.COMPLETED
+                ? "Completed"
+                : widget.taskModel.status == TaskStatusEnum.FAILED
+                    ? "Failed"
+                    : "Not Completed"),
 
           const Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("All time ${widget.taskModel.type == TaskTypeEnum.TIMER ? allTimeDuration.textShort3() : allTimeCount.toString()}"),
+              Text("${LocaleKeys.AllTime.tr()} ${widget.taskModel.type == TaskTypeEnum.TIMER ? allTimeDuration.textShort3() : allTimeCount.toString()}"),
               const SizedBox(width: 10),
               Text(
-                "${(DateTime.now().difference(taskRutinCreatedDate).inDays).abs()} days in progress",
+                "${(DateTime.now().difference(taskRutinCreatedDate).inDays).abs()} ${LocaleKeys.DaysInProgress.tr()}",
                 style: const TextStyle(fontSize: 10),
               ),
             ],
           ),
-          Text("Avarage ${(allTimeDuration / (DateTime.now().difference(taskRutinCreatedDate).inDays).abs()).textShortDynamic()} in aday"),
+          Text("${LocaleKeys.AvarageDay.tr()} ${(allTimeDuration / (DateTime.now().difference(taskRutinCreatedDate).inDays).abs()).textShortDynamic()}"),
           const SizedBox(height: 30),
           // TODO: en iyi gün
           // const Row(
@@ -143,7 +151,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             children: [
               const Icon(Icons.check_circle),
               const SizedBox(width: 3),
-              Text("$completedTaskCount Times"),
+              Text("$completedTaskCount ${LocaleKeys.Times.tr()}"),
             ],
           ),
           Row(
@@ -151,7 +159,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             children: [
               const Icon(Icons.close),
               const SizedBox(width: 3),
-              Text("$failedTaskCount Times"),
+              Text("$failedTaskCount ${LocaleKeys.Times.tr()}"),
             ],
           ),
           Row(

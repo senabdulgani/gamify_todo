@@ -43,5 +43,11 @@
     "Turkish": "Turkish",
     "English": "English",
     "RoutineNotToday": "Routine is not for today, so it cannot be interacted",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "Failed": "Failed",
+    "ChangeDate": "Change Date",
+    "Times": "Times",
+    "AllTime": "All Time",
+    "DaysInProgress": "days in progress",
+    "AvarageDay": "Avarage day"
 }
