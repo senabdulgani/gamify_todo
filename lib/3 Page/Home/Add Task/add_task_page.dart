@@ -198,6 +198,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
           attributeIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
           skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
+          status: widget.editTask!.status,
         ),
       );
     } else {
