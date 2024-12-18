@@ -3,7 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
+import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,10 +20,13 @@ Future<void> initApp() async {
 
   Helper().registerAdapters();
 
-  // SharedPreferences
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  // isFirstLogin = prefs.getBool('isFirstLogin') ?? true;
+  // auto login
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? email = prefs.getString('email');
+  final String? password = prefs.getString('password');
+  if (email != null && password != null) {
+    loginUser = await ServerManager().login(email: email, password: password);
+  }
 
   // Custom Error
   ErrorWidget.builder = (FlutterErrorDetails details) {

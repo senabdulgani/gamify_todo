@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
+import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/8%20Model/rutin_model.dart';
 import 'package:gamify_todo/8%20Model/store_item_model.dart';
@@ -19,7 +20,7 @@ class ServerManager {
 
   // static const String _baseUrl = 'http://localhost:3001';
   // static const String _baseUrl = 'http://10.103.138.106:3001';
-  static const String _baseUrl = 'http://192.168.1.18:3001';
+  static const String _baseUrl = 'http://192.168.1.21:3001';
   // static const String _baseUrl = 'https://gamify-273bac1e9487.herokuapp.com';
 
   var dio = Dio();
@@ -36,6 +37,69 @@ class ServerManager {
   }
 
   // ********************************************
+
+  Future<UserModel?> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      var response = await dio.post(
+        "$_baseUrl/login",
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
+
+      return UserModel.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        Helper().getMessage(
+          status: StatusEnum.WARNING,
+          message: 'User not found',
+        );
+      } else {
+        Helper().getMessage(
+          status: StatusEnum.WARNING,
+          message: 'An error occurred: ${e.message}',
+        );
+      }
+      return null;
+    }
+  }
+
+  Future<UserModel?> register({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      var response = await dio.post(
+        "$_baseUrl/register",
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
+
+      checkRequest(response);
+
+      return UserModel.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 409) {
+        Helper().getMessage(
+          status: StatusEnum.WARNING,
+          message: 'User already exists',
+        );
+      } else {
+        Helper().getMessage(
+          status: StatusEnum.WARNING,
+          message: 'An error occurred: ${e.message}',
+        );
+      }
+      return null;
+    }
+  }
+
   // get user
   // TODO: auto login system
   Future<UserModel> getUser() async {
@@ -43,7 +107,7 @@ class ServerManager {
       // TODO: user id shared pref den alınacak
       "$_baseUrl/getUser",
       queryParameters: {
-        'user_id': user!.id,
+        'user_id': loginUser!.id,
       },
     );
 
@@ -57,7 +121,7 @@ class ServerManager {
     var response = await dio.get(
       "$_baseUrl/getItems",
       queryParameters: {
-        'user_id': user!.id,
+        'user_id': loginUser!.id,
       },
     );
 
@@ -71,7 +135,7 @@ class ServerManager {
     var response = await dio.get(
       "$_baseUrl/getTraits",
       queryParameters: {
-        'user_id': user!.id,
+        'user_id': loginUser!.id,
       },
     );
 
@@ -85,7 +149,7 @@ class ServerManager {
     var response = await dio.get(
       "$_baseUrl/getRoutines",
       queryParameters: {
-        'user_id': user!.id,
+        'user_id': loginUser!.id,
       },
     );
 
@@ -99,7 +163,7 @@ class ServerManager {
     var response = await dio.get(
       "$_baseUrl/getTasks",
       queryParameters: {
-        'user_id': user!.id,
+        'user_id': loginUser!.id,
       },
     );
 
@@ -137,7 +201,7 @@ class ServerManager {
       var response = await dio.post(
         "$_baseUrl/addItem",
         queryParameters: {
-          'user_id': user!.id,
+          'user_id': loginUser!.id,
         },
         data: itemModel.toJson(),
       );
@@ -159,7 +223,7 @@ class ServerManager {
       var response = await dio.post(
         "$_baseUrl/addTrait",
         queryParameters: {
-          'user_id': user!.id,
+          'user_id': loginUser!.id,
         },
         data: traitModel.toJson(),
       );
@@ -181,7 +245,7 @@ class ServerManager {
       var response = await dio.post(
         "$_baseUrl/addRoutine",
         queryParameters: {
-          'user_id': user!.id,
+          'user_id': loginUser!.id,
         },
         data: routineModel.toJson(),
       );
@@ -202,7 +266,7 @@ class ServerManager {
     var response = await dio.post(
       "$_baseUrl/addTask",
       queryParameters: {
-        'user_id': user!.id,
+        'user_id': loginUser!.id,
       },
       data: taskModel.toJson(),
     );

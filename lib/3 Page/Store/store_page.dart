@@ -32,7 +32,7 @@ class _StorePageState extends State<StorePage> {
           title: Text(LocaleKeys.Store.tr()),
           leading: const SizedBox(),
           actions: [
-            Text(user!.userCredit.toString(), style: const TextStyle(fontSize: 18)),
+            Text(loginUser!.userCredit.toString(), style: const TextStyle(fontSize: 18)),
             const SizedBox(width: 2),
             const Icon(Icons.monetization_on),
             const SizedBox(width: 10),

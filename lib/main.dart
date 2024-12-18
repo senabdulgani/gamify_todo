@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/2%20General/init_app.dart';
+import 'package:gamify_todo/3%20Page/Login/login_page.dart';
 import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
 import 'package:gamify_todo/5%20Service/product_localization.dart';
 import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
@@ -45,7 +47,7 @@ class Main extends StatelessWidget {
           theme: AppColors().appTheme,
           debugShowCheckedModeBanner: false,
           showPerformanceOverlay: false,
-          home: const NavbarPageManager(),
+          home: loginUser != null ? const NavbarPageManager() : const LoginPage(),
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,

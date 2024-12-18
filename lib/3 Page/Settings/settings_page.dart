@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Widgets/language_pop.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -53,7 +54,7 @@ class SettingsPage extends StatelessWidget {
               title: LocaleKeys.Exit.tr(),
               color: AppColors.red,
               onTap: () {
-                // TODO: exit app
+                NavigatorService().logout();
               },
             ),
             // TODO: tema ayaralnınca açılacak

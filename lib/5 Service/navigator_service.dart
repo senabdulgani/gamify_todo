@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/3%20Page/Login/login_page.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigatorService {
   static final NavigatorService _instance = NavigatorService._internal();
@@ -22,7 +24,28 @@ class NavigatorService {
   }
 
   void goBackAll() {
-    Get.until((route) => route.settings.name == '/');
+    Get.until((route) {
+      if (route.settings.name == "/NavbarPageManager") {
+        return true;
+      } else if (route.settings.name == "/" || route.settings.name == null) {
+        return true;
+      }
+      return false;
+    });
+  }
+
+  // delete mail and password on shared preferences and go to login page
+  void logout() async {
+    // SharedPreferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('email');
+    prefs.remove('password');
+    Get.offUntil(
+      GetPageRoute(
+        page: () => const LoginPage(),
+      ),
+      (route) => false,
+    );
   }
 }
 

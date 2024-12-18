@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/3%20Page/Login/register_page.dart';
 import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
-import 'package:gamify_todo/5%20Service/navigator_service.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
+import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
+import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginApp extends StatelessWidget {
-  const LoginApp({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,46 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
+    Widget buildLoginButton() {
+      return SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () async {
+            loginUser = await ServerManager().login(
+              email: emailController.text,
+              password: passwordController.text,
+            );
+
+            if (loginUser != null) {
+              // SharedPreferences
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('email', emailController.text);
+              prefs.setString('password', passwordController.text);
+
+              NavbarProvider().currentIndex = 1;
+
+              await Get.offUntil(
+                GetPageRoute(
+                  page: () => const NavbarPageManager(),
+                  routeName: "/",
+                ),
+                (route) => false,
+              );
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+          ),
+          child: const Text('Login'),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -30,11 +74,11 @@ class LoginScreen extends StatelessWidget {
             children: [
               const Text('Giriş', style: TextStyle(color: Colors.white, fontSize: 24)),
               const SizedBox(height: 20),
-              _buildTextField('E-Posta'),
+              _buildTextField('E-Posta', controller: emailController),
               const SizedBox(height: 16),
-              _buildTextField('Şifre', obscureText: true),
+              _buildTextField('Şifre', obscureText: true, controller: passwordController),
               const SizedBox(height: 20),
-              _buildLoginButton(),
+              buildLoginButton(),
               const SizedBox(height: 16),
               _buildFooterLinks(),
             ],
@@ -44,8 +88,9 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String hint, {bool obscureText = false}) {
+  Widget _buildTextField(String hint, {bool obscureText = false, required TextEditingController? controller}) {
     return TextField(
+      controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hint,
@@ -61,33 +106,17 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () async {
-          await NavigatorService().goTo(
-            const NavbarPageManager(),
-          );
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          padding: const EdgeInsets.symmetric(vertical: 16),
-        ),
-        child: const Text('Login'),
-      ),
-    );
-  }
-
   Widget _buildFooterLinks() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           onTap: () async {
-            await NavigatorService().goTo(
-              const RegisterApp(),
+            Get.offUntil(
+              GetPageRoute(
+                page: () => const RegisterPage(),
+              ),
+              (route) => false,
             );
           },
           child: const Text(
@@ -95,7 +124,6 @@ class LoginScreen extends StatelessWidget {
             style: TextStyle(color: Colors.white70),
           ),
         ),
-        const Text('Şifremi unuttum', style: TextStyle(color: Colors.white70)),
       ],
     );
   }

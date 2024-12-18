@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/accessible.dart';
+import 'package:gamify_todo/3%20Page/Login/login_page.dart';
+import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
+import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
+import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class RegisterApp extends StatelessWidget {
-  const RegisterApp({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
-  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -39,8 +45,6 @@ class RegisterScreenState extends State<RegisterScreen> {
               children: [
                 const Text('Hesap Oluştur', style: TextStyle(color: Colors.white, fontSize: 24)),
                 const SizedBox(height: 20),
-                _buildTextField('Kullanıcı Adı', controller: _usernameController, validator: _usernameValidator),
-                const SizedBox(height: 16),
                 _buildTextField('E-Posta', controller: _emailController, validator: _emailValidator),
                 const SizedBox(height: 16),
                 _buildTextField('Şifre', controller: _passwordController, obscureText: true, validator: _passwordValidator),
@@ -79,10 +83,29 @@ class RegisterScreenState extends State<RegisterScreen> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (_formKey.currentState!.validate()) {
-            // Handle account creation logic here
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Hesap oluşturuluyor...')));
+            loginUser = await ServerManager().register(
+              email: _emailController.text,
+              password: _passwordController.text,
+            );
+
+            if (loginUser != null) {
+              // SharedPreferences
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('email', _emailController.text);
+              prefs.setString('password', _passwordController.text);
+
+              NavbarProvider().currentIndex = 1;
+
+              await Get.offUntil(
+                GetPageRoute(
+                  page: () => const NavbarPageManager(),
+                  routeName: "/",
+                ),
+                (route) => false,
+              );
+            }
           }
         },
         style: ElevatedButton.styleFrom(
@@ -96,20 +119,25 @@ class RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildFooterLinks() {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Giriş yap', style: TextStyle(color: Colors.white70)),
-        Text('Şifremi unuttum', style: TextStyle(color: Colors.white70)),
+        GestureDetector(
+          onTap: () async {
+            Get.offUntil(
+              GetPageRoute(
+                page: () => const LoginPage(),
+              ),
+              (route) => false,
+            );
+          },
+          child: const Text(
+            'Giriş yap',
+            style: TextStyle(color: Colors.white70),
+          ),
+        ),
       ],
     );
-  }
-
-  String? _usernameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Lütfen kullanıcı adı girin';
-    }
-    return null;
   }
 
   String? _emailValidator(String? value) {

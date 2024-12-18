@@ -5,13 +5,13 @@ class AppHelper {
   void addCreditByProgress(Duration? progress) async {
     if (progress == null) return;
 
-    user!.creditProgress += progress;
+    loginUser!.creditProgress += progress;
 
-    while (user!.creditProgress.inHours >= 1) {
-      user!.userCredit += 1;
-      user!.creditProgress -= const Duration(hours: 1);
+    while (loginUser!.creditProgress.inHours >= 1) {
+      loginUser!.userCredit += 1;
+      loginUser!.creditProgress -= const Duration(hours: 1);
 
-      await ServerManager().updateUser(userModel: user!);
+      await ServerManager().updateUser(userModel: loginUser!);
     }
   }
 }

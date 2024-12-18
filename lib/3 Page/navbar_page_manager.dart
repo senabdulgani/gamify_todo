@@ -112,7 +112,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
   Future getData() async {
     // TODO: bütün veirler gelecek user bilgisi itemler rutinler tritler.....
     // user
-    user = await ServerManager().getUser();
+    loginUser = await ServerManager().getUser();
     // item
     context.read<StoreProvider>().storeItemList = await ServerManager().getItems();
     // trait
