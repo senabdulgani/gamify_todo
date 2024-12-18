@@ -67,7 +67,7 @@ class GlobalTimer {
 
               // her dakika veri tabanında güncelle
               if (storeItem.currentDuration!.inSeconds % 60 == 0) {
-                // TODO: update database
+                ServerManager().updateItem(itemModel: storeItem);
 
                 // TODO: task tamamnlandıysa bildirim veya alarm
               }

@@ -7,6 +7,7 @@ import 'package:gamify_todo/3%20Page/Store/add_store_item_page.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/store_item_model.dart';
@@ -97,7 +98,7 @@ class _StoreItemState extends State<StoreItem> {
   InkWell buyButton() {
     return InkWell(
       borderRadius: AppColors.borderRadiusAll,
-      onTap: () {
+      onTap: () async {
         loginUser!.userCredit -= widget.storeItemModel.credit;
 
         if (widget.storeItemModel.type == TaskTypeEnum.TIMER) {
@@ -106,6 +107,8 @@ class _StoreItemState extends State<StoreItem> {
           widget.storeItemModel.currentCount = widget.storeItemModel.currentCount! + 1;
         }
 
+        await ServerManager().updateUser(userModel: loginUser!);
+        await ServerManager().updateItem(itemModel: widget.storeItemModel);
         StoreProvider().setStateItems();
       },
       child: Container(
@@ -143,15 +146,17 @@ class _StoreItemState extends State<StoreItem> {
     );
   }
 
-  void storeItemAction() {
+  void storeItemAction() async {
     if (widget.storeItemModel.type == TaskTypeEnum.COUNTER) {
       widget.storeItemModel.currentCount = widget.storeItemModel.currentCount! - 1;
-
+      await ServerManager().updateItem(itemModel: widget.storeItemModel);
       // TODO: - olursa disiplin düşecek
     } else {
       GlobalTimer().startStopTimer(
         storeItemModel: widget.storeItemModel,
       );
+
+      await ServerManager().updateItem(itemModel: widget.storeItemModel);
     }
 
     StoreProvider().setStateItems();
