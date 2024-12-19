@@ -300,15 +300,15 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                           Text(
                             task.title,
                             style: const TextStyle(
-                              fontSize: 20,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(width: 20),
+                          const SizedBox(width: 10),
                           Text(
                             allTimeDuration.textShort2hour(),
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 13,
                             ),
                           ),
                         ],

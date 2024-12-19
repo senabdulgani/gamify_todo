@@ -131,7 +131,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               ),
             ],
           ),
-          Text("${LocaleKeys.AvarageDay.tr()} ${(allTimeDuration / (DateTime.now().difference(taskRutinCreatedDate).inDays).abs()).textShortDynamic()}"),
+          Text("${LocaleKeys.AvarageDay.tr()} ${(allTimeDuration / (DateTime.now().difference(taskRutinCreatedDate).inDays == 0 ? 1 : DateTime.now().difference(taskRutinCreatedDate).inDays).abs()).textShortDynamic()}"),
           const SizedBox(height: 30),
           // TODO: en iyi gün
           // const Row(

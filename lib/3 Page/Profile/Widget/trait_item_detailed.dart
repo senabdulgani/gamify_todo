@@ -93,6 +93,7 @@ class _TraitItemDetailedState extends State<TraitItemDetailed> {
               ),
               const SizedBox(width: 10),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.trait.title,
