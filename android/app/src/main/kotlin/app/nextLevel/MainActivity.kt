@@ -1,4 +1,4 @@
-package app.nextLevel
+package app.nextlevel
 
 import io.flutter.embedding.android.FlutterActivity
 
