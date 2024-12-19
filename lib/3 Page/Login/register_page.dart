@@ -50,7 +50,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                 _buildTextField('Şifre', controller: _passwordController, obscureText: true, validator: _passwordValidator),
                 const SizedBox(height: 20),
                 _buildRegisterButton(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 5),
                 _buildFooterLinks(),
               ],
             ),
@@ -64,6 +64,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     return TextFormField(
       obscureText: obscureText,
       controller: controller,
+      keyboardType: !obscureText ? TextInputType.emailAddress : null,
       decoration: InputDecoration(
         hintText: hint,
         filled: true,
@@ -131,9 +132,13 @@ class RegisterScreenState extends State<RegisterScreen> {
               (route) => false,
             );
           },
-          child: const Text(
-            'Giriş yap',
-            style: TextStyle(color: Colors.white70),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            color: Colors.transparent,
+            child: const Text(
+              'Giriş yap',
+              style: TextStyle(color: Colors.white70),
+            ),
           ),
         ),
       ],

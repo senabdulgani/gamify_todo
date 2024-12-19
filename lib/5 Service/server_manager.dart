@@ -20,8 +20,8 @@ class ServerManager {
 
   // static const String _baseUrl = 'http://localhost:3001';
   // static const String _baseUrl = 'http://10.103.138.106:3001';
-  static const String _baseUrl = 'http://192.168.1.21:3001';
-  // static const String _baseUrl = 'https://gamify-273bac1e9487.herokuapp.com';
+  // static const String _baseUrl = 'http://10.103.159.240:3001';
+  static const String _baseUrl = 'https://gamify-273bac1e9487.herokuapp.com';
 
   var dio = Dio();
 
@@ -54,11 +54,19 @@ class ServerManager {
       return UserModel.fromJson(response.data);
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
+        // Show error message to the user
         Helper().getMessage(
           status: StatusEnum.WARNING,
-          message: 'User not found',
+          message: 'Email not found',
+        );
+      } else if (e.response?.statusCode == 401) {
+        // Show error message to the user
+        Helper().getMessage(
+          status: StatusEnum.WARNING,
+          message: 'Incorrect password',
         );
       } else {
+        // Handle other errors
         Helper().getMessage(
           status: StatusEnum.WARNING,
           message: 'An error occurred: ${e.message}',

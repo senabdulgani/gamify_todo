@@ -92,6 +92,7 @@ class LoginScreen extends StatelessWidget {
     return TextField(
       controller: controller,
       obscureText: obscureText,
+      keyboardType: !obscureText ? TextInputType.emailAddress : null,
       decoration: InputDecoration(
         hintText: hint,
         filled: true,
@@ -119,9 +120,13 @@ class LoginScreen extends StatelessWidget {
               (route) => false,
             );
           },
-          child: const Text(
-            'Hesap oluştur',
-            style: TextStyle(color: Colors.white70),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            color: Colors.transparent,
+            child: const Text(
+              'Hesap oluştur',
+              style: TextStyle(color: Colors.white70),
+            ),
           ),
         ),
       ],
