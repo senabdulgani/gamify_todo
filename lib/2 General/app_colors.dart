@@ -87,7 +87,7 @@ class AppColors {
   //////////////////////////////////////////////////////////////////////////
   static Color get background {
     if (isDark) {
-      return const Color.fromARGB(255, 10, 10, 10);
+      return const Color.fromARGB(255, 15, 15, 15);
     } else {
       return const Color.fromARGB(255, 226, 226, 226);
     }
@@ -111,7 +111,7 @@ class AppColors {
 
   static Color get panelBackground {
     if (isDark) {
-      return const Color.fromARGB(255, 31, 31, 31);
+      return const Color.fromARGB(255, 24, 24, 24);
     } else {
       return const Color.fromARGB(255, 247, 247, 247);
     }
@@ -143,7 +143,7 @@ class AppColors {
 
   static Color get appbar {
     if (isDark) {
-      return const Color.fromARGB(255, 22, 22, 22);
+      return const Color.fromARGB(255, 19, 19, 19);
     } else {
       return const Color.fromARGB(255, 218, 218, 218);
     }

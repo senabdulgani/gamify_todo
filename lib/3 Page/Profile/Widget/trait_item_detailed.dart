@@ -28,8 +28,7 @@ class _TraitItemDetailedState extends State<TraitItemDetailed> {
   void initState() {
     super.initState();
 
-    // TODO: burada her seferinde tüm listeyi kontrol etmek yerine bir üst sayfada tek seferde listeyi kontrol ederken süreleri dağıtmak olabilir mi?
-    // bu trait ile bağlantılı taskların sürelerini topla
+    // related tasks
     totalDuration = TaskProvider().taskList.fold(
       Duration.zero,
       (previousValue, element) {

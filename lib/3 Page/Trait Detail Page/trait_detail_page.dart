@@ -35,9 +35,9 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
 
   late Duration totalDuration;
 
-  // relaited tasks
-  List<TaskModel> relaitedTasks = [];
-  List<TaskModel> relaitedRoutines = [];
+  // related tasks
+  List<TaskModel> relatedTasks = [];
+  List<TaskModel> relatedRoutines = [];
 
   @override
   void initState() {
@@ -65,19 +65,19 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
       },
     );
 
-    // relaited tasks
+    // related tasks
     TaskProvider().taskList.where((element) {
       if (element.skillIDList != null && element.skillIDList!.contains(widget.traitModel.id)) {
         if (element.routineID != null) {
-          relaitedRoutines.add(element);
+          relatedRoutines.add(element);
         } else {
-          relaitedTasks.add(element);
+          relatedTasks.add(element);
         }
       } else if (element.attributeIDList != null && element.attributeIDList!.contains(widget.traitModel.id)) {
         if (element.routineID != null) {
-          relaitedRoutines.add(element);
+          relatedRoutines.add(element);
         } else {
-          relaitedTasks.add(element);
+          relatedTasks.add(element);
         }
       }
       return false;
@@ -223,11 +223,11 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                   width: 180,
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: relaitedTasks.length,
+                    itemCount: relatedTasks.length,
                     itemBuilder: (context, index) {
                       // TODO: task ve rutin olarak ayır
 
-                      final TaskModel task = relaitedTasks[index];
+                      final TaskModel task = relatedTasks[index];
 
                       Duration allTimeDuration = Duration.zero;
                       int allTimeCount = 0;
@@ -272,11 +272,11 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                   width: 180,
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: relaitedRoutines.length,
+                    itemCount: relatedRoutines.length,
                     itemBuilder: (context, index) {
                       // TODO: task ve rutin olarak ayır
 
-                      final TaskModel task = relaitedRoutines[index];
+                      final TaskModel task = relatedRoutines[index];
 
                       Duration allTimeDuration = Duration.zero;
                       int allTimeCount = 0;
