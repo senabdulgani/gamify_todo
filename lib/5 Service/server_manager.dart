@@ -19,7 +19,6 @@ class ServerManager {
   }
 
   // static const String _baseUrl = 'http://localhost:3001';
-  // static const String _baseUrl = 'http://10.103.138.106:3001';
   // static const String _baseUrl = 'http://192.168.1.21:3001';
   static const String _baseUrl = 'https://gamify-273bac1e9487.herokuapp.com';
 
