@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
+import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Login/login_page.dart';
 import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
@@ -34,7 +35,7 @@ class RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.black,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -43,7 +44,7 @@ class RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Hesap Oluştur', style: TextStyle(color: Colors.white, fontSize: 24)),
+                const Text('Hesap Oluştur', style: TextStyle(color: AppColors.white, fontSize: 24)),
                 const SizedBox(height: 20),
                 _buildTextField('E-Posta', controller: _emailController, validator: _emailValidator),
                 const SizedBox(height: 16),
@@ -68,14 +69,14 @@ class RegisterScreenState extends State<RegisterScreen> {
       decoration: InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: Colors.white.withOpacity(0.1),
+        fillColor: AppColors.white.withOpacity(0.1),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide.none,
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
       ),
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: AppColors.white),
       validator: validator,
     );
   }
@@ -110,7 +111,7 @@ class RegisterScreenState extends State<RegisterScreen> {
           }
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
+          backgroundColor: AppColors.blue,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
@@ -134,10 +135,10 @@ class RegisterScreenState extends State<RegisterScreen> {
           },
           child: Container(
             padding: const EdgeInsets.all(10),
-            color: Colors.transparent,
+            color: AppColors.transparent,
             child: const Text(
               'Giriş yap',
-              style: TextStyle(color: Colors.white70),
+              style: TextStyle(color: AppColors.white),
             ),
           ),
         ),
