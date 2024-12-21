@@ -19,8 +19,8 @@ class ServerManager {
   }
 
   // static const String _baseUrl = 'http://localhost:3001';
-  // static const String _baseUrl = 'http://192.168.1.21:3001';
-  static const String _baseUrl = 'https://gamify-273bac1e9487.herokuapp.com';
+  static const String _baseUrl = 'http://192.168.1.21:3001';
+  // static const String _baseUrl = 'https://gamify-273bac1e9487.herokuapp.com';
 
   var dio = Dio();
 
@@ -396,6 +396,15 @@ class ServerManager {
       queryParameters: {
         'task_id': id,
       },
+    );
+
+    checkRequest(response);
+  }
+
+  // trigger tasks !!!!! normalde bu kullanılmıyor. 00:00 olduğunda otomatik backendde yapılıyor. test etmek için böyle koyuldu.
+  Future<void> routineToTask() async {
+    var response = await dio.post(
+      "$_baseUrl/routineToTask",
     );
 
     checkRequest(response);
