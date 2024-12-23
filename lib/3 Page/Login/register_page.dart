@@ -115,7 +115,7 @@ class RegisterScreenState extends State<RegisterScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
-        child: const Text('Hesap Oluştur'),
+        child: const Text('Hesap Oluştur', style: TextStyle(color: AppColors.white)),
       ),
     );
   }
