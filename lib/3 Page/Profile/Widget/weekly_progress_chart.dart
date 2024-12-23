@@ -111,7 +111,7 @@ class _LineChart extends StatelessWidget {
         isCurved: true,
         curveSmoothness: 0,
         // color: topSkillsList[i].color,
-        color: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+        color: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withValues(alpha: 1.0),
         barWidth: 3,
         isStrokeCapRound: true,
         dotData: const FlDotData(show: false),
@@ -134,7 +134,7 @@ class _LineChart extends StatelessWidget {
         lineTouchData: LineTouchData(
           handleBuiltInTouches: true,
           touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) => Colors.blueGrey.withOpacity(0.8),
+            getTooltipColor: (touchedSpot) => Colors.blueGrey.withValues(alpha: 0.8),
           ),
         ),
         gridData: const FlGridData(show: false),

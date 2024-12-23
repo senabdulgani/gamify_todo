@@ -49,7 +49,7 @@ class Helper {
                   : LocaleKeys.Success.tr()),
       message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: AppColors.panelBackground.withOpacity(0.9),
+      backgroundColor: AppColors.panelBackground.withValues(alpha: 0.9),
       animationDuration: const Duration(milliseconds: 400),
       duration: duration ?? const Duration(milliseconds: 1300),
       dismissDirection: DismissDirection.horizontal,

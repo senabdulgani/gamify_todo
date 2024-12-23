@@ -36,6 +36,7 @@ class TraitModel {
       'id': id,
       'title': title,
       'icon': icon,
+      // ignore: deprecated_member_use
       'color': color.value.toRadixString(16),
       'type': type.toString().split('.').last,
       'is_archived': isArchived,
