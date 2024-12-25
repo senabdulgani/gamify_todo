@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
+import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_item.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
@@ -91,15 +92,8 @@ class _TaskListState extends State<TaskList> {
                 ),
 
                 // Routine Tasks
-                if (selectedDateRutinTaskList.isNotEmpty) const SizedBox(height: 20),
-                if (selectedDateRutinTaskList.isNotEmpty)
-                  Text(
-                    LocaleKeys.Routines.tr(),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                if (selectedDateRutinTaskList.isNotEmpty && selectedDateTaskList.isEmpty) const SizedBox(height: 20),
+                if (selectedDateRutinTaskList.isNotEmpty) const Divider(),
                 ...List.generate(
                   selectedDateRutinTaskList.length,
                   (index) => TaskItem(
@@ -110,12 +104,8 @@ class _TaskListState extends State<TaskList> {
                 // future routines ghosts
                 if (selectedDateTaskList.isEmpty) const SizedBox(height: 20),
                 if (selectedDateGhostRutinTaskList.isNotEmpty)
-                  Text(
-                    LocaleKeys.FutureRoutines.tr(),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  const Divider(
+                    color: AppColors.deepPurple,
                   ),
                 ...List.generate(
                   selectedDateGhostRutinTaskList.length,

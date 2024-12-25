@@ -40,7 +40,8 @@ class _TaskItemState extends State<TaskItem> {
       child: Stack(
         alignment: Alignment.bottomLeft,
         children: [
-          progress(),
+          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+          // progress(),
           InkWell(
             onTap: () {
               // rutin bugüne ait olmadığı için etkilşime bulunulamaz
@@ -75,8 +76,8 @@ class _TaskItemState extends State<TaskItem> {
               height: 65,
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                borderRadius: AppColors.borderRadiusAll,
-                color: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? AppColors.main : AppColors.transparent,
+                borderRadius: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? null : AppColors.borderRadiusAll,
+                color: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? AppColors.transparantBlack : AppColors.transparent,
               ),
               child: Row(
                 children: [
@@ -88,7 +89,8 @@ class _TaskItemState extends State<TaskItem> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       notificationWidgets(),
-                      statusWidget(),
+                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+                      // statusWidget(),
                     ],
                   ),
                 ],
@@ -171,9 +173,10 @@ class _TaskItemState extends State<TaskItem> {
             minFontSize: 14,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
               decoration: widget.taskModel.status == TaskStatusEnum.COMPLETED ? TextDecoration.lineThrough : TextDecoration.none,
+              color: widget.taskModel.status == TaskStatusEnum.COMPLETED ? AppColors.dirtyWhite : null,
             ),
           ),
         ),
