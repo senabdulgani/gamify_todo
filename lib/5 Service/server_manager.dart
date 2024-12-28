@@ -337,6 +337,10 @@ class ServerManager {
   Future<void> updateTask({
     required TaskModel taskModel,
   }) async {
+    if (taskModel.currentCount! < taskModel.targetCount!) {
+      taskModel.status = null;
+    }
+
     var response = await dio.put(
       "$_baseUrl/updateTask",
       data: taskModel.toJson(),
