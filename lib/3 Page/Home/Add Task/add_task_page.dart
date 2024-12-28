@@ -45,6 +45,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
   void initState() {
     super.initState();
 
+    // eğer rutin varsa taskdan değil rutinden mi gelse acaba
+
     if (widget.editTask != null) {
       addTaskProvider.taskNameController.text = widget.editTask!.title;
       addTaskProvider.selectedTime = widget.editTask!.time;

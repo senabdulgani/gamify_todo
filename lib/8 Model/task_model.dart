@@ -8,12 +8,12 @@ class TaskModel {
   String title; // başlığı
   final TaskTypeEnum type; // türü
   DateTime taskDate; // yapılacağı tarih
-  final TimeOfDay? time; // saati
-  final bool isNotificationOn; // notification açık mı
+  TimeOfDay? time; // saati
+  bool isNotificationOn; // notification açık mı
   Duration? currentDuration; // timer ise süre buradan takip edilecek
-  final Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
+  Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
   int? currentCount; // counter ise sayı buradan takip edilecek
-  final int? targetCount; // counter ise hedef sayı
+  int? targetCount; // counter ise hedef sayı
   bool? isTimerActive; // timer aktif mi
   List<int>? attributeIDList; // etki edeceği özellikler
   List<int>? skillIDList; // etki edecği yetenekler
