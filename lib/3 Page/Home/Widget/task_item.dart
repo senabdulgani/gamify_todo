@@ -56,11 +56,17 @@ class _TaskItemState extends State<TaskItem> {
             },
             onLongPress: () async {
               if (widget.taskModel.routineID != null) {
-                await NavigatorService().goTo(
+                await NavigatorService()
+                    .goTo(
                   TaskDetailPage(
                     taskModel: widget.taskModel,
                   ),
                   transition: Transition.size,
+                )
+                    .then(
+                  (value) {
+                    setState(() {});
+                  },
                 );
               } else {
                 await NavigatorService().goTo(

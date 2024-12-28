@@ -6,6 +6,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/trait_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
+import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
@@ -109,8 +110,70 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               "${widget.taskModel.currentDuration?.textShort3()} / ${widget.taskModel.remainingDuration?.textLongDynamicWithoutZero()}",
             )
           else if (widget.taskModel.type == TaskTypeEnum.COUNTER)
-            Text(
-              "${widget.taskModel.currentCount} / ${widget.taskModel.targetCount}",
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  borderRadius: AppColors.borderRadiusAll,
+                  onTap: () {
+                    if (widget.taskModel.currentCount! > 0) {
+                      setState(() {
+                        widget.taskModel.currentCount = widget.taskModel.currentCount! - 1;
+                      });
+                    }
+                    ServerManager().updateTask(taskModel: widget.taskModel);
+                  },
+                  onLongPress: () {
+                    if (widget.taskModel.currentCount! > 20) {
+                      setState(() {
+                        widget.taskModel.currentCount = widget.taskModel.currentCount! - 20;
+                      });
+                    }
+
+                    ServerManager().updateTask(taskModel: widget.taskModel);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: AppColors.borderRadiusAll,
+                    ),
+                    padding: const EdgeInsets.all(5),
+                    child: const Icon(
+                      Icons.remove,
+                      size: 30,
+                    ),
+                  ),
+                ),
+                Text(
+                  "${widget.taskModel.currentCount} / ${widget.taskModel.targetCount}",
+                ),
+                InkWell(
+                  borderRadius: AppColors.borderRadiusAll,
+                  onTap: () {
+                    setState(() {
+                      widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
+                    });
+
+                    ServerManager().updateTask(taskModel: widget.taskModel);
+                  },
+                  onLongPress: () {
+                    setState(() {
+                      widget.taskModel.currentCount = widget.taskModel.currentCount! + 20;
+                    });
+
+                    ServerManager().updateTask(taskModel: widget.taskModel);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: AppColors.borderRadiusAll,
+                    ),
+                    padding: const EdgeInsets.all(5),
+                    child: const Icon(
+                      Icons.add,
+                      size: 30,
+                    ),
+                  ),
+                ),
+              ],
             )
           else
             Text(widget.taskModel.status == TaskStatusEnum.COMPLETED
