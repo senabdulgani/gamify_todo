@@ -31,10 +31,17 @@ class _DurationPickerWidgetState extends State<DurationPickerWidget> {
             child: DurationPicker(
               duration: provider.taskDuration,
               onChange: (selectedDuration) {
-                var round = (selectedDuration.inMinutes / 5).round() * 5;
+                late int duration;
+
+                if (selectedDuration.inMinutes > 5) {
+                  duration = (selectedDuration.inMinutes / 5).round() * 5;
+                } else {
+                  duration = selectedDuration.inMinutes;
+                }
+
                 setState(
                   () {
-                    provider.taskDuration = Duration(minutes: round);
+                    provider.taskDuration = Duration(minutes: duration);
                   },
                 );
               },
