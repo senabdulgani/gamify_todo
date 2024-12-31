@@ -86,33 +86,47 @@ class _TaskListState extends State<TaskList> {
             child: Column(
               children: [
                 // Normal tasks
-                ...List.generate(
-                  selectedDateTaskList.length,
-                  (index) => TaskItem(taskModel: selectedDateTaskList[index]),
-                ),
+                if (selectedDateTaskList.isNotEmpty)
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(0),
+                    itemCount: selectedDateTaskList.length,
+                    itemBuilder: (context, index) {
+                      return TaskItem(taskModel: selectedDateTaskList[index]);
+                    },
+                  ),
 
                 // Routine Tasks
                 if (selectedDateRutinTaskList.isNotEmpty && selectedDateTaskList.isEmpty) const SizedBox(height: 20),
-                if (selectedDateRutinTaskList.isNotEmpty) const Divider(),
-                ...List.generate(
-                  selectedDateRutinTaskList.length,
-                  (index) => TaskItem(
-                    taskModel: selectedDateRutinTaskList[index],
-                  ),
-                ),
+                if (selectedDateRutinTaskList.isNotEmpty) ...[
+                  const Divider(),
+                  if (selectedDateRutinTaskList.isNotEmpty)
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(0),
+                      itemCount: selectedDateRutinTaskList.length,
+                      itemBuilder: (context, index) {
+                        return TaskItem(taskModel: selectedDateRutinTaskList[index]);
+                      },
+                    ),
+                ],
 
-                // future routines ghosts
-                if (selectedDateTaskList.isEmpty) const SizedBox(height: 20),
-                if (selectedDateGhostRutinTaskList.isNotEmpty)
-                  const Divider(
-                    color: AppColors.deepPurple,
+                // Future routines ghosts
+                if (selectedDateGhostRutinTaskList.isNotEmpty && selectedDateTaskList.isEmpty) const SizedBox(height: 20),
+                if (selectedDateGhostRutinTaskList.isNotEmpty) ...[
+                  const Divider(color: AppColors.deepPurple),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(0),
+                    itemCount: selectedDateGhostRutinTaskList.length,
+                    itemBuilder: (context, index) {
+                      return TaskItem(taskModel: selectedDateGhostRutinTaskList[index]);
+                    },
                   ),
-                ...List.generate(
-                  selectedDateGhostRutinTaskList.length,
-                  (index) => TaskItem(
-                    taskModel: selectedDateGhostRutinTaskList[index],
-                  ),
-                ),
+                ],
               ],
             ),
           );
