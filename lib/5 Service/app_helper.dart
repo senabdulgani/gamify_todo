@@ -10,8 +10,8 @@ class AppHelper {
     while (loginUser!.creditProgress.inHours >= 1) {
       loginUser!.userCredit += 1;
       loginUser!.creditProgress -= const Duration(hours: 1);
-
-      await ServerManager().updateUser(userModel: loginUser!);
     }
+
+    await ServerManager().updateUser(userModel: loginUser!);
   }
 }
