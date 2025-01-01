@@ -101,7 +101,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            const TaskName(),
+            TaskName(autoFocus: widget.editTask == null),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

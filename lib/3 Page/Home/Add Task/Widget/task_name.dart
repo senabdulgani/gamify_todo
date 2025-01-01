@@ -9,9 +9,11 @@ class TaskName extends StatelessWidget {
   const TaskName({
     super.key,
     this.isStore = false,
+    required this.autoFocus,
   });
 
   final bool isStore;
+  final bool autoFocus;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class TaskName extends StatelessWidget {
       child: SizedBox(
         width: 350,
         child: TextField(
+          autofocus: autoFocus,
           controller: provider.taskNameController,
           decoration: InputDecoration(
             hintText: LocaleKeys.TaskName.tr(),

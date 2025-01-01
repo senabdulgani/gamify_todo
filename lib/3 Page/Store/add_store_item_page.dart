@@ -99,7 +99,10 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            const TaskName(isStore: true),
+            TaskName(
+              isStore: true,
+              autoFocus: widget.editItemModel == null,
+            ),
             const SetCredit(),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
