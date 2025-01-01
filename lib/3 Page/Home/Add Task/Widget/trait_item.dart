@@ -4,6 +4,7 @@ import 'package:gamify_todo/3%20Page/Trait%20Detail%20Page/trait_detail_page.dar
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:provider/provider.dart';
 
 class TraitItem extends StatefulWidget {
@@ -62,6 +63,14 @@ class _TraitItemState extends State<TraitItem> {
                 isSelected = !isSelected;
               });
             }
+          },
+          onLongPress: () async {
+            await NavigatorService().goTo(
+              TraitDetailPage(
+                traitModel: widget.trait,
+              ),
+              transition: Transition.rightToLeft,
+            );
           },
           child: Container(
             decoration: BoxDecoration(
