@@ -50,7 +50,7 @@ class TaskModel {
       routineID: json['routine_id'],
       title: json['title'],
       type: type,
-      taskDate: DateTime.parse(json['task_date']).toLocal(),
+      taskDate: DateTime.parse(json['task_date']),
       time: json['time'] != null ? TimeOfDay.fromDateTime(DateTime.parse("1970-01-01 ${json['time']}")) : null,
       isNotificationOn: json['is_notification_on'],
       currentDuration: json['current_duration'] != null ? stringToDuration(json['current_duration']) : null,
