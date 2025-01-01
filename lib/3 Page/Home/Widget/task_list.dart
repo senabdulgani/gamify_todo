@@ -127,6 +127,9 @@ class _TaskListState extends State<TaskList> {
                     },
                   ),
                 ],
+
+                // navbar space
+                const SizedBox(height: 100),
               ],
             ),
           );

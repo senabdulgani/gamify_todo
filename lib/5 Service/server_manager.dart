@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
+import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/rutin_model.dart';
 import 'package:gamify_todo/8%20Model/store_item_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
@@ -40,6 +41,7 @@ class ServerManager {
   Future<UserModel?> login({
     required String email,
     required String password,
+    bool isAutoLogin = false,
   }) async {
     try {
       var response = await dio.post(
@@ -52,6 +54,8 @@ class ServerManager {
 
       return UserModel.fromJson(response.data);
     } on DioException catch (e) {
+      if (isAutoLogin) return null;
+
       if (e.response?.statusCode == 404) {
         // Show error message to the user
         Helper().getMessage(
@@ -337,7 +341,7 @@ class ServerManager {
   Future<void> updateTask({
     required TaskModel taskModel,
   }) async {
-    if (taskModel.currentCount! < taskModel.targetCount!) {
+    if (taskModel.type == TaskTypeEnum.COUNTER && taskModel.currentCount! < taskModel.targetCount!) {
       taskModel.status = null;
     }
 
