@@ -3,12 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
-import 'package:gamify_todo/6%20Provider/task_provider.dart';
-import 'package:gamify_todo/6%20Provider/trait_provider.dart';
-import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
-import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
-import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:provider/provider.dart';
+import 'package:gamify_todo/6%20Provider/profile_view_model.dart';
 
 // TODO:
 // TODO:
@@ -62,54 +58,10 @@ class _LineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get top 3 most used skills in the last week
-    List<TraitModel> topSkillsList = [];
-    Map<int, Map<DateTime, Duration>> skillDurations = {};
+    final viewModel = context.read<ProfileViewModel>();
+    final skillDurations = viewModel.getSkillDurations();
+    final topSkillsList = viewModel.getTopSkills(context, skillDurations);
 
-    // Calculate skill durations for each day in the last week
-    for (var task in TaskProvider().taskList) {
-      if (task.taskDate
-          .isAfter(DateTime.now().subtract(const Duration(days: 7)))) {
-        if (task.skillIDList != null) {
-          for (var skillId in task.skillIDList!) {
-            skillDurations[skillId] ??= {};
-
-            // Get the task duration
-            Duration taskDuration = task.type == TaskTypeEnum.CHECKBOX
-                ? (task.status == TaskStatusEnum.COMPLETED
-                    ? task.remainingDuration!
-                    : Duration.zero)
-                : task.type == TaskTypeEnum.COUNTER
-                    ? task.remainingDuration! * task.currentCount!
-                    : task.currentDuration!;
-
-            // Add duration to the skill's daily total
-            DateTime dateKey = DateTime(
-                task.taskDate.year, task.taskDate.month, task.taskDate.day);
-            skillDurations[skillId]![dateKey] =
-                (skillDurations[skillId]![dateKey] ?? Duration.zero) +
-                    taskDuration;
-          }
-        }
-      }
-    }
-
-    // Get top 3 skills by total duration
-    var sortedSkills = skillDurations.entries.toList()
-      ..sort((a, b) => b.value.values
-          .fold<Duration>(Duration.zero, (p, c) => p + c)
-          .compareTo(
-              a.value.values.fold<Duration>(Duration.zero, (p, c) => p + c)));
-
-    for (var entry in sortedSkills.take(3)) {
-      var skill = context
-          .read<TraitProvider>()
-          .traitList
-          .firstWhere((s) => s.id == entry.key);
-      topSkillsList.add(skill);
-    }
-
-    // Create line data for each top skill
     List<LineChartBarData> dataList = [];
     for (var skill in topSkillsList) {
       var skillData = skillDurations[skill.id]!;
