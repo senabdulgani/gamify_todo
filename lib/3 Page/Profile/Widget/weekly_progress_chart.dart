@@ -1,9 +1,14 @@
-import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
+import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/6%20Provider/trait_provider.dart';
+import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
+import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
+import 'package:gamify_todo/8%20Model/trait_model.dart';
+import 'package:provider/provider.dart';
 
 // TODO:
 // TODO:
@@ -57,12 +62,76 @@ class _LineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: get most duration 5 skills
-    // son 1 haftada en çok süre harcanan skilleri getir. ve hangi gün ne kadar süre harcanmış göster.
-    // burada her şey hesaplanacak. mesela tablo çin dikeydeki süre 1,2,3h yerine belkide 2,4,6,8h olacak çübkü o gün çok çalışılmış mesela gib.
+    // Get top 3 most used skills in the last week
+    List<TraitModel> topSkillsList = [];
+    Map<int, Map<DateTime, Duration>> skillDurations = {};
 
+    // Calculate skill durations for each day in the last week
+    for (var task in TaskProvider().taskList) {
+      if (task.taskDate
+          .isAfter(DateTime.now().subtract(const Duration(days: 7)))) {
+        if (task.skillIDList != null) {
+          for (var skillId in task.skillIDList!) {
+            skillDurations[skillId] ??= {};
+
+            // Get the task duration
+            Duration taskDuration = task.type == TaskTypeEnum.CHECKBOX
+                ? (task.status == TaskStatusEnum.COMPLETED
+                    ? task.remainingDuration!
+                    : Duration.zero)
+                : task.type == TaskTypeEnum.COUNTER
+                    ? task.remainingDuration! * task.currentCount!
+                    : task.currentDuration!;
+
+            // Add duration to the skill's daily total
+            DateTime dateKey = DateTime(
+                task.taskDate.year, task.taskDate.month, task.taskDate.day);
+            skillDurations[skillId]![dateKey] =
+                (skillDurations[skillId]![dateKey] ?? Duration.zero) +
+                    taskDuration;
+          }
+        }
+      }
+    }
+
+    // Get top 3 skills by total duration
+    var sortedSkills = skillDurations.entries.toList()
+      ..sort((a, b) => b.value.values
+          .fold<Duration>(Duration.zero, (p, c) => p + c)
+          .compareTo(
+              a.value.values.fold<Duration>(Duration.zero, (p, c) => p + c)));
+
+    for (var entry in sortedSkills.take(3)) {
+      var skill = context
+          .read<TraitProvider>()
+          .traitList
+          .firstWhere((s) => s.id == entry.key);
+      topSkillsList.add(skill);
+    }
+
+    // Create line data for each top skill
     List<LineChartBarData> dataList = [];
-    // List<TraitModel> topSkillsList = [];
+    for (var skill in topSkillsList) {
+      var skillData = skillDurations[skill.id]!;
+
+      dataList.add(LineChartBarData(
+        isCurved: true,
+        color: skill.color,
+        barWidth: 3,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(show: false),
+        belowBarData: BarAreaData(show: false),
+        spots: List.generate(7, (index) {
+          DateTime date = DateTime.now().subtract(Duration(days: 6 - index));
+          date = DateTime(date.year, date.month, date.day);
+          return FlSpot(
+            index.toDouble(),
+            (skillData[date]?.inHours.toDouble() ?? 0) +
+                (skillData[date]?.inMinutes.remainder(60).toDouble() ?? 0) / 60,
+          );
+        }),
+      ));
+    }
 
     Widget bottomTitleWidgets(
       double value,
@@ -106,35 +175,13 @@ class _LineChart extends StatelessWidget {
           textAlign: TextAlign.center);
     }
 
-    for (int i = 0; i < 3; i++) {
-      dataList.add(LineChartBarData(
-        isCurved: true,
-        curveSmoothness: 0,
-        // color: topSkillsList[i].color,
-        color: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withValues(alpha: 1.0),
-        barWidth: 3,
-        isStrokeCapRound: true,
-        dotData: const FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: [
-          // TODO: burada hangi gün ne kadar süre o yazılacak
-          FlSpot(0, Random().nextDouble() * 5),
-          FlSpot(1, Random().nextDouble() * 5),
-          FlSpot(2, Random().nextDouble() * 5),
-          FlSpot(3, Random().nextDouble() * 3),
-          FlSpot(4, Random().nextDouble() * 3),
-          FlSpot(5, Random().nextDouble() * 5),
-          FlSpot(6, Random().nextDouble() * 5),
-        ],
-      ));
-    }
-
     return LineChart(
       LineChartData(
         lineTouchData: LineTouchData(
           handleBuiltInTouches: true,
           touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) => Colors.blueGrey.withValues(alpha: 0.8),
+            getTooltipColor: (touchedSpot) =>
+                Colors.blueGrey.withValues(alpha: 0.8),
           ),
         ),
         gridData: const FlGridData(show: false),

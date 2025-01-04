@@ -11,6 +11,8 @@ import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:provider/provider.dart';
+import 'package:gamify_todo/3%20Page/Profile/Widget/best_days_analysis.dart';
+import 'package:gamify_todo/3%20Page/Profile/Widget/streak_analysis.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -59,13 +61,17 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 ProfilePageTopSection(),
                 SizedBox(height: 40),
+                WeeklyProgressChart(),
+                SizedBox(height: 40),
+                BestDaysAnalysis(),
+                SizedBox(height: 40),
+                StreakAnalysis(),
+                SizedBox(height: 40),
+                TopItem(),
+                SizedBox(height: 40),
                 TraitList(isSkill: false),
                 SizedBox(height: 20),
                 TraitList(isSkill: true),
-                SizedBox(height: 40),
-                WeeklyProgressChart(),
-                SizedBox(height: 40),
-                TopItem(),
                 SizedBox(height: 80),
               ],
             ),
