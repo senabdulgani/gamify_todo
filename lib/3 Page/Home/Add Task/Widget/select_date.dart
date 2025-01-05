@@ -21,7 +21,7 @@ class _SelectDateState extends State<SelectDate> {
     return Container(
       margin: const EdgeInsets.only(left: 10),
       decoration: BoxDecoration(
-        color: AppColors.transparantBlack,
+        color: AppColors.panelBackground,
         borderRadius: AppColors.borderRadiusAll,
       ),
       child: TableCalendar(
@@ -31,7 +31,7 @@ class _SelectDateState extends State<SelectDate> {
         focusedDay: addTaskProvider.selectedDate,
         selectedDayPredicate: (day) => isSameDay(addTaskProvider.selectedDate, day),
         calendarFormat: CalendarFormat.month,
-        startingDayOfWeek: StartingDayOfWeek.sunday,
+        startingDayOfWeek: StartingDayOfWeek.monday,
         headerStyle: const HeaderStyle(
           formatButtonVisible: false,
           titleCentered: true,
@@ -50,7 +50,7 @@ class _SelectDateState extends State<SelectDate> {
             shape: BoxShape.circle,
           ),
           todayDecoration: BoxDecoration(
-            color: AppColors.main.withAlpha(100),
+            color: AppColors.main.withAlpha(50),
             shape: BoxShape.circle,
           ),
           defaultTextStyle: const TextStyle(fontSize: 12, color: Colors.white),

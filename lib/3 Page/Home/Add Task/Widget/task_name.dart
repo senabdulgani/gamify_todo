@@ -28,6 +28,7 @@ class TaskName extends StatelessWidget {
           decoration: InputDecoration(
             hintText: LocaleKeys.TaskName.tr(),
           ),
+          textInputAction: TextInputAction.next,
         ),
       ),
     );

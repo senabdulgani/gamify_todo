@@ -111,7 +111,7 @@ class AppColors {
 
   static Color get panelBackground {
     if (isDark) {
-      return const Color.fromARGB(255, 17, 17, 17);
+      return const Color.fromARGB(255, 34, 34, 34);
     } else {
       return const Color.fromARGB(255, 247, 247, 247);
     }

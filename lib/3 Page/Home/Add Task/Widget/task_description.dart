@@ -21,7 +21,9 @@ class TaskDescription extends StatelessWidget {
           decoration: InputDecoration(
             hintText: LocaleKeys.TaskDescription.tr(),
           ),
-          maxLines: 3,
+          maxLines: 30,
+          minLines: 3,
+          keyboardType: TextInputType.multiline,
         ),
       ),
     );
