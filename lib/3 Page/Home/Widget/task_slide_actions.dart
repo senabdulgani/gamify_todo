@@ -28,7 +28,6 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      // key required for dismissible
       key: ValueKey(widget.taskModel.id),
       endActionPane: widget.taskModel.routineID != null
           ? null
@@ -65,7 +64,6 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
                 ),
               ],
             ),
-
       startActionPane: widget.taskModel.routineID != null && !Helper().isSameDay(widget.taskModel.taskDate, DateTime.now())
           ? null
           : ActionPane(

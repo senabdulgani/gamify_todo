@@ -130,7 +130,7 @@ class _StoreItemState extends State<StoreItem> {
           child: Text(
             "${widget.storeItemModel.credit == 0 ? LocaleKeys.Add.tr() : LocaleKeys.Buy.tr()} ${widget.storeItemModel.type == TaskTypeEnum.COUNTER ? LocaleKeys.OnePiece.tr() : widget.storeItemModel.addDuration?.textLongDynamicWithoutZero()} ",
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 14,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
