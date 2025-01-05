@@ -28,9 +28,9 @@ class _SelectTimeState extends State<SelectTime> {
         child: Column(
           children: [
             Text(
-              context.watch<AddTaskProvider>().selectedTime?.to24hours() ?? "12:00",
+              context.watch<AddTaskProvider>().selectedTime?.to24hours() ?? LocaleKeys.NotSelected.tr(),
               style: const TextStyle(
-                fontSize: 32,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),

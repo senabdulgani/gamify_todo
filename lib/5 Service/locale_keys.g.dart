@@ -71,5 +71,6 @@ abstract class  LocaleKeys {
   static const InProgress = 'InProgress';
   static const NotStarted = 'NotStarted';
   static const TotalTime = 'TotalTime';
+  static const NotSelected = 'NotSelected';
 
 }

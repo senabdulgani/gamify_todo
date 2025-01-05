@@ -68,5 +68,6 @@
     "Cancelled": "İptal Edildi",
     "InProgress": "Devam Ediyor",
     "NotStarted": "Başlamadı",
-    "TotalTime": "Toplam Süre"
+    "TotalTime": "Toplam Süre",
+    "NotSelected": "Seçilmedi"
 }
