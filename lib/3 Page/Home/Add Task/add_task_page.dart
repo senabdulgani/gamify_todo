@@ -105,14 +105,33 @@ class _AddTaskPageState extends State<AddTaskPage> {
             TaskName(autoFocus: widget.editTask == null),
             const SizedBox(height: 10),
             const TaskDescription(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (widget.editTask?.routineID == null) const SelectDate(),
-                const SelectTime(),
-                const NotificationSwitch(),
-              ],
-            ),
+            const SizedBox(height: 10),
+            if (widget.editTask?.routineID == null)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Expanded(
+                    flex: 3,
+                    child: SelectDate(),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.panelBackground,
+                            borderRadius: AppColors.borderRadiusAll,
+                          ),
+                          child: const SelectTime(),
+                        ),
+                        const SizedBox(height: 10),
+                        const NotificationSwitch(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

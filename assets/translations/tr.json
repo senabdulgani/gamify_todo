@@ -55,5 +55,6 @@
     "Completed": "Tamamlandı",
     "NameEmpty": "İsim boş bırakılamaz.",
     "AddItem": "Ürün Ekle",
-    "TaskDescription": "Görev Açıklaması"
+    "TaskDescription": "Görev Açıklaması",
+    "SelectTime": "Saat Seç"
 }

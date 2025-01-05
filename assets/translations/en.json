@@ -55,5 +55,6 @@
     "Completed": "Completed",
     "NameEmpty": "Name cannot be empty.",
     "AddItem": "Add Item",
-    "TaskDescription": "Task Description"
+    "TaskDescription": "Task Description",
+    "SelectTime": "Select Time"
 }

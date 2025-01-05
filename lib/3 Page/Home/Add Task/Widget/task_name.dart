@@ -28,7 +28,6 @@ class TaskName extends StatelessWidget {
           decoration: InputDecoration(
             hintText: LocaleKeys.TaskName.tr(),
           ),
-          maxLength: 100,
         ),
       ),
     );
