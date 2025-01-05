@@ -56,5 +56,15 @@
     "NameEmpty": "İsim boş bırakılamaz.",
     "AddItem": "Ürün Ekle",
     "TaskDescription": "Görev Açıklaması",
-    "SelectTime": "Saat Seç"
+    "SelectTime": "Saat Seç",
+    "Average": "Ortalama",
+    "InADay": "Günde",
+    "BestHour": "En İyi Saat",
+    "BestDay": "En İyi Gün",
+    "LongestStreak": "En Uzun Süreklilik",
+    "Day": "Gün",
+    "RecentLogs": "Son Kayıtlar",
+    "Cancelled": "İptal Edildi",
+    "InProgress": "Devam Ediyor",
+    "NotStarted": "Başlamadı"
 }

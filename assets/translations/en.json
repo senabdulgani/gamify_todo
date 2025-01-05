@@ -56,5 +56,15 @@
     "NameEmpty": "Name cannot be empty.",
     "AddItem": "Add Item",
     "TaskDescription": "Task Description",
-    "SelectTime": "Select Time"
+    "SelectTime": "Select Time",
+    "Average": "Average",
+    "InADay": "In a day",
+    "BestHour": "Best Hour",
+    "BestDay": "Best Day",
+    "LongestStreak": "Longest Streak",
+    "Day": "Day",
+    "RecentLogs": "Recent Logs",
+    "Cancelled": "Cancelled",
+    "InProgress": "In Progress",
+    "NotStarted": "Not Started"
 }

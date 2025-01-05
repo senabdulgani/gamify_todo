@@ -59,5 +59,15 @@ abstract class  LocaleKeys {
   static const AddItem = 'AddItem';
   static const TaskDescription = 'TaskDescription';
   static const SelectTime = 'SelectTime';
+  static const Average = 'Average';
+  static const InADay = 'InADay';
+  static const BestHour = 'BestHour';
+  static const BestDay = 'BestDay';
+  static const LongestStreak = 'LongestStreak';
+  static const Day = 'Day';
+  static const RecentLogs = 'RecentLogs';
+  static const Cancelled = 'Cancelled';
+  static const InProgress = 'InProgress';
+  static const NotStarted = 'NotStarted';
 
 }
