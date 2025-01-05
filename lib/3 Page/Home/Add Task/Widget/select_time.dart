@@ -21,45 +21,51 @@ class _SelectTimeState extends State<SelectTime> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: AppColors.borderRadiusAll,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: Column(
-          children: [
-            Text(
-              context.watch<AddTaskProvider>().selectedTime?.to24hours() ?? LocaleKeys.NotSelected.tr(),
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.main.withAlpha(100),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.watch_later_outlined, size: 16),
-                  const SizedBox(width: 5),
-                  Text(
-                    LocaleKeys.SelectTime.tr(),
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: AppColors.borderRadiusAll,
       ),
-      onTap: () async {
-        final TimeOfDay? selectedTime = await Helper().selectTime(context);
-        addTaskProvider.updateTime(selectedTime);
-      },
+      child: InkWell(
+        borderRadius: AppColors.borderRadiusAll,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Column(
+            children: [
+              Text(
+                context.watch<AddTaskProvider>().selectedTime?.to24hours() ?? LocaleKeys.NotSelected.tr(),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.main.withAlpha(50),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.watch_later_outlined, size: 16),
+                    const SizedBox(width: 5),
+                    Text(
+                      LocaleKeys.SelectTime.tr(),
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        onTap: () async {
+          final TimeOfDay? selectedTime = await Helper().selectTime(context);
+          addTaskProvider.updateTime(selectedTime);
+        },
+      ),
     );
   }
 }

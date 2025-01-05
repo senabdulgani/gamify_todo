@@ -33,6 +33,17 @@ class _SelectTargetCountState extends State<SelectTargetCount> {
               });
             }
           },
+          onLongPress: () {
+            if (provider.targetCount > 20) {
+              setState(() {
+                provider.targetCount -= 20;
+              });
+            } else if (provider.targetCount > 1) {
+              setState(() {
+                provider.targetCount = 1;
+              });
+            }
+          },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: AppColors.borderRadiusAll,

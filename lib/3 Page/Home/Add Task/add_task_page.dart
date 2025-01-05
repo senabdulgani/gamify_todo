@@ -103,86 +103,82 @@ class _AddTaskPageState extends State<AddTaskPage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (widget.editTask != null) ...[
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            children: [
+              if (widget.editTask != null) ...[
+                const SizedBox(height: 10),
+                CurrentProgressWidget(taskModel: widget.editTask!),
+              ],
               const SizedBox(height: 10),
-              CurrentProgressWidget(taskModel: widget.editTask!),
-            ],
-            const SizedBox(height: 10),
-            TaskName(autoFocus: widget.editTask == null),
-            const SizedBox(height: 10),
-            const TaskDescription(),
-            const SizedBox(height: 10),
-            const SelectPriority(),
-            const SizedBox(height: 10),
-            if (widget.editTask?.routineID == null)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Expanded(
-                    flex: 3,
-                    child: SelectDate(),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.panelBackground,
-                            borderRadius: AppColors.borderRadiusAll,
-                          ),
-                          child: const SelectTime(),
-                        ),
-                        const SizedBox(height: 10),
-                        const NotificationSwitch(),
-                      ],
+              TaskName(autoFocus: widget.editTask == null),
+              const SizedBox(height: 10),
+              const TaskDescription(),
+              const SizedBox(height: 10),
+              const SelectPriority(),
+              const SizedBox(height: 10),
+              if (widget.editTask?.routineID == null)
+                const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: SelectDate(),
                     ),
-                  ),
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        children: [
+                          SelectTime(),
+                          SizedBox(height: 10),
+                          NotificationSwitch(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const DurationPickerWidget(),
+                  if (widget.editTask == null) const SelectTaskType(),
                 ],
               ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const DurationPickerWidget(),
-                const SizedBox(width: 20),
-                if (widget.editTask == null) const SelectTaskType(),
-              ],
-            ),
-            if (widget.editTask == null || (widget.editTask != null && widget.editTask!.routineID != null)) const SelectDays(),
-            const SizedBox(height: 20),
-            const SelectTraitList(isSkill: false),
-            const SizedBox(height: 10),
-            const SelectTraitList(isSkill: true),
-            const SizedBox(height: 50),
-            if (widget.editTask != null)
-              InkWell(
-                borderRadius: AppColors.borderRadiusAll,
-                onTap: () {
-                  if (widget.editTask?.routineID == null) {
-                    taskProvider.deleteTask(widget.editTask!);
-                  } else {
-                    taskProvider.deleteRoutine(widget.editTask!.routineID!);
-                  }
+              if (widget.editTask == null || (widget.editTask != null && widget.editTask!.routineID != null)) const SelectDays(),
+              const SizedBox(height: 20),
+              const SelectTraitList(isSkill: false),
+              const SizedBox(height: 10),
+              const SelectTraitList(isSkill: true),
+              const SizedBox(height: 50),
+              if (widget.editTask != null)
+                InkWell(
+                  borderRadius: AppColors.borderRadiusAll,
+                  onTap: () {
+                    if (widget.editTask?.routineID == null) {
+                      taskProvider.deleteTask(widget.editTask!);
+                    } else {
+                      taskProvider.deleteRoutine(widget.editTask!.routineID!);
+                    }
 
-                  NavigatorService().goBackAll();
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: AppColors.borderRadiusAll,
-                    color: AppColors.red,
-                  ),
-                  child: Text(
-                    LocaleKeys.Delete.tr(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+                    NavigatorService().goBackAll();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: AppColors.borderRadiusAll,
+                      color: AppColors.red,
+                    ),
+                    child: Text(
+                      LocaleKeys.Delete.tr(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

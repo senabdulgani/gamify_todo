@@ -143,7 +143,7 @@ class AppColors {
 
   static Color get appbar {
     if (isDark) {
-      return const Color.fromARGB(255, 19, 19, 19);
+      return const Color.fromARGB(255, 32, 32, 32);
     } else {
       return const Color.fromARGB(255, 218, 218, 218);
     }

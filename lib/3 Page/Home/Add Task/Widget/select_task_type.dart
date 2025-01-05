@@ -38,7 +38,7 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
           ],
         ),
         if (provider.selectedTaskType == TaskTypeEnum.COUNTER) ...[
-          const SizedBox(height: 15),
+          const SizedBox(height: 5),
           SelectTargetCount(isStore: widget.isStore),
         ],
       ],

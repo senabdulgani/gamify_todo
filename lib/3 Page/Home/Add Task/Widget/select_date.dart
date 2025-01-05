@@ -19,7 +19,6 @@ class _SelectDateState extends State<SelectDate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 10),
       decoration: BoxDecoration(
         color: AppColors.panelBackground,
         borderRadius: AppColors.borderRadiusAll,
