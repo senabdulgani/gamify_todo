@@ -119,7 +119,11 @@ class TaskProvider with ChangeNotifier {
 
   // iptal de kullanıcıya ceza yansıtılmayacak
   cancelTask(TaskModel taskModel) {
-    taskModel.status = TaskStatusEnum.CANCEL;
+    if (taskModel.status == TaskStatusEnum.CANCEL) {
+      taskModel.status = null;
+    } else {
+      taskModel.status = TaskStatusEnum.CANCEL;
+    }
 
     ServerManager().updateTask(taskModel: taskModel);
 
@@ -128,7 +132,11 @@ class TaskProvider with ChangeNotifier {
   }
 
   failedTask(TaskModel taskModel) {
-    taskModel.status = TaskStatusEnum.FAILED;
+    if (taskModel.status == TaskStatusEnum.FAILED) {
+      taskModel.status = null;
+    } else {
+      taskModel.status = TaskStatusEnum.FAILED;
+    }
 
     ServerManager().updateTask(taskModel: taskModel);
 
