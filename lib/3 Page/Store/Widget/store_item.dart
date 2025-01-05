@@ -43,22 +43,20 @@ class _StoreItemState extends State<StoreItem> {
           },
           borderRadius: AppColors.borderRadiusAll,
           child: Container(
-            height: 70,
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               borderRadius: AppColors.borderRadiusAll,
-              color: widget.storeItemModel.type == TaskTypeEnum.TIMER && widget.storeItemModel.isTimerActive! ? AppColors.main : AppColors.transparent,
             ),
             child: Row(
               children: [
                 storeItemIcon(),
-                const SizedBox(width: 10),
+                const SizedBox(width: 16),
                 titleAndProgressWidgets(),
                 const Spacer(),
                 Row(
                   children: [
                     creditAmount(),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 12),
                     buyButton(),
                   ],
                 ),
@@ -73,22 +71,27 @@ class _StoreItemState extends State<StoreItem> {
   Widget creditAmount() {
     if (widget.storeItemModel.credit == 0) return const SizedBox();
 
-    return SizedBox(
-      width: 50,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground2.withAlpha(77),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
             "${widget.storeItemModel.credit}",
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(width: 3),
+          const SizedBox(width: 4),
           const Icon(
             Icons.monetization_on,
             size: 20,
+            color: Colors.amber,
           ),
         ],
       ),
@@ -112,19 +115,24 @@ class _StoreItemState extends State<StoreItem> {
         StoreProvider().setStateItems();
       },
       child: Container(
-        width: 115,
         height: 45,
+        constraints: const BoxConstraints(minWidth: 115),
         decoration: BoxDecoration(
           borderRadius: AppColors.borderRadiusAll,
-          color: AppColors.panelBackground2,
+          gradient: LinearGradient(
+            colors: [AppColors.main.withAlpha(150), AppColors.main],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Center(
           child: Text(
             "${widget.storeItemModel.credit == 0 ? LocaleKeys.Add.tr() : LocaleKeys.Buy.tr()} ${widget.storeItemModel.type == TaskTypeEnum.COUNTER ? LocaleKeys.OnePiece.tr() : widget.storeItemModel.addDuration?.textLongDynamicWithoutZero()} ",
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
         ),
@@ -133,8 +141,12 @@ class _StoreItemState extends State<StoreItem> {
   }
 
   Widget storeItemIcon() {
-    return Padding(
-      padding: const EdgeInsets.all(5),
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Icon(
         widget.storeItemModel.type == TaskTypeEnum.COUNTER
             ? Icons.remove
@@ -149,14 +161,14 @@ class _StoreItemState extends State<StoreItem> {
   void storeItemAction() async {
     if (widget.storeItemModel.type == TaskTypeEnum.COUNTER) {
       widget.storeItemModel.currentCount = widget.storeItemModel.currentCount! - 1;
-      await ServerManager().updateItem(itemModel: widget.storeItemModel);
+      ServerManager().updateItem(itemModel: widget.storeItemModel);
       // TODO: - olursa disiplin düşecek
     } else {
       GlobalTimer().startStopTimer(
         storeItemModel: widget.storeItemModel,
       );
 
-      await ServerManager().updateItem(itemModel: widget.storeItemModel);
+      ServerManager().updateItem(itemModel: widget.storeItemModel);
     }
 
     StoreProvider().setStateItems();
@@ -170,25 +182,41 @@ class _StoreItemState extends State<StoreItem> {
         Text(
           widget.storeItemModel.title,
           style: const TextStyle(
-            fontSize: 20,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
+        const SizedBox(height: 4),
         widget.storeItemModel.type == TaskTypeEnum.CHECKBOX
             ? const SizedBox()
             : widget.storeItemModel.type == TaskTypeEnum.COUNTER
-                ? Text(
-                    "${widget.storeItemModel.currentCount}",
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                ? Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: AppColors.panelBackground2.withAlpha(77),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      "${widget.storeItemModel.currentCount}",
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   )
-                : Text(
-                    widget.storeItemModel.currentDuration!.textShortDynamic(),
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                : Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: AppColors.panelBackground2.withAlpha(77),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      widget.storeItemModel.currentDuration!.textShortDynamic(),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.main,
+                      ),
                     ),
                   ),
       ],
