@@ -33,6 +33,8 @@ class TaskItem extends StatefulWidget {
 }
 
 class _TaskItemState extends State<TaskItem> {
+  bool _isIncrementing = false;
+
   @override
   Widget build(BuildContext context) {
     return TaskSlideActinos(
@@ -128,18 +130,36 @@ class _TaskItemState extends State<TaskItem> {
   Widget taskActionIcon() {
     return Padding(
       padding: const EdgeInsets.all(5),
-      child: Icon(
-        widget.taskModel.type == TaskTypeEnum.CHECKBOX
-            ? widget.taskModel.status == TaskStatusEnum.COMPLETED
-                ? Icons.check_box
-                : Icons.check_box_outline_blank
-            : widget.taskModel.type == TaskTypeEnum.COUNTER
-                ? Icons.add
-                : widget.taskModel.isTimerActive!
-                    ? Icons.pause
-                    : Icons.play_arrow,
-        size: 30,
-      ),
+      child: widget.taskModel.type == TaskTypeEnum.COUNTER
+          ? GestureDetector(
+              onTap: () => taskAction(),
+              onLongPressStart: (_) async {
+                _isIncrementing = true;
+                while (_isIncrementing && mounted) {
+                  setState(() {
+                    taskAction();
+                  });
+                  await Future.delayed(const Duration(milliseconds: 150));
+                }
+              },
+              onLongPressEnd: (_) {
+                _isIncrementing = false;
+              },
+              child: const Icon(
+                Icons.add,
+                size: 30,
+              ),
+            )
+          : Icon(
+              widget.taskModel.type == TaskTypeEnum.CHECKBOX
+                  ? widget.taskModel.status == TaskStatusEnum.COMPLETED
+                      ? Icons.check_box
+                      : Icons.check_box_outline_blank
+                  : widget.taskModel.isTimerActive!
+                      ? Icons.pause
+                      : Icons.play_arrow,
+              size: 30,
+            ),
     );
   }
 
