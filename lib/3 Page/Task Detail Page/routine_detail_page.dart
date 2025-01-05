@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/view_model/task_detail_view_model.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/all_time_stats_widget.dart';
-import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/best_performance_widget.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/current_progress_widget.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/recent_logs_widget.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/success_metrics_widget.dart';
@@ -13,8 +12,8 @@ import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 
-class TaskDetailPage extends StatefulWidget {
-  const TaskDetailPage({
+class RoutineDetailPage extends StatefulWidget {
+  const RoutineDetailPage({
     super.key,
     required this.taskModel,
   });
@@ -22,10 +21,10 @@ class TaskDetailPage extends StatefulWidget {
   final TaskModel taskModel;
 
   @override
-  State<TaskDetailPage> createState() => _TaskDetailPageState();
+  State<RoutineDetailPage> createState() => _RoutineDetailPageState();
 }
 
-class _TaskDetailPageState extends State<TaskDetailPage> {
+class _RoutineDetailPageState extends State<RoutineDetailPage> {
   late final TaskDetailViewModel _viewModel;
 
   @override
@@ -73,19 +72,18 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 viewModel: _viewModel,
                 taskType: widget.taskModel.type,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
 
-              // Best Performance
-              BestPerformanceWidget(viewModel: _viewModel),
-              const SizedBox(height: 30),
+              // // Best Performance
+              // BestPerformanceWidget(viewModel: _viewModel),
+              // const SizedBox(height: 30),
 
               // Success Metrics
               SuccessMetricsWidget(viewModel: _viewModel),
-              const SizedBox(height: 30),
 
               // Trait Progress
               TraitProgressWidget(viewModel: _viewModel),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
 
               // Recent Logs
               RecentLogsWidget(viewModel: _viewModel),

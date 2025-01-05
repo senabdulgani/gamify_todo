@@ -8,7 +8,7 @@ import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_slide_actions.dart';
-import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/task_detail_page.dart';
+import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/routine_detail_page.dart';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
@@ -58,7 +58,7 @@ class _TaskItemState extends State<TaskItem> {
               if (widget.taskModel.routineID != null) {
                 await NavigatorService()
                     .goTo(
-                  TaskDetailPage(
+                  RoutineDetailPage(
                     taskModel: widget.taskModel,
                   ),
                   transition: Transition.size,
