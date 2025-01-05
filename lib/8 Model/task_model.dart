@@ -19,6 +19,7 @@ class TaskModel {
   List<int>? attributeIDList; // etki edeceği özellikler
   List<int>? skillIDList; // etki edecği yetenekler
   TaskStatusEnum? status; // tamamlandı mı
+  int priority; // öncelik değeri (1: Yüksek, 2: Orta, 3: Düşük)
 
   TaskModel({
     this.id = 0,
@@ -37,6 +38,7 @@ class TaskModel {
     this.attributeIDList,
     this.skillIDList,
     this.status,
+    this.priority = 3,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
@@ -64,6 +66,7 @@ class TaskModel {
       attributeIDList: json['attribute_id_list'] != null ? (json['attribute_id_list'] as List).map((i) => i as int).toList() : null,
       skillIDList: json['skill_id_list'] != null ? (json['skill_id_list'] as List).map((i) => i as int).toList() : null,
       status: json['status'] != null ? TaskStatusEnum.values.firstWhere((e) => e.toString().split('.').last == json['status']) : null,
+      priority: json['priority'] ?? 3,
     );
   }
 
@@ -96,6 +99,7 @@ class TaskModel {
       'attribute_id_list': attributeIDList,
       'skill_id_list': skillIDList,
       'status': status?.toString().split('.').last,
+      'priority': priority,
     };
   }
 }

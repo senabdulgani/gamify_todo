@@ -59,6 +59,7 @@ class TaskProvider with ChangeNotifier {
       routine.attirbuteIDList = taskModel.attributeIDList;
       routine.skillIDList = taskModel.skillIDList;
       routine.isCompleted = taskModel.status == TaskStatusEnum.COMPLETED ? true : false;
+      routine.priority = taskModel.priority;
 
       ServerManager().updateRoutine(routineModel: routine);
 
@@ -72,6 +73,7 @@ class TaskProvider with ChangeNotifier {
           task.targetCount = taskModel.targetCount;
           task.isNotificationOn = taskModel.isNotificationOn;
           task.time = taskModel.time;
+          task.priority = taskModel.priority;
 
           ServerManager().updateTask(taskModel: task);
         }
@@ -170,20 +172,47 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // Öncelik ve zamana göre sıralama fonksiyonu
+  void _sortTasksByPriorityAndTime(List<TaskModel> tasks) {
+    tasks.sort((a, b) {
+      // Önce önceliğe göre sırala
+      int priorityCompare = a.priority.compareTo(b.priority);
+      if (priorityCompare != 0) return priorityCompare;
+
+      // Öncelikler eşitse zamana göre sırala
+      if (a.time != null && b.time != null) {
+        return (a.time!.hour * 60 + a.time!.minute).compareTo(b.time!.hour * 60 + b.time!.minute);
+      } else if (a.time != null) {
+        return -1;
+      } else if (b.time != null) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
   List<TaskModel> getTasksForDate(DateTime date) {
+    List<TaskModel> tasks;
     if (!showCompleted) {
-      return taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID == null && task.status == null && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)).toList();
+      tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID == null && task.status == null && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)).toList();
+    } else {
+      tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID == null).toList();
     }
 
-    return taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID == null).toList();
+    _sortTasksByPriorityAndTime(tasks);
+    return tasks;
   }
 
   List<TaskModel> getRoutineTasksForDate(DateTime date) {
+    List<TaskModel> tasks;
     if (!showCompleted) {
-      return taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID != null && task.status == null && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)).toList();
+      tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID != null && task.status == null && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)).toList();
+    } else {
+      tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID != null).toList();
     }
 
-    return taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID != null).toList();
+    _sortTasksByPriorityAndTime(tasks);
+    return tasks;
   }
 
   List<TaskModel> getGhostRoutineTasksForDate(DateTime date) {
@@ -191,7 +220,7 @@ class TaskProvider with ChangeNotifier {
       return [];
     }
 
-    return routineList
+    List<TaskModel> tasks = routineList
         .where((routine) => routine.repeatDays.contains(date.weekday - 1) && Helper().isBeforeOrSameDay(routine.startDate, date) && !routine.isCompleted)
         .map((routine) => TaskModel(
               routineID: routine.id,
@@ -207,7 +236,11 @@ class TaskProvider with ChangeNotifier {
               isTimerActive: routine.type == TaskTypeEnum.TIMER ? false : null,
               attributeIDList: routine.attirbuteIDList,
               skillIDList: routine.skillIDList,
+              priority: routine.priority,
             ))
         .toList();
+
+    _sortTasksByPriorityAndTime(tasks);
+    return tasks;
   }
 }

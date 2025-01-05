@@ -15,6 +15,7 @@ class RoutineModel {
   List<int>? attirbuteIDList; // etki edeceği özellikler
   List<int>? skillIDList; // etki edecği yetenekler
   bool isCompleted; // tamamlandı mı
+  int priority; // öncelik değeri (1: Yüksek, 2: Orta, 3: Düşük)
 
   RoutineModel({
     this.id = 0,
@@ -30,6 +31,7 @@ class RoutineModel {
     this.attirbuteIDList,
     this.skillIDList,
     required this.isCompleted,
+    this.priority = 3,
   });
 
   factory RoutineModel.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,7 @@ class RoutineModel {
       attirbuteIDList: json['attribute_id_list'] != null ? List<int>.from(json['attribute_id_list']) : null,
       skillIDList: json['skill_id_list'] != null ? List<int>.from(json['skill_id_list']) : null,
       isCompleted: json['is_completed'],
+      priority: json['priority'] ?? 3,
     );
   }
 
@@ -80,6 +83,7 @@ class RoutineModel {
       'attribute_id_list': attirbuteIDList,
       'skill_id_list': skillIDList,
       'is_completed': isCompleted,
+      'priority': priority,
     };
   }
 }

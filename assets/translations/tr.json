@@ -69,5 +69,9 @@
     "InProgress": "Devam Ediyor",
     "NotStarted": "Başlamadı",
     "TotalTime": "Toplam Süre",
-    "NotSelected": "Seçilmedi"
+    "NotSelected": "Seçilmedi",
+    "Priority": "Öncelik",
+    "HighPriority": "Yüksek",
+    "MediumPriority": "Orta",
+    "LowPriority": "Düşük"
 }

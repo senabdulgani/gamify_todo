@@ -7,6 +7,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_switch.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_date.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_days.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_priority.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_trait.dart';
@@ -58,6 +59,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.selectedTaskType = widget.editTask!.type;
       addTaskProvider.selectedDays = widget.editTask!.routineID == null ? [] : taskProvider.routineList.firstWhere((element) => element.id == widget.editTask!.routineID).repeatDays;
       addTaskProvider.selectedTraits = TraitProvider().traitList.where((element) => (widget.editTask!.attributeIDList != null && widget.editTask!.attributeIDList!.contains(element.id)) || (widget.editTask!.skillIDList != null && widget.editTask!.skillIDList!.contains(element.id))).toList();
+      addTaskProvider.priority = widget.editTask!.priority;
     } else {
       addTaskProvider.taskNameController.clear();
       addTaskProvider.descriptionController.clear();
@@ -69,6 +71,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.selectedTaskType = TaskTypeEnum.CHECKBOX;
       addTaskProvider.selectedDays.clear();
       addTaskProvider.selectedTraits.clear();
+      addTaskProvider.priority = 3;
     }
   }
 
@@ -110,6 +113,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
             TaskName(autoFocus: widget.editTask == null),
             const SizedBox(height: 10),
             const TaskDescription(),
+            const SizedBox(height: 10),
+            const SelectPriority(),
             const SizedBox(height: 10),
             if (widget.editTask?.routineID == null)
               Row(
@@ -226,6 +231,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           attributeIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
           skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
           status: widget.editTask!.status,
+          priority: addTaskProvider.priority,
         ),
       );
     } else {
@@ -245,6 +251,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
             attributeIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
             skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
+            priority: addTaskProvider.priority,
           ),
         );
       } else {
@@ -262,6 +269,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             attirbuteIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
             skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
             isCompleted: false,
+            priority: addTaskProvider.priority,
           ),
         );
 
@@ -282,6 +290,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
               attributeIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
               skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
+              priority: addTaskProvider.priority,
             ),
           );
         } else {

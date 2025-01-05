@@ -72,5 +72,9 @@ abstract class  LocaleKeys {
   static const NotStarted = 'NotStarted';
   static const TotalTime = 'TotalTime';
   static const NotSelected = 'NotSelected';
+  static const Priority = 'Priority';
+  static const HighPriority = 'HighPriority';
+  static const MediumPriority = 'MediumPriority';
+  static const LowPriority = 'LowPriority';
 
 }

@@ -14,6 +14,7 @@ class AddTaskProvider with ChangeNotifier {
   TaskTypeEnum selectedTaskType = TaskTypeEnum.CHECKBOX;
   List<int> selectedDays = [];
   List<TraitModel> selectedTraits = [];
+  int priority = 3;
 
   void updateTime(TimeOfDay? time) {
     selectedTime = time;
@@ -22,6 +23,11 @@ class AddTaskProvider with ChangeNotifier {
       isNotificationOn = false;
     }
 
+    notifyListeners();
+  }
+
+  void updatePriority(int value) {
+    priority = value;
     notifyListeners();
   }
 }
