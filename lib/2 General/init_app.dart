@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
@@ -7,6 +9,7 @@ import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:window_manager/window_manager.dart';
 
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +22,27 @@ Future<void> initApp() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   Helper().registerAdapters();
+
+  if (!kIsWeb && Platform.isWindows) {
+    // Must add this line.
+    await windowManager.ensureInitialized();
+
+    WindowOptions windowOptions = const WindowOptions(
+      title: "BlackBox DB",
+      size: Size(400, 800),
+      maximumSize: Size(450, 1000),
+      minimumSize: Size(300, 400),
+      backgroundColor: Colors.transparent,
+      // fullScreen: false,
+      // skipTaskbar: false,
+      // center: true,
+      // titleBarStyle: TitleBarStyle.hidden,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
 
   // auto login
   SharedPreferences prefs = await SharedPreferences.getInstance();

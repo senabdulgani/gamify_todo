@@ -76,6 +76,7 @@ dependencies:
 
   # Localization
   easy_localization: ^3.0.7
+  window_manager: ^0.4.3
 
 
 dev_dependencies:
