@@ -82,33 +82,35 @@ class _LineChart extends StatelessWidget {
     double maxHours = 0;
 
     // Create single line chart data for total hours
-    dataList.add(LineChartBarData(
-      isCurved: true,
-      color: AppColors.main,
-      barWidth: 3,
-      isStrokeCapRound: true,
-      dotData: const FlDotData(show: false),
-      belowBarData: BarAreaData(
-        show: true,
-        color: AppColors.main.withOpacity(0.2),
+    dataList.add(
+      LineChartBarData(
+        isCurved: false,
+        color: AppColors.main,
+        barWidth: 3,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: AppColors.main.withValues(alpha: 0.2),
+        ),
+        spots: List.generate(7, (index) {
+          DateTime now = DateTime.now();
+          DateTime monday = now.subtract(Duration(days: now.weekday - 1));
+          DateTime date = monday.add(Duration(days: index));
+          date = DateTime(date.year, date.month, date.day);
+
+          double hours = (totalDurations[date]?.inHours.toDouble() ?? 0) + (totalDurations[date]?.inMinutes.remainder(60).toDouble() ?? 0) / 60;
+          if (hours > maxHours) {
+            maxHours = hours;
+          }
+
+          return FlSpot(
+            index.toDouble(),
+            hours,
+          );
+        }),
       ),
-      spots: List.generate(7, (index) {
-        DateTime now = DateTime.now();
-        DateTime monday = now.subtract(Duration(days: now.weekday - 1));
-        DateTime date = monday.add(Duration(days: index));
-        date = DateTime(date.year, date.month, date.day);
-
-        double hours = (totalDurations[date]?.inHours.toDouble() ?? 0) + (totalDurations[date]?.inMinutes.remainder(60).toDouble() ?? 0) / 60;
-        if (hours > maxHours) {
-          maxHours = hours;
-        }
-
-        return FlSpot(
-          index.toDouble(),
-          hours,
-        );
-      }),
-    ));
+    );
 
     // Round up to next multiple of 5 for better readability
     maxHours = ((maxHours + 4.99) ~/ 5) * 5.0;
