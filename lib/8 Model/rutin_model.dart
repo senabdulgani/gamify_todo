@@ -33,12 +33,12 @@ class RoutineModel {
   });
 
   factory RoutineModel.fromJson(Map<String, dynamic> json) {
-    TaskTypeEnum type = TaskTypeEnum.values.firstWhere((e) => e.toString().split('.').last == json['type']);
-
     Duration stringToDuration(String timeString) {
       List<String> split = timeString.split(':');
       return Duration(hours: int.parse(split[0]), minutes: int.parse(split[1]), seconds: int.parse(split[2]));
     }
+
+    TaskTypeEnum type = TaskTypeEnum.values.firstWhere((e) => e.toString().split('.').last == json['type']);
 
     return RoutineModel(
       id: json['id'],
@@ -59,7 +59,11 @@ class RoutineModel {
 
   Map<String, dynamic> toJson() {
     String durationToString(Duration duration) {
-      return '${duration.inHours.toString().padLeft(2, '0')}:${duration.inMinutes.remainder(60).toString().padLeft(2, '0')}:${duration.inSeconds.remainder(60).toString().padLeft(2, '0')}';
+      final hours = duration.inHours;
+      final minutes = duration.inMinutes.remainder(60);
+      final seconds = duration.inSeconds.remainder(60);
+
+      return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
     }
 
     return {

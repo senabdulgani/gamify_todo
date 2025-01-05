@@ -1,34 +1,28 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
-import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
 
-class TaskName extends StatelessWidget {
-  const TaskName({
+class TaskDescription extends StatelessWidget {
+  const TaskDescription({
     super.key,
-    this.isStore = false,
-    required this.autoFocus,
   });
-
-  final bool isStore;
-  final bool autoFocus;
 
   @override
   Widget build(BuildContext context) {
-    late final dynamic provider = isStore ? context.read<AddStoreItemProvider>() : context.read<AddTaskProvider>();
+    final provider = context.read<AddTaskProvider>();
 
     return Center(
       child: SizedBox(
         width: 375,
         child: TextField(
-          autofocus: autoFocus,
-          controller: provider.taskNameController,
+          controller: provider.descriptionController,
           decoration: InputDecoration(
-            hintText: LocaleKeys.TaskName.tr(),
+            hintText: LocaleKeys.TaskDescription.tr(),
           ),
-          maxLength: 100,
+          maxLength: 200,
+          maxLines: 3,
         ),
       ),
     );

@@ -51,8 +51,6 @@ class TaskProvider with ChangeNotifier {
 
       routine.title = taskModel.title;
       routine.type = taskModel.type;
-      // TODO: taskı editlerken burası yanlışlıkla değiştiği için kapatldı. ileride düzgün task tarihi değiştirilince düzeltilecek
-      // routine.startDate = taskModel.taskDate;
       routine.time = taskModel.time;
       routine.isNotificationOn = taskModel.isNotificationOn;
       routine.remainingDuration = taskModel.remainingDuration;
@@ -67,6 +65,7 @@ class TaskProvider with ChangeNotifier {
       for (var task in taskList) {
         if (task.routineID == taskModel.routineID) {
           task.title = taskModel.title;
+          task.description = taskModel.description;
           task.attributeIDList = taskModel.attributeIDList;
           task.skillIDList = taskModel.skillIDList;
           task.remainingDuration = taskModel.remainingDuration;
@@ -74,7 +73,6 @@ class TaskProvider with ChangeNotifier {
           task.isNotificationOn = taskModel.isNotificationOn;
           task.time = taskModel.time;
 
-          //TODO: tek tek güncelleme istekleri yapmak yerine bir kerede güncelleme yapmak daha mantıklı
           ServerManager().updateTask(taskModel: task);
         }
       }

@@ -42,11 +42,9 @@ class _TaskItemState extends State<TaskItem> {
       child: Stack(
         alignment: Alignment.bottomLeft,
         children: [
-          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
           // progress(),
           InkWell(
             onTap: () {
-              // rutin bugüne ait olmadığı için etkilşime bulunulamaz
               if (widget.taskModel.routineID != null && !Helper().isSameDay(widget.taskModel.taskDate, DateTime.now())) {
                 Helper().getMessage(
                   status: StatusEnum.WARNING,
@@ -81,32 +79,58 @@ class _TaskItemState extends State<TaskItem> {
             },
             borderRadius: AppColors.borderRadiusAll,
             child: Container(
-              height: 65,
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? null : AppColors.borderRadiusAll,
                 color: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? AppColors.transparantBlack : AppColors.transparent,
               ),
-              child: Row(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  taskActionIcon(),
-                  const SizedBox(width: 5),
-                  titleAndProgressWidgets(),
-                  const Spacer(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Row(
                     children: [
+                      taskActionIcon(),
+                      const SizedBox(width: 5),
+                      titleAndDescriptionWidgets(),
+                      const SizedBox(width: 10),
                       notificationWidgets(),
-                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-                      // statusWidget(),
                     ],
                   ),
+                  if (widget.taskModel.type != TaskTypeEnum.CHECKBOX) ...[
+                    // const SizedBox(height: 5),
+                    progressText(),
+                  ],
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget progressText() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        widget.taskModel.type == TaskTypeEnum.CHECKBOX
+            ? const SizedBox()
+            : widget.taskModel.type == TaskTypeEnum.COUNTER
+                ? Text(
+                    "${widget.taskModel.currentCount ?? 0}/${widget.taskModel.targetCount ?? 0}",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                : Text(
+                    "${widget.taskModel.remainingDuration!.inHours > 0 ? widget.taskModel.currentDuration!.textShort3() : widget.taskModel.currentDuration!.textShort2()}/${widget.taskModel.remainingDuration!.textShortDynamic()}",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+      ],
     );
   }
 
@@ -117,9 +141,9 @@ class _TaskItemState extends State<TaskItem> {
       width: widget.taskModel.status == TaskStatusEnum.COMPLETED
           ? 1.sw
           : widget.taskModel.type == TaskTypeEnum.TIMER
-              ? widget.taskModel.currentDuration!.inMilliseconds / widget.taskModel.remainingDuration!.inMilliseconds * 1.sw
+              ? ((widget.taskModel.currentDuration?.inSeconds ?? 0) / (widget.taskModel.remainingDuration?.inSeconds ?? 1)).clamp(0.0, 1.0) * 1.sw
               : widget.taskModel.type == TaskTypeEnum.COUNTER
-                  ? widget.taskModel.currentCount! / widget.taskModel.targetCount! * 1.sw
+                  ? ((widget.taskModel.currentCount ?? 0) / (widget.taskModel.targetCount ?? 1)).clamp(0.0, 1.0) * 1.sw
                   : 0.sw,
       decoration: BoxDecoration(
         color: AppColors.deepMain,
@@ -186,16 +210,15 @@ class _TaskItemState extends State<TaskItem> {
     TaskProvider().updateItems();
   }
 
-  Widget titleAndProgressWidgets() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 0.65.sw,
-          child: AutoSizeText(
+  Widget titleAndDescriptionWidgets() {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AutoSizeText(
             widget.taskModel.title,
-            maxLines: widget.taskModel.type == TaskTypeEnum.CHECKBOX ? 2 : 1,
+            maxLines: 1,
             minFontSize: 14,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -205,25 +228,18 @@ class _TaskItemState extends State<TaskItem> {
               color: widget.taskModel.status == TaskStatusEnum.COMPLETED ? AppColors.dirtyWhite : null,
             ),
           ),
-        ),
-        widget.taskModel.type == TaskTypeEnum.CHECKBOX
-            ? const SizedBox()
-            : widget.taskModel.type == TaskTypeEnum.COUNTER
-                ? Text(
-                    "${widget.taskModel.currentCount ?? 0}/${widget.taskModel.targetCount ?? 0}",
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                : Text(
-                    "${widget.taskModel.remainingDuration!.inHours > 0 ? widget.taskModel.currentDuration!.textShort3() : widget.taskModel.currentDuration!.textShort2()}/${widget.taskModel.remainingDuration!.textShortDynamic()}",
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-      ],
+          if (widget.taskModel.description != null && widget.taskModel.description!.isNotEmpty)
+            Text(
+              widget.taskModel.description!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppColors.dirtyWhite,
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -244,45 +260,5 @@ class _TaskItemState extends State<TaskItem> {
         ],
       ],
     );
-  }
-
-  Widget statusWidget() {
-    if (widget.taskModel.status == null) {
-      return const SizedBox();
-    } else if (widget.taskModel.status == TaskStatusEnum.COMPLETED) {
-      return Text(
-        LocaleKeys.Completed.tr(),
-        style: const TextStyle(
-          color: AppColors.green,
-          fontSize: 13,
-        ),
-      );
-    } else if (widget.taskModel.status == TaskStatusEnum.FAILED) {
-      return Row(
-        children: [
-          Text(
-            LocaleKeys.Failed.tr(),
-            style: const TextStyle(
-              color: AppColors.red,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(width: 5),
-        ],
-      );
-    } else {
-      return Row(
-        children: [
-          Text(
-            LocaleKeys.Cancel.tr(),
-            style: const TextStyle(
-              color: AppColors.purple,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(width: 5),
-        ],
-      );
-    }
   }
 }

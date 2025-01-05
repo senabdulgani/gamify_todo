@@ -29,11 +29,19 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
+    String durationToString(Duration duration) {
+      final hours = duration.inHours;
+      final minutes = duration.inMinutes.remainder(60);
+      final seconds = duration.inSeconds.remainder(60);
+
+      return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+    }
+
     return {
       'id': id,
       'email': email,
       'password': password,
-      'credit_progress': '${creditProgress.inHours.toString().padLeft(2, '0')}:${(creditProgress.inMinutes % 60).toString().padLeft(2, '0')}:${(creditProgress.inSeconds % 60).toString().padLeft(2, '0')}',
+      'credit_progress': durationToString(creditProgress),
       'user_credit': userCredit,
     };
   }

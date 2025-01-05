@@ -54,5 +54,6 @@
     "FutureRoutines": "Future Routines",
     "Completed": "Completed",
     "NameEmpty": "Name cannot be empty.",
-    "AddItem": "Add Item"
+    "AddItem": "Add Item",
+    "TaskDescription": "Task Description"
 }

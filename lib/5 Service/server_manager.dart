@@ -20,12 +20,11 @@ class ServerManager {
   }
 
   // static const String _baseUrl = 'http://localhost:3001';
-  // static const String _baseUrl = 'http://192.168.1.21:3001';
-  static const String _baseUrl = 'https://gamify-273bac1e9487.herokuapp.com';
+  static const String _baseUrl = 'http://192.168.1.21:3001';
+  // static const String _baseUrl = 'https://gamif  y-273bac1e9487.herokuapp.com';
 
   var dio = Dio();
-
-  // --------------------------------------------
+  // --------------------------------------------w
 
   // check request
   void checkRequest(Response response) {

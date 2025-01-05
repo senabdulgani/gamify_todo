@@ -79,7 +79,20 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.taskModel.title),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(widget.taskModel.title),
+            if (widget.taskModel.description != null && widget.taskModel.description!.isNotEmpty)
+              Text(
+                widget.taskModel.description!,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColors.dirtyWhite,
+                ),
+              ),
+          ],
+        ),
         leading: InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {

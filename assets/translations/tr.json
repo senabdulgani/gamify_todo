@@ -54,6 +54,6 @@
     "FutureRoutines": "Gelecek Rutinler",
     "Completed": "Tamamlandı",
     "NameEmpty": "İsim boş bırakılamaz.",
-    "AddItem": "Ürün Ekle"
-
+    "AddItem": "Ürün Ekle",
+    "TaskDescription": "Görev Açıklaması"
 }

@@ -6,6 +6,7 @@ class TaskModel {
   int id; // id si
   final int? routineID; // eğer varsa rutin id si
   String title; // başlığı
+  String? description; // açıklama
   final TaskTypeEnum type; // türü
   DateTime taskDate; // yapılacağı tarih
   TimeOfDay? time; // saati
@@ -23,6 +24,7 @@ class TaskModel {
     this.id = 0,
     this.routineID,
     required this.title,
+    this.description,
     required this.type,
     required this.taskDate,
     this.time,
@@ -49,6 +51,7 @@ class TaskModel {
       id: json['id'],
       routineID: json['routine_id'],
       title: json['title'],
+      description: json['description'],
       type: type,
       taskDate: DateTime.parse(json['task_date']),
       time: json['time'] != null ? TimeOfDay.fromDateTime(DateTime.parse("1970-01-01 ${json['time']}")) : null,
@@ -69,16 +72,25 @@ class TaskModel {
   }
 
   Map<String, dynamic> toJson() {
+    String durationToString(Duration duration) {
+      final hours = duration.inHours;
+      final minutes = duration.inMinutes.remainder(60);
+      final seconds = duration.inSeconds.remainder(60);
+
+      return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+    }
+
     return {
       'id': id,
       'routine_id': routineID,
       'title': title,
+      'description': description,
       'type': type.toString().split('.').last,
       'task_date': taskDate.toIso8601String(),
       'time': time != null ? "${time!.hour.toString().padLeft(2, '0')}:${time!.minute.toString().padLeft(2, '0')}:00" : null,
       'is_notification_on': isNotificationOn,
-      'current_duration': currentDuration != null ? "${currentDuration!.inHours.toString().padLeft(2, '0')}:${currentDuration!.inMinutes.remainder(60).toString().padLeft(2, '0')}:${currentDuration!.inSeconds.remainder(60).toString().padLeft(2, '0')}" : null,
-      'remaining_duration': remainingDuration != null ? "${remainingDuration!.inHours.toString().padLeft(2, '0')}:${remainingDuration!.inMinutes.remainder(60).toString().padLeft(2, '0')}:${remainingDuration!.inSeconds.remainder(60).toString().padLeft(2, '0')}" : null,
+      'current_duration': currentDuration != null ? durationToString(currentDuration!) : null,
+      'remaining_duration': remainingDuration != null ? durationToString(remainingDuration!) : null,
       'current_count': currentCount,
       'target_count': targetCount,
       'attribute_id_list': attributeIDList,

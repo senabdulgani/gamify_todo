@@ -5,6 +5,7 @@ import 'package:gamify_todo/8%20Model/trait_model.dart';
 class AddTaskProvider with ChangeNotifier {
   // Widget variables
   TextEditingController taskNameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   TimeOfDay? selectedTime;
   DateTime selectedDate = DateTime.now();
   bool isNotificationOn = false;

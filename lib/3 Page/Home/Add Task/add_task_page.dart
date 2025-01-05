@@ -10,6 +10,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_days.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_trait.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_description.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
@@ -45,10 +46,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
   void initState() {
     super.initState();
 
-    // eğer rutin varsa taskdan değil rutinden mi gelse acaba
-
     if (widget.editTask != null) {
       addTaskProvider.taskNameController.text = widget.editTask!.title;
+      addTaskProvider.descriptionController.text = widget.editTask!.description ?? '';
       addTaskProvider.selectedTime = widget.editTask!.time;
       addTaskProvider.selectedDate = widget.editTask!.taskDate;
       addTaskProvider.isNotificationOn = widget.editTask!.isNotificationOn;
@@ -59,6 +59,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.selectedTraits = TraitProvider().traitList.where((element) => (widget.editTask!.attributeIDList != null && widget.editTask!.attributeIDList!.contains(element.id)) || (widget.editTask!.skillIDList != null && widget.editTask!.skillIDList!.contains(element.id))).toList();
     } else {
       addTaskProvider.taskNameController.clear();
+      addTaskProvider.descriptionController.clear();
       addTaskProvider.selectedTime = null;
       addTaskProvider.selectedDate = context.read<TaskProvider>().selectedDate;
       addTaskProvider.isNotificationOn = false;
@@ -102,6 +103,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
           children: [
             const SizedBox(height: 20),
             TaskName(autoFocus: widget.editTask == null),
+            const SizedBox(height: 10),
+            const TaskDescription(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -157,8 +160,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   void addTask() async {
-    // TODO: ardarda basıp yanlış kopyalar ekleyebiliyorum düzelt. bir kere basınca tekrar basılamasın tüm sayfaya olabilir.
-
     if (addTaskProvider.taskNameController.text.trim().isEmpty) {
       addTaskProvider.taskNameController.clear();
 
@@ -169,7 +170,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
       return;
     }
 
-    // eğer rutin ise başlangıç tarihi geçmiş olamaz
     if (addTaskProvider.selectedDays.isNotEmpty && Helper().isBeforeDay(addTaskProvider.selectedDate, DateTime.now())) {
       Helper().getMessage(
         message: LocaleKeys.RoutineStartDateError.tr(),
@@ -189,6 +189,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           id: widget.editTask!.id,
           routineID: widget.editTask!.routineID,
           title: addTaskProvider.taskNameController.text,
+          description: addTaskProvider.descriptionController.text.trim().isEmpty ? null : addTaskProvider.descriptionController.text,
           type: addTaskProvider.selectedTaskType,
           taskDate: addTaskProvider.selectedDate,
           time: addTaskProvider.selectedTime,
@@ -208,6 +209,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         taskProvider.addTask(
           TaskModel(
             title: addTaskProvider.taskNameController.text,
+            description: addTaskProvider.descriptionController.text.trim().isEmpty ? null : addTaskProvider.descriptionController.text,
             type: addTaskProvider.selectedTaskType,
             taskDate: addTaskProvider.selectedDate,
             time: addTaskProvider.selectedTime,
@@ -243,6 +245,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           taskProvider.addTask(
             TaskModel(
               title: addTaskProvider.taskNameController.text,
+              description: addTaskProvider.descriptionController.text.trim().isEmpty ? null : addTaskProvider.descriptionController.text,
               routineID: taskProvider.routineList.last.id,
               type: addTaskProvider.selectedTaskType,
               taskDate: addTaskProvider.selectedDate,
