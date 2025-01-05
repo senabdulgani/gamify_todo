@@ -82,7 +82,6 @@ class _TaskItemState extends State<TaskItem> {
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? null : AppColors.borderRadiusAll,
-                color: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? AppColors.transparantBlack : AppColors.transparent,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -97,7 +96,6 @@ class _TaskItemState extends State<TaskItem> {
                     ],
                   ),
                   if (widget.taskModel.type != TaskTypeEnum.CHECKBOX) ...[
-                    // const SizedBox(height: 5),
                     progressText(),
                   ],
                 ],
@@ -130,6 +128,7 @@ class _TaskItemState extends State<TaskItem> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+        const SizedBox(width: 15),
       ],
     );
   }
@@ -221,11 +220,9 @@ class _TaskItemState extends State<TaskItem> {
             maxLines: 1,
             minFontSize: 14,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
-              decoration: widget.taskModel.status == TaskStatusEnum.COMPLETED ? TextDecoration.lineThrough : TextDecoration.none,
-              color: widget.taskModel.status == TaskStatusEnum.COMPLETED ? AppColors.dirtyWhite : null,
             ),
           ),
           if (widget.taskModel.description != null && widget.taskModel.description!.isNotEmpty)
@@ -238,9 +235,44 @@ class _TaskItemState extends State<TaskItem> {
                 color: AppColors.dirtyWhite,
               ),
             ),
+          if (widget.taskModel.status != null) statusText(),
         ],
       ),
     );
+  }
+
+  Widget statusText() {
+    switch (widget.taskModel.status) {
+      case TaskStatusEnum.FAILED:
+        return Text(
+          LocaleKeys.Failed.tr(),
+          style: TextStyle(
+            fontSize: 12,
+            color: AppColors.red.withAlpha(180),
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      case TaskStatusEnum.CANCEL:
+        return Text(
+          LocaleKeys.Cancel.tr(),
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.orange.withAlpha(180),
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      case TaskStatusEnum.COMPLETED:
+        return Text(
+          LocaleKeys.Completed.tr(),
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.green.withAlpha(180),
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      default:
+        return const SizedBox();
+    }
   }
 
   Widget notificationWidgets() {
