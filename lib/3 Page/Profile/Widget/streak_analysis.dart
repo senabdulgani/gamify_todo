@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -14,10 +16,10 @@ class StreakAnalysis extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Streaks',
+          LocaleKeys.Streak.tr(),
           style: TextStyle(
             color: AppColors.main,
-            fontSize: 25,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -25,8 +27,8 @@ class StreakAnalysis extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildStreakDisplay('Current', streaks['currentStreak']!),
-            _buildStreakDisplay('Longest', streaks['longestStreak']!),
+            _buildStreakDisplay(LocaleKeys.InProgress.tr(), streaks['currentStreak']!),
+            _buildStreakDisplay(LocaleKeys.LongestStreak.tr(), streaks['longestStreak']!),
           ],
         ),
       ],
@@ -41,7 +43,7 @@ class StreakAnalysis extends StatelessWidget {
           style: const TextStyle(fontSize: 16),
         ),
         Text(
-          '$days days',
+          '$days ${LocaleKeys.Day.tr()}',
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

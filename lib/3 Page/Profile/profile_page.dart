@@ -11,7 +11,6 @@ import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:provider/provider.dart';
-import 'package:gamify_todo/3%20Page/Profile/Widget/best_days_analysis.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/streak_analysis.dart';
 import 'package:gamify_todo/6%20Provider/profile_view_model.dart';
 
@@ -77,8 +76,6 @@ class ProfilePageContent extends StatelessWidget {
             ProfilePageTopSection(),
             SizedBox(height: 40),
             WeeklyTotalProgressChart(),
-            SizedBox(height: 40),
-            BestDaysAnalysis(),
             SizedBox(height: 40),
             StreakAnalysis(),
             SizedBox(height: 40),

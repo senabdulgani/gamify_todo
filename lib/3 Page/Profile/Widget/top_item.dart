@@ -37,7 +37,7 @@ class TopItem extends StatelessWidget {
           LocaleKeys.WeeklyWorkHour.tr(),
           style: TextStyle(
             color: AppColors.main,
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),

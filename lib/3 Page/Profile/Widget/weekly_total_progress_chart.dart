@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:gamify_todo/6%20Provider/profile_view_model.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 
 // This chart shows total weekly progress for all tasks combined
 // Displays total time spent on all tasks per day
@@ -19,6 +20,20 @@ class WeeklyTotalProgressChart extends StatefulWidget {
 class WeeklyTotalProgressChartState extends State<WeeklyTotalProgressChart> {
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.read<ProfileViewModel>();
+    final totalDurations = viewModel.getTotalTaskDurations();
+
+    // Calculate total duration for the week
+    Duration totalDuration = Duration.zero;
+    for (var duration in totalDurations.values) {
+      totalDuration += duration;
+    }
+
+    // Format total duration
+    int totalHours = totalDuration.inHours;
+    int remainingMinutes = totalDuration.inMinutes.remainder(60);
+    String durationText = context.locale == const Locale('en', 'US') ? "$totalHours ${LocaleKeys.h.tr()} $remainingMinutes ${LocaleKeys.m.tr()}" : "$totalHours ${LocaleKeys.h.tr()} $remainingMinutes ${LocaleKeys.m.tr()}";
+
     return SizedBox(
       height: 250,
       child: Stack(
@@ -26,14 +41,19 @@ class WeeklyTotalProgressChartState extends State<WeeklyTotalProgressChart> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text(
-                "Haftalık Toplam Çalışma Süresi",
-                style: TextStyle(
-                  color: AppColors.main,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "${LocaleKeys.WeeklyProgress.tr()} ($durationText)",
+                    style: TextStyle(
+                      color: AppColors.main,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
               const Expanded(
                 child: Padding(
@@ -123,7 +143,7 @@ class _LineChart extends StatelessWidget {
       // Show values at 0%, 25%, 50%, 75%, and 100% of maxHours
       double currentValue = (maxHours * value) / 4;
 
-      String hourText = context.locale == const Locale('en', 'US') ? '${currentValue.toStringAsFixed(0)}h' : '${currentValue.toStringAsFixed(0)}s';
+      String hourText = '${currentValue.toStringAsFixed(0)}${LocaleKeys.h.tr()}';
 
       return Text(hourText,
           style: const TextStyle(

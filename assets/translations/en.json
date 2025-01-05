@@ -62,9 +62,11 @@
     "BestHour": "Best Hour",
     "BestDay": "Best Day",
     "LongestStreak": "Longest Streak",
+    "Streak": "Streak",
     "Day": "Day",
     "RecentLogs": "Recent Logs",
     "Cancelled": "Cancelled",
     "InProgress": "In Progress",
-    "NotStarted": "Not Started"
+    "NotStarted": "Not Started",
+    "TotalTime": "Total Time"
 }
