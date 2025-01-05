@@ -11,18 +11,14 @@ class ProfileViewModel extends ChangeNotifier {
     Map<int, Map<DateTime, Duration>> skillDurations = {};
 
     for (var task in TaskProvider().taskList) {
-      if (task.taskDate
-          .isAfter(DateTime.now().subtract(const Duration(days: 7)))) {
+      if (task.taskDate.isAfter(DateTime.now().subtract(const Duration(days: 7)))) {
         if (task.skillIDList != null) {
           for (var skillId in task.skillIDList!) {
             skillDurations[skillId] ??= {};
 
             Duration taskDuration = _calculateTaskDuration(task);
-            DateTime dateKey = DateTime(
-                task.taskDate.year, task.taskDate.month, task.taskDate.day);
-            skillDurations[skillId]![dateKey] =
-                (skillDurations[skillId]![dateKey] ?? Duration.zero) +
-                    taskDuration;
+            DateTime dateKey = DateTime(task.taskDate.year, task.taskDate.month, task.taskDate.day);
+            skillDurations[skillId]![dateKey] = (skillDurations[skillId]![dateKey] ?? Duration.zero) + taskDuration;
           }
         }
       }
@@ -30,18 +26,12 @@ class ProfileViewModel extends ChangeNotifier {
     return skillDurations;
   }
 
-  List<TraitModel> getTopSkills(
-      BuildContext context, Map<int, Map<DateTime, Duration>> skillDurations) {
+  List<TraitModel> getTopSkills(BuildContext context, Map<int, Map<DateTime, Duration>> skillDurations) {
     List<TraitModel> topSkillsList = [];
-    var sortedSkills = skillDurations.entries.toList()
-      ..sort((a, b) => b.value.values
-          .fold<Duration>(Duration.zero, (p, c) => p + c)
-          .compareTo(
-              a.value.values.fold<Duration>(Duration.zero, (p, c) => p + c)));
+    var sortedSkills = skillDurations.entries.toList()..sort((a, b) => b.value.values.fold<Duration>(Duration.zero, (p, c) => p + c).compareTo(a.value.values.fold<Duration>(Duration.zero, (p, c) => p + c)));
 
     for (var entry in sortedSkills.take(3)) {
-      var skill =
-          TraitProvider().traitList.firstWhere((s) => s.id == entry.key);
+      var skill = TraitProvider().traitList.firstWhere((s) => s.id == entry.key);
       topSkillsList.add(skill);
     }
     return topSkillsList;
@@ -49,9 +39,7 @@ class ProfileViewModel extends ChangeNotifier {
 
   Duration _calculateTaskDuration(task) {
     return task.type == TaskTypeEnum.CHECKBOX
-        ? (task.status == TaskStatusEnum.COMPLETED
-            ? task.remainingDuration!
-            : Duration.zero)
+        ? (task.status == TaskStatusEnum.COMPLETED ? task.remainingDuration! : Duration.zero)
         : task.type == TaskTypeEnum.COUNTER
             ? task.remainingDuration! * task.currentCount!
             : task.currentDuration!;
@@ -94,13 +82,11 @@ class ProfileViewModel extends ChangeNotifier {
     int tempStreak = 0;
     DateTime? lastDate;
 
-    var sortedTasks = TaskProvider().taskList.toList()
-      ..sort((a, b) => b.taskDate.compareTo(a.taskDate));
+    var sortedTasks = TaskProvider().taskList.toList()..sort((a, b) => b.taskDate.compareTo(a.taskDate));
 
     for (var task in sortedTasks) {
       if (task.status == TaskStatusEnum.COMPLETED) {
-        if (lastDate == null ||
-            task.taskDate.difference(lastDate).inDays == 1) {
+        if (lastDate == null || task.taskDate.difference(lastDate).inDays == 1) {
           tempStreak++;
         } else {
           tempStreak = 1;
@@ -119,5 +105,20 @@ class ProfileViewModel extends ChangeNotifier {
       'currentStreak': currentStreak,
       'longestStreak': longestStreak,
     };
+  }
+
+  // Get total durations for all tasks (including tasks without traits)
+  Map<DateTime, Duration> getTotalTaskDurations() {
+    Map<DateTime, Duration> totalDurations = {};
+
+    for (var task in TaskProvider().taskList) {
+      if (task.status == TaskStatusEnum.COMPLETED) {
+        DateTime date = DateTime(task.taskDate.year, task.taskDate.month, task.taskDate.day);
+        Duration duration = _calculateTaskDuration(task);
+        totalDurations[date] = (totalDurations[date] ?? Duration.zero) + duration;
+      }
+    }
+
+    return totalDurations;
   }
 }

@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/top_item.dart';
-import 'package:gamify_todo/3%20Page/Profile/Widget/weekly_progress_chart.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/profile_page_top_section.dart';
 import 'package:gamify_todo/3%20Page/Profile/Widget/trait_list.dart';
+import 'package:gamify_todo/3%20Page/Profile/Widget/weekly_total_progress_chart.dart';
 import 'package:gamify_todo/3%20Page/Settings/settings_page.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
@@ -76,7 +76,7 @@ class ProfilePageContent extends StatelessWidget {
           children: [
             ProfilePageTopSection(),
             SizedBox(height: 40),
-            WeeklyProgressChart(),
+            WeeklyTotalProgressChart(),
             SizedBox(height: 40),
             BestDaysAnalysis(),
             SizedBox(height: 40),

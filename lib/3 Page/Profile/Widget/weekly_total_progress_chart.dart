@@ -2,25 +2,21 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
-import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:provider/provider.dart';
 import 'package:gamify_todo/6%20Provider/profile_view_model.dart';
 
-// TODO:
-// TODO:
-// TODO:
-// TODO:
-// TODO:
-// TODO:
+// This chart shows total weekly progress for all tasks combined
+// Displays total time spent on all tasks per day
+// Data shows a single line representing total work time per day
 
-class WeeklyProgressChart extends StatefulWidget {
-  const WeeklyProgressChart({super.key});
+class WeeklyTotalProgressChart extends StatefulWidget {
+  const WeeklyTotalProgressChart({super.key});
 
   @override
-  State<StatefulWidget> createState() => WeeklyProgressChartState();
+  State<StatefulWidget> createState() => WeeklyTotalProgressChartState();
 }
 
-class WeeklyProgressChartState extends State<WeeklyProgressChart> {
+class WeeklyTotalProgressChartState extends State<WeeklyTotalProgressChart> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -31,7 +27,7 @@ class WeeklyProgressChartState extends State<WeeklyProgressChart> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
-                LocaleKeys.WeeklyProgress.tr(),
+                "Haftalık Toplam Çalışma Süresi",
                 style: TextStyle(
                   color: AppColors.main,
                   fontSize: 25,
@@ -59,43 +55,40 @@ class _LineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.read<ProfileViewModel>();
-    final skillDurations = viewModel.getSkillDurations();
-    final topSkillsList = viewModel.getTopSkills(context, skillDurations);
+    final totalDurations = viewModel.getTotalTaskDurations();
 
     List<LineChartBarData> dataList = [];
     // Calculate max value from all data points
     double maxHours = 0;
 
-    for (var skill in topSkillsList) {
-      var skillData = skillDurations[skill.id]!;
+    // Create single line chart data for total hours
+    dataList.add(LineChartBarData(
+      isCurved: true,
+      color: AppColors.main,
+      barWidth: 3,
+      isStrokeCapRound: true,
+      dotData: const FlDotData(show: false),
+      belowBarData: BarAreaData(
+        show: true,
+        color: AppColors.main.withOpacity(0.2),
+      ),
+      spots: List.generate(7, (index) {
+        DateTime now = DateTime.now();
+        DateTime monday = now.subtract(Duration(days: now.weekday - 1));
+        DateTime date = monday.add(Duration(days: index));
+        date = DateTime(date.year, date.month, date.day);
 
-      dataList.add(LineChartBarData(
-        isCurved: true,
-        color: skill.color,
-        barWidth: 3,
-        isStrokeCapRound: true,
-        dotData: const FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-        spots: List.generate(7, (index) {
-          // Calculate dates from Monday to Sunday
-          DateTime now = DateTime.now();
-          // Find the most recent Monday
-          DateTime monday = now.subtract(Duration(days: now.weekday - 1));
-          // Add index days to get the current day
-          DateTime date = monday.add(Duration(days: index));
-          date = DateTime(date.year, date.month, date.day);
+        double hours = (totalDurations[date]?.inHours.toDouble() ?? 0) + (totalDurations[date]?.inMinutes.remainder(60).toDouble() ?? 0) / 60;
+        if (hours > maxHours) {
+          maxHours = hours;
+        }
 
-          double hours = (skillData[date]?.inHours.toDouble() ?? 0) + (skillData[date]?.inMinutes.remainder(60).toDouble() ?? 0) / 60;
-          if (hours > maxHours) {
-            maxHours = hours;
-          }
-          return FlSpot(
-            index.toDouble(),
-            hours,
-          );
-        }),
-      ));
-    }
+        return FlSpot(
+          index.toDouble(),
+          hours,
+        );
+      }),
+    ));
 
     // Round up to next multiple of 5 for better readability
     maxHours = ((maxHours + 4.99) ~/ 5) * 5.0;
