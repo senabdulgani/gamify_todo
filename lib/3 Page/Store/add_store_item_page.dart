@@ -96,43 +96,48 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            TaskName(
-              isStore: true,
-              autoFocus: widget.editItemModel == null,
-            ),
-            const SetCredit(),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DurationPickerWidget(isStore: true),
-                SizedBox(width: 20),
-                SelectTaskType(isStore: true),
-              ],
-            ),
-            const SizedBox(height: 50),
-            if (widget.editItemModel != null)
-              InkWell(
-                borderRadius: AppColors.borderRadiusAll,
-                onTap: () {
-                  storeProvider.deleteItem(widget.editItemModel!.id);
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              TaskName(
+                isStore: true,
+                autoFocus: widget.editItemModel == null,
+              ),
+              const SizedBox(height: 10),
+              const SetCredit(),
+              const SizedBox(height: 10),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DurationPickerWidget(isStore: true),
+                  SizedBox(width: 20),
+                  SelectTaskType(isStore: true),
+                ],
+              ),
+              const SizedBox(height: 50),
+              if (widget.editItemModel != null)
+                InkWell(
+                  borderRadius: AppColors.borderRadiusAll,
+                  onTap: () {
+                    storeProvider.deleteItem(widget.editItemModel!.id);
 
-                  Get.back();
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: AppColors.borderRadiusAll,
-                    color: AppColors.red,
-                  ),
-                  child: Text(
-                    LocaleKeys.Delete.tr(),
+                    Get.back();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: AppColors.borderRadiusAll,
+                      color: AppColors.red,
+                    ),
+                    child: Text(
+                      LocaleKeys.Delete.tr(),
+                    ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

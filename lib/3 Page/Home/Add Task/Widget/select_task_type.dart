@@ -28,20 +28,28 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            if (!widget.isStore) taskTypeButton(TaskTypeEnum.CHECKBOX),
-            taskTypeButton(TaskTypeEnum.COUNTER),
-            taskTypeButton(TaskTypeEnum.TIMER),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: AppColors.borderRadiusAll,
+      ),
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (!widget.isStore) taskTypeButton(TaskTypeEnum.CHECKBOX),
+              taskTypeButton(TaskTypeEnum.COUNTER),
+              taskTypeButton(TaskTypeEnum.TIMER),
+            ],
+          ),
+          if (provider.selectedTaskType == TaskTypeEnum.COUNTER) ...[
+            const SizedBox(height: 5),
+            SelectTargetCount(isStore: widget.isStore),
           ],
-        ),
-        if (provider.selectedTaskType == TaskTypeEnum.COUNTER) ...[
-          const SizedBox(height: 5),
-          SelectTargetCount(isStore: widget.isStore),
         ],
-      ],
+      ),
     );
   }
 

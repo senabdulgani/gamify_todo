@@ -17,78 +17,85 @@ class _SetCreditState extends State<SetCredit> {
   Widget build(BuildContext context) {
     late final AddStoreItemProvider provider = context.read<AddStoreItemProvider>();
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InkWell(
-          borderRadius: AppColors.borderRadiusAll,
-          onTap: () {
-            if (provider.credit > 0) {
-              setState(() {
-                provider.credit--;
-              });
-            }
-          },
-          onLongPress: () {
-            setState(() {
-              if (provider.credit >= 20) {
-                provider.credit -= 20;
-              } else {
-                provider.credit = 0;
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: AppColors.borderRadiusAll,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            borderRadius: AppColors.borderRadiusAll,
+            onTap: () {
+              if (provider.credit > 0) {
+                setState(() {
+                  provider.credit--;
+                });
               }
-            });
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: AppColors.borderRadiusAll,
-            ),
-            padding: const EdgeInsets.all(5),
-            child: const Icon(
-              Icons.remove,
-              size: 30,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(5),
-          child: Row(
-            children: [
-              Text(
-                provider.credit.toString(),
-                style: const TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                ),
+            },
+            onLongPress: () {
+              setState(() {
+                if (provider.credit >= 20) {
+                  provider.credit -= 20;
+                } else {
+                  provider.credit = 0;
+                }
+              });
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: AppColors.borderRadiusAll,
               ),
-              const SizedBox(width: 3),
-              const Icon(Icons.monetization_on),
-            ],
-          ),
-        ),
-        InkWell(
-          borderRadius: AppColors.borderRadiusAll,
-          onTap: () {
-            setState(() {
-              provider.credit++;
-            });
-          },
-          onLongPress: () {
-            setState(() {
-              provider.credit += 20;
-            });
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: AppColors.borderRadiusAll,
+              padding: const EdgeInsets.all(5),
+              child: const Icon(
+                Icons.remove,
+                size: 30,
+              ),
             ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(5),
-            child: const Icon(
-              Icons.add,
-              size: 30,
+            child: Row(
+              children: [
+                Text(
+                  provider.credit.toString(),
+                  style: const TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 3),
+                const Icon(Icons.monetization_on),
+              ],
             ),
           ),
-        ),
-      ],
+          InkWell(
+            borderRadius: AppColors.borderRadiusAll,
+            onTap: () {
+              setState(() {
+                provider.credit++;
+              });
+            },
+            onLongPress: () {
+              setState(() {
+                provider.credit += 20;
+              });
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: AppColors.borderRadiusAll,
+              ),
+              padding: const EdgeInsets.all(5),
+              child: const Icon(
+                Icons.add,
+                size: 30,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

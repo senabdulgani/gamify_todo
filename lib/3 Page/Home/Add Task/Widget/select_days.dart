@@ -24,18 +24,25 @@ class _SelectDaysState extends State<SelectDays> {
       days = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
     }
 
-    return SizedBox(
-      height: 50,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: days.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return DayButton(
-            index: index,
-            name: days[index],
-          );
-        },
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: AppColors.borderRadiusAll,
+      ),
+      padding: const EdgeInsets.all(10),
+      child: SizedBox(
+        height: 50,
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: days.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return DayButton(
+              index: index,
+              name: days[index],
+            );
+          },
+        ),
       ),
     );
   }

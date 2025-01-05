@@ -112,7 +112,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 CurrentProgressWidget(taskModel: widget.editTask!),
               ],
               const SizedBox(height: 10),
-              TaskName(autoFocus: widget.editTask == null),
+              const TaskName(autoFocus: true),
               const SizedBox(height: 10),
               const TaskDescription(),
               const SizedBox(height: 10),
@@ -120,7 +120,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
               const SizedBox(height: 10),
               if (widget.editTask?.routineID == null)
                 const Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       flex: 3,
@@ -138,6 +137,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     ),
                   ],
                 ),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -145,8 +145,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   if (widget.editTask == null) const SelectTaskType(),
                 ],
               ),
+              const SizedBox(height: 10),
               if (widget.editTask == null || (widget.editTask != null && widget.editTask!.routineID != null)) const SelectDays(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const SelectTraitList(isSkill: false),
               const SizedBox(height: 10),
               const SelectTraitList(isSkill: true),

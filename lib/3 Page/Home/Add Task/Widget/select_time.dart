@@ -29,7 +29,7 @@ class _SelectTimeState extends State<SelectTime> {
       child: InkWell(
         borderRadius: AppColors.borderRadiusAll,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               Text(

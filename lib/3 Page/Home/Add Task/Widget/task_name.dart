@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
@@ -19,16 +20,23 @@ class TaskName extends StatelessWidget {
   Widget build(BuildContext context) {
     late final dynamic provider = isStore ? context.read<AddStoreItemProvider>() : context.read<AddTaskProvider>();
 
-    return Center(
-      child: SizedBox(
-        width: 375,
-        child: TextField(
-          autofocus: autoFocus,
-          controller: provider.taskNameController,
-          decoration: InputDecoration(
-            hintText: LocaleKeys.TaskName.tr(),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: AppColors.borderRadiusAll,
+      ),
+      padding: const EdgeInsets.all(10),
+      child: Center(
+        child: SizedBox(
+          width: 375,
+          child: TextField(
+            autofocus: autoFocus,
+            controller: provider.taskNameController,
+            decoration: InputDecoration(
+              hintText: LocaleKeys.TaskName.tr(),
+            ),
+            textInputAction: TextInputAction.next,
           ),
-          textInputAction: TextInputAction.next,
         ),
       ),
     );

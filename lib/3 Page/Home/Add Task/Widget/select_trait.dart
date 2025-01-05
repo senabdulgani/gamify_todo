@@ -26,8 +26,12 @@ class _SelectTraitListState extends State<SelectTraitList> {
   Widget build(BuildContext context) {
     context.watch<TraitProvider>();
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: AppColors.borderRadiusAll,
+      ),
+      padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

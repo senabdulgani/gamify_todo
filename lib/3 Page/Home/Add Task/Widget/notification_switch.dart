@@ -16,26 +16,36 @@ class _NotificationSwitchState extends State<NotificationSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: AppColors.borderRadiusAll,
-      onTap: () async {
-        await changeNotificationStatus();
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(width: 5),
-          const Icon(
-            Icons.notifications,
-            size: 30,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: AppColors.borderRadiusAll,
+      ),
+      child: InkWell(
+        borderRadius: AppColors.borderRadiusAll,
+        onTap: () async {
+          await changeNotificationStatus();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(width: 5),
+              const Icon(
+                Icons.notifications,
+                size: 30,
+              ),
+              Switch(
+                value: addTaskProvider.isNotificationOn,
+                onChanged: (isNotificationOn) async {
+                  await changeNotificationStatus();
+                },
+              ),
+            ],
           ),
-          Switch(
-            value: addTaskProvider.isNotificationOn,
-            onChanged: (isNotificationOn) async {
-              await changeNotificationStatus();
-            },
-          ),
-        ],
+        ),
       ),
     );
   }
