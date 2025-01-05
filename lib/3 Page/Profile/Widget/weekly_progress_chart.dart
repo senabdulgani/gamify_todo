@@ -63,6 +63,9 @@ class _LineChart extends StatelessWidget {
     final topSkillsList = viewModel.getTopSkills(context, skillDurations);
 
     List<LineChartBarData> dataList = [];
+    // Calculate max value from all data points
+    double maxHours = 0;
+
     for (var skill in topSkillsList) {
       var skillData = skillDurations[skill.id]!;
 
@@ -74,16 +77,29 @@ class _LineChart extends StatelessWidget {
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: List.generate(7, (index) {
-          DateTime date = DateTime.now().subtract(Duration(days: 6 - index));
+          // Calculate dates from Monday to Sunday
+          DateTime now = DateTime.now();
+          // Find the most recent Monday
+          DateTime monday = now.subtract(Duration(days: now.weekday - 1));
+          // Add index days to get the current day
+          DateTime date = monday.add(Duration(days: index));
           date = DateTime(date.year, date.month, date.day);
+
+          double hours = (skillData[date]?.inHours.toDouble() ?? 0) + (skillData[date]?.inMinutes.remainder(60).toDouble() ?? 0) / 60;
+          if (hours > maxHours) {
+            maxHours = hours;
+          }
           return FlSpot(
             index.toDouble(),
-            (skillData[date]?.inHours.toDouble() ?? 0) +
-                (skillData[date]?.inMinutes.remainder(60).toDouble() ?? 0) / 60,
+            hours,
           );
         }),
       ));
     }
+
+    // Round up to next multiple of 5 for better readability
+    maxHours = ((maxHours + 4.99) ~/ 5) * 5.0;
+    maxHours = maxHours < 5 ? 5 : maxHours;
 
     Widget bottomTitleWidgets(
       double value,
@@ -111,15 +127,12 @@ class _LineChart extends StatelessWidget {
     }
 
     Widget leftTitleWidgets(double value, TitleMeta meta) {
-      late List<String> hours;
+      // Show values at 0%, 25%, 50%, 75%, and 100% of maxHours
+      double currentValue = (maxHours * value) / 4;
 
-      if (context.locale == const Locale('en', 'US')) {
-        hours = ['0h', '1h', '2h', '3h', '4h', '5h'];
-      } else {
-        hours = ['0s', '1s', '2s', '3s', '4s', '5s'];
-      }
+      String hourText = context.locale == const Locale('en', 'US') ? '${currentValue.toStringAsFixed(0)}h' : '${currentValue.toStringAsFixed(0)}s';
 
-      return Text(hours[value.toInt()],
+      return Text(hourText,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
@@ -132,8 +145,7 @@ class _LineChart extends StatelessWidget {
         lineTouchData: LineTouchData(
           handleBuiltInTouches: true,
           touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) =>
-                Colors.blueGrey.withValues(alpha: 0.8),
+            getTooltipColor: (touchedSpot) => Colors.blueGrey.withValues(alpha: 0.8),
           ),
         ),
         gridData: const FlGridData(show: false),
@@ -150,8 +162,8 @@ class _LineChart extends StatelessWidget {
             sideTitles: SideTitles(
               getTitlesWidget: leftTitleWidgets,
               showTitles: true,
-              interval: 1,
               reservedSize: 40,
+              interval: maxHours / 4,
             ),
           ),
           rightTitles: const AxisTitles(
@@ -171,7 +183,7 @@ class _LineChart extends StatelessWidget {
         lineBarsData: dataList,
         minX: 0,
         maxX: 6,
-        maxY: 5,
+        maxY: dataList.isEmpty ? 5 : maxHours,
         minY: 0,
       ),
     );
