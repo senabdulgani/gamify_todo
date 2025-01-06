@@ -72,6 +72,22 @@ class WeeklyRoutineView extends StatelessWidget {
     return (item.remainingDuration as Duration).textShort2hour();
   }
 
+  Duration _calculateTotalDuration(List<dynamic> routines) {
+    int totalMicroseconds = 0;
+
+    for (var routine in routines) {
+      if (routine.remainingDuration != null) {
+        if (routine.type == TaskTypeEnum.COUNTER && routine.targetCount != null) {
+          totalMicroseconds += (routine.remainingDuration as Duration).inMicroseconds * (routine.targetCount as int);
+        } else {
+          totalMicroseconds += (routine.remainingDuration as Duration).inMicroseconds;
+        }
+      }
+    }
+
+    return Duration(microseconds: totalMicroseconds);
+  }
+
   @override
   Widget build(BuildContext context) {
     final taskProvider = context.watch<TaskProvider>();
@@ -88,14 +104,14 @@ class WeeklyRoutineView extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Table(
         border: TableBorder.all(
-          color: AppColors.text.withOpacity(0.2),
+          color: AppColors.text.withAlpha(51),
           width: 1,
         ),
         children: [
           // Header row
           TableRow(
             decoration: BoxDecoration(
-              color: AppColors.text.withOpacity(0.1),
+              color: AppColors.text.withAlpha(26),
             ),
             children: const [
               TableCell(
@@ -120,7 +136,8 @@ class WeeklyRoutineView extends StatelessWidget {
           ),
           // Day rows
           ...List.generate(weekDays.length, (index) {
-            final dayRoutines = routines.where((routine) => routine.repeatDays.contains(index + 1)).toList();
+            final dayRoutines = routines.where((routine) => routine.repeatDays.contains(index)).toList();
+            final totalDuration = _calculateTotalDuration(dayRoutines);
 
             return TableRow(
               children: [
@@ -128,9 +145,22 @@ class WeeklyRoutineView extends StatelessWidget {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      weekDays[index],
-                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          weekDays[index],
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        if (dayRoutines.isNotEmpty)
+                          Text(
+                            'Toplam: ${totalDuration.textShort2hour()}',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.text.withAlpha(179),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ),
@@ -175,7 +205,7 @@ class WeeklyRoutineView extends StatelessWidget {
                                             '${_getDurationText(routine)}${routine.time != null ? ' • ${routine.time!.hour}:${routine.time!.minute.toString().padLeft(2, '0')}' : ''}',
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: AppColors.text.withOpacity(0.7),
+                                              color: AppColors.text.withAlpha(179),
                                             ),
                                           ),
                                         ],

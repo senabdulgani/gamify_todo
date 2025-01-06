@@ -24,6 +24,22 @@ class TaskCalendarPage extends StatelessWidget {
     return task.remainingDuration!.textShort2hour();
   }
 
+  Duration _calculateTotalDuration(List<TaskModel> tasks) {
+    int totalMicroseconds = 0;
+
+    for (var task in tasks) {
+      if (task.remainingDuration != null) {
+        if (task.type == TaskTypeEnum.COUNTER && task.targetCount != null) {
+          totalMicroseconds += task.remainingDuration!.inMicroseconds * task.targetCount!;
+        } else {
+          totalMicroseconds += task.remainingDuration!.inMicroseconds;
+        }
+      }
+    }
+
+    return Duration(microseconds: totalMicroseconds);
+  }
+
   Map<DateTime, List<TaskModel>> _groupTasksByDate(List<TaskModel> tasks) {
     final Map<DateTime, List<TaskModel>> grouped = {};
 
@@ -60,14 +76,14 @@ class TaskCalendarPage extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Table(
         border: TableBorder.all(
-          color: AppColors.text.withOpacity(0.2),
+          color: AppColors.text.withAlpha(51),
           width: 1,
         ),
         children: [
           // Header row
           TableRow(
             decoration: BoxDecoration(
-              color: AppColors.text.withOpacity(0.1),
+              color: AppColors.text.withAlpha(26),
             ),
             children: const [
               TableCell(
@@ -93,6 +109,7 @@ class TaskCalendarPage extends StatelessWidget {
           // Date rows
           ...sortedDates.map((date) {
             final dayTasks = groupedTasks[date]!;
+            final totalDuration = _calculateTotalDuration(dayTasks);
 
             return TableRow(
               children: [
@@ -100,9 +117,21 @@ class TaskCalendarPage extends StatelessWidget {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '${date.day}/${date.month}/${date.year}',
-                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${date.day}/${date.month}/${date.year}',
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          'Toplam: ${totalDuration.textShort2hour()}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.text.withAlpha(179),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -137,14 +166,14 @@ class TaskCalendarPage extends StatelessWidget {
                                               task.description!,
                                               style: TextStyle(
                                                 fontSize: 12,
-                                                color: AppColors.text.withOpacity(0.7),
+                                                color: AppColors.text.withAlpha(179),
                                               ),
                                             ),
                                           Text(
                                             '${_getDurationText(task)}${task.time != null ? ' • ${task.time!.hour}:${task.time!.minute.toString().padLeft(2, '0')}' : ''}',
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: AppColors.text.withOpacity(0.7),
+                                              color: AppColors.text.withAlpha(179),
                                             ),
                                           ),
                                         ],
