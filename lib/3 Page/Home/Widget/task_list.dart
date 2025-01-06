@@ -51,7 +51,6 @@ class _TaskListState extends State<TaskList> {
                   ),
 
                 // Routine Tasks
-                if (selectedDateRutinTaskList.isNotEmpty && selectedDateTaskList.isEmpty) const SizedBox(height: 20),
                 if (selectedDateRutinTaskList.isNotEmpty) ...[
                   const Divider(),
                   if (selectedDateRutinTaskList.isNotEmpty)
