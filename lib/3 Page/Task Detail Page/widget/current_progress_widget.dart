@@ -20,6 +20,9 @@ class CurrentProgressWidget extends StatefulWidget {
 }
 
 class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
+  bool _isIncrementing = false;
+  bool _isDecrementing = false;
+
   @override
   Widget build(BuildContext context) {
     if (widget.taskModel.type == TaskTypeEnum.CHECKBOX) {
@@ -31,8 +34,7 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          InkWell(
-            borderRadius: BorderRadius.circular(8),
+          GestureDetector(
             onTap: () {
               if (widget.taskModel.currentCount! > 0) {
                 setState(() {
@@ -41,13 +43,20 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
                 ServerManager().updateTask(taskModel: widget.taskModel);
               }
             },
-            onLongPress: () {
-              if (widget.taskModel.currentCount! > 20) {
-                setState(() {
-                  widget.taskModel.currentCount = widget.taskModel.currentCount! - 20;
-                });
-                ServerManager().updateTask(taskModel: widget.taskModel);
+            onLongPressStart: (_) async {
+              _isDecrementing = true;
+              while (_isDecrementing && mounted) {
+                if (widget.taskModel.currentCount! > 0) {
+                  setState(() {
+                    widget.taskModel.currentCount = widget.taskModel.currentCount! - 1;
+                  });
+                  ServerManager().updateTask(taskModel: widget.taskModel);
+                }
+                await Future.delayed(const Duration(milliseconds: 60));
               }
+            },
+            onLongPressEnd: (_) {
+              _isDecrementing = false;
             },
             child: Container(
               padding: const EdgeInsets.all(8),
@@ -60,19 +69,25 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(width: 16),
-          InkWell(
-            borderRadius: BorderRadius.circular(8),
+          GestureDetector(
             onTap: () {
               setState(() {
                 widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
               });
               ServerManager().updateTask(taskModel: widget.taskModel);
             },
-            onLongPress: () {
-              setState(() {
-                widget.taskModel.currentCount = widget.taskModel.currentCount! + 20;
-              });
-              ServerManager().updateTask(taskModel: widget.taskModel);
+            onLongPressStart: (_) async {
+              _isIncrementing = true;
+              while (_isIncrementing && mounted) {
+                setState(() {
+                  widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
+                });
+                ServerManager().updateTask(taskModel: widget.taskModel);
+                await Future.delayed(const Duration(milliseconds: 60));
+              }
+            },
+            onLongPressEnd: (_) {
+              _isIncrementing = false;
             },
             child: Container(
               padding: const EdgeInsets.all(8),
@@ -213,10 +228,18 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
       children: [
         Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
         const SizedBox(height: 4),
-        InkWell(
-          borderRadius: BorderRadius.circular(8),
+        GestureDetector(
           onTap: onIncrease,
-          onLongPress: onLongIncrease,
+          onLongPressStart: (_) async {
+            _isIncrementing = true;
+            while (_isIncrementing && mounted) {
+              onIncrease();
+              await Future.delayed(const Duration(milliseconds: 60));
+            }
+          },
+          onLongPressEnd: (_) {
+            _isIncrementing = false;
+          },
           child: Container(
             padding: const EdgeInsets.all(8),
             child: const Icon(Icons.keyboard_arrow_up, size: 24),
@@ -226,10 +249,18 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
           value.toString().padLeft(2, '0'),
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        InkWell(
-          borderRadius: BorderRadius.circular(8),
+        GestureDetector(
           onTap: onDecrease,
-          onLongPress: onLongDecrease,
+          onLongPressStart: (_) async {
+            _isDecrementing = true;
+            while (_isDecrementing && mounted) {
+              onDecrease();
+              await Future.delayed(const Duration(milliseconds: 60));
+            }
+          },
+          onLongPressEnd: (_) {
+            _isDecrementing = false;
+          },
           child: Container(
             padding: const EdgeInsets.all(8),
             child: const Icon(Icons.keyboard_arrow_down, size: 24),

@@ -39,96 +39,102 @@ class _TaskItemState extends State<TaskItem> {
   Widget build(BuildContext context) {
     return TaskSlideActinos(
       taskModel: widget.taskModel,
-      child: Stack(
-        alignment: Alignment.bottomLeft,
-        children: [
-          // progress(),
-          InkWell(
-            onTap: () {
-              if (widget.taskModel.routineID != null && !Helper().isSameDay(widget.taskModel.taskDate, DateTime.now())) {
-                Helper().getMessage(
-                  status: StatusEnum.WARNING,
-                  message: LocaleKeys.RoutineNotToday.tr(),
-                );
-              } else {
-                taskAction();
-              }
-            },
-            onLongPress: () async {
-              if (widget.taskModel.routineID != null) {
-                await NavigatorService()
-                    .goTo(
-                  RoutineDetailPage(
-                    taskModel: widget.taskModel,
-                  ),
-                  transition: Transition.size,
-                )
-                    .then(
-                  (value) {
-                    setState(() {});
-                  },
-                );
-              } else {
-                await NavigatorService().goTo(
-                  AddTaskPage(
-                    editTask: widget.taskModel,
-                  ),
-                  transition: Transition.size,
-                );
-              }
-            },
-            borderRadius: AppColors.borderRadiusAll,
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                borderRadius: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? null : AppColors.borderRadiusAll,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      taskActionIcon(),
-                      const SizedBox(width: 5),
-                      titleAndDescriptionWidgets(),
-                      const SizedBox(width: 10),
-                      notificationWidgets(),
-                    ],
-                  ),
-                  if (widget.taskModel.type != TaskTypeEnum.CHECKBOX) ...[
-                    progressText(),
+      child: Opacity(
+        opacity: widget.taskModel.status != null && !(widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive!) ? 0.3 : 1.0,
+        child: Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            // progress(),
+            InkWell(
+              onTap: () {
+                if (widget.taskModel.routineID != null && !Helper().isSameDay(widget.taskModel.taskDate, DateTime.now())) {
+                  Helper().getMessage(
+                    status: StatusEnum.WARNING,
+                    message: LocaleKeys.RoutineNotToday.tr(),
+                  );
+                } else {
+                  taskAction();
+                }
+              },
+              onLongPress: () async {
+                if (widget.taskModel.routineID != null) {
+                  await NavigatorService()
+                      .goTo(
+                    RoutineDetailPage(
+                      taskModel: widget.taskModel,
+                    ),
+                    transition: Transition.size,
+                  )
+                      .then(
+                    (value) {
+                      setState(() {});
+                    },
+                  );
+                } else {
+                  await NavigatorService().goTo(
+                    AddTaskPage(
+                      editTask: widget.taskModel,
+                    ),
+                    transition: Transition.size,
+                  );
+                }
+              },
+              borderRadius: AppColors.borderRadiusAll,
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? null : AppColors.borderRadiusAll,
+                ),
+                child: Row(
+                  children: [
+                    taskActionIcon(),
+                    const SizedBox(width: 5),
+                    titleAndDescriptionWidgets(),
+                    const SizedBox(width: 10),
+                    notificationWidgets(),
                   ],
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget progressText() {
+    if (widget.taskModel.type == TaskTypeEnum.CHECKBOX && widget.taskModel.status == null) return const SizedBox();
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        widget.taskModel.type == TaskTypeEnum.CHECKBOX
-            ? const SizedBox()
-            : widget.taskModel.type == TaskTypeEnum.COUNTER
+        if (widget.taskModel.type != TaskTypeEnum.CHECKBOX) ...[
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: AppColors.panelBackground2.withAlpha(77),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: widget.taskModel.type == TaskTypeEnum.COUNTER
                 ? Text(
                     "${widget.taskModel.currentCount ?? 0}/${widget.taskModel.targetCount ?? 0}",
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
                   )
                 : Text(
                     "${widget.taskModel.remainingDuration!.inHours > 0 ? widget.taskModel.currentDuration!.textShort3() : widget.taskModel.currentDuration!.textShort2()}/${widget.taskModel.remainingDuration!.textShortDynamic()}",
-                    style: const TextStyle(
-                      fontSize: 14,
+                    style: TextStyle(
+                      fontSize: 13,
                       fontWeight: FontWeight.bold,
+                      color: widget.taskModel.isTimerActive! ? AppColors.main : null,
                     ),
                   ),
-        const SizedBox(width: 15),
+          ),
+          const SizedBox(width: 5),
+        ],
+        if (widget.taskModel.status != null) statusText(),
       ],
     );
   }
@@ -151,8 +157,12 @@ class _TaskItemState extends State<TaskItem> {
   }
 
   Widget taskActionIcon() {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: AppColors.panelBackground,
+        borderRadius: AppColors.borderRadiusAll,
+      ),
       child: widget.taskModel.type == TaskTypeEnum.COUNTER
           ? GestureDetector(
               onTap: () => taskAction(),
@@ -162,7 +172,7 @@ class _TaskItemState extends State<TaskItem> {
                   setState(() {
                     taskAction();
                   });
-                  await Future.delayed(const Duration(milliseconds: 150));
+                  await Future.delayed(const Duration(milliseconds: 60));
                 }
               },
               onLongPressEnd: (_) {
@@ -170,7 +180,7 @@ class _TaskItemState extends State<TaskItem> {
               },
               child: const Icon(
                 Icons.add,
-                size: 30,
+                size: 27,
               ),
             )
           : Icon(
@@ -181,7 +191,7 @@ class _TaskItemState extends State<TaskItem> {
                   : widget.taskModel.isTimerActive!
                       ? Icons.pause
                       : Icons.play_arrow,
-              size: 30,
+              size: 27,
             ),
     );
   }
@@ -213,7 +223,7 @@ class _TaskItemState extends State<TaskItem> {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           AutoSizeText(
             widget.taskModel.title,
@@ -235,7 +245,7 @@ class _TaskItemState extends State<TaskItem> {
                 color: AppColors.dirtyWhite,
               ),
             ),
-          if (widget.taskModel.status != null) statusText(),
+          progressText(),
         ],
       ),
     );
@@ -244,30 +254,48 @@ class _TaskItemState extends State<TaskItem> {
   Widget statusText() {
     switch (widget.taskModel.status) {
       case TaskStatusEnum.FAILED:
-        return Text(
-          LocaleKeys.Failed.tr(),
-          style: TextStyle(
-            fontSize: 12,
-            color: AppColors.red.withAlpha(180),
-            fontWeight: FontWeight.bold,
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          decoration: BoxDecoration(
+            color: AppColors.red.withAlpha(100),
+            borderRadius: AppColors.borderRadiusAll,
+          ),
+          child: Text(
+            LocaleKeys.Failed.tr(),
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         );
       case TaskStatusEnum.CANCEL:
-        return Text(
-          LocaleKeys.Cancel.tr(),
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.orange.withAlpha(180),
-            fontWeight: FontWeight.bold,
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          decoration: BoxDecoration(
+            color: AppColors.purple.withAlpha(100),
+            borderRadius: AppColors.borderRadiusAll,
+          ),
+          child: Text(
+            LocaleKeys.Cancel.tr(),
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         );
       case TaskStatusEnum.COMPLETED:
-        return Text(
-          LocaleKeys.Completed.tr(),
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.green.withAlpha(180),
-            fontWeight: FontWeight.bold,
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          decoration: BoxDecoration(
+            color: AppColors.green.withAlpha(80),
+            borderRadius: AppColors.borderRadiusAll,
+          ),
+          child: Text(
+            LocaleKeys.Completed.tr(),
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         );
       default:

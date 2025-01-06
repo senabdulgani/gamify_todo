@@ -183,6 +183,10 @@ class TaskProvider with ChangeNotifier {
   // Öncelik ve zamana göre sıralama fonksiyonu
   void _sortTasksByPriorityAndTime(List<TaskModel> tasks) {
     tasks.sort((a, b) {
+      // Tamamlanmış, iptal edilmiş ve başarısız görevleri en alta koy
+      if (a.status != null && b.status == null) return 1;
+      if (a.status == null && b.status != null) return -1;
+
       // Önce önceliğe göre sırala
       int priorityCompare = a.priority.compareTo(b.priority);
       if (priorityCompare != 0) return priorityCompare;
