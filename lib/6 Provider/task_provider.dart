@@ -120,7 +120,13 @@ class TaskProvider with ChangeNotifier {
   // iptal de kullanıcıya ceza yansıtılmayacak
   cancelTask(TaskModel taskModel) {
     if (taskModel.status == TaskStatusEnum.CANCEL) {
-      taskModel.status = null;
+      if (taskModel.type == TaskTypeEnum.COUNTER && taskModel.currentCount! >= taskModel.targetCount!) {
+        taskModel.status = TaskStatusEnum.COMPLETED;
+      } else if (taskModel.type == TaskTypeEnum.TIMER && taskModel.currentDuration! >= taskModel.remainingDuration!) {
+        taskModel.status = TaskStatusEnum.COMPLETED;
+      } else {
+        taskModel.status = null;
+      }
     } else {
       taskModel.status = TaskStatusEnum.CANCEL;
     }
