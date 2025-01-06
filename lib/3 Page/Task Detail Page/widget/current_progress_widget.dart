@@ -106,6 +106,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
             onIncrease: () {
               setState(() {
                 widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(hours: 1);
+                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
+                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
+                }
               });
               ServerManager().updateTask(taskModel: widget.taskModel);
             },
@@ -113,6 +116,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
               if ((widget.taskModel.currentDuration?.inHours ?? 0) > 0) {
                 setState(() {
                   widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(hours: 1);
+                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
+                    widget.taskModel.status = null;
+                  }
                 });
                 ServerManager().updateTask(taskModel: widget.taskModel);
               }
@@ -120,6 +126,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
             onLongIncrease: () {
               setState(() {
                 widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(hours: 5);
+                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
+                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
+                }
               });
               ServerManager().updateTask(taskModel: widget.taskModel);
             },
@@ -128,6 +137,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
               if (currentHours >= 5) {
                 setState(() {
                   widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(hours: 5);
+                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
+                    widget.taskModel.status = null;
+                  }
                 });
                 ServerManager().updateTask(taskModel: widget.taskModel);
               }
@@ -140,6 +152,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
             onIncrease: () {
               setState(() {
                 widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(minutes: 1);
+                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
+                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
+                }
               });
               ServerManager().updateTask(taskModel: widget.taskModel);
             },
@@ -147,6 +162,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
               if ((widget.taskModel.currentDuration?.inMinutes ?? 0) > 0) {
                 setState(() {
                   widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(minutes: 1);
+                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
+                    widget.taskModel.status = null;
+                  }
                 });
                 ServerManager().updateTask(taskModel: widget.taskModel);
               }
@@ -154,6 +172,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
             onLongIncrease: () {
               setState(() {
                 widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(minutes: 15);
+                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
+                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
+                }
               });
               ServerManager().updateTask(taskModel: widget.taskModel);
             },
@@ -162,6 +183,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
               if (currentMinutes >= 15) {
                 setState(() {
                   widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(minutes: 15);
+                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
+                    widget.taskModel.status = null;
+                  }
                 });
                 ServerManager().updateTask(taskModel: widget.taskModel);
               }
@@ -174,6 +198,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
             onIncrease: () {
               setState(() {
                 widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(seconds: 1);
+                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
+                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
+                }
               });
               ServerManager().updateTask(taskModel: widget.taskModel);
             },
@@ -181,6 +208,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
               if ((widget.taskModel.currentDuration?.inSeconds ?? 0) > 0) {
                 setState(() {
                   widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(seconds: 1);
+                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
+                    widget.taskModel.status = null;
+                  }
                 });
                 ServerManager().updateTask(taskModel: widget.taskModel);
               }
@@ -188,6 +218,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
             onLongIncrease: () {
               setState(() {
                 widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(seconds: 30);
+                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
+                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
+                }
               });
               ServerManager().updateTask(taskModel: widget.taskModel);
             },
@@ -196,6 +229,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
               if (currentSeconds >= 30) {
                 setState(() {
                   widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(seconds: 30);
+                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
+                    widget.taskModel.status = null;
+                  }
                 });
                 ServerManager().updateTask(taskModel: widget.taskModel);
               }

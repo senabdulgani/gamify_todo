@@ -67,15 +67,21 @@ class _TaskItemState extends State<TaskItem> {
                   )
                       .then(
                     (value) {
-                      setState(() {});
+                      TaskProvider().updateItems();
                     },
                   );
                 } else {
-                  await NavigatorService().goTo(
+                  await NavigatorService()
+                      .goTo(
                     AddTaskPage(
                       editTask: widget.taskModel,
                     ),
                     transition: Transition.size,
+                  )
+                      .then(
+                    (value) {
+                      TaskProvider().updateItems();
+                    },
                   );
                 }
               },
@@ -216,7 +222,9 @@ class _TaskItemState extends State<TaskItem> {
 
     ServerManager().updateTask(taskModel: widget.taskModel);
 
-    TaskProvider().updateItems();
+    if (!_isIncrementing) {
+      TaskProvider().updateItems();
+    }
   }
 
   Widget titleAndDescriptionWidgets() {
