@@ -64,7 +64,7 @@ class _RoutineDetailPageState extends State<RoutineDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Current Progress
-              CurrentProgressWidget(taskModel: widget.taskModel),
+              CurrentProgressWidget.forTask(task: widget.taskModel),
               const SizedBox(height: 20),
 
               // All Time Stats

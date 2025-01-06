@@ -1,19 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
+import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
+import 'package:gamify_todo/8%20Model/store_item_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
 class CurrentProgressWidget extends StatefulWidget {
-  final TaskModel taskModel;
+  final TaskModel? taskModel;
+  final ItemModel? itemModel;
 
-  const CurrentProgressWidget({
+  const CurrentProgressWidget.forTask({
     super.key,
-    required this.taskModel,
-  });
+    required TaskModel task,
+  })  : taskModel = task,
+        itemModel = null;
+
+  const CurrentProgressWidget.forStoreItem({
+    super.key,
+    required ItemModel item,
+  })  : itemModel = item,
+        taskModel = null;
 
   @override
   State<CurrentProgressWidget> createState() => _CurrentProgressWidgetState();
@@ -23,34 +33,75 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
   bool _isIncrementing = false;
   bool _isDecrementing = false;
 
+  bool get isTask => widget.taskModel != null;
+  TaskTypeEnum get type => isTask ? widget.taskModel!.type : widget.itemModel!.type;
+  int get currentCount => isTask ? widget.taskModel!.currentCount! : widget.itemModel!.currentCount!;
+  Duration? get currentDuration => isTask ? widget.taskModel!.currentDuration : widget.itemModel!.currentDuration;
+  Duration? get targetDuration => isTask ? widget.taskModel!.remainingDuration : widget.itemModel!.addDuration;
+
+  void updateProgress() {
+    if (isTask) {
+      ServerManager().updateTask(taskModel: widget.taskModel!);
+      AppHelper().addCreditByProgress(widget.taskModel!.remainingDuration);
+    } else {
+      ServerManager().updateItem(itemModel: widget.itemModel!);
+    }
+  }
+
+  void setCount(int value) {
+    setState(() {
+      if (isTask) {
+        widget.taskModel!.currentCount = value;
+        if (value >= widget.taskModel!.targetCount! && widget.taskModel!.status != TaskStatusEnum.COMPLETED) {
+          widget.taskModel!.status = TaskStatusEnum.COMPLETED;
+        } else if (value < widget.taskModel!.targetCount! && widget.taskModel!.status == TaskStatusEnum.COMPLETED) {
+          widget.taskModel!.status = null;
+        }
+      } else {
+        widget.itemModel!.currentCount = value;
+      }
+    });
+    updateProgress();
+  }
+
+  void setDuration(Duration value) {
+    setState(() {
+      if (isTask) {
+        widget.taskModel!.currentDuration = value;
+        if (value >= widget.taskModel!.remainingDuration! && widget.taskModel!.status != TaskStatusEnum.COMPLETED) {
+          widget.taskModel!.status = TaskStatusEnum.COMPLETED;
+        } else if (value < widget.taskModel!.remainingDuration! && widget.taskModel!.status == TaskStatusEnum.COMPLETED) {
+          widget.taskModel!.status = null;
+        }
+      } else {
+        widget.itemModel!.currentDuration = value;
+      }
+    });
+    updateProgress();
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (widget.taskModel.type == TaskTypeEnum.CHECKBOX) {
+    if (type == TaskTypeEnum.CHECKBOX) {
       return Text(
         _getCheckboxStatus(),
         style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       );
-    } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
+    } else if (type == TaskTypeEnum.COUNTER) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
             onTap: () {
-              if (widget.taskModel.currentCount! > 0) {
-                setState(() {
-                  widget.taskModel.currentCount = widget.taskModel.currentCount! - 1;
-                });
-                ServerManager().updateTask(taskModel: widget.taskModel);
+              if (currentCount > 0) {
+                setCount(currentCount - 1);
               }
             },
             onLongPressStart: (_) async {
               _isDecrementing = true;
               while (_isDecrementing && mounted) {
-                if (widget.taskModel.currentCount! > 0) {
-                  setState(() {
-                    widget.taskModel.currentCount = widget.taskModel.currentCount! - 1;
-                  });
-                  ServerManager().updateTask(taskModel: widget.taskModel);
+                if (currentCount > 0) {
+                  setCount(currentCount - 1);
                 }
                 await Future.delayed(const Duration(milliseconds: 60));
               }
@@ -65,24 +116,18 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
           ),
           const SizedBox(width: 16),
           Text(
-            "${widget.taskModel.currentCount} / ${widget.taskModel.targetCount}",
+            isTask ? "$currentCount / ${widget.taskModel!.targetCount}" : "$currentCount",
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(width: 16),
           GestureDetector(
             onTap: () {
-              setState(() {
-                widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
-              });
-              ServerManager().updateTask(taskModel: widget.taskModel);
+              setCount(currentCount + 1);
             },
             onLongPressStart: (_) async {
               _isIncrementing = true;
               while (_isIncrementing && mounted) {
-                setState(() {
-                  widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;
-                });
-                ServerManager().updateTask(taskModel: widget.taskModel);
+                setCount(currentCount + 1);
                 await Future.delayed(const Duration(milliseconds: 60));
               }
             },
@@ -102,150 +147,80 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
         children: [
           _buildDurationControl(
             label: LocaleKeys.Hour.tr(),
-            value: widget.taskModel.currentDuration?.inHours ?? 0,
+            value: currentDuration?.inHours ?? 0,
             onIncrease: () {
-              setState(() {
-                widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(hours: 1);
-                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
-                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
-                }
-              });
-              ServerManager().updateTask(taskModel: widget.taskModel);
+              setDuration((currentDuration ?? Duration.zero) + const Duration(hours: 1));
             },
             onDecrease: () {
-              if ((widget.taskModel.currentDuration?.inHours ?? 0) > 0) {
-                setState(() {
-                  widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(hours: 1);
-                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
-                    widget.taskModel.status = null;
-                  }
-                });
-                ServerManager().updateTask(taskModel: widget.taskModel);
+              if ((currentDuration?.inHours ?? 0) > 0) {
+                setDuration((currentDuration ?? Duration.zero) - const Duration(hours: 1));
               }
             },
             onLongIncrease: () {
-              setState(() {
-                widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(hours: 5);
-                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
-                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
-                }
-              });
-              ServerManager().updateTask(taskModel: widget.taskModel);
+              setDuration((currentDuration ?? Duration.zero) + const Duration(hours: 5));
             },
             onLongDecrease: () {
-              final currentHours = widget.taskModel.currentDuration?.inHours ?? 0;
+              final currentHours = currentDuration?.inHours ?? 0;
               if (currentHours >= 5) {
-                setState(() {
-                  widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(hours: 5);
-                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
-                    widget.taskModel.status = null;
-                  }
-                });
-                ServerManager().updateTask(taskModel: widget.taskModel);
+                setDuration((currentDuration ?? Duration.zero) - const Duration(hours: 5));
               }
             },
           ),
           const SizedBox(width: 16),
           _buildDurationControl(
             label: LocaleKeys.Minute.tr(),
-            value: (widget.taskModel.currentDuration?.inMinutes ?? 0) % 60,
+            value: (currentDuration?.inMinutes ?? 0) % 60,
             onIncrease: () {
-              setState(() {
-                widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(minutes: 1);
-                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
-                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
-                }
-              });
-              ServerManager().updateTask(taskModel: widget.taskModel);
+              setDuration((currentDuration ?? Duration.zero) + const Duration(minutes: 1));
             },
             onDecrease: () {
-              if ((widget.taskModel.currentDuration?.inMinutes ?? 0) > 0) {
-                setState(() {
-                  widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(minutes: 1);
-                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
-                    widget.taskModel.status = null;
-                  }
-                });
-                ServerManager().updateTask(taskModel: widget.taskModel);
+              if ((currentDuration?.inMinutes ?? 0) > 0) {
+                setDuration((currentDuration ?? Duration.zero) - const Duration(minutes: 1));
               }
             },
             onLongIncrease: () {
-              setState(() {
-                widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(minutes: 15);
-                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
-                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
-                }
-              });
-              ServerManager().updateTask(taskModel: widget.taskModel);
+              setDuration((currentDuration ?? Duration.zero) + const Duration(minutes: 15));
             },
             onLongDecrease: () {
-              final currentMinutes = widget.taskModel.currentDuration?.inMinutes ?? 0;
+              final currentMinutes = currentDuration?.inMinutes ?? 0;
               if (currentMinutes >= 15) {
-                setState(() {
-                  widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(minutes: 15);
-                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
-                    widget.taskModel.status = null;
-                  }
-                });
-                ServerManager().updateTask(taskModel: widget.taskModel);
+                setDuration((currentDuration ?? Duration.zero) - const Duration(minutes: 15));
               }
             },
           ),
           const SizedBox(width: 16),
           _buildDurationControl(
             label: LocaleKeys.Second.tr(),
-            value: (widget.taskModel.currentDuration?.inSeconds ?? 0) % 60,
+            value: (currentDuration?.inSeconds ?? 0) % 60,
             onIncrease: () {
-              setState(() {
-                widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(seconds: 1);
-                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
-                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
-                }
-              });
-              ServerManager().updateTask(taskModel: widget.taskModel);
+              setDuration((currentDuration ?? Duration.zero) + const Duration(seconds: 1));
             },
             onDecrease: () {
-              if ((widget.taskModel.currentDuration?.inSeconds ?? 0) > 0) {
-                setState(() {
-                  widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(seconds: 1);
-                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
-                    widget.taskModel.status = null;
-                  }
-                });
-                ServerManager().updateTask(taskModel: widget.taskModel);
+              if ((currentDuration?.inSeconds ?? 0) > 0) {
+                setDuration((currentDuration ?? Duration.zero) - const Duration(seconds: 1));
               }
             },
             onLongIncrease: () {
-              setState(() {
-                widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) + const Duration(seconds: 30);
-                if (widget.taskModel.currentDuration! >= widget.taskModel.remainingDuration! && widget.taskModel.status != TaskStatusEnum.COMPLETED) {
-                  widget.taskModel.status = TaskStatusEnum.COMPLETED;
-                }
-              });
-              ServerManager().updateTask(taskModel: widget.taskModel);
+              setDuration((currentDuration ?? Duration.zero) + const Duration(seconds: 30));
             },
             onLongDecrease: () {
-              final currentSeconds = widget.taskModel.currentDuration?.inSeconds ?? 0;
+              final currentSeconds = currentDuration?.inSeconds ?? 0;
               if (currentSeconds >= 30) {
-                setState(() {
-                  widget.taskModel.currentDuration = (widget.taskModel.currentDuration ?? Duration.zero) - const Duration(seconds: 30);
-                  if (widget.taskModel.currentDuration! < widget.taskModel.remainingDuration! && widget.taskModel.status == TaskStatusEnum.COMPLETED) {
-                    widget.taskModel.status = null;
-                  }
-                });
-                ServerManager().updateTask(taskModel: widget.taskModel);
+                setDuration((currentDuration ?? Duration.zero) - const Duration(seconds: 30));
               }
             },
           ),
-          const SizedBox(width: 16),
-          Text(
-            "/ ${widget.taskModel.remainingDuration?.textShort3() ?? "0"}",
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey,
+          if (isTask) ...[
+            const SizedBox(width: 16),
+            Text(
+              "/ ${targetDuration?.textShort3() ?? "0"}",
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
             ),
-          ),
+          ],
         ],
       );
     }
@@ -269,7 +244,7 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
           onLongPressStart: (_) async {
             _isIncrementing = true;
             while (_isIncrementing && mounted) {
-              onIncrease();
+              onLongIncrease();
               await Future.delayed(const Duration(milliseconds: 60));
             }
           },
@@ -290,7 +265,7 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
           onLongPressStart: (_) async {
             _isDecrementing = true;
             while (_isDecrementing && mounted) {
-              onDecrease();
+              onLongDecrease();
               await Future.delayed(const Duration(milliseconds: 60));
             }
           },
@@ -307,7 +282,9 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
   }
 
   String _getCheckboxStatus() {
-    switch (widget.taskModel.status) {
+    if (!isTask) return "";
+
+    switch (widget.taskModel!.status) {
       case TaskStatusEnum.COMPLETED:
         return LocaleKeys.Completed.tr();
       case TaskStatusEnum.FAILED:

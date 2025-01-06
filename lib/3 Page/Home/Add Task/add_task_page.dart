@@ -109,7 +109,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             children: [
               if (widget.editTask != null) ...[
                 const SizedBox(height: 10),
-                CurrentProgressWidget(taskModel: widget.editTask!),
+                CurrentProgressWidget.forTask(task: widget.editTask!),
               ],
               const SizedBox(height: 10),
               TaskName(autoFocus: widget.editTask == null),
