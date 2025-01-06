@@ -25,17 +25,17 @@ class AddStoreItemProvider with ChangeNotifier {
     );
   }
 
-  void updateItem(int id) {
+  void updateItem(ItemModel existingItem) {
     StoreProvider().updateItem(
       ItemModel(
-        id: id,
+        id: existingItem.id,
         title: taskNameController.text,
         type: selectedTaskType,
         credit: credit,
-        currentCount: selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
-        currentDuration: selectedTaskType == TaskTypeEnum.TIMER ? Duration.zero : null,
+        currentCount: selectedTaskType == TaskTypeEnum.COUNTER ? existingItem.currentCount : null,
+        currentDuration: selectedTaskType == TaskTypeEnum.TIMER ? existingItem.currentDuration : null,
         addDuration: taskDuration,
-        isTimerActive: selectedTaskType == TaskTypeEnum.TIMER ? false : null,
+        isTimerActive: selectedTaskType == TaskTypeEnum.TIMER ? existingItem.isTimerActive : null,
       ),
     );
   }

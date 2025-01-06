@@ -73,5 +73,9 @@
     "Priority": "Öncelik",
     "HighPriority": "Yüksek",
     "MediumPriority": "Orta",
-    "LowPriority": "Düşük"
+    "LowPriority": "Düşük",
+    "CurrentProgress": "Mevcut İlerleme",
+    "Minutes": "Dakika",
+    "Count": "Adet",
+    "Save": "Kaydet"
 }

@@ -6,6 +6,7 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
+import 'package:gamify_todo/3%20Page/Store/Widget/current_store_progress.dart';
 import 'package:gamify_todo/3%20Page/Store/Widget/set_credit.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
@@ -79,7 +80,7 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
                   }
 
                   if (widget.editItemModel != null) {
-                    addStoreItemProvider.updateItem(widget.editItemModel!.id);
+                    addStoreItemProvider.updateItem(widget.editItemModel!);
                   } else {
                     addStoreItemProvider.addItem();
                   }
@@ -101,6 +102,8 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
           child: Column(
             children: [
               const SizedBox(height: 20),
+              if (widget.editItemModel != null) CurrentStoreProgress(itemModel: widget.editItemModel!),
+              const SizedBox(height: 20),
               TaskName(
                 isStore: true,
                 autoFocus: widget.editItemModel == null,
@@ -116,13 +119,13 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
                   SelectTaskType(isStore: true),
                 ],
               ),
-              const SizedBox(height: 50),
-              if (widget.editItemModel != null)
+              const SizedBox(height: 20),
+              if (widget.editItemModel != null) ...[
+                const SizedBox(height: 30),
                 InkWell(
                   borderRadius: AppColors.borderRadiusAll,
                   onTap: () {
                     storeProvider.deleteItem(widget.editItemModel!.id);
-
                     Get.back();
                   },
                   child: Container(
@@ -136,6 +139,8 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
                     ),
                   ),
                 ),
+              ],
+              const SizedBox(height: 50),
             ],
           ),
         ),

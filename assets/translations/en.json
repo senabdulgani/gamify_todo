@@ -73,5 +73,9 @@
     "Priority": "Priority",
     "HighPriority": "High",
     "MediumPriority": "Medium",
-    "LowPriority": "Low"
+    "LowPriority": "Low",
+    "CurrentProgress": "Current Progress",
+    "Minutes": "Minutes", 
+    "Count": "Count",
+    "Save": "Save"
 }

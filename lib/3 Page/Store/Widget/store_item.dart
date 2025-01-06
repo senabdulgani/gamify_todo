@@ -36,10 +36,14 @@ class _StoreItemState extends State<StoreItem> {
             storeItemAction();
           },
           onLongPress: () async {
-            await NavigatorService().goTo(
-              AddStoreItemPage(editItemModel: widget.storeItemModel),
-              transition: Transition.size,
-            );
+            await NavigatorService()
+                .goTo(
+                  AddStoreItemPage(editItemModel: widget.storeItemModel),
+                  transition: Transition.size,
+                )
+                .then(
+                  (value) => StoreProvider().setStateItems(),
+                );
           },
           borderRadius: AppColors.borderRadiusAll,
           child: Container(

@@ -29,9 +29,9 @@ Future<void> initApp() async {
 
     WindowOptions windowOptions = const WindowOptions(
       title: "BlackBox DB",
-      size: Size(400, 800),
-      maximumSize: Size(450, 1000),
-      minimumSize: Size(300, 400),
+      size: Size(450, 1000),
+      maximumSize: Size(450, 99999),
+      minimumSize: Size(400, 600),
       backgroundColor: Colors.transparent,
       // fullScreen: false,
       // skipTaskbar: false,

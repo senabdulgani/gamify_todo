@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class LocaleKeys {
+abstract class  LocaleKeys {
   static const Store = 'Store';
   static const Settings = 'Settings';
   static const SelectLanguage = 'SelectLanguage';
@@ -76,5 +76,9 @@ abstract class LocaleKeys {
   static const HighPriority = 'HighPriority';
   static const MediumPriority = 'MediumPriority';
   static const LowPriority = 'LowPriority';
-  static const ChangeTaskStatus = 'ChangeTaskStatus';
+  static const CurrentProgress = 'CurrentProgress';
+  static const Minutes = 'Minutes';
+  static const Count = 'Count';
+  static const Save = 'Save';
+
 }
