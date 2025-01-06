@@ -140,7 +140,7 @@ class _TaskItemState extends State<TaskItem> {
           ),
           const SizedBox(width: 5),
         ],
-        if (widget.taskModel.status != null) statusText(),
+        statusText(),
       ],
     );
   }
