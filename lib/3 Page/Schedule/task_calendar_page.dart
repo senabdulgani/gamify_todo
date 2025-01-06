@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
-import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/routine_detail_page.dart';
-import 'package:gamify_todo/3%20Page/Schedule/task_calendar_page.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -10,77 +9,50 @@ import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 
-class SchedulePage extends StatefulWidget {
-  const SchedulePage({super.key});
+class TaskCalendarPage extends StatelessWidget {
+  const TaskCalendarPage({super.key});
 
-  @override
-  State<SchedulePage> createState() => _SchedulePageState();
-}
+  String _getDurationText(TaskModel task) {
+    if (task.remainingDuration == null) return 'Belirtilmemiş';
 
-class _SchedulePageState extends State<SchedulePage> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Program'),
-        leading: const BackButton(),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: 'Haftalık Rutinler'),
-            Tab(text: 'Görev Takvimi'),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          WeeklyRoutineView(),
-          TaskCalendarPage(),
-        ],
-      ),
-    );
-  }
-}
-
-class WeeklyRoutineView extends StatelessWidget {
-  const WeeklyRoutineView({super.key});
-
-  String _getDurationText(dynamic item) {
-    if (item.remainingDuration == null) return 'Belirtilmemiş';
-
-    if (item.type == TaskTypeEnum.COUNTER && item.targetCount != null) {
-      final totalMicroseconds = (item.remainingDuration as Duration).inMicroseconds * (item.targetCount as int);
+    if (task.type == TaskTypeEnum.COUNTER && task.targetCount != null) {
+      final totalMicroseconds = task.remainingDuration!.inMicroseconds * task.targetCount!;
       final totalDuration = Duration(microseconds: totalMicroseconds.toInt());
       return totalDuration.textShort2hour();
     }
 
-    return (item.remainingDuration as Duration).textShort2hour();
+    return task.remainingDuration!.textShort2hour();
+  }
+
+  Map<DateTime, List<TaskModel>> _groupTasksByDate(List<TaskModel> tasks) {
+    final Map<DateTime, List<TaskModel>> grouped = {};
+
+    for (var task in tasks) {
+      final date = DateTime(
+        task.taskDate.year,
+        task.taskDate.month,
+        task.taskDate.day,
+      );
+
+      if (!grouped.containsKey(date)) {
+        grouped[date] = [];
+      }
+      grouped[date]!.add(task);
+    }
+
+    return grouped;
   }
 
   @override
   Widget build(BuildContext context) {
     final taskProvider = context.watch<TaskProvider>();
-    final routines = taskProvider.routineList;
-    final weekDays = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+    final tasks = taskProvider.taskList.where((task) => task.routineID == null).toList();
+    final groupedTasks = _groupTasksByDate(tasks);
+    final sortedDates = groupedTasks.keys.toList()..sort();
 
-    if (routines.isEmpty) {
+    if (sortedDates.isEmpty) {
       return const Center(
-        child: Text('Henüz rutin eklenmemiş'),
+        child: Text('Henüz görev eklenmemiş'),
       );
     }
 
@@ -102,7 +74,7 @@ class WeeklyRoutineView extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'Gün',
+                    'Tarih',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -111,52 +83,41 @@ class WeeklyRoutineView extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'Rutinler',
+                    'Görevler',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
             ],
           ),
-          // Day rows
-          ...List.generate(weekDays.length, (index) {
-            final dayRoutines = routines.where((routine) => routine.repeatDays.contains(index + 1)).toList();
+          // Date rows
+          ...sortedDates.map((date) {
+            final dayTasks = groupedTasks[date]!;
 
             return TableRow(
               children: [
-                // Day name
+                // Date
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      weekDays[index],
+                      '${date.day}/${date.month}/${date.year}',
                       style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
-                // Routines for the day
+                // Tasks for the day
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: dayRoutines
+                      children: dayTasks
                           .map(
-                            (routine) => InkWell(
+                            (task) => InkWell(
                               onTap: () async {
-                                final routineTask = taskProvider.taskList.firstWhere(
-                                  (task) => task.routineID == routine.id,
-                                  orElse: () => TaskModel(
-                                    title: routine.title,
-                                    type: routine.type,
-                                    taskDate: DateTime.now(),
-                                    isNotificationOn: routine.isNotificationOn,
-                                    routineID: routine.id,
-                                  ),
-                                );
-
                                 await NavigatorService().goTo(
-                                  RoutineDetailPage(taskModel: routineTask),
+                                  AddTaskPage(editTask: task),
                                   transition: Transition.rightToLeft,
                                 );
                               },
@@ -164,15 +125,23 @@ class WeeklyRoutineView extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.repeat, color: Colors.blue, size: 16),
+                                    const Icon(Icons.task_alt, color: Colors.green, size: 16),
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(routine.title),
+                                          Text(task.title),
+                                          if (task.description?.isNotEmpty ?? false)
+                                            Text(
+                                              task.description!,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: AppColors.text.withOpacity(0.7),
+                                              ),
+                                            ),
                                           Text(
-                                            '${_getDurationText(routine)}${routine.time != null ? ' • ${routine.time!.hour}:${routine.time!.minute.toString().padLeft(2, '0')}' : ''}',
+                                            '${_getDurationText(task)}${task.time != null ? ' • ${task.time!.hour}:${task.time!.minute.toString().padLeft(2, '0')}' : ''}',
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: AppColors.text.withOpacity(0.7),
