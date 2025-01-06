@@ -130,7 +130,7 @@ class _TaskItemState extends State<TaskItem> {
                     ),
                   )
                 : Text(
-                    "${widget.taskModel.remainingDuration!.inHours > 0 ? widget.taskModel.currentDuration!.textShort3() : widget.taskModel.currentDuration!.textShort2()}/${widget.taskModel.remainingDuration!.textShortDynamic()}",
+                    "${widget.taskModel.currentDuration!.textShortDynamic()}/${widget.taskModel.remainingDuration!.textShortDynamic()}",
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,

@@ -157,12 +157,12 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
               }
             },
             onLongIncrease: () {
-              setDuration((currentDuration ?? Duration.zero) + const Duration(hours: 5));
+              setDuration((currentDuration ?? Duration.zero) + const Duration(hours: 1));
             },
             onLongDecrease: () {
               final currentHours = currentDuration?.inHours ?? 0;
-              if (currentHours >= 5) {
-                setDuration((currentDuration ?? Duration.zero) - const Duration(hours: 5));
+              if (currentHours > 0) {
+                setDuration((currentDuration ?? Duration.zero) - const Duration(hours: 1));
               }
             },
           ),
@@ -179,12 +179,12 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
               }
             },
             onLongIncrease: () {
-              setDuration((currentDuration ?? Duration.zero) + const Duration(minutes: 15));
+              setDuration((currentDuration ?? Duration.zero) + const Duration(minutes: 1));
             },
             onLongDecrease: () {
               final currentMinutes = currentDuration?.inMinutes ?? 0;
-              if (currentMinutes >= 15) {
-                setDuration((currentDuration ?? Duration.zero) - const Duration(minutes: 15));
+              if (currentMinutes > 0) {
+                setDuration((currentDuration ?? Duration.zero) - const Duration(minutes: 1));
               }
             },
           ),
@@ -201,12 +201,12 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
               }
             },
             onLongIncrease: () {
-              setDuration((currentDuration ?? Duration.zero) + const Duration(seconds: 30));
+              setDuration((currentDuration ?? Duration.zero) + const Duration(seconds: 1));
             },
             onLongDecrease: () {
               final currentSeconds = currentDuration?.inSeconds ?? 0;
-              if (currentSeconds >= 30) {
-                setDuration((currentDuration ?? Duration.zero) - const Duration(seconds: 30));
+              if (currentSeconds > 0) {
+                setDuration((currentDuration ?? Duration.zero) - const Duration(seconds: 1));
               }
             },
           ),
