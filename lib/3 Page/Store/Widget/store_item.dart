@@ -50,13 +50,13 @@ class _StoreItemState extends State<StoreItem> {
             child: Row(
               children: [
                 storeItemIcon(),
-                const SizedBox(width: 16),
+                const SizedBox(width: 15),
                 titleAndProgressWidgets(),
                 const Spacer(),
                 Row(
                   children: [
                     creditAmount(),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 10),
                     buyButton(),
                   ],
                 ),
@@ -215,7 +215,7 @@ class _StoreItemState extends State<StoreItem> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.main,
+                        color: widget.storeItemModel.isTimerActive! ? AppColors.main : null,
                       ),
                     ),
                   ),
