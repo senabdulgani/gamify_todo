@@ -26,8 +26,6 @@ class TraitDetailPage extends StatefulWidget {
   State<TraitDetailPage> createState() => _TraitDetailPageState();
 }
 
-// TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
-
 class _TraitDetailPageState extends State<TraitDetailPage> {
   TextEditingController traitTitle = TextEditingController();
   String traitIcon = "🎯";
@@ -35,7 +33,6 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
 
   late Duration totalDuration;
 
-  // related tasks
   List<TaskModel> relatedTasks = [];
   List<TaskModel> relatedRoutines = [];
 
@@ -90,12 +87,13 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.traitModel.title} Detail'),
+        title: Text(
+          '${widget.traitModel.title} Detail',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         leading: InkWell(
           borderRadius: AppColors.borderRadiusAll,
-          onTap: () {
-            Navigator.pop(context);
-          },
+          onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios),
         ),
         actions: [
@@ -104,16 +102,12 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
             onTap: () async {
               if (traitTitle.text.trim().isEmpty) {
                 traitTitle.clear();
-
                 Helper().getMessage(
                   message: LocaleKeys.NameEmpty.tr(),
                   status: StatusEnum.WARNING,
                 );
-
                 return;
               }
-
-              // TODO add değil edit olacak
 
               final TraitModel updatedTrait = TraitModel(
                 id: widget.traitModel.id,
@@ -124,221 +118,312 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
               );
 
               TraitProvider().editTrait(updatedTrait);
-
               Get.back();
             },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Icon(Icons.check),
+            child: Container(
+              margin: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(Icons.check),
             ),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Name
-                Expanded(
-                  child: TextField(
-                    controller: traitTitle,
-                    decoration: const InputDecoration(hintText: "Name"),
-                  ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Trait Info Card
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.panelBackground2,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                // Icon
-                InkWell(
-                  borderRadius: AppColors.borderRadiusAll,
-                  onTap: () async {
-                    traitIcon = await Helper().showEmojiPicker(context);
-                    setState(() {});
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(3),
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: AppColors.panelBackground2,
-                        borderRadius: AppColors.borderRadiusAll,
-                      ),
-                      child: Center(
-                        child: Text(
-                          traitIcon,
-                          style: const TextStyle(
-                            fontSize: 25,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: traitTitle,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: "Name",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: AppColors.panelBackground2.withOpacity(0.5),
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(width: 12),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(12),
+                          onTap: () async {
+                            traitIcon = await Helper().showEmojiPicker(context);
+                            setState(() {});
+                          },
+                          child: Container(
+                            height: 56,
+                            width: 56,
+                            decoration: BoxDecoration(
+                              color: selectedColor.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Center(
+                              child: Text(
+                                traitIcon,
+                                style: const TextStyle(fontSize: 28),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(12),
+                          onTap: () async {
+                            selectedColor = await Helper().selectColor();
+                            setState(() {});
+                          },
+                          child: Container(
+                            height: 56,
+                            width: 56,
+                            decoration: BoxDecoration(
+                              color: selectedColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                // Color
-                InkWell(
-                  borderRadius: AppColors.borderRadiusAll,
-                  onTap: () async {
-                    selectedColor = await Helper().selectColor();
-                    setState(() {});
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(3),
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: selectedColor,
-                        borderRadius: AppColors.borderRadiusAll,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              totalDuration.toLevel(),
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
               ),
-            ),
-            Text(
-              totalDuration.textShort2hour(),
-              style: const TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            const SizedBox(height: 20),
-            // TODO: bu traiti etkileyen tasklar ve ne kadar etkiledikleri
 
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 180,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: relatedTasks.length,
-                    itemBuilder: (context, index) {
-                      // TODO: task ve rutin olarak ayır
+              const SizedBox(height: 24),
 
-                      final TaskModel task = relatedTasks[index];
-
-                      Duration allTimeDuration = Duration.zero;
-                      int allTimeCount = 0;
-
-                      for (var task in TaskProvider().taskList) {
-                        if (task.routineID == task.routineID) {
-                          if (task.type == TaskTypeEnum.TIMER) {
-                            allTimeDuration += task.currentDuration!;
-                          } else if (task.type == TaskTypeEnum.COUNTER) {
-                            allTimeCount += task.currentCount!;
-                          }
-                        }
-                      }
-
-                      if (task.type == TaskTypeEnum.COUNTER) {
-                        allTimeDuration += task.remainingDuration! * allTimeCount;
-                      }
-
-                      return Row(
-                        children: [
-                          Text(
-                            task.title,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Text(
-                            allTimeDuration.textShort2hour(),
-                            style: const TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 20),
-                SizedBox(
-                  width: 180,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: relatedRoutines.length,
-                    itemBuilder: (context, index) {
-                      // TODO: task ve rutin olarak ayır
-
-                      final TaskModel task = relatedRoutines[index];
-
-                      Duration allTimeDuration = Duration.zero;
-                      int allTimeCount = 0;
-
-                      for (var task in TaskProvider().taskList) {
-                        if (task.routineID == task.routineID) {
-                          if (task.type == TaskTypeEnum.TIMER) {
-                            allTimeDuration += task.currentDuration!;
-                          } else if (task.type == TaskTypeEnum.COUNTER) {
-                            allTimeCount += task.currentCount!;
-                          }
-                        }
-                      }
-
-                      if (task.type == TaskTypeEnum.COUNTER) {
-                        allTimeDuration += task.remainingDuration! * allTimeCount;
-                      }
-
-                      return Row(
-                        children: [
-                          Text(
-                            task.title,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            allTimeDuration.textShort2hour(),
-                            style: const TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 50),
-            // delete button
-            InkWell(
-              borderRadius: AppColors.borderRadiusAll,
-              onTap: () {
-                TraitProvider().removeTrait(widget.traitModel.id);
-
-                Get.back();
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              // Total Duration Card
+              Container(
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  borderRadius: AppColors.borderRadiusAll,
-                  color: AppColors.red,
+                  color: selectedColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                child: Text(
-                  LocaleKeys.Delete.tr(),
+                child: Column(
+                  children: [
+                    Text(
+                      totalDuration.toLevel(),
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: selectedColor,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      totalDuration.textShort2hour(),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: selectedColor.withOpacity(0.8),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 24),
+
+              // Related Tasks Section
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Related Tasks",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: relatedTasks.length,
+                          itemBuilder: (context, index) {
+                            final TaskModel task = relatedTasks[index];
+                            Duration allTimeDuration = Duration.zero;
+                            int allTimeCount = 0;
+
+                            for (var t in TaskProvider().taskList) {
+                              if (t.routineID == task.routineID) {
+                                if (t.type == TaskTypeEnum.TIMER) {
+                                  allTimeDuration += t.currentDuration!;
+                                } else if (t.type == TaskTypeEnum.COUNTER) {
+                                  allTimeCount += t.currentCount!;
+                                }
+                              }
+                            }
+
+                            if (task.type == TaskTypeEnum.COUNTER) {
+                              allTimeDuration += task.remainingDuration! * allTimeCount;
+                            }
+
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 8),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: AppColors.panelBackground2,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      task.title,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    allTimeDuration.textShort2hour(),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: selectedColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Related Routines",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: relatedRoutines.length,
+                          itemBuilder: (context, index) {
+                            final TaskModel task = relatedRoutines[index];
+                            Duration allTimeDuration = Duration.zero;
+                            int allTimeCount = 0;
+
+                            for (var t in TaskProvider().taskList) {
+                              if (t.routineID == task.routineID) {
+                                if (t.type == TaskTypeEnum.TIMER) {
+                                  allTimeDuration += t.currentDuration!;
+                                } else if (t.type == TaskTypeEnum.COUNTER) {
+                                  allTimeCount += t.currentCount!;
+                                }
+                              }
+                            }
+
+                            if (task.type == TaskTypeEnum.COUNTER) {
+                              allTimeDuration += task.remainingDuration! * allTimeCount;
+                            }
+
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 8),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: AppColors.panelBackground2,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      task.title,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    allTimeDuration.textShort2hour(),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 32),
+
+              // Delete Button
+              Center(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () {
+                    TraitProvider().removeTrait(widget.traitModel.id);
+                    Get.back();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.red.withOpacity(0.9),
+                    ),
+                    child: Text(
+                      LocaleKeys.Delete.tr(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
