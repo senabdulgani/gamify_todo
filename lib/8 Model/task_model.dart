@@ -100,6 +100,7 @@ class TaskModel {
       'skill_id_list': skillIDList,
       'status': status?.toString().split('.').last,
       'priority': priority,
+      'is_timer_active': isTimerActive,
     };
   }
 }
