@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
+import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
@@ -11,11 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class GlobalTimer {
   static final GlobalTimer _instance = GlobalTimer._internal();
-
-  factory GlobalTimer() {
-    return _instance;
-  }
-
+  factory GlobalTimer() => _instance;
   GlobalTimer._internal();
 
   Timer? _timer;
@@ -64,15 +61,12 @@ class GlobalTimer {
             if (task.isTimerActive != null && task.isTimerActive == true) {
               task.currentDuration = task.currentDuration! + const Duration(seconds: 1);
 
-              // tamamlandı olarak işaretle
-              if (task.currentDuration! >= task.remainingDuration!) {
+              if (task.status != TaskStatusEnum.COMPLETED && task.currentDuration! >= task.remainingDuration!) {
                 task.status = TaskStatusEnum.COMPLETED;
+                NotificationServices().showTaskCompletionNotification(taskTitle: task.title);
               }
 
-              // her dakika veri tabanında güncelle
               if (task.currentDuration!.inSeconds % 60 == 0) {
-                // TODO: task tamamnlandıysa bildirim veya alarm
-
                 SharedPreferences.getInstance().then((prefs) {
                   prefs.setString('task_last_update_${task.id}', DateTime.now().toIso8601String());
                 });
@@ -88,15 +82,12 @@ class GlobalTimer {
             if (storeItem.isTimerActive != null && storeItem.isTimerActive == true) {
               storeItem.currentDuration = storeItem.currentDuration! - const Duration(seconds: 1);
 
-              // her dakika veri tabanında güncelle
               if (storeItem.currentDuration!.inSeconds % 60 == 0) {
                 SharedPreferences.getInstance().then((prefs) {
                   prefs.setString('item_last_update_${storeItem.id}', DateTime.now().toIso8601String());
                 });
 
                 ServerManager().updateItem(itemModel: storeItem);
-
-                // TODO: task tamamnlandıysa bildirim veya alarm
               }
             }
           }

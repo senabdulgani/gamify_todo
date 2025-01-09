@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
@@ -14,8 +15,10 @@ import 'package:window_manager/window_manager.dart';
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  // Şuan kullanılmıyor
-  // await initBackgroundService();
+
+  // Initialize notifications
+  await NotificationServices().init();
+  await NotificationServices().requestNotificationPermissions();
 
   // Easy Localization paketinini sürekli print atmasını engellemek için
   EasyLocalization.logger.enableBuildModes = [];
