@@ -52,7 +52,14 @@ class _TaskListState extends State<TaskList> {
 
                 // Routine Tasks
                 if (selectedDateRutinTaskList.isNotEmpty) ...[
-                  const Divider(),
+                  if (selectedDateTaskList.isEmpty) const SizedBox(height: 10),
+                  Text(
+                    LocaleKeys.Routines.tr(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   if (selectedDateRutinTaskList.isNotEmpty)
                     ListView.builder(
                       shrinkWrap: true,
@@ -66,9 +73,15 @@ class _TaskListState extends State<TaskList> {
                 ],
 
                 // Future routines ghosts
-                if (selectedDateGhostRutinTaskList.isNotEmpty && selectedDateTaskList.isEmpty) const SizedBox(height: 20),
                 if (selectedDateGhostRutinTaskList.isNotEmpty) ...[
-                  const Divider(color: AppColors.deepPurple),
+                  Text(
+                    LocaleKeys.FutureRoutines.tr(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.deepPurple,
+                    ),
+                  ),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

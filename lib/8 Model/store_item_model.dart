@@ -60,6 +60,7 @@ class ItemModel {
       'add_duration': addDuration != null ? durationToString(addDuration!) : null,
       'current_count': currentCount,
       'credit': credit,
+      'is_timer_active': isTimerActive,
     };
   }
 }

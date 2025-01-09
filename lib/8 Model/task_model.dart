@@ -49,13 +49,13 @@ class TaskModel {
 
     final TaskTypeEnum type = TaskTypeEnum.values.firstWhere((e) => e.toString().split('.').last == json['type']);
 
-    return TaskModel(
+    TaskModel taskModel = TaskModel(
       id: json['id'],
       routineID: json['routine_id'],
       title: json['title'],
       description: json['description'],
       type: type,
-      taskDate: DateTime.parse(json['task_date']).toLocal(),
+      taskDate: DateTime.parse(json['task_date']),
       time: json['time'] != null ? TimeOfDay.fromDateTime(DateTime.parse("1970-01-01 ${json['time']}")) : null,
       isNotificationOn: json['is_notification_on'],
       currentDuration: json['current_duration'] != null ? stringToDuration(json['current_duration']) : null,
@@ -68,6 +68,8 @@ class TaskModel {
       status: json['status'] != null ? TaskStatusEnum.values.firstWhere((e) => e.toString().split('.').last == json['status']) : null,
       priority: json['priority'] ?? 3,
     );
+
+    return taskModel;
   }
 
   static List<TaskModel> fromJsonList(List<dynamic> jsonList) {
