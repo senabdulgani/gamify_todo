@@ -4,6 +4,7 @@ import 'package:timezone/data/latest.dart' as timezone;
 
 class NotificationServices {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static bool isNotificationsEnabled = true;
 
   Future<void> init() async {
     const InitializationSettings initializationSettings = InitializationSettings(
@@ -25,10 +26,25 @@ class NotificationServices {
   Future<void> showTaskCompletionNotification({
     required String taskTitle,
   }) async {
+    if (!isNotificationsEnabled) return;
+
     await flutterLocalNotificationsPlugin.show(
       DateTime.now().millisecondsSinceEpoch.remainder(100000),
       '🎉 Görev Tamamlandı!',
-      taskTitle,
+      '$taskTitle başarıyla tamamlandı!',
+      notificationDetails(),
+    );
+  }
+
+  Future<void> showStoreItemNotification({
+    required String itemTitle,
+  }) async {
+    if (!isNotificationsEnabled) return;
+
+    await flutterLocalNotificationsPlugin.show(
+      DateTime.now().millisecondsSinceEpoch.remainder(100000),
+      '⚠️ Süre Doldu!',
+      '$itemTitle süresi doldu!',
       notificationDetails(),
     );
   }
@@ -46,8 +62,6 @@ class NotificationServices {
         importance: Importance.max,
         priority: Priority.high,
         icon: '@mipmap/ic_launcher',
-        ongoing: true, // Bildirimi kalıcı yapar
-        showWhen: false,
       ),
     );
   }

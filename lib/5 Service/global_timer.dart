@@ -82,6 +82,10 @@ class GlobalTimer {
             if (storeItem.isTimerActive != null && storeItem.isTimerActive == true) {
               storeItem.currentDuration = storeItem.currentDuration! - const Duration(seconds: 1);
 
+              if (storeItem.currentDuration!.inSeconds == 0) {
+                NotificationServices().showStoreItemNotification(itemTitle: storeItem.title);
+              }
+
               if (storeItem.currentDuration!.inSeconds % 60 == 0) {
                 SharedPreferences.getInstance().then((prefs) {
                   prefs.setString('item_last_update_${storeItem.id}', DateTime.now().toIso8601String());
