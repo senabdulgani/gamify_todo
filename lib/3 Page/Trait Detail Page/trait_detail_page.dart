@@ -145,7 +145,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -169,7 +169,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                                 borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              fillColor: AppColors.panelBackground2.withOpacity(0.5),
+                              fillColor: AppColors.panelBackground2.withValues(alpha: 0.5),
                             ),
                           ),
                         ),
@@ -184,7 +184,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                             height: 56,
                             width: 56,
                             decoration: BoxDecoration(
-                              color: selectedColor.withOpacity(0.2),
+                              color: selectedColor.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Center(
@@ -223,7 +223,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: selectedColor.withOpacity(0.1),
+                  color: selectedColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
@@ -241,7 +241,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                       totalDuration.textShort2hour(),
                       style: TextStyle(
                         fontSize: 16,
-                        color: selectedColor.withOpacity(0.8),
+                        color: selectedColor.withValues(alpha: 0.8),
                       ),
                     ),
                   ],
@@ -409,7 +409,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: AppColors.red.withOpacity(0.9),
+                      color: AppColors.red.withValues(alpha: 0.9),
                     ),
                     child: Text(
                       LocaleKeys.Delete.tr(),

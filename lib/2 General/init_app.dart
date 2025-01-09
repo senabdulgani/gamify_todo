@@ -14,6 +14,8 @@ import 'package:window_manager/window_manager.dart';
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  // Şuan kullanılmıyor
+  // await initBackgroundService();
 
   // Easy Localization paketinini sürekli print atmasını engellemek için
   EasyLocalization.logger.enableBuildModes = [];
