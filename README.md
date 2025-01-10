@@ -4,7 +4,6 @@ Gamified to-do list app
 
 Flutter, Node.js, PostgreSQL, Figma, Postman, Heroku, Notion.
 
-[Download APK](https://drive.google.com/file/d/1958dRfYEzAukjVI_5STjYxWvowQATO0d/view?usp=sharing)
 
 ### Home
 <div style="display: flex;">
