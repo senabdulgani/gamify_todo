@@ -57,6 +57,7 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
         } else if (value < widget.taskModel!.targetCount! && widget.taskModel!.status == TaskStatusEnum.COMPLETED) {
           widget.taskModel!.status = null;
         }
+        AppHelper().addCreditByProgress(widget.taskModel!.remainingDuration);
       } else {
         widget.itemModel!.currentCount = value;
       }
@@ -73,6 +74,7 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
         } else if (value < widget.taskModel!.remainingDuration! && widget.taskModel!.status == TaskStatusEnum.COMPLETED) {
           widget.taskModel!.status = null;
         }
+        AppHelper().addCreditByProgress(widget.taskModel!.remainingDuration);
       } else {
         widget.itemModel!.currentDuration = value;
       }
