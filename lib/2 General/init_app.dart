@@ -21,9 +21,6 @@ Future<void> initApp() async {
   await NotificationService().init();
   await NotificationService().requestNotificationPermissions();
 
-  // Initialize home widget
-  await HomeWidgetService.setupHomeWidget();
-
   // Easy Localization paketinini sürekli print atmasını engellemek için
   EasyLocalization.logger.enableBuildModes = [];
 
@@ -51,6 +48,9 @@ Future<void> initApp() async {
       await windowManager.show();
       await windowManager.focus();
     });
+  } else {
+    // Initialize home widget
+    await HomeWidgetService.setupHomeWidget();
   }
 
   // auto login
