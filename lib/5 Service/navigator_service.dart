@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/3%20Page/Login/login_page.dart';
+import 'package:gamify_todo/5%20Service/home_widget_service.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,6 +38,8 @@ class NavigatorService {
   // delete mail and password on shared preferences and go to login page
   void logout() async {
     // SharedPreferences
+    HomeWidgetService.resetHomeWidget();
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
     prefs.remove('password');

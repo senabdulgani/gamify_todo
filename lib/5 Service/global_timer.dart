@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
+import 'package:gamify_todo/5%20Service/home_widget_service.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
@@ -94,6 +95,7 @@ class GlobalTimer {
 
               if (task.status != TaskStatusEnum.COMPLETED && task.currentDuration! >= task.remainingDuration!) {
                 task.status = TaskStatusEnum.COMPLETED;
+                HomeWidgetService.updateTaskCount();
               }
 
               if (task.currentDuration!.inSeconds % 60 == 0) {

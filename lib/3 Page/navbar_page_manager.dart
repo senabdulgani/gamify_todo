@@ -9,6 +9,7 @@ import 'package:gamify_todo/3%20Page/Profile/profile_page.dart';
 import 'package:gamify_todo/3%20Page/Store/add_store_item_page.dart';
 import 'package:gamify_todo/3%20Page/Store/store_page.dart';
 import 'package:gamify_todo/5%20Service/global_timer.dart';
+import 'package:gamify_todo/5%20Service/home_widget_service.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
@@ -124,6 +125,9 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
     context.read<TaskProvider>().taskList = await ServerManager().getTasks();
 
     await GlobalTimer().checkSavedTimers();
+
+    // Initialize home widget
+    await HomeWidgetService.updateTaskCount();
 
     isLoading = true;
     setState(() {});

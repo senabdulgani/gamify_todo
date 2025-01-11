@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
+import 'package:gamify_todo/5%20Service/home_widget_service.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
@@ -59,6 +60,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
           widget.taskModel!.status = null;
         }
         AppHelper().addCreditByProgress(widget.taskModel!.remainingDuration);
+        HomeWidgetService.updateTaskCount();
       } else {
         widget.itemModel!.currentCount = value;
       }
@@ -76,6 +78,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
           widget.taskModel!.status = null;
         }
         AppHelper().addCreditByProgress(widget.taskModel!.remainingDuration);
+        HomeWidgetService.updateTaskCount();
         _checkAndUpdateNotificationStatusForTask();
       } else {
         widget.itemModel!.currentDuration = value;

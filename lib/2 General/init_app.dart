@@ -9,6 +9,7 @@ import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
+import 'package:gamify_todo/5%20Service/home_widget_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -19,6 +20,9 @@ Future<void> initApp() async {
   // Initialize notifications
   await NotificationService().init();
   await NotificationService().requestNotificationPermissions();
+
+  // Initialize home widget
+  await HomeWidgetService.setupHomeWidget();
 
   // Easy Localization paketinini sürekli print atmasını engellemek için
   EasyLocalization.logger.enableBuildModes = [];

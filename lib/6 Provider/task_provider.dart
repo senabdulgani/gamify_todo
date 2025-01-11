@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
+import 'package:gamify_todo/5%20Service/home_widget_service.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/rutin_model.dart';
@@ -158,6 +159,7 @@ class TaskProvider with ChangeNotifier {
     }
 
     ServerManager().updateTask(taskModel: taskModel);
+    HomeWidgetService.updateTaskCount();
 
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
@@ -171,6 +173,7 @@ class TaskProvider with ChangeNotifier {
     }
 
     ServerManager().updateTask(taskModel: taskModel);
+    HomeWidgetService.updateTaskCount();
 
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
@@ -181,6 +184,7 @@ class TaskProvider with ChangeNotifier {
     taskList.remove(taskModel);
 
     ServerManager().deleteTask(id: taskModel.id);
+    HomeWidgetService.updateTaskCount();
 
     NotificationService().cancelNotification(taskModel.id);
 
@@ -203,6 +207,8 @@ class TaskProvider with ChangeNotifier {
   completeRoutine(TaskModel taskModel) {
     taskModel.status = TaskStatusEnum.COMPLETED;
 
+    ServerManager().updateTask(taskModel: taskModel);
+    HomeWidgetService.updateTaskCount();
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     // TODO: arşivden çıkar ekle
     notifyListeners();
