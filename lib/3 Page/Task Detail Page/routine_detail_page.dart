@@ -46,14 +46,14 @@ class _RoutineDetailPageState extends State<RoutineDetailPage> {
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
-          IconButton(
+          TextButton(
             onPressed: () async {
               await NavigatorService().goTo(
                 AddTaskPage(editTask: widget.taskModel),
                 transition: Transition.rightToLeft,
               );
             },
-            icon: const Icon(Icons.edit),
+            child: const Text('Edit'),
           ),
         ],
       ),

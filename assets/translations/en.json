@@ -42,7 +42,7 @@
     "NoTaskForToday": "No task for today",
     "Turkish": "Turkish",
     "English": "English",
-    "RoutineNotToday": "Routine is not for today, so it cannot be interacted",
+    "RoutineForFuture": "Routine cannot be interacted with because it is in the future",
     "Delete": "Delete",
     "Failed": "Failed",
     "ChangeDate": "Change Date",

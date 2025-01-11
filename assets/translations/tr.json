@@ -42,7 +42,7 @@
     "NoTaskForToday": "Bugün için görev yok",
     "Turkish": "Türkçe",
     "English": "İngilizce",
-    "RoutineNotToday": "Rutin bugüne ait olmadığı için etkilşime bulunulamaz",
+    "RoutineForFuture": "Rutin gelecekte olduğu için etkileşimde bulunulamaz",
     "Delete": "Sil",
     "Failed": "Başarısız",
     "ChangeDate": "Tarihi Değiştir",

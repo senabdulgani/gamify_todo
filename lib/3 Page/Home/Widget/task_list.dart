@@ -74,6 +74,7 @@ class _TaskListState extends State<TaskList> {
 
                 // Future routines ghosts
                 if (selectedDateGhostRutinTaskList.isNotEmpty) ...[
+                  if (selectedDateTaskList.isEmpty) const SizedBox(height: 10),
                   Text(
                     LocaleKeys.FutureRoutines.tr(),
                     style: const TextStyle(

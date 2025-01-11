@@ -92,12 +92,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
           child: const Icon(Icons.arrow_back_ios),
         ),
         actions: [
-          InkWell(
-            borderRadius: AppColors.borderRadiusAll,
-            onTap: addTask,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Icon(Icons.check),
+          TextButton(
+            onPressed: addTask,
+            child: Text(
+              LocaleKeys.Save.tr(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
