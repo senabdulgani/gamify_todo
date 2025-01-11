@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
+import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -30,6 +31,8 @@ class TaskProvider with ChangeNotifier {
     taskModel.id = taskId;
 
     taskList.add(taskModel);
+
+    checkNotification(taskModel);
 
     notifyListeners();
   }
@@ -82,6 +85,8 @@ class TaskProvider with ChangeNotifier {
       final index = taskList.indexWhere((element) => element.id == taskModel.id);
       taskList[index] = taskModel;
 
+      checkNotification(taskModel);
+
       ServerManager().updateTask(taskModel: taskModel);
     }
 
@@ -102,19 +107,38 @@ class TaskProvider with ChangeNotifier {
     required BuildContext context,
     required TaskModel taskModel,
   }) async {
-    final selectedDate = await Helper().selectDate(
+    DateTime? selectedDate = await Helper().selectDate(
       context: context,
       initialDate: taskModel.taskDate,
     );
 
     if (selectedDate != null) {
+      selectedDate = selectedDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute);
+
       if (taskModel.type == TaskTypeEnum.TIMER && taskModel.isTimerActive == true) {
         taskModel.isTimerActive = false;
       }
       taskModel.taskDate = selectedDate;
+
+      checkNotification(taskModel);
     }
 
     notifyListeners();
+  }
+
+  checkNotification(TaskModel taskModel) {
+    if (taskModel.time != null && taskModel.isNotificationOn) {
+      if (taskModel.taskDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute).isAfter(DateTime.now())) {
+        NotificationService().scheduleNotification(
+          id: taskModel.id,
+          title: taskModel.title,
+          desc: "Don't forget!",
+          scheduledDate: taskModel.taskDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute),
+        );
+      } else {
+        NotificationService().cancelNotification(taskModel.id);
+      }
+    }
   }
 
   // iptal de kullanıcıya ceza yansıtılmayacak
@@ -156,6 +180,8 @@ class TaskProvider with ChangeNotifier {
 
     ServerManager().deleteTask(id: taskModel.id);
 
+    NotificationService().cancelNotification(taskModel.id);
+
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();
   }
@@ -187,7 +213,7 @@ class TaskProvider with ChangeNotifier {
   }
 
   // Öncelik ve zamana göre sıralama fonksiyonu
-  void _sortTasksByPriorityAndTime(List<TaskModel> tasks) {
+  void sortTasksByPriorityAndTime(List<TaskModel> tasks) {
     tasks.sort((a, b) {
       // Tamamlanmış, iptal edilmiş ve başarısız görevleri en alta koy
       if (a.status != null && b.status == null) return 1;
@@ -217,7 +243,7 @@ class TaskProvider with ChangeNotifier {
       tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID == null).toList();
     }
 
-    _sortTasksByPriorityAndTime(tasks);
+    sortTasksByPriorityAndTime(tasks);
     return tasks;
   }
 
@@ -229,7 +255,7 @@ class TaskProvider with ChangeNotifier {
       tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID != null).toList();
     }
 
-    _sortTasksByPriorityAndTime(tasks);
+    sortTasksByPriorityAndTime(tasks);
     return tasks;
   }
 
@@ -258,7 +284,7 @@ class TaskProvider with ChangeNotifier {
             ))
         .toList();
 
-    _sortTasksByPriorityAndTime(tasks);
+    sortTasksByPriorityAndTime(tasks);
     return tasks;
   }
 }

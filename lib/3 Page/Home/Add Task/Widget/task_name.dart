@@ -25,6 +25,7 @@ class TaskName extends StatelessWidget {
         color: AppColors.panelBackground,
         borderRadius: AppColors.borderRadiusAll,
       ),
+      padding: const EdgeInsets.all(5),
       child: Center(
         child: SizedBox(
           width: 375,

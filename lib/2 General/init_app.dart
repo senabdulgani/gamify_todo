@@ -17,8 +17,8 @@ Future<void> initApp() async {
   await EasyLocalization.ensureInitialized();
 
   // Initialize notifications
-  await NotificationServices().init();
-  await NotificationServices().requestNotificationPermissions();
+  await NotificationService().init();
+  await NotificationService().requestNotificationPermissions();
 
   // Easy Localization paketinini sürekli print atmasını engellemek için
   EasyLocalization.logger.enableBuildModes = [];

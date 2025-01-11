@@ -311,7 +311,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
     if (currentDuration < remainingDuration && isTimerActive) {
       // Zamanlanmış bildirimi yeniden hesapla
       final int secondsUntilCompletion = remainingDuration.inSeconds - currentDuration.inSeconds;
-      NotificationServices().scheduleNotification(
+      NotificationService().scheduleNotification(
         id: task.id,
         title: '🎉 ${task.title} Tamamlandı',
         desc: 'Toplam süre: ${task.remainingDuration!.textLongDynamicWithoutZero()}',
@@ -319,7 +319,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
       );
     } else if (isTimerActive && currentDuration >= remainingDuration) {
       // Halihazırdaki zamanlanmış bildirimi iptal et
-      NotificationServices().cancelNotification(task.id);
+      NotificationService().cancelNotification(task.id);
     }
   }
 
@@ -332,7 +332,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
     if (currentDuration.inSeconds > 0 && isTimerActive) {
       // Zamanlanmış bildirimi yeniden hesapla
       final int secondsUntilCompletion = currentDuration.inSeconds;
-      NotificationServices().scheduleNotification(
+      NotificationService().scheduleNotification(
         id: item.id,
         title: '⚠️ ${item.title} Süre Doldu',
         desc: 'Sınırı Aşma!',
@@ -340,7 +340,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
       );
     } else if (isTimerActive && currentDuration.inSeconds <= 0) {
       // Halihazırdaki zamanlanmış bildirimi iptal et
-      NotificationServices().cancelNotification(item.id);
+      NotificationService().cancelNotification(item.id);
     }
   }
 }

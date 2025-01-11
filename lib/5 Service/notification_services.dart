@@ -5,7 +5,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import 'package:timezone/timezone.dart';
 
-class NotificationServices {
+class NotificationService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {

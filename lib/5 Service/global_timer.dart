@@ -36,7 +36,7 @@ class GlobalTimer {
           // scheduled notification
           final progressDuration = taskModel.currentDuration!;
           final scheduledDate = DateTime.now().add(taskModel.remainingDuration! - progressDuration);
-          NotificationServices().scheduleNotification(
+          NotificationService().scheduleNotification(
             id: taskModel.id,
             title: '🎉 ${taskModel.title} Tamamlandı',
             desc: 'Toplam süre: ${taskModel.remainingDuration!.textLongDynamicWithoutZero()}',
@@ -47,7 +47,7 @@ class GlobalTimer {
         await prefs.remove('task_last_update_${taskModel.id}');
 
         // bildirimi iptal et
-        NotificationServices.flutterLocalNotificationsPlugin.cancel(taskModel.id);
+        NotificationService.flutterLocalNotificationsPlugin.cancel(taskModel.id);
       }
     } else if (storeItemModel != null) {
       storeItemModel.isTimerActive = !storeItemModel.isTimerActive!;
@@ -61,7 +61,7 @@ class GlobalTimer {
         if (storeItemModel.currentDuration!.inSeconds > 0) {
           // scheduled notification
           final scheduledDate = DateTime.now().add(storeItemModel.currentDuration!);
-          NotificationServices().scheduleNotification(
+          NotificationService().scheduleNotification(
             id: storeItemModel.id,
             title: '⚠️ ${storeItemModel.title} Süre Doldu',
             desc: 'Sınırı Aşma!}',
@@ -72,7 +72,7 @@ class GlobalTimer {
         await prefs.remove('item_last_update_${storeItemModel.id}');
 
         // bildirimi iptal et
-        NotificationServices.flutterLocalNotificationsPlugin.cancel(storeItemModel.id);
+        NotificationService.flutterLocalNotificationsPlugin.cancel(storeItemModel.id);
       }
     }
 
