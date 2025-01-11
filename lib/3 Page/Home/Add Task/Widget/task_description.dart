@@ -19,7 +19,7 @@ class TaskDescription extends StatelessWidget {
         color: AppColors.panelBackground,
         borderRadius: AppColors.borderRadiusAll,
       ),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Center(
         child: SizedBox(
           width: 375,
@@ -27,6 +27,8 @@ class TaskDescription extends StatelessWidget {
             controller: provider.descriptionController,
             decoration: InputDecoration(
               hintText: LocaleKeys.TaskDescription.tr(),
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
             ),
             maxLines: 30,
             minLines: 3,

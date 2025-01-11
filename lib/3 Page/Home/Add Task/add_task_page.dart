@@ -115,7 +115,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ],
               const SizedBox(height: 10),
               TaskName(autoFocus: widget.editTask == null),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               const TaskDescription(),
               const SizedBox(height: 10),
               const SelectPriority(),

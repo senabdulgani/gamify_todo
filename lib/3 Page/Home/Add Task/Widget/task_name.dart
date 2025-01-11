@@ -25,7 +25,6 @@ class TaskName extends StatelessWidget {
         color: AppColors.panelBackground,
         borderRadius: AppColors.borderRadiusAll,
       ),
-      padding: const EdgeInsets.all(10),
       child: Center(
         child: SizedBox(
           width: 375,
@@ -34,6 +33,8 @@ class TaskName extends StatelessWidget {
             controller: provider.taskNameController,
             decoration: InputDecoration(
               hintText: LocaleKeys.TaskName.tr(),
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
             ),
             textInputAction: TextInputAction.next,
           ),

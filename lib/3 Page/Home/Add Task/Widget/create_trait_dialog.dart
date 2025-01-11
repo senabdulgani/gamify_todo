@@ -22,7 +22,7 @@ class CreateTraitDialog extends StatefulWidget {
 }
 
 class _CreateTraitDialogState extends State<CreateTraitDialog> {
-  TextEditingController traitTitle = TextEditingController();
+  TextEditingController traitTitleController = TextEditingController();
   String traitIcon = "🎯";
   Color selectedColor = AppColors.main;
 
@@ -38,11 +38,23 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Name
-          TextField(
-            autofocus: true,
-            controller: traitTitle,
-            decoration: InputDecoration(hintText: LocaleKeys.Name.tr()),
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.panelBackground,
+              borderRadius: AppColors.borderRadiusAll,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Center(
+              child: TextField(
+                autofocus: true,
+                controller: traitTitleController,
+                decoration: InputDecoration(
+                  hintText: LocaleKeys.Name.tr(),
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 10),
           Row(
@@ -119,8 +131,8 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
         InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () async {
-            if (traitTitle.text.trim().isEmpty) {
-              traitTitle.clear();
+            if (traitTitleController.text.trim().isEmpty) {
+              traitTitleController.clear();
 
               Helper().getMessage(
                 message: LocaleKeys.TraitNameEmpty.tr(),
@@ -131,7 +143,7 @@ class _CreateTraitDialogState extends State<CreateTraitDialog> {
             }
 
             final newTrait = TraitModel(
-              title: traitTitle.text,
+              title: traitTitleController.text,
               icon: traitIcon,
               color: selectedColor,
               type: widget.isSkill ? TraitTypeEnum.SKILL : TraitTypeEnum.ATTRIBUTE,

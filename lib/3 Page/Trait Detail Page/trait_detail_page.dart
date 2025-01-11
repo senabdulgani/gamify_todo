@@ -27,7 +27,7 @@ class TraitDetailPage extends StatefulWidget {
 }
 
 class _TraitDetailPageState extends State<TraitDetailPage> {
-  TextEditingController traitTitle = TextEditingController();
+  TextEditingController traitTitleController = TextEditingController();
   String traitIcon = "🎯";
   Color selectedColor = AppColors.main;
 
@@ -38,7 +38,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
 
   @override
   void initState() {
-    traitTitle.text = widget.traitModel.title;
+    traitTitleController.text = widget.traitModel.title;
     traitIcon = widget.traitModel.icon;
     selectedColor = widget.traitModel.color;
 
@@ -100,8 +100,8 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
           InkWell(
             borderRadius: AppColors.borderRadiusAll,
             onTap: () async {
-              if (traitTitle.text.trim().isEmpty) {
-                traitTitle.clear();
+              if (traitTitleController.text.trim().isEmpty) {
+                traitTitleController.clear();
                 Helper().getMessage(
                   message: LocaleKeys.NameEmpty.tr(),
                   status: StatusEnum.WARNING,
@@ -111,7 +111,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
 
               final TraitModel updatedTrait = TraitModel(
                 id: widget.traitModel.id,
-                title: traitTitle.text,
+                title: traitTitleController.text,
                 icon: traitIcon,
                 color: selectedColor,
                 type: widget.traitModel.type == TraitTypeEnum.SKILL ? TraitTypeEnum.SKILL : TraitTypeEnum.ATTRIBUTE,
@@ -157,7 +157,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                       children: [
                         Expanded(
                           child: TextField(
-                            controller: traitTitle,
+                            controller: traitTitleController,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

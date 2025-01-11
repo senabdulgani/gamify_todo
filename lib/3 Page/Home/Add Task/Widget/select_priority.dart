@@ -84,7 +84,7 @@ class _PriorityOption extends StatelessWidget {
             color: isSelected ? color.withValues(alpha: 0.2) : Colors.transparent,
             border: Border.all(
               color: isSelected ? color : Colors.grey,
-              width: 2,
+              width: isSelected ? 2 : 1,
             ),
             borderRadius: AppColors.borderRadiusAll,
           ),
