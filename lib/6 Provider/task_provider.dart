@@ -120,6 +120,8 @@ class TaskProvider with ChangeNotifier {
       }
       taskModel.taskDate = selectedDate;
 
+      ServerManager().updateTask(taskModel: taskModel);
+
       checkNotification(taskModel);
     }
 
