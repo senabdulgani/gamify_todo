@@ -6,7 +6,7 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_task_type.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
-import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/current_progress_widget.dart';
+import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/edit_progress_widget.dart';
 import 'package:gamify_todo/3%20Page/Store/Widget/set_credit.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
@@ -102,7 +102,7 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              if (widget.editItemModel != null) CurrentProgressWidget.forStoreItem(item: widget.editItemModel!),
+              if (widget.editItemModel != null) EditProgressWidget.forStoreItem(item: widget.editItemModel!),
               const SizedBox(height: 20),
               TaskName(
                 isStore: true,

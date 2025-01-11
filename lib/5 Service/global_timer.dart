@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
@@ -29,8 +30,24 @@ class GlobalTimer {
       if (taskModel.isTimerActive!) {
         final now = DateTime.now().toIso8601String();
         await prefs.setString('task_last_update_${taskModel.id}', now);
+
+        // birldirim ayarla
+        if (taskModel.status != TaskStatusEnum.COMPLETED) {
+          // scheduled notification
+          final progressDuration = taskModel.currentDuration!;
+          final scheduledDate = DateTime.now().add(taskModel.remainingDuration! - progressDuration);
+          NotificationServices().scheduleNotification(
+            id: taskModel.id,
+            title: '🎉 ${taskModel.title} Tamamlandı',
+            desc: 'Toplam süre: ${taskModel.remainingDuration!.textLongDynamicWithoutZero()}',
+            scheduledDate: scheduledDate,
+          );
+        }
       } else {
         await prefs.remove('task_last_update_${taskModel.id}');
+
+        // bildirimi iptal et
+        NotificationServices.flutterLocalNotificationsPlugin.cancel(taskModel.id);
       }
     } else if (storeItemModel != null) {
       storeItemModel.isTimerActive = !storeItemModel.isTimerActive!;
@@ -40,8 +57,22 @@ class GlobalTimer {
       if (storeItemModel.isTimerActive!) {
         final now = DateTime.now().toIso8601String();
         await prefs.setString('item_last_update_${storeItemModel.id}', now);
+
+        if (storeItemModel.currentDuration!.inSeconds > 0) {
+          // scheduled notification
+          final scheduledDate = DateTime.now().add(storeItemModel.currentDuration!);
+          NotificationServices().scheduleNotification(
+            id: storeItemModel.id,
+            title: '⚠️ ${storeItemModel.title} Süre Doldu',
+            desc: 'Sınırı Aşma!}',
+            scheduledDate: scheduledDate,
+          );
+        }
       } else {
         await prefs.remove('item_last_update_${storeItemModel.id}');
+
+        // bildirimi iptal et
+        NotificationServices.flutterLocalNotificationsPlugin.cancel(storeItemModel.id);
       }
     }
 
@@ -63,7 +94,6 @@ class GlobalTimer {
 
               if (task.status != TaskStatusEnum.COMPLETED && task.currentDuration! >= task.remainingDuration!) {
                 task.status = TaskStatusEnum.COMPLETED;
-                NotificationServices().showTaskCompletionNotification(taskTitle: task.title);
               }
 
               if (task.currentDuration!.inSeconds % 60 == 0) {
@@ -81,10 +111,6 @@ class GlobalTimer {
           for (var storeItem in StoreProvider().storeItemList) {
             if (storeItem.isTimerActive != null && storeItem.isTimerActive == true) {
               storeItem.currentDuration = storeItem.currentDuration! - const Duration(seconds: 1);
-
-              if (storeItem.currentDuration!.inSeconds == 0) {
-                NotificationServices().showStoreItemNotification(itemTitle: storeItem.title);
-              }
 
               if (storeItem.currentDuration!.inSeconds % 60 == 0) {
                 SharedPreferences.getInstance().then((prefs) {

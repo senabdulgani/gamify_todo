@@ -3,33 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
+import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/store_item_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
-class CurrentProgressWidget extends StatefulWidget {
+class EditProgressWidget extends StatefulWidget {
   final TaskModel? taskModel;
   final ItemModel? itemModel;
 
-  const CurrentProgressWidget.forTask({
+  const EditProgressWidget.forTask({
     super.key,
     required TaskModel task,
   })  : taskModel = task,
         itemModel = null;
 
-  const CurrentProgressWidget.forStoreItem({
+  const EditProgressWidget.forStoreItem({
     super.key,
     required ItemModel item,
   })  : itemModel = item,
         taskModel = null;
 
   @override
-  State<CurrentProgressWidget> createState() => _CurrentProgressWidgetState();
+  State<EditProgressWidget> createState() => _EditProgressWidgetState();
 }
 
-class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
+class _EditProgressWidgetState extends State<EditProgressWidget> {
   bool _isIncrementing = false;
   bool _isDecrementing = false;
 
@@ -75,8 +76,10 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
           widget.taskModel!.status = null;
         }
         AppHelper().addCreditByProgress(widget.taskModel!.remainingDuration);
+        _checkAndUpdateNotificationStatusForTask();
       } else {
         widget.itemModel!.currentDuration = value;
+        _checkAndUpdateNotificationStatusForStoreItem();
       }
     });
     updateProgress();
@@ -295,6 +298,49 @@ class _CurrentProgressWidgetState extends State<CurrentProgressWidget> {
         return LocaleKeys.Cancelled.tr();
       default:
         return LocaleKeys.InProgress.tr();
+    }
+  }
+
+  // check notifiaciaton status for task
+  void _checkAndUpdateNotificationStatusForTask() {
+    final task = widget.taskModel!;
+    final remainingDuration = task.remainingDuration!;
+    final currentDuration = task.currentDuration!;
+    final isTimerActive = task.isTimerActive ?? false;
+
+    if (currentDuration < remainingDuration && isTimerActive) {
+      // Zamanlanmış bildirimi yeniden hesapla
+      final int secondsUntilCompletion = remainingDuration.inSeconds - currentDuration.inSeconds;
+      NotificationServices().scheduleNotification(
+        id: task.id,
+        title: '🎉 ${task.title} Tamamlandı',
+        desc: 'Toplam süre: ${task.remainingDuration!.textLongDynamicWithoutZero()}',
+        scheduledDate: DateTime.now().add(Duration(seconds: secondsUntilCompletion)),
+      );
+    } else if (isTimerActive && currentDuration >= remainingDuration) {
+      // Halihazırdaki zamanlanmış bildirimi iptal et
+      NotificationServices().cancelNotification(task.id);
+    }
+  }
+
+  // check notifiaciaton status for store item
+  void _checkAndUpdateNotificationStatusForStoreItem() {
+    final item = widget.itemModel!;
+    final currentDuration = item.currentDuration!;
+    final isTimerActive = item.isTimerActive ?? false;
+
+    if (currentDuration.inSeconds > 0 && isTimerActive) {
+      // Zamanlanmış bildirimi yeniden hesapla
+      final int secondsUntilCompletion = currentDuration.inSeconds;
+      NotificationServices().scheduleNotification(
+        id: item.id,
+        title: '⚠️ ${item.title} Süre Doldu',
+        desc: 'Sınırı Aşma!',
+        scheduledDate: DateTime.now().add(Duration(seconds: secondsUntilCompletion)),
+      );
+    } else if (isTimerActive && currentDuration.inSeconds <= 0) {
+      // Halihazırdaki zamanlanmış bildirimi iptal et
+      NotificationServices().cancelNotification(item.id);
     }
   }
 }

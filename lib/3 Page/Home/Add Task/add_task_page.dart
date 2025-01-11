@@ -24,7 +24,7 @@ import 'package:gamify_todo/8%20Model/rutin_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
-import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/current_progress_widget.dart';
+import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/edit_progress_widget.dart';
 
 class AddTaskPage extends StatefulWidget {
   const AddTaskPage({
@@ -111,7 +111,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             children: [
               if (widget.editTask != null) ...[
                 const SizedBox(height: 10),
-                CurrentProgressWidget.forTask(task: widget.editTask!),
+                EditProgressWidget.forTask(task: widget.editTask!),
               ],
               const SizedBox(height: 10),
               TaskName(autoFocus: widget.editTask == null),

@@ -1,21 +1,21 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest.dart' as timezone;
+import 'package:timezone/timezone.dart' as tz;
+
+import 'package:timezone/timezone.dart';
 
 class NotificationServices {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  static bool isNotificationsEnabled = true;
 
   Future<void> init() async {
+    timezone.initializeTimeZones();
+
     const InitializationSettings initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
     );
 
-    timezone.initializeTimeZones();
-
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
   Future<bool> requestNotificationPermissions() async {
@@ -23,34 +23,41 @@ class NotificationServices {
     return status.isGranted;
   }
 
-  Future<void> showTaskCompletionNotification({
-    required String taskTitle,
+  // Future<void> showTaskCompletionNotification({
+  //   required String taskTitle,
+  // }) async {
+  //   await flutterLocalNotificationsPlugin.show(
+  //     DateTime.now().millisecondsSinceEpoch.remainder(100000),
+  //     '🎉 Görev Tamamlandı!',
+  //     '$taskTitle başarıyla tamamlandı!',
+  //     notificationDetails(),
+  //   );
+  // }
+
+  // scheduledNotification
+  Future<void> scheduleNotification({
+    required int id,
+    required String desc,
+    required String title,
+    required DateTime scheduledDate,
   }) async {
-    if (!isNotificationsEnabled) return;
-
-    await flutterLocalNotificationsPlugin.show(
-      DateTime.now().millisecondsSinceEpoch.remainder(100000),
-      '🎉 Görev Tamamlandı!',
-      '$taskTitle başarıyla tamamlandı!',
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      id,
+      title,
+      desc,
+      TZDateTime.fromMillisecondsSinceEpoch(tz.local, scheduledDate.millisecondsSinceEpoch),
       notificationDetails(),
-    );
-  }
-
-  Future<void> showStoreItemNotification({
-    required String itemTitle,
-  }) async {
-    if (!isNotificationsEnabled) return;
-
-    await flutterLocalNotificationsPlugin.show(
-      DateTime.now().millisecondsSinceEpoch.remainder(100000),
-      '⚠️ Süre Doldu!',
-      '$itemTitle süresi doldu!',
-      notificationDetails(),
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 
   Future<void> cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  Future<void> cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
   }
 
   NotificationDetails notificationDetails() {

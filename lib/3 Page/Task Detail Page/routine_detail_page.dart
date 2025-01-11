@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/view_model/task_detail_view_model.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/all_time_stats_widget.dart';
-import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/current_progress_widget.dart';
+import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/edit_progress_widget.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/recent_logs_widget.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/success_metrics_widget.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/trait_progress_widget.dart';
@@ -64,7 +64,7 @@ class _RoutineDetailPageState extends State<RoutineDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Current Progress
-              CurrentProgressWidget.forTask(task: widget.taskModel),
+              EditProgressWidget.forTask(task: widget.taskModel),
               const SizedBox(height: 20),
 
               // All Time Stats
