@@ -87,23 +87,46 @@ class _TaskItemState extends State<TaskItem> {
                 }
               },
               borderRadius: AppColors.borderRadiusAll,
-              child: Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? null : AppColors.borderRadiusAll,
-                ),
-                child: Row(
-                  children: [
-                    taskActionIcon(),
-                    const SizedBox(width: 5),
-                    titleAndDescriptionWidgets(),
-                    const SizedBox(width: 10),
-                    notificationWidgets(),
-                  ],
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive! ? null : AppColors.borderRadiusAll,
+                    ),
+                    child: Row(
+                      children: [
+                        taskActionIcon(),
+                        const SizedBox(width: 5),
+                        titleAndDescriptionWidgets(),
+                        const SizedBox(width: 10),
+                        notificationWidgets(),
+                      ],
+                    ),
+                  ),
+                  priortyLine(),
+                ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget priortyLine() {
+    if (widget.taskModel.priority == 3) return const SizedBox();
+
+    return Container(
+      height: 1,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            (widget.taskModel.priority == 1 ? AppColors.red : AppColors.orange2).withValues(alpha: 0.7),
+            Colors.transparent,
+          ],
+          stops: const [0, 1],
         ),
       ),
     );
@@ -126,14 +149,14 @@ class _TaskItemState extends State<TaskItem> {
                 ? Text(
                     "${widget.taskModel.currentCount ?? 0}/${widget.taskModel.targetCount ?? 0}",
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
                   )
                 : Text(
                     "${widget.taskModel.currentDuration!.textShortDynamic()}/${widget.taskModel.remainingDuration!.textShortDynamic()}",
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: widget.taskModel.isTimerActive! ? AppColors.main : null,
                     ),
@@ -164,6 +187,13 @@ class _TaskItemState extends State<TaskItem> {
   }
 
   Widget taskActionIcon() {
+    final priorityColor = (widget.taskModel.priority == 1
+            ? AppColors.red
+            : widget.taskModel.priority == 2
+                ? AppColors.orange2
+                : AppColors.text)
+        .withValues(alpha: 0.9);
+
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -185,9 +215,10 @@ class _TaskItemState extends State<TaskItem> {
               onLongPressEnd: (_) {
                 _isIncrementing = false;
               },
-              child: const Icon(
+              child: Icon(
                 Icons.add,
                 size: 27,
+                color: priorityColor,
               ),
             )
           : Icon(
@@ -199,6 +230,7 @@ class _TaskItemState extends State<TaskItem> {
                       ? Icons.pause
                       : Icons.play_arrow,
               size: 27,
+              color: priorityColor,
             ),
     );
   }
@@ -232,6 +264,13 @@ class _TaskItemState extends State<TaskItem> {
   }
 
   Widget titleAndDescriptionWidgets() {
+    final priorityColor = (widget.taskModel.priority == 1
+            ? AppColors.red
+            : widget.taskModel.priority == 2
+                ? AppColors.orange2
+                : AppColors.text)
+        .withValues(alpha: 0.9);
+
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,9 +281,10 @@ class _TaskItemState extends State<TaskItem> {
             maxLines: 1,
             minFontSize: 14,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
+              color: priorityColor,
             ),
           ),
           if (widget.taskModel.description != null && widget.taskModel.description!.isNotEmpty)
@@ -252,9 +292,9 @@ class _TaskItemState extends State<TaskItem> {
               widget.taskModel.description!,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: AppColors.dirtyWhite,
+                color: priorityColor.withValues(alpha: 0.7),
               ),
             ),
           progressText(),
