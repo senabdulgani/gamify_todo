@@ -184,9 +184,9 @@ class GlobalTimer {
       if (storeItem.isTimerActive == true) {
         final lastUpdateStr = prefs.getString('item_last_update_${storeItem.id}');
         final lastProgressStr = prefs.getString('item_last_progress_${storeItem.id}');
-        if (lastUpdateStr != null) {
+        if (lastUpdateStr != null && lastProgressStr != null) {
           final lastUpdate = DateTime.parse(lastUpdateStr);
-          final lastProgress = Duration(seconds: int.parse(lastProgressStr!));
+          final lastProgress = Duration(seconds: int.parse(lastProgressStr));
 
           final now = DateTime.now();
           final difference = now.difference(lastUpdate);
