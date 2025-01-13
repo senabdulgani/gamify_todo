@@ -21,7 +21,7 @@ extension DurationFormatting on Duration {
   }
 
   String integerDynamic() {
-    if (inHours > 0) {
+    if (inHours != 0) {
       return integer3();
     } else {
       return integer2();
@@ -44,7 +44,7 @@ extension DurationFormatting on Duration {
   }
 
   String textLongDynamic() {
-    if (inHours > 0) {
+    if (inHours != 0) {
       return textLong3();
     } else {
       return textLong2();
@@ -74,7 +74,7 @@ extension DurationFormatting on Duration {
   }
 
   String textShortDynamic() {
-    if (inHours > 0) {
+    if (inHours != 0) {
       return textShort3();
     } else {
       return textShort2();
