@@ -31,12 +31,12 @@ class GlobalTimer {
       if (taskModel.isTimerActive!) {
         final now = DateTime.now().toIso8601String();
         await prefs.setString('task_last_update_${taskModel.id}', now);
+        await prefs.setString('task_last_progress_${taskModel.id}', taskModel.currentDuration!.inSeconds.toString());
 
         // birldirim ayarla
         if (taskModel.status != TaskStatusEnum.COMPLETED) {
           // scheduled notification
-          final progressDuration = taskModel.currentDuration!;
-          final scheduledDate = DateTime.now().add(taskModel.remainingDuration! - progressDuration);
+          final scheduledDate = DateTime.now().add(taskModel.remainingDuration! - taskModel.currentDuration!);
           NotificationService().scheduleNotification(
             id: taskModel.id,
             title: '🎉 ${taskModel.title} Tamamlandı',
@@ -46,6 +46,7 @@ class GlobalTimer {
         }
       } else {
         await prefs.remove('task_last_update_${taskModel.id}');
+        await prefs.remove('task_last_progress_${taskModel.id}');
 
         // bildirimi iptal et
         NotificationService.flutterLocalNotificationsPlugin.cancel(taskModel.id);
@@ -58,6 +59,7 @@ class GlobalTimer {
       if (storeItemModel.isTimerActive!) {
         final now = DateTime.now().toIso8601String();
         await prefs.setString('item_last_update_${storeItemModel.id}', now);
+        await prefs.setString('item_last_progress_${storeItemModel.id}', storeItemModel.currentDuration!.inSeconds.toString());
 
         if (storeItemModel.currentDuration!.inSeconds > 0) {
           // scheduled notification
@@ -71,6 +73,7 @@ class GlobalTimer {
         }
       } else {
         await prefs.remove('item_last_update_${storeItemModel.id}');
+        await prefs.remove('item_last_progress_${storeItemModel.id}');
 
         // bildirimi iptal et
         NotificationService.flutterLocalNotificationsPlugin.cancel(storeItemModel.id);
@@ -101,6 +104,7 @@ class GlobalTimer {
               if (task.currentDuration!.inSeconds % 60 == 0) {
                 SharedPreferences.getInstance().then((prefs) {
                   prefs.setString('task_last_update_${task.id}', DateTime.now().toIso8601String());
+                  prefs.setString('task_last_progress_${task.id}', task.currentDuration!.inSeconds.toString());
                 });
 
                 ServerManager().updateTask(taskModel: task);
@@ -117,6 +121,7 @@ class GlobalTimer {
               if (storeItem.currentDuration!.inSeconds % 60 == 0) {
                 SharedPreferences.getInstance().then((prefs) {
                   prefs.setString('item_last_update_${storeItem.id}', DateTime.now().toIso8601String());
+                  prefs.setString('item_last_progress_${storeItem.id}', storeItem.currentDuration!.inSeconds.toString());
                 });
 
                 ServerManager().updateItem(itemModel: storeItem);
@@ -135,49 +140,63 @@ class GlobalTimer {
   }
 
   Future<void> checkSavedTimers() async {
+    // Check if any task has an active timer
+    final bool hasActiveTimer = TaskProvider().taskList.any((task) => task.isTimerActive == true) || StoreProvider().storeItemList.any((item) => item.isTimerActive == true);
+
+    if (hasActiveTimer) {
+      await checkActiveTimerPref();
+      startStopGlobalTimer();
+    }
+  }
+
+  // checkactibvetimerpref
+  Future<void> checkActiveTimerPref() async {
     final prefs = await SharedPreferences.getInstance();
 
     for (var task in TaskProvider().taskList) {
       if (task.isTimerActive == true) {
         final lastUpdateStr = prefs.getString('task_last_update_${task.id}');
-        if (lastUpdateStr != null) {
+        final lastProgressStr = prefs.getString('task_last_progress_${task.id}');
+
+        if (lastUpdateStr != null && lastProgressStr != null) {
           final lastUpdate = DateTime.parse(lastUpdateStr);
+          final lastProgress = Duration(seconds: int.parse(lastProgressStr));
+
           final now = DateTime.now();
           final difference = now.difference(lastUpdate);
 
           // Son güncelleme ile şimdiki zaman arasındaki farkı ekle
-          task.currentDuration = task.currentDuration! + difference;
+          task.currentDuration = lastProgress + difference;
 
           // Son güncelleme zamanını güncelle
           await prefs.setString('task_last_update_${task.id}', now.toIso8601String());
+          await prefs.setString('task_last_progress_${task.id}', task.currentDuration!.inSeconds.toString());
 
           ServerManager().updateTask(taskModel: task);
 
           AppHelper().addCreditByProgress(difference);
         }
       }
+      TaskProvider().updateItems();
     }
 
     for (var storeItem in StoreProvider().storeItemList) {
       if (storeItem.isTimerActive == true) {
         final lastUpdateStr = prefs.getString('item_last_update_${storeItem.id}');
+        final lastProgressStr = prefs.getString('item_last_progress_${storeItem.id}');
         if (lastUpdateStr != null) {
           final lastUpdate = DateTime.parse(lastUpdateStr);
+          final lastProgress = Duration(seconds: int.parse(lastProgressStr!));
+
           final now = DateTime.now();
           final difference = now.difference(lastUpdate);
 
-          storeItem.currentDuration = storeItem.currentDuration! - difference;
+          storeItem.currentDuration = lastProgress - difference;
 
           ServerManager().updateItem(itemModel: storeItem);
         }
       }
-    }
-
-    // Check if any task has an active timer
-    final bool hasActiveTimer = TaskProvider().taskList.any((task) => task.isTimerActive == true) || StoreProvider().storeItemList.any((item) => item.isTimerActive == true);
-
-    if (hasActiveTimer) {
-      startStopGlobalTimer();
+      StoreProvider().setStateItems();
     }
   }
 }
