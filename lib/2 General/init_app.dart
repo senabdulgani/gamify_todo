@@ -34,7 +34,7 @@ Future<void> initApp() async {
     await windowManager.ensureInitialized();
 
     WindowOptions windowOptions = const WindowOptions(
-      title: "BlackBox DB",
+      title: "Facelog ",
       size: Size(450, 1000),
       maximumSize: Size(450, 99999),
       minimumSize: Size(400, 600),
