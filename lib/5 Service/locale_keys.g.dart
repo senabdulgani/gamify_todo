@@ -4,9 +4,6 @@ abstract class  LocaleKeys {
   static const Store = 'Store';
   static const Settings = 'Settings';
   static const SelectLanguage = 'SelectLanguage';
-  static const AboutUs = 'AboutUs';
-  static const AboutUsText = 'AboutUsText';
-  static const AboutUsDialog = 'AboutUsDialog';
   static const Help = 'Help';
   static const HelpText = 'HelpText';
   static const HelpDialog = 'HelpDialog';

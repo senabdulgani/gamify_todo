@@ -37,13 +37,6 @@ class SettingsPage extends StatelessWidget {
               },
             ),
             _settingsOption(
-              title: LocaleKeys.AboutUs.tr(),
-              subtitle: LocaleKeys.AboutUsText.tr(),
-              onTap: () {
-                hakkimizdaDialog(context);
-              },
-            ),
-            _settingsOption(
               title: LocaleKeys.Help.tr(),
               subtitle: LocaleKeys.HelpText.tr(),
               onTap: () {
@@ -72,45 +65,6 @@ class SettingsPage extends StatelessWidget {
             //     },
             //   ),
             // ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<dynamic> hakkimizdaDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.background,
-        title: Text(
-          LocaleKeys.AboutUs.tr(),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              LocaleKeys.AboutUsDialog.tr(),
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-            ),
-            const Text(
-              """
-
-Sümeyye Aycan
-Smaycan69@gmail.com
-+90 546 685 32 23
-
-Muhammed İslam Bilseloğlu
-m.islam0422@gmail.com
-+90 551 394 47 26
-""",
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
           ],
         ),
       ),
