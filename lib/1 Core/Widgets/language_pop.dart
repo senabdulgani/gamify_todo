@@ -28,7 +28,7 @@ class LanguageSelectionPopupState extends State<LanguageSelectionPopup> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       // Shared preferences'ten seçilen dilin yüklenmesi
-      _selectedLanguage = Locales.values.firstWhere((locale) => locale.toString() == (prefs.getString('selected_language') ?? "${context.locale == const Locale('tr', 'TR') ? Locales.tr : Locales.en}")); // TODO: Şimdilik işe yaradığı için değişmedi fakat mutlaka düzeltilmeli.
+      _selectedLanguage = Locales.values.firstWhere((locale) => locale.toString() == (prefs.getString('selected_language') ?? Locales.en));
       oldSelectedLanguage = _selectedLanguage;
       isLoading = false;
     });
@@ -46,7 +46,7 @@ class LanguageSelectionPopupState extends State<LanguageSelectionPopup> {
                   .map(
                     (locale) => ListTile(
                       title: Text(
-                        locale == Locales.en ? LocaleKeys.English.tr() : LocaleKeys.Turkish.tr(),
+                        _getLocaleName(locale),
                         style: TextStyle(
                           fontWeight: locale == _selectedLanguage ? FontWeight.bold : FontWeight.normal,
                         ),
@@ -70,6 +70,21 @@ class LanguageSelectionPopupState extends State<LanguageSelectionPopup> {
                   .toList(),
             ),
           );
+  }
+
+  String _getLocaleName(Locales locale) {
+    switch (locale) {
+      case Locales.en:
+        return "English";
+      case Locales.de:
+        return "Deutsch";
+      case Locales.fr:
+        return "Français";
+      case Locales.ru:
+        return "русский";
+      case Locales.tr:
+        return "Türkçe";
+    }
   }
 
   Future<void> _saveSelectedLanguage() async {

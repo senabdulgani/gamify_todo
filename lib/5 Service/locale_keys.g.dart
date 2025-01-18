@@ -27,6 +27,7 @@ abstract class  LocaleKeys {
   static const RoutineStartDateError = 'RoutineStartDateError';
   static const EditTask = 'EditTask';
   static const EditRoutine = 'EditRoutine';
+  static const Edit = 'Edit';
   static const AddTask = 'AddTask';
   static const TaskName = 'TaskName';
   static const Hour = 'Hour';
@@ -39,8 +40,6 @@ abstract class  LocaleKeys {
   static const Info = 'Info';
   static const Success = 'Success';
   static const NoTaskForToday = 'NoTaskForToday';
-  static const Turkish = 'Turkish';
-  static const English = 'English';
   static const RoutineForFuture = 'RoutineForFuture';
   static const Delete = 'Delete';
   static const Failed = 'Failed';
