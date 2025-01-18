@@ -1,7 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest.dart' as timezone;
-import 'package:timezone/timezone.dart' as tz;
 
 import 'package:timezone/timezone.dart';
 
@@ -41,11 +40,19 @@ class NotificationService {
     required String title,
     required DateTime scheduledDate,
   }) async {
+    final TZDateTime scheduledTZDate = TZDateTime.local(
+      scheduledDate.year,
+      scheduledDate.month,
+      scheduledDate.day,
+      scheduledDate.hour,
+      scheduledDate.minute,
+    );
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id,
       title,
       desc,
-      TZDateTime.fromMillisecondsSinceEpoch(tz.local, scheduledDate.millisecondsSinceEpoch),
+      scheduledTZDate,
       notificationDetails(),
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,

@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamify_todo/1%20Core/Adapter/color_adapter.dart';
 import 'package:gamify_todo/1%20Core/Adapter/duration_adapter.dart';
-import 'package:gamify_todo/1%20Core/Adapter/task_status_enum_adapter.dart';
-import 'package:gamify_todo/1%20Core/Adapter/task_type_enum_adapter.dart';
-import 'package:gamify_todo/1%20Core/Adapter/trait_type_enum_adapter.dart';
+import 'package:gamify_todo/1%20Core/Adapter/time_of_day_adapter.dart';
+import 'package:gamify_todo/2%20General/Adapter/task_status_enum_adapter.dart';
+import 'package:gamify_todo/2%20General/Adapter/task_type_enum_adapter.dart';
+import 'package:gamify_todo/2%20General/Adapter/trait_type_enum_adapter.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/8%20Model/routine_model.dart';
 import 'package:gamify_todo/8%20Model/store_item_model.dart';
@@ -165,6 +166,7 @@ class Helper {
 
     Hive.registerAdapter(ColorAdapter());
     Hive.registerAdapter(DurationAdapter());
+    Hive.registerAdapter(TimeOfDayAdapter());
 
     Hive.registerAdapter(RoutineModelAdapter());
     Hive.registerAdapter(ItemModelAdapter());
