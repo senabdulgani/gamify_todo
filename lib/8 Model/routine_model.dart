@@ -1,25 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class RoutineModel {
+part 'routine_model.g.dart';
+
+@HiveType(typeId: 4)
+class RoutineModel extends HiveObject {
+  @HiveField(0)
   int id; // id si
+  @HiveField(1)
   String title; // başlığı
+  @HiveField(2)
+  String? description; // başlığı
+  @HiveField(3)
   TaskTypeEnum type; // türü
+  @HiveField(4)
   final DateTime createdDate; // oluşturulma tarihi
+  @HiveField(5)
   DateTime startDate; // başlama tarihi
+  @HiveField(6)
   TimeOfDay? time; // saati
+  @HiveField(7)
   bool isNotificationOn; // notification açık mı
+  @HiveField(8)
   Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
+  @HiveField(9)
   int? targetCount; // counter ise hedef sayı
+  @HiveField(10)
   List<int> repeatDays; // tekrar günleri
+  @HiveField(11)
   List<int>? attirbuteIDList; // etki edeceği özellikler
+  @HiveField(12)
   List<int>? skillIDList; // etki edecği yetenekler
+  @HiveField(13)
   bool isCompleted; // tamamlandı mı
+  @HiveField(14)
   int priority; // öncelik değeri (1: Yüksek, 2: Orta, 3: Düşük)
 
   RoutineModel({
     this.id = 0,
     required this.title,
+    required this.description,
     required this.type,
     required this.createdDate,
     required this.startDate,
@@ -45,6 +66,7 @@ class RoutineModel {
     return RoutineModel(
       id: json['id'],
       title: json['title'],
+      description: json['description'],
       type: type,
       createdDate: DateTime.parse(json['created_date']),
       startDate: DateTime.parse(json['start_date']),
@@ -72,6 +94,7 @@ class RoutineModel {
     return {
       'id': id,
       'title': title,
+      'description': description,
       'type': type.toString().split('.').last,
       'created_date': createdDate.toIso8601String(),
       'start_date': startDate.toIso8601String(),

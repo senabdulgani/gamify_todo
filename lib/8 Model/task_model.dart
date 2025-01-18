@@ -1,24 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class TaskModel {
+part 'task_model.g.dart';
+
+@HiveType(typeId: 2)
+class TaskModel extends HiveObject {
+  @HiveField(0)
   int id; // id si
+  @HiveField(1)
   final int? routineID; // eğer varsa rutin id si
+  @HiveField(2)
   String title; // başlığı
+  @HiveField(3)
   String? description; // açıklama
+  @HiveField(4)
   final TaskTypeEnum type; // türü
+  @HiveField(5)
   DateTime taskDate; // yapılacağı tarih
+  @HiveField(6)
   TimeOfDay? time; // saati
+  @HiveField(7)
   bool isNotificationOn; // notification açık mı
+  @HiveField(8)
   Duration? currentDuration; // timer ise süre buradan takip edilecek
+  @HiveField(9)
   Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
+  @HiveField(10)
   int? currentCount; // counter ise sayı buradan takip edilecek
+  @HiveField(11)
   int? targetCount; // counter ise hedef sayı
+  @HiveField(12)
   bool? isTimerActive; // timer aktif mi
+  @HiveField(13)
   List<int>? attributeIDList; // etki edeceği özellikler
+  @HiveField(14)
   List<int>? skillIDList; // etki edecği yetenekler
+  @HiveField(15)
   TaskStatusEnum? status; // tamamlandı mı
+  @HiveField(16)
   int priority; // öncelik değeri (1: Yüksek, 2: Orta, 3: Düşük)
 
   TaskModel({

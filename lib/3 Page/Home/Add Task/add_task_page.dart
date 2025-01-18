@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
+import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
@@ -20,7 +21,7 @@ import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
-import 'package:gamify_todo/8%20Model/rutin_model.dart';
+import 'package:gamify_todo/8%20Model/routine_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
@@ -199,7 +200,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       return;
     }
 
-    if (addTaskProvider.selectedDays.isNotEmpty && Helper().isBeforeDay(addTaskProvider.selectedDate, DateTime.now())) {
+    if (addTaskProvider.selectedDays.isNotEmpty && addTaskProvider.selectedDate.isBeforeDay(DateTime.now())) {
       Helper().getMessage(
         message: LocaleKeys.RoutineStartDateError.tr(),
         status: StatusEnum.WARNING,
@@ -258,6 +259,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         await taskProvider.addRoutine(
           RoutineModel(
             title: addTaskProvider.taskNameController.text,
+            description: addTaskProvider.descriptionController.text.trim().isEmpty ? null : addTaskProvider.descriptionController.text,
             type: addTaskProvider.selectedTaskType,
             createdDate: DateTime.now(),
             startDate: addTaskProvider.selectedDate,
@@ -273,7 +275,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
         );
 
-        if (addTaskProvider.selectedDays.contains(DateTime.now().weekday - 1) && (Helper().isBeforeOrSameDay(addTaskProvider.selectedDate, DateTime.now()))) {
+        if (addTaskProvider.selectedDays.contains(DateTime.now().weekday - 1) && addTaskProvider.selectedDate.isBeforeOrSameDay(DateTime.now())) {
           taskProvider.addTask(
             TaskModel(
               title: addTaskProvider.taskNameController.text,

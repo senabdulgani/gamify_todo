@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/7%20Enum/trait_type_enum.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class TraitModel {
+part 'trait_model.g.dart';
+
+@HiveType(typeId: 1)
+class TraitModel extends HiveObject {
+  @HiveField(0)
   int id;
+  @HiveField(1)
   String title;
+  @HiveField(2)
   String icon;
+  @HiveField(3)
   Color color;
+  @HiveField(4)
   TraitTypeEnum type;
+  @HiveField(5)
   bool isArchived;
 
   TraitModel({

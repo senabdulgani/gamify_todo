@@ -1,9 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/Widgets/language_pop.dart';
+import 'package:gamify_todo/1%20Core/helper.dart';
+import 'package:gamify_todo/2%20General/accessible.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/hive_service.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
+import 'package:gamify_todo/6%20Provider/store_provider.dart';
+import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/6%20Provider/trait_provider.dart';
+import 'package:gamify_todo/8%20Model/user_model.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -41,6 +48,32 @@ class SettingsPage extends StatelessWidget {
               subtitle: LocaleKeys.HelpText.tr(),
               onTap: () {
                 yardimDialog(context);
+              },
+            ),
+            _settingsOption(
+              title: "Delete all Data",
+              color: AppColors.red,
+              onTap: () async {
+                Helper().getDialog(
+                    withTimer: true,
+                    message: "Are you sure you want to delete all data?",
+                    onAccept: () async {
+                      await HiveService().deleteAllData();
+
+                      TaskProvider().taskList = [];
+                      TaskProvider().routineList = [];
+                      TraitProvider().traitList = [];
+                      StoreProvider().storeItemList = [];
+                      loginUser = UserModel(
+                        id: 0,
+                        email: "",
+                        password: "",
+                        creditProgress: Duration.zero,
+                        userCredit: 0,
+                      );
+                    },
+                    acceptButtonText: "ok",
+                    title: "Hurra?");
               },
             ),
             _settingsOption(

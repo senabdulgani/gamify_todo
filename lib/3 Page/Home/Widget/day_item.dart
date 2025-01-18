@@ -1,6 +1,6 @@
 // hanig gün olduğunu gösterecek tıkalyınca selected date o tarih oalcak. listede şimdiki günün 1 gün öncesi, şimdiki gün, sonraki gün ve ondan sonraki gün oalcak.
 import 'package:flutter/material.dart';
-import 'package:gamify_todo/1%20Core/helper.dart';
+import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +32,7 @@ class _DayItemState extends State<DayItem> {
         height: 50,
         padding: const EdgeInsets.all(1),
         decoration: BoxDecoration(
-          color: Helper().isSameDay(TaskProvider().selectedDate, widget.date) ? AppColors.main : AppColors.transparent,
+          color: TaskProvider().selectedDate.isSameDay(widget.date) ? AppColors.main : AppColors.transparent,
           borderRadius: AppColors.borderRadiusAll,
         ),
         child: Column(

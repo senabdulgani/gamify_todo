@@ -1,8 +1,18 @@
-class UserModel {
+import 'package:hive_flutter/hive_flutter.dart';
+
+part 'user_model.g.dart';
+
+@HiveType(typeId: 0)
+class UserModel extends HiveObject {
+  @HiveField(0)
   int id;
+  @HiveField(1)
   String email;
+  @HiveField(2)
   String password;
+  @HiveField(3)
   Duration creditProgress;
+  @HiveField(4)
   int userCredit;
 
   UserModel({

@@ -1,15 +1,25 @@
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-// !!!! şuan için sadece yapılacak. skillere etki etmeyecek
+part 'store_item_model.g.dart';
 
-class ItemModel {
+@HiveType(typeId: 3)
+class ItemModel extends HiveObject {
+  @HiveField(0)
   int id; // id si
+  @HiveField(1)
   final String title; // başlığı
+  @HiveField(2)
   final TaskTypeEnum type; // türü
+  @HiveField(3)
   Duration? currentDuration; // timer ise süre buradan takip edilecek
+  @HiveField(4)
   final Duration? addDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
+  @HiveField(5)
   int? currentCount; // counter ise sayı buradan takip edilecek
+  @HiveField(6)
   bool? isTimerActive; // timer aktif mi
+  @HiveField(7)
   int credit; // timer aktif mi
 
   ItemModel({

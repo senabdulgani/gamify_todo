@@ -137,3 +137,25 @@ extension TimeOfDayConverter on TimeOfDay {
     return "$hour:$min";
   }
 }
+
+extension DateTimeExtension on DateTime {
+  bool isSameDay(DateTime date) {
+    return year == date.year && month == date.month && day == date.day;
+  }
+
+  bool isBeforeDay(DateTime date) {
+    return year < date.year || (year == date.year && month < date.month) || (year == date.year && month == date.month && day < date.day);
+  }
+
+  bool isBeforeOrSameDay(DateTime date) {
+    return year < date.year || (year == date.year && month < date.month) || (year == date.year && month == date.month && day <= date.day);
+  }
+
+  bool isAfterDay(DateTime date) {
+    return year > date.year || (year == date.year && month > date.month) || (year == date.year && month == date.month && day > date.day);
+  }
+
+  bool isAfterOrSameDay(DateTime date) {
+    return year > date.year || (year == date.year && month > date.month) || (year == date.year && month == date.month && day >= date.day);
+  }
+}

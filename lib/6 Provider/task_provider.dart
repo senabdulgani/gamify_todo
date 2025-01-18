@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/5%20Service/home_widget_service.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
-import 'package:gamify_todo/8%20Model/rutin_model.dart';
+import 'package:gamify_todo/8%20Model/routine_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 
 class TaskProvider with ChangeNotifier {
@@ -246,9 +247,9 @@ class TaskProvider with ChangeNotifier {
   List<TaskModel> getTasksForDate(DateTime date) {
     List<TaskModel> tasks;
     if (!showCompleted) {
-      tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID == null && task.status == null && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)).toList();
+      tasks = taskList.where((task) => task.taskDate.isSameDay(date) && task.routineID == null && task.status == null && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)).toList();
     } else {
-      tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID == null).toList();
+      tasks = taskList.where((task) => task.taskDate.isSameDay(date) && task.routineID == null).toList();
     }
 
     sortTasksByPriorityAndTime(tasks);
@@ -258,9 +259,9 @@ class TaskProvider with ChangeNotifier {
   List<TaskModel> getRoutineTasksForDate(DateTime date) {
     List<TaskModel> tasks;
     if (!showCompleted) {
-      tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID != null && task.status == null && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)).toList();
+      tasks = taskList.where((task) => task.taskDate.isSameDay(date) && task.routineID != null && task.status == null && !(task.type == TaskTypeEnum.TIMER && task.isTimerActive == true)).toList();
     } else {
-      tasks = taskList.where((task) => Helper().isSameDay(task.taskDate, date) && task.routineID != null).toList();
+      tasks = taskList.where((task) => task.taskDate.isSameDay(date) && task.routineID != null).toList();
     }
 
     sortTasksByPriorityAndTime(tasks);
@@ -268,12 +269,12 @@ class TaskProvider with ChangeNotifier {
   }
 
   List<TaskModel> getGhostRoutineTasksForDate(DateTime date) {
-    if (Helper().isBeforeOrSameDay(date, DateTime.now())) {
+    if (date.isBeforeOrSameDay(DateTime.now())) {
       return [];
     }
 
     List<TaskModel> tasks = routineList
-        .where((routine) => routine.repeatDays.contains(date.weekday - 1) && Helper().isBeforeOrSameDay(routine.startDate, date) && !routine.isCompleted)
+        .where((routine) => routine.repeatDays.contains(date.weekday - 1) && routine.startDate.isBeforeOrSameDay(date) && !routine.isCompleted)
         .map((routine) => TaskModel(
               routineID: routine.id,
               title: routine.title,

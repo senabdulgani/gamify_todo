@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/day_item.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_list.dart';
-import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -38,10 +37,10 @@ class HomePage extends StatelessWidget {
           // test button
           if (kDebugMode)
             InkWell(
-              onTap: () {
-                ServerManager().routineToTask();
+              onTap: () async {
+                // ServerManager().routineToTask();
               },
-              child: const Text("Test 00:00"),
+              child: const Text("Test button"),
             ),
           PopupMenuButton(
             itemBuilder: (context) {

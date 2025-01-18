@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class ColorAdapter extends TypeAdapter<Color> {
   @override
-  final typeId = 221;
+  final typeId = 223;
 
   @override
   Color read(BinaryReader reader) => Color(reader.readUint32());

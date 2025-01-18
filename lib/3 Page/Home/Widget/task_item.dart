@@ -48,7 +48,7 @@ class _TaskItemState extends State<TaskItem> {
             // progress(),
             InkWell(
               onTap: () {
-                if (widget.taskModel.routineID != null && (!Helper().isBeforeOrSameDay(widget.taskModel.taskDate, DateTime.now()))) {
+                if (widget.taskModel.routineID != null && !widget.taskModel.taskDate.isBeforeOrSameDay(DateTime.now())) {
                   Helper().getMessage(
                     status: StatusEnum.WARNING,
                     message: LocaleKeys.RoutineForFuture.tr(),

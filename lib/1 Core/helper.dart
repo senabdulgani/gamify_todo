@@ -3,11 +3,22 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gamify_todo/1%20Core/Adapter/color_adapter.dart';
+import 'package:gamify_todo/1%20Core/Adapter/duration_adapter.dart';
+import 'package:gamify_todo/1%20Core/Adapter/task_status_enum_adapter.dart';
+import 'package:gamify_todo/1%20Core/Adapter/task_type_enum_adapter.dart';
+import 'package:gamify_todo/1%20Core/Adapter/trait_type_enum_adapter.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
+import 'package:gamify_todo/8%20Model/routine_model.dart';
+import 'package:gamify_todo/8%20Model/store_item_model.dart';
+import 'package:gamify_todo/8%20Model/task_model.dart';
+import 'package:gamify_todo/8%20Model/trait_model.dart';
+import 'package:gamify_todo/8%20Model/user_model.dart';
 import 'package:get/route_manager.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/Widgets/sure_dialog.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Helper {
@@ -143,18 +154,6 @@ class Helper {
     return Colors.red;
   }
 
-  bool isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
-  }
-
-  bool isBeforeDay(DateTime date1, DateTime date2) {
-    return date1.year < date2.year || (date1.year == date2.year && date1.month < date2.month) || (date1.year == date2.year && date1.month == date2.month && date1.day < date2.day);
-  }
-
-  bool isBeforeOrSameDay(DateTime date1, DateTime date2) {
-    return date1.year < date2.year || (date1.year == date2.year && date1.month < date2.month) || (date1.year == date2.year && date1.month == date2.month && date1.day <= date2.day);
-  }
-
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
@@ -162,8 +161,19 @@ class Helper {
   }
 
   void registerAdapters() {
-    //  Hive.initFlutter();
-    // Hive.registerAdapter(PhotoAdapter());
+    Hive.initFlutter();
+
+    Hive.registerAdapter(ColorAdapter());
+    Hive.registerAdapter(DurationAdapter());
+
+    Hive.registerAdapter(RoutineModelAdapter());
+    Hive.registerAdapter(ItemModelAdapter());
+    Hive.registerAdapter(TaskModelAdapter());
+    Hive.registerAdapter(UserModelAdapter());
+    Hive.registerAdapter(TraitModelAdapter());
+    Hive.registerAdapter(TaskTypeEnumAdapter());
+    Hive.registerAdapter(TraitTypeEnumAdapter());
+    Hive.registerAdapter(TaskStatusEnumAdapter());
   }
 
   // Emoji Picker
