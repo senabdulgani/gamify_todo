@@ -33,7 +33,7 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
           ? null
           : ActionPane(
               motion: const ScrollMotion(),
-              extentRatio: 0.3,
+              extentRatio: 0.5,
               closeThreshold: 0.1,
               openThreshold: 0.1,
               dismissible: DismissiblePane(
@@ -50,6 +50,19 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
                 onDismissed: () {},
               ),
               children: [
+                SlidableAction(
+                  onPressed: (context) {
+                    if (widget.taskModel.routineID == null) {
+                      taskProvider.deleteTask(widget.taskModel);
+                    } else {
+                      taskProvider.deleteRoutine(widget.taskModel.routineID!);
+                    }
+                  },
+                  backgroundColor: AppColors.red,
+                  icon: Icons.delete,
+                  label: LocaleKeys.Delete.tr(),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                ),
                 SlidableAction(
                   onPressed: (context) {
                     taskProvider.changeTaskDate(
