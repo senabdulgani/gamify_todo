@@ -18,7 +18,15 @@ class NotificationService {
 
   Future<bool> requestNotificationPermissions() async {
     final status = await Permission.notification.request();
+
     return status.isGranted;
+  }
+
+  Future<void> checkAndroidScheduleExactAlarmPermission() async {
+    final status = await Permission.scheduleExactAlarm.status;
+    if (status.isDenied) {
+      await Permission.scheduleExactAlarm.request();
+    }
   }
 
   // Future<void> showTaskCompletionNotification({
@@ -38,20 +46,51 @@ class NotificationService {
     required String desc,
     required String title,
     required DateTime scheduledDate,
+    required bool isAlarm,
   }) async {
     final tz.TZDateTime scheduledTZDate = tz.TZDateTime.from(
       scheduledDate,
       tz.local,
     );
 
+    if (isAlarm) {
+      // TODO:
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        title,
+        desc,
+        scheduledTZDate,
+        notificationDetails(),
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    } else {
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        title,
+        desc,
+        scheduledTZDate,
+        notificationDetails(),
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    }
+  }
+
+  Future<void> notificaitonTest() async {
+    final tz.TZDateTime scheduledDate = tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1));
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      desc,
-      scheduledTZDate,
+      21232,
+      "test",
+      "test test test",
+      scheduledDate,
       notificationDetails(),
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      matchDateTimeComponents: DateTimeComponents.time,
     );
   }
 

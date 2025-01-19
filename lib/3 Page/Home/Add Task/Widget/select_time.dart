@@ -64,6 +64,10 @@ class _SelectTimeState extends State<SelectTime> {
         onTap: () async {
           final TimeOfDay? selectedTime = await Helper().selectTime(context);
           addTaskProvider.updateTime(selectedTime);
+
+          if (selectedTime != null && !addTaskProvider.isAlarmOn) {
+            addTaskProvider.isNotificationOn = true;
+          }
         },
       ),
     );

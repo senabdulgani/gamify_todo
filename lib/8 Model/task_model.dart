@@ -24,22 +24,24 @@ class TaskModel extends HiveObject {
   @HiveField(7)
   bool isNotificationOn; // notification açık mı
   @HiveField(8)
-  Duration? currentDuration; // timer ise süre buradan takip edilecek
+  bool isAlarmOn; // notification açık mı
   @HiveField(9)
-  Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
+  Duration? currentDuration; // timer ise süre buradan takip edilecek
   @HiveField(10)
-  int? currentCount; // counter ise sayı buradan takip edilecek
+  Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
   @HiveField(11)
-  int? targetCount; // counter ise hedef sayı
+  int? currentCount; // counter ise sayı buradan takip edilecek
   @HiveField(12)
-  bool? isTimerActive; // timer aktif mi
+  int? targetCount; // counter ise hedef sayı
   @HiveField(13)
-  List<int>? attributeIDList; // etki edeceği özellikler
+  bool? isTimerActive; // timer aktif mi
   @HiveField(14)
-  List<int>? skillIDList; // etki edecği yetenekler
+  List<int>? attributeIDList; // etki edeceği özellikler
   @HiveField(15)
-  TaskStatusEnum? status; // tamamlandı mı
+  List<int>? skillIDList; // etki edecği yetenekler
   @HiveField(16)
+  TaskStatusEnum? status; // tamamlandı mı
+  @HiveField(17)
   int priority; // öncelik değeri (1: Yüksek, 2: Orta, 3: Düşük)
 
   TaskModel({
@@ -51,6 +53,7 @@ class TaskModel extends HiveObject {
     required this.taskDate,
     this.time,
     required this.isNotificationOn,
+    required this.isAlarmOn,
     this.currentDuration,
     this.remainingDuration,
     this.currentCount,
@@ -79,6 +82,7 @@ class TaskModel extends HiveObject {
       taskDate: DateTime.parse(json['task_date']),
       time: json['time'] != null ? TimeOfDay.fromDateTime(DateTime.parse("1970-01-01 ${json['time']}")) : null,
       isNotificationOn: json['is_notification_on'],
+      isAlarmOn: json['is_alarm_on'],
       currentDuration: json['current_duration'] != null ? stringToDuration(json['current_duration']) : null,
       remainingDuration: json['remaining_duration'] != null ? stringToDuration(json['remaining_duration']) : null,
       currentCount: json['current_count'],
@@ -115,6 +119,7 @@ class TaskModel extends HiveObject {
       'task_date': taskDate.toIso8601String(),
       'time': time != null ? "${time!.hour.toString().padLeft(2, '0')}:${time!.minute.toString().padLeft(2, '0')}:00" : null,
       'is_notification_on': isNotificationOn,
+      'is_alarm_on': isAlarmOn,
       'current_duration': currentDuration != null ? durationToString(currentDuration!) : null,
       'remaining_duration': remainingDuration != null ? durationToString(remainingDuration!) : null,
       'current_count': currentCount,

@@ -131,13 +131,14 @@ class TaskProvider with ChangeNotifier {
   }
 
   checkNotification(TaskModel taskModel) {
-    if (taskModel.time != null && taskModel.isNotificationOn) {
+    if (taskModel.time != null && (taskModel.isNotificationOn || taskModel.isAlarmOn)) {
       if (taskModel.taskDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute, second: 0).isAfter(DateTime.now())) {
         NotificationService().scheduleNotification(
           id: taskModel.id,
           title: taskModel.title,
           desc: "Don't forget!",
           scheduledDate: taskModel.taskDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute, second: 0),
+          isAlarm: taskModel.isAlarmOn,
         );
       } else {
         NotificationService().cancelNotification(taskModel.id);
@@ -282,6 +283,7 @@ class TaskProvider with ChangeNotifier {
               taskDate: date,
               time: routine.time,
               isNotificationOn: routine.isNotificationOn,
+              isAlarmOn: routine.isAlarmOn,
               currentDuration: routine.type == TaskTypeEnum.TIMER ? Duration.zero : null,
               remainingDuration: routine.remainingDuration,
               currentCount: routine.type == TaskTypeEnum.COUNTER ? 0 : null,

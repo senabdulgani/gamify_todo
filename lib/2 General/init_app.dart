@@ -20,6 +20,7 @@ Future<void> initApp() async {
 
   await NotificationService().init();
   await NotificationService().requestNotificationPermissions();
+  await NotificationService().checkAndroidScheduleExactAlarmPermission();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 

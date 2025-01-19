@@ -146,6 +146,7 @@ class HiveService {
               status: null,
               type: routine.type,
               isNotificationOn: routine.isNotificationOn,
+              isAlarmOn: routine.isAlarmOn,
               priority: routine.priority,
               routineID: routine.id,
               time: routine.time,
@@ -160,6 +161,8 @@ class HiveService {
 
             TaskProvider().taskList.add(task);
             addTask(task);
+
+            // TODO: schedule notification or alarm
           }
         }
       }

@@ -181,6 +181,7 @@ class WeeklyRoutineView extends StatelessWidget {
                                     type: routine.type,
                                     taskDate: DateTime.now(),
                                     isNotificationOn: routine.isNotificationOn,
+                                    isAlarmOn: routine.isAlarmOn,
                                     routineID: routine.id,
                                   ),
                                 );

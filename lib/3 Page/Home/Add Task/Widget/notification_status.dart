@@ -54,7 +54,7 @@ class _NotificationStatusState extends State<NotificationStatus> {
       addTaskProvider.updateTime(selectedTime);
 
       if (selectedTime != null) {
-        addTaskProvider.isNotificationOn = !addTaskProvider.isNotificationOn;
+        addTaskProvider.isNotificationOn = true;
       }
 
       setState(() {});

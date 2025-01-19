@@ -366,10 +366,15 @@ class _TaskItemState extends State<TaskItem> {
         ],
         if (widget.taskModel.isNotificationOn) ...[
           Icon(
-            Icons.alarm,
-            color: AppColors.deepMain,
+            Icons.notifications,
+            color: AppColors.dirtyMain,
           ),
-        ],
+        ] else if (widget.taskModel.isAlarmOn) ...[
+          const Icon(
+            Icons.alarm,
+            color: AppColors.dirtyRed,
+          ),
+        ]
       ],
     );
   }

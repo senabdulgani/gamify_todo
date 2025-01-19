@@ -55,6 +55,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.selectedTime = widget.editTask!.time;
       addTaskProvider.selectedDate = widget.editTask!.taskDate;
       addTaskProvider.isNotificationOn = widget.editTask!.isNotificationOn;
+      addTaskProvider.isAlarmOn = widget.editTask!.isNotificationOn;
       addTaskProvider.targetCount = widget.editTask!.targetCount ?? 1;
       addTaskProvider.taskDuration = widget.editTask!.remainingDuration ?? const Duration(hours: 0, minutes: 0);
       addTaskProvider.selectedTaskType = widget.editTask!.type;
@@ -67,6 +68,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       addTaskProvider.selectedTime = null;
       addTaskProvider.selectedDate = context.read<TaskProvider>().selectedDate;
       addTaskProvider.isNotificationOn = false;
+      addTaskProvider.isAlarmOn = false;
       addTaskProvider.targetCount = 1;
       addTaskProvider.taskDuration = const Duration(hours: 0, minutes: 0);
       addTaskProvider.selectedTaskType = TaskTypeEnum.CHECKBOX;
@@ -224,6 +226,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           taskDate: addTaskProvider.selectedDate,
           time: addTaskProvider.selectedTime,
           isNotificationOn: addTaskProvider.isNotificationOn,
+          isAlarmOn: addTaskProvider.isAlarmOn,
           currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? widget.editTask!.currentDuration ?? const Duration(seconds: 0) : null,
           remainingDuration: addTaskProvider.taskDuration,
           currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? widget.editTask!.currentCount ?? 0 : null,
@@ -245,6 +248,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             taskDate: addTaskProvider.selectedDate,
             time: addTaskProvider.selectedTime,
             isNotificationOn: addTaskProvider.isNotificationOn,
+            isAlarmOn: addTaskProvider.isAlarmOn,
             currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? Duration.zero : null,
             remainingDuration: addTaskProvider.taskDuration,
             currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,
@@ -265,6 +269,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             startDate: addTaskProvider.selectedDate,
             time: addTaskProvider.selectedTime,
             isNotificationOn: addTaskProvider.isNotificationOn,
+            isAlarmOn: addTaskProvider.isAlarmOn,
             remainingDuration: addTaskProvider.taskDuration,
             targetCount: addTaskProvider.targetCount,
             repeatDays: addTaskProvider.selectedDays,
@@ -285,6 +290,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               taskDate: addTaskProvider.selectedDate,
               time: addTaskProvider.selectedTime,
               isNotificationOn: addTaskProvider.isNotificationOn,
+              isAlarmOn: addTaskProvider.isAlarmOn,
               currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? Duration.zero : null,
               remainingDuration: addTaskProvider.taskDuration,
               currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? 0 : null,

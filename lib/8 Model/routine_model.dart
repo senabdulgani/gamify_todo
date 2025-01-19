@@ -23,18 +23,20 @@ class RoutineModel extends HiveObject {
   @HiveField(7)
   bool isNotificationOn; // notification açık mı
   @HiveField(8)
-  Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
+  bool isAlarmOn; // notification açık mı
   @HiveField(9)
-  int? targetCount; // counter ise hedef sayı
+  Duration? remainingDuration; // timer ise hedef süre timer değilse tecrübe puanı buna göre gelecek
   @HiveField(10)
-  List<int> repeatDays; // tekrar günleri
+  int? targetCount; // counter ise hedef sayı
   @HiveField(11)
-  List<int>? attirbuteIDList; // etki edeceği özellikler
+  List<int> repeatDays; // tekrar günleri
   @HiveField(12)
-  List<int>? skillIDList; // etki edecği yetenekler
+  List<int>? attirbuteIDList; // etki edeceği özellikler
   @HiveField(13)
-  bool isCompleted; // tamamlandı mı
+  List<int>? skillIDList; // etki edecği yetenekler
   @HiveField(14)
+  bool isCompleted; // tamamlandı mı
+  @HiveField(15)
   int priority; // öncelik değeri (1: Yüksek, 2: Orta, 3: Düşük)
 
   RoutineModel({
@@ -46,6 +48,7 @@ class RoutineModel extends HiveObject {
     required this.startDate,
     this.time,
     required this.isNotificationOn,
+    required this.isAlarmOn,
     this.remainingDuration,
     this.targetCount,
     required this.repeatDays,
@@ -72,6 +75,7 @@ class RoutineModel extends HiveObject {
       startDate: DateTime.parse(json['start_date']),
       time: json['time'] != null ? TimeOfDay.fromDateTime(DateTime.parse("1970-01-01 ${json['time']}")) : null,
       isNotificationOn: json['is_notification_on'],
+      isAlarmOn: json['is_alarm_on'],
       remainingDuration: json['remaining_duration'] != null ? stringToDuration(json['remaining_duration']) : null,
       targetCount: json['target_count'],
       repeatDays: (json['repeat_days'] as List).map((e) => int.parse(e.toString())).toList(),
@@ -100,6 +104,7 @@ class RoutineModel extends HiveObject {
       'start_date': startDate.toIso8601String(),
       'time': time != null ? '${time!.hour.toString().padLeft(2, '0')}:${time!.minute.toString().padLeft(2, '0')}:00' : null,
       'is_notification_on': isNotificationOn,
+      'is_alarm_on': isAlarmOn,
       'remaining_duration': remainingDuration != null ? durationToString(remainingDuration!) : null,
       'target_count': targetCount,
       'repeat_days': repeatDays,

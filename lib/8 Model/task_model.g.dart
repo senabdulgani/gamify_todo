@@ -25,22 +25,23 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       taskDate: fields[5] as DateTime,
       time: fields[6] as TimeOfDay?,
       isNotificationOn: fields[7] as bool,
-      currentDuration: fields[8] as Duration?,
-      remainingDuration: fields[9] as Duration?,
-      currentCount: fields[10] as int?,
-      targetCount: fields[11] as int?,
-      isTimerActive: fields[12] as bool?,
-      attributeIDList: (fields[13] as List?)?.cast<int>(),
-      skillIDList: (fields[14] as List?)?.cast<int>(),
-      status: fields[15] as TaskStatusEnum?,
-      priority: fields[16] as int,
+      isAlarmOn: fields[8] as bool,
+      currentDuration: fields[9] as Duration?,
+      remainingDuration: fields[10] as Duration?,
+      currentCount: fields[11] as int?,
+      targetCount: fields[12] as int?,
+      isTimerActive: fields[13] as bool?,
+      attributeIDList: (fields[14] as List?)?.cast<int>(),
+      skillIDList: (fields[15] as List?)?.cast<int>(),
+      status: fields[16] as TaskStatusEnum?,
+      priority: fields[17] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, TaskModel obj) {
     writer
-      ..writeByte(17)
+      ..writeByte(18)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -58,22 +59,24 @@ class TaskModelAdapter extends TypeAdapter<TaskModel> {
       ..writeByte(7)
       ..write(obj.isNotificationOn)
       ..writeByte(8)
-      ..write(obj.currentDuration)
+      ..write(obj.isAlarmOn)
       ..writeByte(9)
-      ..write(obj.remainingDuration)
+      ..write(obj.currentDuration)
       ..writeByte(10)
-      ..write(obj.currentCount)
+      ..write(obj.remainingDuration)
       ..writeByte(11)
-      ..write(obj.targetCount)
+      ..write(obj.currentCount)
       ..writeByte(12)
-      ..write(obj.isTimerActive)
+      ..write(obj.targetCount)
       ..writeByte(13)
-      ..write(obj.attributeIDList)
+      ..write(obj.isTimerActive)
       ..writeByte(14)
-      ..write(obj.skillIDList)
+      ..write(obj.attributeIDList)
       ..writeByte(15)
-      ..write(obj.status)
+      ..write(obj.skillIDList)
       ..writeByte(16)
+      ..write(obj.status)
+      ..writeByte(17)
       ..write(obj.priority);
   }
 

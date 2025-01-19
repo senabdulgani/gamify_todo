@@ -67,6 +67,7 @@ class AppColors {
   static Color main = const Color.fromARGB(255, 23, 115, 219);
   static Color lightMain = const Color.fromARGB(255, 70, 150, 241);
   static Color deepMain = const Color.fromARGB(255, 10, 64, 126);
+  static Color dirtyMain = const Color.fromARGB(255, 19, 94, 180);
 
   // TODO: boxShadows için de yap
   // Shadows

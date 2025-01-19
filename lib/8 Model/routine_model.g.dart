@@ -25,20 +25,21 @@ class RoutineModelAdapter extends TypeAdapter<RoutineModel> {
       startDate: fields[5] as DateTime,
       time: fields[6] as TimeOfDay?,
       isNotificationOn: fields[7] as bool,
-      remainingDuration: fields[8] as Duration?,
-      targetCount: fields[9] as int?,
-      repeatDays: (fields[10] as List).cast<int>(),
-      attirbuteIDList: (fields[11] as List?)?.cast<int>(),
-      skillIDList: (fields[12] as List?)?.cast<int>(),
-      isCompleted: fields[13] as bool,
-      priority: fields[14] as int,
+      isAlarmOn: fields[8] as bool,
+      remainingDuration: fields[9] as Duration?,
+      targetCount: fields[10] as int?,
+      repeatDays: (fields[11] as List).cast<int>(),
+      attirbuteIDList: (fields[12] as List?)?.cast<int>(),
+      skillIDList: (fields[13] as List?)?.cast<int>(),
+      isCompleted: fields[14] as bool,
+      priority: fields[15] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, RoutineModel obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -56,18 +57,20 @@ class RoutineModelAdapter extends TypeAdapter<RoutineModel> {
       ..writeByte(7)
       ..write(obj.isNotificationOn)
       ..writeByte(8)
-      ..write(obj.remainingDuration)
+      ..write(obj.isAlarmOn)
       ..writeByte(9)
-      ..write(obj.targetCount)
+      ..write(obj.remainingDuration)
       ..writeByte(10)
-      ..write(obj.repeatDays)
+      ..write(obj.targetCount)
       ..writeByte(11)
-      ..write(obj.attirbuteIDList)
+      ..write(obj.repeatDays)
       ..writeByte(12)
-      ..write(obj.skillIDList)
+      ..write(obj.attirbuteIDList)
       ..writeByte(13)
-      ..write(obj.isCompleted)
+      ..write(obj.skillIDList)
       ..writeByte(14)
+      ..write(obj.isCompleted)
+      ..writeByte(15)
       ..write(obj.priority);
   }
 

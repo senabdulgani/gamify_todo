@@ -42,14 +42,14 @@ class GlobalTimer {
             title: '🎉 ${taskModel.title} Tamamlandı',
             desc: 'Toplam süre: ${taskModel.remainingDuration!.textLongDynamicWithoutZero()}',
             scheduledDate: scheduledDate,
+            isAlarm: true,
           );
         }
       } else {
         await prefs.remove('task_last_update_${taskModel.id}');
         await prefs.remove('task_last_progress_${taskModel.id}');
 
-        // bildirimi iptal et
-        NotificationService.flutterLocalNotificationsPlugin.cancel(taskModel.id);
+        NotificationService().cancelNotification(taskModel.id);
       }
     } else if (storeItemModel != null) {
       storeItemModel.isTimerActive = !storeItemModel.isTimerActive!;
@@ -69,14 +69,14 @@ class GlobalTimer {
             title: '⚠️ ${storeItemModel.title} Süre Doldu',
             desc: 'Sınırı Aşma!}',
             scheduledDate: scheduledDate,
+            isAlarm: true,
           );
         }
       } else {
         await prefs.remove('item_last_update_${storeItemModel.id}');
         await prefs.remove('item_last_progress_${storeItemModel.id}');
 
-        // bildirimi iptal et
-        NotificationService.flutterLocalNotificationsPlugin.cancel(storeItemModel.id);
+        NotificationService().cancelNotification(storeItemModel.id);
       }
     }
 

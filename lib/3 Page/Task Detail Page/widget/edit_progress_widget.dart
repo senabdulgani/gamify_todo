@@ -319,6 +319,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
         title: '🎉 ${task.title} Tamamlandı',
         desc: 'Toplam süre: ${task.remainingDuration!.textLongDynamicWithoutZero()}',
         scheduledDate: DateTime.now().add(Duration(seconds: secondsUntilCompletion)),
+        isAlarm: task.isAlarmOn,
       );
     } else if (isTimerActive && currentDuration >= remainingDuration) {
       // Halihazırdaki zamanlanmış bildirimi iptal et
@@ -340,6 +341,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
         title: '⚠️ ${item.title} Süre Doldu',
         desc: 'Sınırı Aşma!',
         scheduledDate: DateTime.now().add(Duration(seconds: secondsUntilCompletion)),
+        isAlarm: true,
       );
     } else if (isTimerActive && currentDuration.inSeconds <= 0) {
       // Halihazırdaki zamanlanmış bildirimi iptal et
