@@ -4,14 +4,14 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
 
-class NotificationSwitch extends StatefulWidget {
-  const NotificationSwitch({super.key});
+class NotificationStatus extends StatefulWidget {
+  const NotificationStatus({super.key});
 
   @override
-  State<NotificationSwitch> createState() => _NotificationSwitchState();
+  State<NotificationStatus> createState() => _NotificationStatusState();
 }
 
-class _NotificationSwitchState extends State<NotificationSwitch> {
+class _NotificationStatusState extends State<NotificationStatus> {
   late final addTaskProvider = context.watch<AddTaskProvider>();
 
   @override
@@ -33,15 +33,13 @@ class _NotificationSwitchState extends State<NotificationSwitch> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(width: 5),
-              const Icon(
-                Icons.notifications,
+              Icon(
+                addTaskProvider.isNotificationOn
+                    ? Icons.notifications_active
+                    : addTaskProvider.isAlarmOn
+                        ? Icons.alarm
+                        : Icons.notifications_off,
                 size: 30,
-              ),
-              Switch(
-                value: addTaskProvider.isNotificationOn,
-                onChanged: (isNotificationOn) async {
-                  await changeNotificationStatus();
-                },
               ),
             ],
           ),
@@ -61,7 +59,14 @@ class _NotificationSwitchState extends State<NotificationSwitch> {
 
       setState(() {});
     } else {
-      addTaskProvider.isNotificationOn = !addTaskProvider.isNotificationOn;
+      if (addTaskProvider.isNotificationOn) {
+        addTaskProvider.isNotificationOn = false;
+        addTaskProvider.isAlarmOn = true;
+      } else if (addTaskProvider.isAlarmOn) {
+        addTaskProvider.isAlarmOn = false;
+      } else {
+        addTaskProvider.isNotificationOn = true;
+      }
       setState(() {});
     }
   }

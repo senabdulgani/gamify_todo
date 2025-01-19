@@ -5,7 +5,7 @@ import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/duraiton_picker.dart';
-import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_switch.dart';
+import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/notification_status.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_date.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_days.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/select_priority.dart';
@@ -133,8 +133,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       child: Column(
                         children: [
                           SelectTime(),
-                          SizedBox(height: 10),
-                          NotificationSwitch(),
+                          SizedBox(height: 5),
+                          NotificationStatus(),
                         ],
                       ),
                     ),
