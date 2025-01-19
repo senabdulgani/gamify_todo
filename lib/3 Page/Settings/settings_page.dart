@@ -51,12 +51,12 @@ class SettingsPage extends StatelessWidget {
               },
             ),
             _settingsOption(
-              title: "Delete all Data",
+              title: LocaleKeys.DeleteAllData.tr(),
               color: AppColors.red,
               onTap: () async {
                 Helper().getDialog(
                     withTimer: true,
-                    message: "Are you sure you want to delete all data?",
+                    message: LocaleKeys.DeleteAllDataText.tr(),
                     onAccept: () async {
                       await HiveService().deleteAllData();
 
@@ -72,7 +72,7 @@ class SettingsPage extends StatelessWidget {
                         userCredit: 0,
                       );
                     },
-                    acceptButtonText: "ok",
+                    acceptButtonText: LocaleKeys.Yes.tr(),
                     title: "Hurra?");
               },
             ),

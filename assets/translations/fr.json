@@ -73,5 +73,8 @@
     "CurrentProgress": "Progrès actuel",
     "Minutes": "Minutes",
     "Count": "Compter",
-    "Save": "Enregistrer"
+    "Save": "Enregistrer",
+    "DeleteAllData": "Supprimer toutes les données",
+    "DeleteAllDataText": "Voulez-vous vraiment supprimer toutes les données?",
+    "Yes": "Oui"
 }

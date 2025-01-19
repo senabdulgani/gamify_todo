@@ -73,5 +73,8 @@
     "CurrentProgress": "Current Progress",
     "Minutes": "Minutes", 
     "Count": "Count",
-    "Save": "Save"
+    "Save": "Save",
+    "DeleteAllData": "Delete All Data",
+    "DeleteAllDataText": "Are you sure you want to delete all data?",
+    "Yes": "Yes"
 }

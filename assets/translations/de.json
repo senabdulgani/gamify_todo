@@ -73,5 +73,8 @@
     "CurrentProgress": "Aktueller Fortschritt",
     "Minutes": "Minuten",
     "Count": "Anzahl",
-    "Save": "Speichern"
+    "Save": "Speichern",
+    "DeleteAllData": "Alle Daten löschen",
+    "DeleteAllDataText": "Möchten Sie wirklich alle Daten löschen?",
+    "Yes": "Ja"
 }

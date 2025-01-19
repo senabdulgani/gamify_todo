@@ -73,5 +73,8 @@
     "CurrentProgress": "Mevcut İlerleme",
     "Minutes": "Dakika",
     "Count": "Adet",
-    "Save": "Kaydet"
+    "Save": "Kaydet",
+    "DeleteAllData": "Tüm Verileri Sil",
+    "DeleteAllDataText": "Tüm verileri silmek istediğinizden emin misiniz?",
+    "Yes": "Evet"
 }

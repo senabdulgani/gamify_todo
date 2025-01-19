@@ -76,5 +76,8 @@ abstract class  LocaleKeys {
   static const Minutes = 'Minutes';
   static const Count = 'Count';
   static const Save = 'Save';
+  static const DeleteAllData = 'DeleteAllData';
+  static const DeleteAllDataText = 'DeleteAllDataText';
+  static const Yes = 'Yes';
 
 }

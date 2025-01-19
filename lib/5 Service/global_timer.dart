@@ -39,8 +39,8 @@ class GlobalTimer {
           final scheduledDate = DateTime.now().add(taskModel.remainingDuration! - taskModel.currentDuration!);
           NotificationService().scheduleNotification(
             id: taskModel.id,
-            title: '🎉 ${taskModel.title} Tamamlandı',
-            desc: 'Toplam süre: ${taskModel.remainingDuration!.textLongDynamicWithoutZero()}',
+            title: '🎉 ${taskModel.title} Completed',
+            desc: 'Total duration: ${taskModel.remainingDuration!.textLongDynamicWithoutZero()}',
             scheduledDate: scheduledDate,
             isAlarm: true,
           );
@@ -66,8 +66,8 @@ class GlobalTimer {
           final scheduledDate = DateTime.now().add(storeItemModel.currentDuration!);
           NotificationService().scheduleNotification(
             id: storeItemModel.id,
-            title: '⚠️ ${storeItemModel.title} Süre Doldu',
-            desc: 'Sınırı Aşma!}',
+            title: '⚠️ ${storeItemModel.title} Time Expired',
+            desc: 'Do not exceed the time limit!}',
             scheduledDate: scheduledDate,
             isAlarm: true,
           );
