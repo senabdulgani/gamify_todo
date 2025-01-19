@@ -132,12 +132,12 @@ class TaskProvider with ChangeNotifier {
 
   checkNotification(TaskModel taskModel) {
     if (taskModel.time != null && taskModel.isNotificationOn) {
-      if (taskModel.taskDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute).isAfter(DateTime.now())) {
+      if (taskModel.taskDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute, second: 0).isAfter(DateTime.now())) {
         NotificationService().scheduleNotification(
           id: taskModel.id,
           title: taskModel.title,
           desc: "Don't forget!",
-          scheduledDate: taskModel.taskDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute),
+          scheduledDate: taskModel.taskDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute, second: 0),
         );
       } else {
         NotificationService().cancelNotification(taskModel.id);

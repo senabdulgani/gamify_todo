@@ -14,26 +14,22 @@ import 'package:window_manager/window_manager.dart';
 
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
 
-  // Initialize notifications
+  await EasyLocalization.ensureInitialized();
+  EasyLocalization.logger.enableBuildModes = [];
+
   await NotificationService().init();
   await NotificationService().requestNotificationPermissions();
 
-  // Easy Localization paketinini sürekli print atmasını engellemek için
-  EasyLocalization.logger.enableBuildModes = [];
-
-  // Lock Orientation to Portrait
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   Helper().registerAdapters();
 
   if (!kIsWeb && Platform.isWindows) {
-    // Must add this line.
     await windowManager.ensureInitialized();
 
     WindowOptions windowOptions = const WindowOptions(
-      title: "Facelog ",
+      title: "Next Level",
       size: Size(450, 1000),
       maximumSize: Size(450, 99999),
       minimumSize: Size(400, 600),
