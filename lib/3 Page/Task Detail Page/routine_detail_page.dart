@@ -27,18 +27,15 @@ class RoutineDetailPage extends StatefulWidget {
 }
 
 class _RoutineDetailPageState extends State<RoutineDetailPage> {
-  late final TaskDetailViewModel _viewModel;
-
-  @override
-  void initState() {
-    super.initState();
-    _viewModel = TaskDetailViewModel(widget.taskModel);
-    _viewModel.initialize();
-  }
+  late TaskDetailViewModel _viewModel;
 
   @override
   Widget build(BuildContext context) {
     context.watch<TaskProvider>();
+
+    //? burayı her sainye çalıştırarak (yukarıda watch sayesinde) sayfadaki istatistikleri canlı bir şekilde gösteriyorum. timer aktif iseveya galiba herhangi bir düzenleme yapıldığında. lakin performan sorunu olur mu. sanmıyorum.
+    _viewModel = TaskDetailViewModel(widget.taskModel);
+    _viewModel.initialize();
 
     return Scaffold(
       appBar: AppBar(

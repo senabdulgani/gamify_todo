@@ -95,9 +95,9 @@ class TaskDetailViewModel {
 
   bool get hasTraits => attributeBars.isNotEmpty || skillBars.isNotEmpty;
 
-  int get daysInProgress => DateTime.now().difference(taskRutinCreatedDate).inDays;
+  int get daysInProgress => DateTime.now().difference(taskRutinCreatedDate).inDays + 2;
 
-  String get averagePerDay => (allTimeDuration / (daysInProgress == 0 ? 1 : daysInProgress).abs()).textShortDynamic();
+  String get averagePerDay => ((taskModel.type == TaskTypeEnum.TIMER ? allTimeDuration : (taskModel.remainingDuration! * allTimeCount)) / daysInProgress.abs()).textShortDynamic();
 
   int get successRate => (completedTaskCount + failedTaskCount) == 0 ? 0 : ((completedTaskCount / (completedTaskCount + failedTaskCount)) * 100).toInt();
 }
