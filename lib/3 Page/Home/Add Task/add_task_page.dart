@@ -339,6 +339,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
       );
 
       NavigatorService().goBack();
+    } else {
+      NavigatorService().goBack();
     }
   }
 }
