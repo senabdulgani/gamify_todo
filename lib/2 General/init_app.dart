@@ -19,8 +19,8 @@ Future<void> initApp() async {
   EasyLocalization.logger.enableBuildModes = [];
 
   await NotificationService().init();
-  await NotificationService().requestNotificationPermissions();
-  await NotificationService().checkAndroidScheduleExactAlarmPermission();
+  await NotificationService().checkNotificationPermissions();
+  await NotificationService().checkAlarmPermission();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 

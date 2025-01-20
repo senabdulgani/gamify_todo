@@ -16,17 +16,16 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<bool> requestNotificationPermissions() async {
+  Future<bool> checkNotificationPermissions() async {
     final status = await Permission.notification.request();
 
     return status.isGranted;
   }
 
-  Future<void> checkAndroidScheduleExactAlarmPermission() async {
-    final status = await Permission.scheduleExactAlarm.status;
-    if (status.isDenied) {
-      await Permission.scheduleExactAlarm.request();
-    }
+  Future<bool> checkAlarmPermission() async {
+    final status = Permission.scheduleExactAlarm.request();
+
+    return status.isGranted;
   }
 
   // Future<void> showTaskCompletionNotification({

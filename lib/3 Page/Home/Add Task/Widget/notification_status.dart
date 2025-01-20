@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -53,19 +54,20 @@ class _NotificationStatusState extends State<NotificationStatus> {
       final TimeOfDay? selectedTime = await Helper().selectTime(context);
       addTaskProvider.updateTime(selectedTime);
 
-      if (selectedTime != null) {
+      if (selectedTime != null && await NotificationService().checkNotificationPermissions()) {
         addTaskProvider.isNotificationOn = true;
       }
 
       setState(() {});
     } else {
-      if (addTaskProvider.isNotificationOn) {
+      if (addTaskProvider.isNotificationOn && await NotificationService().checkAlarmPermission()) {
         addTaskProvider.isNotificationOn = false;
         addTaskProvider.isAlarmOn = true;
       } else if (addTaskProvider.isAlarmOn) {
         addTaskProvider.isAlarmOn = false;
-      } else {
+      } else if (await NotificationService().checkNotificationPermissions()) {
         addTaskProvider.isNotificationOn = true;
+        NotificationService().checkNotificationPermissions();
       }
       setState(() {});
     }
