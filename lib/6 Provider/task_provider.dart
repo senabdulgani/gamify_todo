@@ -141,7 +141,7 @@ class TaskProvider with ChangeNotifier {
           isAlarm: taskModel.isAlarmOn,
         );
       } else {
-        NotificationService().cancelNotification(taskModel.id);
+        NotificationService().cancelNotificationOrAlarm(taskModel.id);
       }
     }
   }
@@ -188,7 +188,7 @@ class TaskProvider with ChangeNotifier {
     ServerManager().deleteTask(id: taskModel.id);
     HomeWidgetService.updateTaskCount();
 
-    NotificationService().cancelNotification(taskModel.id);
+    NotificationService().cancelNotificationOrAlarm(taskModel.id);
 
     // TODO: iptalde veya silem durumunda geri almak için mesaj çıkacak bir süre
     notifyListeners();

@@ -49,7 +49,7 @@ class GlobalTimer {
         await prefs.remove('task_last_update_${taskModel.id}');
         await prefs.remove('task_last_progress_${taskModel.id}');
 
-        NotificationService().cancelNotification(taskModel.id);
+        NotificationService().cancelNotificationOrAlarm(taskModel.id);
       }
     } else if (storeItemModel != null) {
       storeItemModel.isTimerActive = !storeItemModel.isTimerActive!;
@@ -76,7 +76,7 @@ class GlobalTimer {
         await prefs.remove('item_last_update_${storeItemModel.id}');
         await prefs.remove('item_last_progress_${storeItemModel.id}');
 
-        NotificationService().cancelNotification(storeItemModel.id);
+        NotificationService().cancelNotificationOrAlarm(storeItemModel.id);
       }
     }
 

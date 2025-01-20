@@ -5,6 +5,7 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
+import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -23,6 +24,7 @@ class _SelectTimeState extends State<SelectTime> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: AppColors.panelBackground,
         borderRadius: AppColors.borderRadiusAll,
@@ -64,10 +66,18 @@ class _SelectTimeState extends State<SelectTime> {
         ),
         onTap: () async {
           final TimeOfDay? selectedTime = await Helper().selectTime(context);
-          addTaskProvider.updateTime(selectedTime);
 
-          if (selectedTime != null && !addTaskProvider.isAlarmOn && await NotificationService().checkNotificationPermissions()) {
-            addTaskProvider.isNotificationOn = true;
+          if (selectedTime != null) {
+            if (addTaskProvider.editTask != null) {
+              if (!(await NotificationService().requestNotificationPermissions())) return;
+
+              addTaskProvider.updateTime(selectedTime);
+              TaskProvider().checkNotification(addTaskProvider.editTask!);
+              addTaskProvider.isNotificationOn = true;
+            } else {
+              addTaskProvider.updateTime(selectedTime);
+              addTaskProvider.isNotificationOn = true;
+            }
           }
         },
       ),

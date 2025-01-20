@@ -49,18 +49,21 @@ class _AddTaskPageState extends State<AddTaskPage> {
     super.initState();
 
     if (widget.editTask != null) {
-      addTaskProvider.taskNameController.text = widget.editTask!.title;
-      addTaskProvider.descriptionController.text = widget.editTask!.description ?? '';
-      addTaskProvider.selectedTime = widget.editTask!.time;
-      addTaskProvider.selectedDate = widget.editTask!.taskDate;
-      addTaskProvider.isNotificationOn = widget.editTask!.isNotificationOn;
-      addTaskProvider.isAlarmOn = widget.editTask!.isNotificationOn;
-      addTaskProvider.targetCount = widget.editTask!.targetCount ?? 1;
-      addTaskProvider.taskDuration = widget.editTask!.remainingDuration ?? const Duration(hours: 0, minutes: 0);
-      addTaskProvider.selectedTaskType = widget.editTask!.type;
-      addTaskProvider.selectedDays = widget.editTask!.routineID == null ? [] : taskProvider.routineList.firstWhere((element) => element.id == widget.editTask!.routineID).repeatDays;
-      addTaskProvider.selectedTraits = TraitProvider().traitList.where((element) => (widget.editTask!.attributeIDList != null && widget.editTask!.attributeIDList!.contains(element.id)) || (widget.editTask!.skillIDList != null && widget.editTask!.skillIDList!.contains(element.id))).toList();
-      addTaskProvider.priority = widget.editTask!.priority;
+      addTaskProvider.editTask = widget.editTask;
+
+      addTaskProvider.taskNameController.text = addTaskProvider.editTask!.title;
+      addTaskProvider.descriptionController.text = addTaskProvider.editTask!.description ?? '';
+      addTaskProvider.selectedTime = addTaskProvider.editTask!.time;
+      addTaskProvider.selectedDate = addTaskProvider.editTask!.taskDate;
+      addTaskProvider.isNotificationOn = addTaskProvider.editTask!.isNotificationOn;
+      addTaskProvider.isAlarmOn = addTaskProvider.editTask!.isNotificationOn;
+      addTaskProvider.targetCount = addTaskProvider.editTask!.targetCount ?? 1;
+      addTaskProvider.taskDuration = addTaskProvider.editTask!.remainingDuration ?? const Duration(hours: 0, minutes: 0);
+      addTaskProvider.selectedTaskType = addTaskProvider.editTask!.type;
+      addTaskProvider.selectedDays = addTaskProvider.editTask!.routineID == null ? [] : taskProvider.routineList.firstWhere((element) => element.id == addTaskProvider.editTask!.routineID).repeatDays;
+      addTaskProvider.selectedTraits =
+          TraitProvider().traitList.where((element) => (addTaskProvider.editTask!.attributeIDList != null && addTaskProvider.editTask!.attributeIDList!.contains(element.id)) || (addTaskProvider.editTask!.skillIDList != null && addTaskProvider.editTask!.skillIDList!.contains(element.id))).toList();
+      addTaskProvider.priority = addTaskProvider.editTask!.priority;
     } else {
       addTaskProvider.taskNameController.clear();
       addTaskProvider.descriptionController.clear();
@@ -86,9 +89,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.editTask != null
+          title: Text(addTaskProvider.editTask != null
               ? LocaleKeys.EditTask.tr()
-              : widget.editTask?.routineID != null
+              : addTaskProvider.editTask?.routineID != null
                   ? LocaleKeys.EditRoutine.tr()
                   : LocaleKeys.AddTask.tr()),
           leading: InkWell(
@@ -99,7 +102,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             child: const Icon(Icons.arrow_back_ios),
           ),
           actions: [
-            if (widget.editTask == null)
+            if (addTaskProvider.editTask == null)
               TextButton(
                 onPressed: addTask,
                 child: Text(
@@ -117,18 +120,18 @@ class _AddTaskPageState extends State<AddTaskPage> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               children: [
-                if (widget.editTask != null) ...[
+                if (addTaskProvider.editTask != null) ...[
                   const SizedBox(height: 10),
-                  EditProgressWidget.forTask(task: widget.editTask!),
+                  EditProgressWidget.forTask(task: addTaskProvider.editTask!),
                 ],
                 const SizedBox(height: 10),
-                TaskName(autoFocus: widget.editTask == null),
+                TaskName(autoFocus: addTaskProvider.editTask == null),
                 const SizedBox(height: 5),
                 const TaskDescription(),
                 const SizedBox(height: 10),
                 const SelectPriority(),
                 const SizedBox(height: 10),
-                if (widget.editTask?.routineID == null)
+                if (addTaskProvider.editTask == null)
                   const Row(
                     children: [
                       Expanded(
@@ -152,24 +155,24 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     const DurationPickerWidget(),
-                    if (widget.editTask == null) const SelectTaskType(),
+                    if (addTaskProvider.editTask == null) const SelectTaskType(),
                   ],
                 ),
                 const SizedBox(height: 10),
-                if (widget.editTask == null || (widget.editTask != null && widget.editTask!.routineID != null)) const SelectDays(),
+                if (addTaskProvider.editTask == null || (addTaskProvider.editTask != null && addTaskProvider.editTask!.routineID != null)) const SelectDays(),
                 const SizedBox(height: 10),
                 const SelectTraitList(isSkill: false),
                 const SizedBox(height: 10),
                 const SelectTraitList(isSkill: true),
                 const SizedBox(height: 50),
-                if (widget.editTask != null)
+                if (addTaskProvider.editTask != null)
                   InkWell(
                     borderRadius: AppColors.borderRadiusAll,
                     onTap: () {
-                      if (widget.editTask?.routineID == null) {
-                        taskProvider.deleteTask(widget.editTask!);
+                      if (addTaskProvider.editTask?.routineID == null) {
+                        taskProvider.deleteTask(addTaskProvider.editTask!);
                       } else {
-                        taskProvider.deleteRoutine(widget.editTask!.routineID!);
+                        taskProvider.deleteRoutine(addTaskProvider.editTask!.routineID!);
                       }
 
                       NavigatorService().goBackAll();
@@ -291,7 +294,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   void goBack() {
-    if (widget.editTask != null) {
+    if (addTaskProvider.editTask != null) {
       if (addTaskProvider.taskNameController.text.trim().isEmpty) {
         addTaskProvider.taskNameController.clear();
 
@@ -302,7 +305,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         return;
       }
 
-      if (addTaskProvider.selectedDays.isNotEmpty && addTaskProvider.selectedDate.isBeforeDay(DateTime.now())) {
+      if (addTaskProvider.editTask == null && addTaskProvider.selectedDays.isNotEmpty && addTaskProvider.selectedDate.isBeforeDay(DateTime.now())) {
         Helper().getMessage(
           message: LocaleKeys.RoutineStartDateError.tr(),
           status: StatusEnum.WARNING,
@@ -317,8 +320,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
       TaskProvider().editTask(
         selectedDays: addTaskProvider.selectedDays,
         taskModel: TaskModel(
-          id: widget.editTask!.id,
-          routineID: widget.editTask!.routineID,
+          id: addTaskProvider.editTask!.id,
+          routineID: addTaskProvider.editTask!.routineID,
           title: addTaskProvider.taskNameController.text,
           description: addTaskProvider.descriptionController.text.trim().isEmpty ? null : addTaskProvider.descriptionController.text,
           type: addTaskProvider.selectedTaskType,
@@ -326,14 +329,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
           time: addTaskProvider.selectedTime,
           isNotificationOn: addTaskProvider.isNotificationOn,
           isAlarmOn: addTaskProvider.isAlarmOn,
-          currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? widget.editTask!.currentDuration ?? const Duration(seconds: 0) : null,
+          currentDuration: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? addTaskProvider.editTask!.currentDuration ?? const Duration(seconds: 0) : null,
           remainingDuration: addTaskProvider.taskDuration,
-          currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? widget.editTask!.currentCount ?? 0 : null,
+          currentCount: addTaskProvider.selectedTaskType == TaskTypeEnum.COUNTER ? addTaskProvider.editTask!.currentCount ?? 0 : null,
           targetCount: addTaskProvider.targetCount,
           isTimerActive: addTaskProvider.selectedTaskType == TaskTypeEnum.TIMER ? false : null,
           attributeIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.ATTRIBUTE).map((e) => e.id).toList(),
           skillIDList: addTaskProvider.selectedTraits.where((element) => element.type == TraitTypeEnum.SKILL).map((e) => e.id).toList(),
-          status: widget.editTask!.status,
+          status: addTaskProvider.editTask!.status,
           priority: addTaskProvider.priority,
         ),
       );

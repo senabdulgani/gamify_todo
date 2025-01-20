@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -16,16 +17,30 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<bool> checkNotificationPermissions() async {
+  Future<bool> requestNotificationPermissions() async {
     final status = await Permission.notification.request();
 
-    return status.isGranted;
+    if (status.isGranted) {
+      return true;
+    } else {
+      // TODO:
+      Helper().getDialog(message: "Bildirim için izin vermelisin");
+
+      return false;
+    }
   }
 
-  Future<bool> checkAlarmPermission() async {
-    final status = Permission.scheduleExactAlarm.request();
+  Future<bool> requestAlarmPermission() async {
+    final status = await Permission.scheduleExactAlarm.request();
 
-    return status.isGranted;
+    if (status.isGranted) {
+      return true;
+    } else {
+      // TODO:
+      Helper().getDialog(message: "Bildirim için izin vermelisin");
+
+      return false;
+    }
   }
 
   // Future<void> showTaskCompletionNotification({
@@ -97,7 +112,7 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
 
-  Future<void> cancelNotification(int id) async {
+  Future<void> cancelNotificationOrAlarm(int id) async {
     await flutterLocalNotificationsPlugin.cancel(id);
   }
 

@@ -332,7 +332,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
       );
     } else if (isTimerActive && currentDuration >= remainingDuration) {
       // Halihazırdaki zamanlanmış bildirimi iptal et
-      NotificationService().cancelNotification(task.id);
+      NotificationService().cancelNotificationOrAlarm(task.id);
     }
   }
 
@@ -354,7 +354,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
       );
     } else if (isTimerActive && currentDuration.inSeconds <= 0) {
       // Halihazırdaki zamanlanmış bildirimi iptal et
-      NotificationService().cancelNotification(item.id);
+      NotificationService().cancelNotificationOrAlarm(item.id);
     }
   }
 }
