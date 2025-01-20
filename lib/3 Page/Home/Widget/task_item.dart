@@ -41,7 +41,7 @@ class _TaskItemState extends State<TaskItem> {
     return TaskSlideActinos(
       taskModel: widget.taskModel,
       child: Opacity(
-        opacity: widget.taskModel.status != null && !(widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive!) ? 0.3 : 1.0,
+        opacity: widget.taskModel.status != null && !(widget.taskModel.type == TaskTypeEnum.TIMER && widget.taskModel.isTimerActive!) ? 0.6 : 1.0,
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [

@@ -9,6 +9,7 @@ import 'package:gamify_todo/3%20Page/Home/Add%20Task/Widget/task_name.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/widget/edit_progress_widget.dart';
 import 'package:gamify_todo/3%20Page/Store/Widget/set_credit.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/add_store_item_providerr.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -51,100 +52,121 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(LocaleKeys.AddItem.tr()),
-        leading: InkWell(
-          borderRadius: AppColors.borderRadiusAll,
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(Icons.arrow_back_ios),
-        ),
-        actions: [
-          Consumer(
-            builder: (context, AddStoreItemProvider addStoreItemProvider, child) {
-              return InkWell(
-                borderRadius: AppColors.borderRadiusAll,
-                onTap: () {
-                  // TODO: ardarda basıp yanlış kopyalar ekleyebiliyorum düzelt. bir kere basınca tekrar basılamasın tüm sayfaya olabilir.
-
-                  if (addStoreItemProvider.taskNameController.text.trim().isEmpty) {
-                    addStoreItemProvider.taskNameController.clear();
-
-                    Helper().getMessage(
-                      message: LocaleKeys.NameEmpty.tr(),
-                      status: StatusEnum.WARNING,
-                    );
-                    return;
-                  }
-
-                  if (widget.editItemModel != null) {
-                    addStoreItemProvider.updateItem(widget.editItemModel!);
-                  } else {
-                    addStoreItemProvider.addItem();
-                  }
-
-                  Get.back();
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Icon(Icons.check),
-                ),
-              );
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        goBackCheck();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(LocaleKeys.AddItem.tr()),
+          leading: InkWell(
+            borderRadius: AppColors.borderRadiusAll,
+            onTap: () {
+              goBackCheck();
             },
+            child: const Icon(Icons.arrow_back_ios),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              if (widget.editItemModel != null) EditProgressWidget.forStoreItem(item: widget.editItemModel!),
-              const SizedBox(height: 20),
-              TaskName(
-                isStore: true,
-                autoFocus: widget.editItemModel == null,
-              ),
-              const SizedBox(height: 10),
-              const SetCredit(),
-              const SizedBox(height: 10),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DurationPickerWidget(isStore: true),
-                  SizedBox(width: 20),
-                  SelectTaskType(isStore: true),
-                ],
-              ),
-              const SizedBox(height: 20),
-              if (widget.editItemModel != null) ...[
-                const SizedBox(height: 30),
-                InkWell(
-                  borderRadius: AppColors.borderRadiusAll,
-                  onTap: () {
-                    storeProvider.deleteItem(widget.editItemModel!.id);
-                    Get.back();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: AppColors.borderRadiusAll,
-                      color: AppColors.red,
+          actions: [
+            if (widget.editItemModel == null)
+              Consumer(
+                builder: (context, AddStoreItemProvider addStoreItemProvider, child) {
+                  return InkWell(
+                    borderRadius: AppColors.borderRadiusAll,
+                    onTap: () {
+                      // TODO: ardarda basıp yanlış kopyalar ekleyebiliyorum düzelt. bir kere basınca tekrar basılamasın tüm sayfaya olabilir.
+
+                      if (addStoreItemProvider.taskNameController.text.trim().isEmpty) {
+                        addStoreItemProvider.taskNameController.clear();
+
+                        Helper().getMessage(
+                          message: LocaleKeys.NameEmpty.tr(),
+                          status: StatusEnum.WARNING,
+                        );
+                        return;
+                      }
+
+                      addStoreItemProvider.addItem();
+
+                      Get.back();
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: Icon(Icons.check),
                     ),
-                    child: Text(
-                      LocaleKeys.Delete.tr(),
+                  );
+                },
+              ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                if (widget.editItemModel != null) EditProgressWidget.forStoreItem(item: widget.editItemModel!),
+                const SizedBox(height: 20),
+                TaskName(
+                  isStore: true,
+                  autoFocus: widget.editItemModel == null,
+                ),
+                const SizedBox(height: 10),
+                const SetCredit(),
+                const SizedBox(height: 10),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DurationPickerWidget(isStore: true),
+                    SizedBox(width: 20),
+                    SelectTaskType(isStore: true),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                if (widget.editItemModel != null) ...[
+                  const SizedBox(height: 30),
+                  InkWell(
+                    borderRadius: AppColors.borderRadiusAll,
+                    onTap: () {
+                      storeProvider.deleteItem(widget.editItemModel!.id);
+                      Get.back();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: AppColors.borderRadiusAll,
+                        color: AppColors.red,
+                      ),
+                      child: Text(
+                        LocaleKeys.Delete.tr(),
+                      ),
                     ),
                   ),
-                ),
+                ],
+                const SizedBox(height: 50),
               ],
-              const SizedBox(height: 50),
-            ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void goBackCheck() {
+    if (widget.editItemModel != null) {
+      if (addStoreItemProvider.taskNameController.text.trim().isEmpty) {
+        addStoreItemProvider.taskNameController.clear();
+
+        Helper().getMessage(
+          message: LocaleKeys.NameEmpty.tr(),
+          status: StatusEnum.WARNING,
+        );
+        return;
+      }
+
+      addStoreItemProvider.updateItem(widget.editItemModel!);
+
+      NavigatorService().goBack();
+    }
   }
 }

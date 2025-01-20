@@ -6,10 +6,13 @@ import 'package:gamify_todo/5%20Service/home_widget_service.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
+import 'package:gamify_todo/6%20Provider/store_provider.dart';
+import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:gamify_todo/8%20Model/store_item_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
+import 'package:provider/provider.dart';
 
 class EditProgressWidget extends StatefulWidget {
   final TaskModel? taskModel;
@@ -90,6 +93,12 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (isTask) {
+      context.watch<TaskProvider>();
+    } else {
+      context.watch<StoreProvider>();
+    }
+
     if (type == TaskTypeEnum.CHECKBOX) {
       return Text(
         _getCheckboxStatus(),
