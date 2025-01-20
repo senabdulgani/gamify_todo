@@ -85,7 +85,7 @@ class NavigatorService {
 // Navigate to new screen with name. See more details on named routes here
 
 // Get.toNamed('/details');
-// To close snackbars, dialogs, bottomsheets, or anything you would normally close with Navigator.pop(context);
+// To close snackbars, dialogs, bottomsheets, or anything you would normally close with    NavigatorService().goBack();
 
 // Get.back();
 // To go to the next screen and no option to go back to the previous screen (for use in SplashScreens, login screens, etc.)

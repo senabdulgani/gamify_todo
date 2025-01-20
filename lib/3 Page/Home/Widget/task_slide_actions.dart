@@ -86,9 +86,13 @@ class _TaskSlideActinosState extends State<TaskSlideActinos> {
               openThreshold: 0.1,
               dismissible: DismissiblePane(
                 dismissThreshold: 0.01,
-                onDismissed: () {
+                closeOnCancel: true,
+                confirmDismiss: () async {
                   taskProvider.failedTask(widget.taskModel);
+
+                  return false;
                 },
+                onDismissed: () {},
               ),
               children: [
                 SlidableAction(

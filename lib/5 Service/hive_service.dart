@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
@@ -8,6 +11,7 @@ import 'package:gamify_todo/8%20Model/store_item_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:gamify_todo/8%20Model/routine_model.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HiveService {
@@ -199,5 +203,133 @@ class HiveService {
 
     final box5 = await _taskBox;
     await box5.clear();
+  }
+
+  // export
+  // Future<void> exportData() async {
+  //   final List<UserModel> userList = await Hive.openBox<UserModel>(_userBoxName).then((value) => value.values.toList());
+  //   final List<ItemModel> itemList = await Hive.openBox<ItemModel>(_itemBoxName).then((value) => value.values.toList());
+  //   final List<TraitModel> traitList = await Hive.openBox<TraitModel>(_traitBoxName).then((value) => value.values.toList());
+  //   final List<RoutineModel> routineList = await Hive.openBox<RoutineModel>(_routineBoxName).then((value) => value.values.toList());
+  //   final List<TaskModel> taskList = await Hive.openBox<TaskModel>(_taskBoxName).then((value) => value.values.toList());
+
+  //   // hepsini json dosyasına kaydet
+  // }
+
+  // // import
+  // Future<void> importData() async {}
+
+// Future<void> backupHiveBox<T>(String boxName, String backupPath) async {
+//   final box = await Hive.openBox<T>(boxName);
+//   final boxPath = box.path;
+//   await box.close();
+
+//   try {
+//     File(boxPath).copy(backupPath);
+//   } finally {
+//     await Hive.openBox<T>(boxName);
+//   }
+// }
+
+// Future<void> restoreHiveBox<T>(String boxName, String backupPath) async {
+//   final box = await Hive.openBox<T>(boxName);
+//   final boxPath = box.path;
+//   await box.close();
+
+//   try {
+//     File(backupPath).copy(boxPath);
+//   } finally {
+//     await Hive.openBox<T>(boxName);
+//   }
+// }
+
+  // Future<void> exportData() async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final file = File('${directory.path}/hive_export.json');
+  //   final box = await Hive.openBox(_taskBoxName);
+  //   final data = box.toMap();
+  //   await file.writeAsString(data.toString());
+  // }
+
+  // // import
+  // Future<void> importData() async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final file = File('${directory.path}/hive_export.json');
+  //   if (await file.exists()) {
+  //     final content = await file.readAsString();
+  //     final data = Map<String, dynamic>.from(jsonDecode(content));
+  //     final box = await Hive.openBox(_taskBoxName);
+  //     await box.putAll(data);
+  //   }
+  // }
+
+// Future<void> exportData() async {
+//   final directory = await getApplicationDocumentsDirectory();
+//   final file = File('${directory.path}/hive_export.json');
+
+//   final Map<String, dynamic> data = {};
+
+//   for (String boxName in [_userBoxName, _itemBoxName, _traitBoxName, _routineBoxName, _taskBoxName]) {
+//     final box = await Hive.openBox(boxName);
+//     data[boxName] = box.toMap();
+//   }
+
+//   await file.writeAsString(jsonEncode(data));
+// }
+
+// Future<void> importData() async {
+//   final directory = await getApplicationDocumentsDirectory();
+//   final file = File('${directory.path}/hive_export.json');
+
+//   if (await file.exists()) {
+//     final content = await file.readAsString();
+//     final Map<String, dynamic> data = jsonDecode(content);
+
+  Future<void> exportData() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/hive_export.json');
+    final Map<String, dynamic> allData = {};
+
+    final userBox = await _userBox;
+    allData[_userBoxName] = userBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+
+    final itemBox = await _itemBox;
+    allData[_itemBoxName] = itemBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+
+    final traitBox = await _traitBox;
+    allData[_traitBoxName] = traitBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+
+    final routineBox = await _routineBox;
+    allData[_routineBoxName] = routineBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+
+    final taskBox = await _taskBox;
+    allData[_taskBoxName] = taskBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+
+    // yukarıdakiler çıkartılamadan önce ne durumda oluyor bak. aşağıda hata veriyor.
+    await file.writeAsString(jsonEncode(allData));
+  }
+
+  Future<void> importData() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/hive_export.json');
+    if (await file.exists()) {
+      final content = await file.readAsString();
+      final Map<String, dynamic> allData = jsonDecode(content);
+
+      final userBox = await _userBox;
+      await userBox.putAll(Map<String, dynamic>.from(allData[_userBoxName]).map((key, value) => MapEntry(key, UserModel.fromJson(value))));
+
+      final itemBox = await _itemBox;
+      await itemBox.putAll(Map<String, dynamic>.from(allData[_itemBoxName]).map((key, value) => MapEntry(key, ItemModel.fromJson(value))));
+
+      final traitBox = await _traitBox;
+      await traitBox.putAll(Map<String, dynamic>.from(allData[_traitBoxName]).map((key, value) => MapEntry(key, TraitModel.fromJson(value))));
+
+      final routineBox = await _routineBox;
+      await routineBox.putAll(Map<String, dynamic>.from(allData[_routineBoxName]).map((key, value) => MapEntry(key, RoutineModel.fromJson(value))));
+
+      final taskBox = await _taskBox;
+      await taskBox.putAll(Map<String, dynamic>.from(allData[_taskBoxName]).map((key, value) => MapEntry(key, TaskModel.fromJson(value))));
+    }
   }
 }

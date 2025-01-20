@@ -25,7 +25,7 @@ class SettingsPage extends StatelessWidget {
         leading: InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
-            Navigator.pop(context);
+            NavigatorService().goBack();
           },
           child: const Icon(Icons.arrow_back_ios),
         ),
@@ -48,6 +48,18 @@ class SettingsPage extends StatelessWidget {
               subtitle: LocaleKeys.HelpText.tr(),
               onTap: () {
                 yardimDialog(context);
+              },
+            ),
+            _settingsOption(
+              title: "Export",
+              onTap: () async {
+                await HiveService().exportData();
+              },
+            ),
+            _settingsOption(
+              title: "Import",
+              onTap: () async {
+                await HiveService().importData();
               },
             ),
             _settingsOption(
