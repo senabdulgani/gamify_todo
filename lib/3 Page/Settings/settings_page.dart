@@ -9,8 +9,10 @@ import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/6%20Provider/theme_provider.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:gamify_todo/8%20Model/user_model.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -19,6 +21,8 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<ThemeProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(LocaleKeys.Settings.tr()),
@@ -42,6 +46,35 @@ class SettingsPage extends StatelessWidget {
                   builder: (context) => const LanguageSelectionPopup(),
                 );
               },
+            ),
+            _settingsOption(
+              title: "Tema Seçimi",
+              subtitle: "Koyu/Açık temayı değiştirin.",
+              onTap: () {
+                context.read<ThemeProvider>().changeTheme();
+              },
+              trailing: Switch.adaptive(
+                value: AppColors.isDark,
+                thumbIcon: AppColors.isDark
+                    ? WidgetStateProperty.all(
+                        const Icon(
+                          Icons.brightness_2,
+                          color: AppColors.black,
+                        ),
+                      )
+                    : WidgetStateProperty.all(
+                        const Icon(
+                          Icons.wb_sunny,
+                          color: AppColors.white,
+                        ),
+                      ),
+                trackOutlineColor: AppColors.isDark ? WidgetStateProperty.all(AppColors.transparent) : WidgetStateProperty.all(AppColors.dirtyRed),
+                inactiveThumbColor: AppColors.dirtyRed,
+                inactiveTrackColor: AppColors.white,
+                onChanged: (_) {
+                  context.read<ThemeProvider>().changeTheme();
+                },
+              ),
             ),
             _settingsOption(
               title: LocaleKeys.Help.tr(),
@@ -95,21 +128,6 @@ class SettingsPage extends StatelessWidget {
                 NavigatorService().logout();
               },
             ),
-            // TODO: tema ayaralnınca açılacak
-            // _settingsOption(
-            //   title: "Tema Seçimi",
-            //   subtitle: "Koyu/Açık temayı değiştirin.",
-            //   trailing: Switch(
-            //     value: true,
-            //     // value: ThemeProvider().themeMode == ThemeMode.dark,
-            //     // onChanged: onThemeChanged,
-            //     onChanged: (value) {
-            //       // onThemeChanged();
-            //       // ThemeProvider().changeTheme();
-            //       AppColors.updateTheme(isDarkTheme: false);
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -137,8 +155,9 @@ class SettingsPage extends StatelessWidget {
     String? subtitle,
     VoidCallback? onTap,
     Color? color,
+    Widget? trailing,
   }) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Card(
         color: color ?? AppColors.panelBackground,
@@ -157,9 +176,10 @@ class SettingsPage extends StatelessWidget {
                   Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      color: color != null ? AppColors.white : null,
                     ),
                   ),
                   if (subtitle != null) ...[
@@ -173,6 +193,8 @@ class SettingsPage extends StatelessWidget {
                   ]
                 ],
               ),
+              const Spacer(),
+              if (trailing != null) trailing
             ],
           ),
         ),

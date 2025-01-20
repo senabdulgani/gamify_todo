@@ -101,22 +101,25 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
             onTap: (index) {
               _onItemTapped(index);
             },
-            items: const [
+            items: [
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.store,
+                  color: AppColors.text,
                 ),
                 label: 'Store',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.list,
+                  color: AppColors.text,
                 ),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.person_rounded,
+                  color: AppColors.text,
                 ),
                 label: 'Profile',
               ),

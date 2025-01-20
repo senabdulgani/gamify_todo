@@ -417,7 +417,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                   ),

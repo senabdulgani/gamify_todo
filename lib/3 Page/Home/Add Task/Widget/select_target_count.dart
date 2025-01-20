@@ -64,7 +64,6 @@ class _SelectTargetCountState extends State<SelectTargetCount> {
             provider.targetCount.toString(),
             style: const TextStyle(
               fontSize: 20,
-              color: Colors.white,
             ),
           ),
         ),

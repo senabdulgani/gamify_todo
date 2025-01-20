@@ -32,8 +32,7 @@ class _TraitListState extends State<TraitList> {
             // Title
             Text(
               " ${widget.isSkill ? LocaleKeys.Skills.tr() : LocaleKeys.Attributes.tr()}",
-              style: TextStyle(
-                color: AppColors.text,
+              style: const TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),

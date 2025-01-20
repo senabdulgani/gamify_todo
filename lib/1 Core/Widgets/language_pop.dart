@@ -26,9 +26,10 @@ class LanguageSelectionPopupState extends State<LanguageSelectionPopup> {
 
   _loadSelectedLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     setState(() {
       // Shared preferences'ten seçilen dilin yüklenmesi
-      _selectedLanguage = Locales.values.firstWhere((locale) => locale.toString() == (prefs.getString('selected_language') ?? Locales.en));
+      _selectedLanguage = Locales.values.firstWhere((locale) => locale.toString() == (prefs.getString('selected_language') ?? Locales.en.toString()));
       oldSelectedLanguage = _selectedLanguage;
       isLoading = false;
     });

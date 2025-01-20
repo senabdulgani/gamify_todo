@@ -139,6 +139,11 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
                       ),
                       child: Text(
                         LocaleKeys.Delete.tr(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.white,
+                        ),
                       ),
                     ),
                   ),

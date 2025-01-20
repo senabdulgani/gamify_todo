@@ -131,10 +131,23 @@ extension IntFormatting on int {
 }
 
 extension TimeOfDayConverter on TimeOfDay {
-  String to24hours() {
-    final hour = this.hour.toString().padLeft(2, "0");
-    final min = minute.toString().padLeft(2, "0");
+  String to24Hours() {
+    final String hour = this.hour.toString().padLeft(2, "0");
+    final String min = minute.toString().padLeft(2, "0");
     return "$hour:$min";
+  }
+
+  String to12Hours() {
+    String hour = this.hour.toString().padLeft(2, "0");
+    bool isAm = true;
+
+    if (this.hour >= 12) {
+      hour = (this.hour - (this.hour > 12 ? 12 : 0)).toString().padLeft(2, "0");
+      isAm = false;
+    }
+
+    final String min = minute.toString().padLeft(2, "0");
+    return "$hour:$min ${isAm ? "AM" : "PM"}";
   }
 }
 

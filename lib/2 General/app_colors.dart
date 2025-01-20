@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 // TODO: Denemelerin bittikten sonra hepsini static yap. setstate olunca değişmesi için static değil. en son halinde de neden statik olmalı öğren.
 class AppColors {
-  static bool isDark = true;
+  static late bool _isDark;
+  static bool get isDark => _isDark;
 
   static void updateTheme({
     required bool isDarkTheme,
   }) {
-    isDark = isDarkTheme;
+    _isDark = isDarkTheme;
   }
 
   // Border Radius
@@ -132,6 +133,14 @@ class AppColors {
       return const Color.fromARGB(255, 70, 70, 70);
     } else {
       return const Color.fromARGB(255, 214, 214, 214);
+    }
+  }
+
+  static Color get panelBackground4 {
+    if (isDark) {
+      return const Color.fromARGB(255, 53, 53, 53);
+    } else {
+      return const Color.fromARGB(255, 170, 170, 170);
     }
   }
 

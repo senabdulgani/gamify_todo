@@ -92,12 +92,15 @@ class _DayButtonState extends State<DayButton> {
         child: Container(
           margin: const EdgeInsets.all(3),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.blue : AppColors.grey,
+            color: isSelected ? AppColors.blue : AppColors.panelBackground4,
             borderRadius: AppColors.borderRadiusCircular,
           ),
           child: Center(
             child: Text(
               widget.name,
+              style: const TextStyle(
+                color: AppColors.white,
+              ),
             ),
           ),
         ),

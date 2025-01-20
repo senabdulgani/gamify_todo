@@ -65,6 +65,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
           TraitProvider().traitList.where((element) => (addTaskProvider.editTask!.attributeIDList != null && addTaskProvider.editTask!.attributeIDList!.contains(element.id)) || (addTaskProvider.editTask!.skillIDList != null && addTaskProvider.editTask!.skillIDList!.contains(element.id))).toList();
       addTaskProvider.priority = addTaskProvider.editTask!.priority;
     } else {
+      addTaskProvider.editTask = null;
+
       addTaskProvider.taskNameController.clear();
       addTaskProvider.descriptionController.clear();
       addTaskProvider.selectedTime = null;
@@ -108,7 +110,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 child: Text(
                   LocaleKeys.Save.tr(),
                   style: const TextStyle(
-                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

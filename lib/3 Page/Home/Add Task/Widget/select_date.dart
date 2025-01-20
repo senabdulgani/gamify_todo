@@ -39,9 +39,9 @@ class _SelectDateState extends State<SelectDate> {
           rightChevronIcon: Icon(Icons.chevron_right, size: 20),
           headerPadding: EdgeInsets.all(0),
         ),
-        daysOfWeekStyle: const DaysOfWeekStyle(
-          weekdayStyle: TextStyle(fontSize: 12, color: Colors.white70),
-          weekendStyle: TextStyle(fontSize: 12, color: Colors.white70),
+        daysOfWeekStyle: DaysOfWeekStyle(
+          weekdayStyle: TextStyle(fontSize: 12, color: AppColors.text.withAlpha(100)),
+          weekendStyle: TextStyle(fontSize: 12, color: AppColors.text.withAlpha(100)),
         ),
         calendarStyle: CalendarStyle(
           selectedDecoration: BoxDecoration(
@@ -52,15 +52,15 @@ class _SelectDateState extends State<SelectDate> {
             color: AppColors.main.withAlpha(50),
             shape: BoxShape.circle,
           ),
-          defaultTextStyle: const TextStyle(fontSize: 12, color: Colors.white),
-          weekendTextStyle: const TextStyle(fontSize: 12, color: Colors.white),
-          selectedTextStyle: const TextStyle(fontSize: 12, color: Colors.white),
-          todayTextStyle: const TextStyle(fontSize: 12, color: Colors.white),
-          outsideTextStyle: TextStyle(fontSize: 12, color: Colors.white.withAlpha(100)),
+          defaultTextStyle: TextStyle(fontSize: 12, color: AppColors.text),
+          weekendTextStyle: TextStyle(fontSize: 12, color: AppColors.text),
+          selectedTextStyle: TextStyle(fontSize: 12, color: AppColors.text),
+          todayTextStyle: TextStyle(fontSize: 12, color: AppColors.text),
+          outsideTextStyle: TextStyle(fontSize: 12, color: AppColors.text.withAlpha(100)),
           cellMargin: const EdgeInsets.all(1),
           cellPadding: EdgeInsets.zero,
           rowDecoration: const BoxDecoration(
-            color: Colors.transparent,
+            color: AppColors.transparent,
           ),
         ),
         onDaySelected: (selectedDay, focusedDay) {

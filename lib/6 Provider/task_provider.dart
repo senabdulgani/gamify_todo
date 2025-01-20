@@ -115,7 +115,9 @@ class TaskProvider with ChangeNotifier {
     );
 
     if (selectedDate != null) {
-      selectedDate = selectedDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute);
+      if (taskModel.time != null) {
+        selectedDate = selectedDate.copyWith(hour: taskModel.time!.hour, minute: taskModel.time!.minute);
+      }
 
       if (taskModel.type == TaskTypeEnum.TIMER && taskModel.isTimerActive == true) {
         taskModel.isTimerActive = false;

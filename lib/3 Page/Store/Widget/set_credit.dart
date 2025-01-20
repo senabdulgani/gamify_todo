@@ -63,7 +63,6 @@ class _SetCreditState extends State<SetCredit> {
                   provider.credit.toString(),
                   style: const TextStyle(
                     fontSize: 25,
-                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(width: 3),

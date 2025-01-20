@@ -33,32 +33,14 @@ class _SelectTimeState extends State<SelectTime> {
         borderRadius: AppColors.borderRadiusAll,
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                context.watch<AddTaskProvider>().selectedTime?.to24hours() ?? LocaleKeys.NotSelected.tr(),
+                context.watch<AddTaskProvider>().selectedTime?.to12Hours() ?? LocaleKeys.NotSelected.tr(),
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                decoration: BoxDecoration(
-                  color: AppColors.main.withAlpha(50),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.watch_later_outlined, size: 16),
-                    const SizedBox(width: 5),
-                    Text(
-                      LocaleKeys.SelectTime.tr(),
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
                 ),
               ),
             ],

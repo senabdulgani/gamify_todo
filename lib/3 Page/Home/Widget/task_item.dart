@@ -360,7 +360,7 @@ class _TaskItemState extends State<TaskItem> {
       children: [
         if (widget.taskModel.time != null) ...[
           Text(
-            widget.taskModel.time!.to24hours(),
+            widget.taskModel.time!.to24Hours(),
           ),
           const SizedBox(width: 5),
         ],

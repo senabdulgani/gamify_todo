@@ -74,6 +74,7 @@ class _SelectTaskTypeState extends State<SelectTaskType> {
                   ? Icons.add
                   : Icons.timer,
           size: 30,
+          color: provider.selectedTaskType == taskType ? AppColors.white : null,
         ),
       ),
     );

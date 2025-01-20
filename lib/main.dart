@@ -12,6 +12,7 @@ import 'package:gamify_todo/6%20Provider/add_task_provider.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/6%20Provider/theme_provider.dart';
 import 'package:gamify_todo/6%20Provider/trait_provider.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ChangeNotifierProvider(create: (context) => NavbarProvider()),
       ChangeNotifierProvider(create: (context) => TaskProvider()),
       ChangeNotifierProvider(create: (context) => StoreProvider()),
@@ -37,6 +39,8 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<ThemeProvider>();
+
     return ScreenUtilInit(
       designSize: const Size(1080, 2400),
       minTextAdapt: true,

@@ -10,6 +10,7 @@ import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/5%20Service/home_widget_service.dart';
+import 'package:gamify_todo/6%20Provider/theme_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> initApp() async {
@@ -60,6 +61,8 @@ Future<void> initApp() async {
   //     isAutoLogin: true,
   //   );
   // }
+
+  AppColors.updateTheme(isDarkTheme: await ThemeProvider().getSavedTheme());
 
   loginUser = await ServerManager().getUser();
 
