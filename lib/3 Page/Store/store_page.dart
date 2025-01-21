@@ -20,12 +20,7 @@ class _StorePageState extends State<StorePage> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (_, __) {
-        context.read<NavbarProvider>().currentIndex = 1;
-        context.read<NavbarProvider>().pageController.animateToPage(
-              1,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
-            );
+        NavbarProvider().updateIndex(1);
       },
       child: Scaffold(
         appBar: AppBar(

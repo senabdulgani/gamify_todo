@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
+import 'package:gamify_todo/5%20Service/navigator_service.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
@@ -229,6 +230,10 @@ class HiveService {
 
     StoreProvider().storeItemList.clear();
     StoreProvider().setStateItems();
+
+    NavigatorService().goBackAll(isHome: true);
+
+    Helper().getMessage(message: LocaleKeys.DeleteAllDataSuccess.tr());
   }
 
   Future<String?> exportData() async {
@@ -343,9 +348,9 @@ class HiveService {
       final jsonString = jsonEncode(allData);
       await file.writeAsString(jsonString);
 
-      Helper().getMessage(
-        message: LocaleKeys.backup_created_successfully.tr(),
-      );
+      NavigatorService().goBack();
+
+      Helper().getMessage(message: LocaleKeys.backup_created_successfully.tr());
 
       return filePath;
     } catch (e) {
@@ -424,9 +429,10 @@ class HiveService {
           TaskProvider().updateItems();
           StoreProvider().setStateItems();
 
-          Helper().getMessage(
-            message: LocaleKeys.backup_restored_successfully.tr(),
-          );
+          NavigatorService().goBackAll(isHome: true);
+
+          Helper().getMessage(message: LocaleKeys.backup_restored_successfully.tr());
+
           return true;
         }
       }

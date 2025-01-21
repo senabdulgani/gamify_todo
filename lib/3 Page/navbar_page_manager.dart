@@ -136,13 +136,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
   }
 
   void _onItemTapped(int index) {
-    context.read<NavbarProvider>().currentIndex = index;
-
-    context.read<NavbarProvider>().pageController.animateToPage(
-          index,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
+    context.read<NavbarProvider>().updateIndex(index);
   }
 
   Widget floatingActionButton() {

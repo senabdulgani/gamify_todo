@@ -101,7 +101,7 @@ class SettingsPage extends StatelessWidget {
               onTap: () async {
                 Helper().getDialog(
                     withTimer: true,
-                    message: LocaleKeys.DeleteAllDataText.tr(),
+                    message: LocaleKeys.DeleteAllDataWarning.tr(),
                     onAccept: () async {
                       await HiveService().deleteAllData();
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/3%20Page/Login/login_page.dart';
 import 'package:gamify_todo/5%20Service/home_widget_service.dart';
+import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +25,7 @@ class NavigatorService {
     Get.back();
   }
 
-  void goBackAll() {
+  void goBackAll({bool isHome = false}) {
     Get.until((route) {
       if (route.settings.name == "/NavbarPageManager") {
         return true;
@@ -33,6 +34,8 @@ class NavigatorService {
       }
       return false;
     });
+
+    if (isHome) NavbarProvider().updateIndex(1);
   }
 
   // delete mail and password on shared preferences and go to login page

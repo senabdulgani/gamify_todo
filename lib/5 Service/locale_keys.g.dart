@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class LocaleKeys {
+abstract class  LocaleKeys {
   static const Store = 'Store';
   static const Settings = 'Settings';
   static const SelectLanguage = 'SelectLanguage';
@@ -77,7 +77,8 @@ abstract class LocaleKeys {
   static const Count = 'Count';
   static const Save = 'Save';
   static const DeleteAllData = 'DeleteAllData';
-  static const DeleteAllDataText = 'DeleteAllDataText';
+  static const DeleteAllDataWarning = 'DeleteAllDataWarning';
+  static const DeleteAllDataSuccess = 'DeleteAllDataSuccess';
   static const Yes = 'Yes';
   static const Hide = 'Hide';
   static const Show = 'Show';
@@ -97,4 +98,5 @@ abstract class LocaleKeys {
   static const alarm_permission_required = 'alarm_permission_required';
   static const notification_channel_name = 'notification_channel_name';
   static const notification_channel_desc = 'notification_channel_desc';
+
 }
