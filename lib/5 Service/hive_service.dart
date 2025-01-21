@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:gamify_todo/1%20Core/extensions.dart';
+import 'package:gamify_todo/1%20Core/helper.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
@@ -13,6 +15,10 @@ import 'package:gamify_todo/8%20Model/trait_model.dart';
 import 'package:gamify_todo/8%20Model/routine_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HiveService {
   static const String _userBoxName = 'userBox';
@@ -285,51 +291,195 @@ class HiveService {
 //     final content = await file.readAsString();
 //     final Map<String, dynamic> data = jsonDecode(content);
 
-  Future<void> exportData() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/hive_export.json');
-    final Map<String, dynamic> allData = {};
+  Future<String?> exportData() async {
+    try {
+      final now = DateTime.now();
+      final fileName = 'gamify_todo_backup_${now.year}${now.month}${now.day}_${now.hour}${now.minute}.json';
+      late final String filePath;
 
-    final userBox = await _userBox;
-    allData[_userBoxName] = userBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+      if (Platform.isAndroid) {
+        // Request storage permissions based on Android version
+        if (!await Permission.storage.isGranted) {
+          // Request both permissions
+          Map<Permission, PermissionStatus> statuses = await [
+            Permission.storage,
+            Permission.manageExternalStorage,
+          ].request();
 
-    final itemBox = await _itemBox;
-    allData[_itemBoxName] = itemBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+          // Check if any permission was denied
+          if (!(statuses.values.any((status) => status.isGranted))) {
+            Helper().getMessage(
+              message: LocaleKeys.storage_permission_required.tr(),
+            );
+            return null;
+          }
+        }
 
-    final traitBox = await _traitBox;
-    allData[_traitBoxName] = traitBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+        // Get the Downloads directory on Android
+        Directory? directory;
+        if (Platform.isAndroid) {
+          directory = Directory('/storage/emulated/0/Download');
+          if (!await directory.exists()) {
+            directory = await getExternalStorageDirectory();
+            if (directory != null) {
+              directory = Directory('${directory.path}/Download');
+            }
+          }
+        }
 
-    final routineBox = await _routineBox;
-    allData[_routineBoxName] = routineBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+        if (directory == null) {
+          Helper().getMessage(
+            message: LocaleKeys.storage_access_error.tr(),
+          );
+          return null;
+        }
 
-    final taskBox = await _taskBox;
-    allData[_taskBoxName] = taskBox.toMap().map((key, value) => MapEntry(key, value.toJson()));
+        // Create directory if it doesn't exist
+        if (!await directory.exists()) {
+          await directory.create(recursive: true);
+        }
 
-    // yukarıdakiler çıkartılamadan önce ne durumda oluyor bak. aşağıda hata veriyor.
-    await file.writeAsString(jsonEncode(allData));
+        filePath = path.join(directory.path, fileName);
+      } else {
+        // For Windows and other platforms
+        final downloadsDir = await getDownloadsDirectory();
+        if (downloadsDir == null) {
+          Helper().getMessage(
+            message: LocaleKeys.downloads_access_error.tr(),
+          );
+          return null;
+        }
+        filePath = path.join(downloadsDir.path, fileName);
+      }
+
+      final file = File(filePath);
+      final Map<String, dynamic> allData = {};
+
+      // Export users
+      final userBox = await _userBox;
+      final userMap = {};
+      for (var key in userBox.keys) {
+        final user = userBox.get(key);
+        if (user != null) userMap[key.toString()] = user.toJson();
+      }
+      allData[_userBoxName] = userMap;
+
+      // Export items
+      final itemBox = await _itemBox;
+      final itemMap = {};
+      for (var key in itemBox.keys) {
+        final item = itemBox.get(key);
+        if (item != null) itemMap[key.toString()] = item.toJson();
+      }
+      allData[_itemBoxName] = itemMap;
+
+      // Export traits
+      final traitBox = await _traitBox;
+      final traitMap = {};
+      for (var key in traitBox.keys) {
+        final trait = traitBox.get(key);
+        if (trait != null) traitMap[key.toString()] = trait.toJson();
+      }
+      allData[_traitBoxName] = traitMap;
+
+      // Export routines
+      final routineBox = await _routineBox;
+      final routineMap = {};
+      for (var key in routineBox.keys) {
+        final routine = routineBox.get(key);
+        if (routine != null) routineMap[key.toString()] = routine.toJson();
+      }
+      allData[_routineBoxName] = routineMap;
+
+      // Export tasks
+      final taskBox = await _taskBox;
+      final taskMap = {};
+      for (var key in taskBox.keys) {
+        final task = taskBox.get(key);
+        if (task != null) taskMap[key.toString()] = task.toJson();
+      }
+      allData[_taskBoxName] = taskMap;
+
+      final jsonString = jsonEncode(allData);
+      await file.writeAsString(jsonString);
+
+      Helper().getMessage(
+        message: LocaleKeys.backup_created_successfully.tr(),
+      );
+
+      return filePath;
+    } catch (e) {
+      Helper().getMessage(
+        message: LocaleKeys.backup_creation_error.tr(args: [e.toString()]),
+      );
+      rethrow;
+    }
   }
 
-  Future<void> importData() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/hive_export.json');
-    if (await file.exists()) {
-      final content = await file.readAsString();
-      final Map<String, dynamic> allData = jsonDecode(content);
+  Future<bool> importData() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['json'],
+      );
 
-      final userBox = await _userBox;
-      await userBox.putAll(Map<String, dynamic>.from(allData[_userBoxName]).map((key, value) => MapEntry(key, UserModel.fromJson(value))));
+      if (result != null && result.files.single.path != null) {
+        final file = File(result.files.single.path!);
 
-      final itemBox = await _itemBox;
-      await itemBox.putAll(Map<String, dynamic>.from(allData[_itemBoxName]).map((key, value) => MapEntry(key, ItemModel.fromJson(value))));
+        if (await file.exists()) {
+          final content = await file.readAsString();
+          final Map<String, dynamic> allData = jsonDecode(content);
 
-      final traitBox = await _traitBox;
-      await traitBox.putAll(Map<String, dynamic>.from(allData[_traitBoxName]).map((key, value) => MapEntry(key, TraitModel.fromJson(value))));
+          // Import users
+          final userBox = await _userBox;
+          final userData = allData[_userBoxName] as Map<String, dynamic>;
+          for (var entry in userData.entries) {
+            await userBox.put(int.parse(entry.key), UserModel.fromJson(entry.value));
+          }
 
-      final routineBox = await _routineBox;
-      await routineBox.putAll(Map<String, dynamic>.from(allData[_routineBoxName]).map((key, value) => MapEntry(key, RoutineModel.fromJson(value))));
+          // Import items
+          final itemBox = await _itemBox;
+          final itemData = allData[_itemBoxName] as Map<String, dynamic>;
+          for (var entry in itemData.entries) {
+            await itemBox.put(int.parse(entry.key), ItemModel.fromJson(entry.value));
+          }
 
-      final taskBox = await _taskBox;
-      await taskBox.putAll(Map<String, dynamic>.from(allData[_taskBoxName]).map((key, value) => MapEntry(key, TaskModel.fromJson(value))));
+          // Import traits
+          final traitBox = await _traitBox;
+          final traitData = allData[_traitBoxName] as Map<String, dynamic>;
+          for (var entry in traitData.entries) {
+            await traitBox.put(int.parse(entry.key), TraitModel.fromJson(entry.value));
+          }
+
+          // Import routines
+          final routineBox = await _routineBox;
+          final routineData = allData[_routineBoxName] as Map<String, dynamic>;
+          for (var entry in routineData.entries) {
+            await routineBox.put(int.parse(entry.key), RoutineModel.fromJson(entry.value));
+          }
+
+          // Import tasks
+          final taskBox = await _taskBox;
+          final taskData = allData[_taskBoxName] as Map<String, dynamic>;
+          for (var entry in taskData.entries) {
+            await taskBox.put(int.parse(entry.key), TaskModel.fromJson(entry.value));
+          }
+
+          Helper().getMessage(
+            message: LocaleKeys.backup_restored_successfully.tr(),
+          );
+          return true;
+        }
+      }
+      Helper().getMessage(
+        message: LocaleKeys.backup_restore_cancelled.tr(),
+      );
+      return false;
+    } catch (e) {
+      Helper().getMessage(
+        message: LocaleKeys.backup_restore_error.tr(args: [e.toString()]),
+      );
+      rethrow;
     }
   }
 }

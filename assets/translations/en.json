@@ -76,5 +76,13 @@
     "Save": "Save",
     "DeleteAllData": "Delete All Data",
     "DeleteAllDataText": "Are you sure you want to delete all data?",
-    "Yes": "Yes"
+    "Yes": "Yes",
+    "storage_permission_required": "Storage permission is required for backup",
+    "storage_access_error": "Could not access storage directory",
+    "downloads_access_error": "Could not access Downloads directory",
+    "backup_created_successfully": "Backup created successfully in Downloads folder",
+    "backup_creation_error": "Error creating backup: {}",
+    "backup_restored_successfully": "Backup restored successfully",
+    "backup_restore_cancelled": "Backup restore cancelled",
+    "backup_restore_error": "Error restoring backup: {}"
 }

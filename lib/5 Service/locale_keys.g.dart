@@ -79,5 +79,13 @@ abstract class  LocaleKeys {
   static const DeleteAllData = 'DeleteAllData';
   static const DeleteAllDataText = 'DeleteAllDataText';
   static const Yes = 'Yes';
+  static const storage_permission_required = 'storage_permission_required';
+  static const storage_access_error = 'storage_access_error';
+  static const downloads_access_error = 'downloads_access_error';
+  static const backup_created_successfully = 'backup_created_successfully';
+  static const backup_creation_error = 'backup_creation_error';
+  static const backup_restored_successfully = 'backup_restored_successfully';
+  static const backup_restore_cancelled = 'backup_restore_cancelled';
+  static const backup_restore_error = 'backup_restore_error';
 
 }

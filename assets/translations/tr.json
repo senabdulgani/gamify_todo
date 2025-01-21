@@ -76,5 +76,13 @@
     "Save": "Kaydet",
     "DeleteAllData": "Tüm Verileri Sil",
     "DeleteAllDataText": "Tüm verileri silmek istediğinizden emin misiniz?",
-    "Yes": "Evet"
+    "Yes": "Evet",
+    "storage_permission_required": "Yedekleme için depolama izni gerekli",
+    "storage_access_error": "Depolama dizinine erişilemedi",
+    "downloads_access_error": "İndirilenler klasörüne erişilemedi",
+    "backup_created_successfully": "Yedekleme İndirilenler klasörüne başarıyla kaydedildi",
+    "backup_creation_error": "Yedekleme oluşturulurken hata: {}",
+    "backup_restored_successfully": "Veriler başarıyla geri yüklendi",
+    "backup_restore_cancelled": "Veriler geri yükleme iptal edildi",
+    "backup_restore_error": "Veriler geri yüklenirken hata: {}"
 }
