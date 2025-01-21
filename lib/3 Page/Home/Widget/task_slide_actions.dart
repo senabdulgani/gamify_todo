@@ -24,98 +24,123 @@ class TaskSlideActinos extends StatefulWidget {
 
 class _TaskSlideActinosState extends State<TaskSlideActinos> {
   late final taskProvider = context.read<TaskProvider>();
+  final actionItemPadding = const EdgeInsets.symmetric(horizontal: 5);
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
       key: ValueKey(widget.taskModel.id),
-      endActionPane: widget.taskModel.routineID != null
-          ? null
-          : ActionPane(
-              motion: const ScrollMotion(),
-              extentRatio: 0.5,
-              closeThreshold: 0.1,
-              openThreshold: 0.1,
-              dismissible: DismissiblePane(
-                dismissThreshold: 0.3,
-                closeOnCancel: true,
-                confirmDismiss: () async {
-                  taskProvider.changeTaskDate(
-                    context: context,
-                    taskModel: widget.taskModel,
-                  );
-
-                  return false;
-                },
-                onDismissed: () {},
-              ),
-              children: [
-                SlidableAction(
-                  onPressed: (context) {
-                    if (widget.taskModel.routineID == null) {
-                      taskProvider.deleteTask(widget.taskModel);
-                    } else {
-                      taskProvider.deleteRoutine(widget.taskModel.routineID!);
-                    }
-                  },
-                  backgroundColor: AppColors.red,
-                  icon: Icons.delete,
-                  label: LocaleKeys.Delete.tr(),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                ),
-                SlidableAction(
-                  onPressed: (context) {
-                    taskProvider.changeTaskDate(
-                      context: context,
-                      taskModel: widget.taskModel,
-                    );
-                  },
-                  backgroundColor: AppColors.orange,
-                  icon: Icons.calendar_month,
-                  label: LocaleKeys.ChangeDate.tr(),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                ),
-              ],
-            ),
-      startActionPane: widget.taskModel.routineID != null && !widget.taskModel.taskDate.isSameDay(DateTime.now())
-          ? null
-          : ActionPane(
-              motion: const ScrollMotion(),
-              extentRatio: 0.5,
-              closeThreshold: 0.1,
-              openThreshold: 0.1,
-              dismissible: DismissiblePane(
-                dismissThreshold: 0.01,
-                closeOnCancel: true,
-                confirmDismiss: () async {
-                  taskProvider.failedTask(widget.taskModel);
-
-                  return false;
-                },
-                onDismissed: () {},
-              ),
-              children: [
-                SlidableAction(
-                  onPressed: (context) {
-                    taskProvider.failedTask(widget.taskModel);
-                  },
-                  backgroundColor: AppColors.red,
-                  icon: Icons.close,
-                  label: LocaleKeys.Failed.tr(),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                ),
-                SlidableAction(
-                  onPressed: (context) {
-                    taskProvider.cancelTask(widget.taskModel);
-                  },
-                  backgroundColor: AppColors.purple,
-                  icon: Icons.block,
-                  label: LocaleKeys.Cancel.tr(),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                ),
-              ],
-            ),
+      endActionPane: endPane(),
+      startActionPane: startPane(),
       child: widget.child,
+    );
+  }
+
+  ActionPane? startPane() {
+    if (widget.taskModel.routineID != null && !widget.taskModel.taskDate.isSameDay(DateTime.now())) return null;
+
+    return ActionPane(
+      motion: const ScrollMotion(),
+      extentRatio: 0.5,
+      closeThreshold: 0.1,
+      openThreshold: 0.1,
+      dismissible: DismissiblePane(
+        dismissThreshold: 0.01,
+        closeOnCancel: true,
+        confirmDismiss: () async {
+          taskProvider.failedTask(widget.taskModel);
+
+          return false;
+        },
+        onDismissed: () {},
+      ),
+      children: [
+        failedAction(),
+        cancelAction(),
+      ],
+    );
+  }
+
+  ActionPane? endPane() {
+    if (widget.taskModel.routineID != null) return null;
+
+    return ActionPane(
+      motion: const ScrollMotion(),
+      extentRatio: 0.5,
+      closeThreshold: 0.1,
+      openThreshold: 0.1,
+      dismissible: DismissiblePane(
+        dismissThreshold: 0.3,
+        closeOnCancel: true,
+        confirmDismiss: () async {
+          taskProvider.changeTaskDate(
+            context: context,
+            taskModel: widget.taskModel,
+          );
+
+          return false;
+        },
+        onDismissed: () {},
+      ),
+      children: [
+        deleteAction(),
+        changeDateAction(),
+      ],
+    );
+  }
+
+  SlidableAction cancelAction() {
+    return SlidableAction(
+      onPressed: (context) {
+        taskProvider.cancelTask(widget.taskModel);
+      },
+      backgroundColor: AppColors.purple,
+      icon: Icons.block,
+      label: LocaleKeys.Cancel.tr(),
+      padding: actionItemPadding,
+    );
+  }
+
+  SlidableAction failedAction() {
+    return SlidableAction(
+      onPressed: (context) {
+        taskProvider.failedTask(widget.taskModel);
+      },
+      backgroundColor: AppColors.red,
+      icon: Icons.close,
+      label: LocaleKeys.Failed.tr(),
+      padding: actionItemPadding,
+    );
+  }
+
+  SlidableAction changeDateAction() {
+    return SlidableAction(
+      onPressed: (context) {
+        taskProvider.changeTaskDate(
+          context: context,
+          taskModel: widget.taskModel,
+        );
+      },
+      backgroundColor: AppColors.orange,
+      icon: Icons.calendar_month,
+      label: LocaleKeys.ChangeDate.tr(),
+      padding: actionItemPadding,
+    );
+  }
+
+  SlidableAction deleteAction() {
+    return SlidableAction(
+      onPressed: (context) {
+        if (widget.taskModel.routineID == null) {
+          taskProvider.deleteTask(widget.taskModel);
+        } else {
+          taskProvider.deleteRoutine(widget.taskModel.routineID!);
+        }
+      },
+      backgroundColor: AppColors.red,
+      icon: Icons.delete,
+      label: LocaleKeys.Delete.tr(),
+      padding: actionItemPadding,
     );
   }
 }

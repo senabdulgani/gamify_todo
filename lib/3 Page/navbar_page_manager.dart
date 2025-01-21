@@ -30,6 +30,21 @@ class NavbarPageManager extends StatefulWidget {
 class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindingObserver {
   bool isLoading = false;
 
+  final List<BottomNavigationBarItem> navbarItems = [
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.store),
+      label: 'Store',
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.list),
+      label: 'Home',
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.person_rounded),
+      label: 'Profile',
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -77,20 +92,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
                   ],
                 ),
               ),
-        floatingActionButton: context.read<NavbarProvider>().currentIndex == 1 || context.read<NavbarProvider>().currentIndex == 0
-            ? FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: AppColors.borderRadiusAll,
-                ),
-                onPressed: () async {
-                  await NavigatorService().goTo(
-                    context.read<NavbarProvider>().currentIndex == 1 ? const AddTaskPage() : const AddStoreItemPage(),
-                    transition: Transition.downToUp,
-                  );
-                },
-                child: const Icon(Icons.add),
-              )
-            : const SizedBox(),
+        floatingActionButton: floatingActionButton(),
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(
             splashColor: AppColors.transparent,
@@ -101,29 +103,7 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
             onTap: (index) {
               _onItemTapped(index);
             },
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.store,
-                  color: AppColors.text,
-                ),
-                label: 'Store',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.list,
-                  color: AppColors.text,
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person_rounded,
-                  color: AppColors.text,
-                ),
-                label: 'Profile',
-              ),
-            ],
+            items: navbarItems,
           ),
         ),
       ),
@@ -163,5 +143,22 @@ class _NavbarPageManagerState extends State<NavbarPageManager> with WidgetsBindi
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
+  }
+
+  Widget floatingActionButton() {
+    return context.read<NavbarProvider>().currentIndex == 1 || context.read<NavbarProvider>().currentIndex == 0
+        ? FloatingActionButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: AppColors.borderRadiusAll,
+            ),
+            onPressed: () async {
+              await NavigatorService().goTo(
+                context.read<NavbarProvider>().currentIndex == 1 ? const AddTaskPage() : const AddStoreItemPage(),
+                transition: Transition.downToUp,
+              );
+            },
+            child: const Icon(Icons.add),
+          )
+        : const SizedBox();
   }
 }

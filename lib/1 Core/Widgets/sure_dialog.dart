@@ -62,57 +62,64 @@ class _CustomDialogWidgetState extends State<CustomDialogWidget> {
         borderRadius: AppColors.borderRadiusAll,
       ),
       actions: [
-        // Okey
         if (widget.onAccept == null) ...[
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: AppColors.transparent,
-            ),
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text("Okay"),
-          ),
+          okeyButton(),
         ] else ...[
-          // Cancel
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: AppColors.transparent,
-            ),
-            onPressed: () {
-              Get.back();
-            },
-            child: Text(_declineButton),
-          ),
-
-          withTimer && count > 0
-              ?
-              // Timer
-              Text(
-                  '$_acceptButton $count',
-                  style: const TextStyle(
-                    color: AppColors.dirtyWhite,
-                  ),
-                )
-              :
-              // Accept
-              ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-
-                    if (widget.onAccept != null) {
-                      widget.onAccept!();
-                    }
-                  },
-                  child: Text(
-                    acceptButtonText,
-                    style: const TextStyle(
-                      color: AppColors.white,
-                    ),
-                  ),
-                )
+          cancelButton(),
+          withTimer && count > 0 ? timer() : acceptButton()
         ]
       ],
+    );
+  }
+
+  Text timer() {
+    return Text(
+      '$_acceptButton $count',
+      style: const TextStyle(
+        color: AppColors.dirtyWhite,
+      ),
+    );
+  }
+
+  TextButton okeyButton() {
+    return TextButton(
+      style: TextButton.styleFrom(
+        backgroundColor: AppColors.transparent,
+      ),
+      onPressed: () {
+        Get.back();
+      },
+      child: const Text("Okay"),
+    );
+  }
+
+  TextButton cancelButton() {
+    return TextButton(
+      style: TextButton.styleFrom(
+        backgroundColor: AppColors.transparent,
+      ),
+      onPressed: () {
+        Get.back();
+      },
+      child: Text(_declineButton),
+    );
+  }
+
+  ElevatedButton acceptButton() {
+    return ElevatedButton(
+      onPressed: () {
+        Get.back();
+
+        if (widget.onAccept != null) {
+          widget.onAccept!();
+        }
+      },
+      child: Text(
+        acceptButtonText,
+        style: const TextStyle(
+          color: AppColors.white,
+        ),
+      ),
     );
   }
 }

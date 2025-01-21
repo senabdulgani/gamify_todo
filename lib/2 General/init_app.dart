@@ -16,17 +16,23 @@ import 'package:window_manager/window_manager.dart';
 Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Orientation
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // Theme
+  AppColors.updateTheme(isDarkTheme: await ThemeProvider().getSavedTheme());
+  // Hive Adapters
+  Helper().registerAdapters();
+
+  // Localization
   await EasyLocalization.ensureInitialized();
   EasyLocalization.logger.enableBuildModes = [];
 
+  // Notification
   await NotificationService().init();
   await NotificationService().requestNotificationPermissions();
   await NotificationService().requestAlarmPermission();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-  Helper().registerAdapters();
-
+  // Desktop Window
   if (!kIsWeb && Platform.isWindows) {
     await windowManager.ensureInitialized();
 
@@ -45,8 +51,9 @@ Future<void> initApp() async {
       await windowManager.show();
       await windowManager.focus();
     });
-  } else {
-    // Initialize home widget
+  }
+  // Home Widget
+  else {
     await HomeWidgetService.setupHomeWidget();
   }
 
@@ -61,8 +68,6 @@ Future<void> initApp() async {
   //     isAutoLogin: true,
   //   );
   // }
-
-  AppColors.updateTheme(isDarkTheme: await ThemeProvider().getSavedTheme());
 
   loginUser = await ServerManager().getUser();
 

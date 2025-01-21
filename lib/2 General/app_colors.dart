@@ -15,18 +15,29 @@ class AppColors {
   static const double borderRadius = 8;
   static BorderRadius borderRadiusAll = const BorderRadius.all(Radius.circular(borderRadius));
   static BorderRadius highBorderRadiusAll = const BorderRadius.all(Radius.circular(borderRadius * 3));
-  static BorderRadius borderRadiusTop = const BorderRadius.vertical(
-    top: Radius.circular(borderRadius),
-  );
-  static BorderRadius borderRadiusBottom = const BorderRadius.vertical(
-    bottom: Radius.circular(borderRadius),
-  );
-  static BorderRadius borderRadiusCircular = const BorderRadius.all(
-    Radius.circular(125),
-  );
+  static BorderRadius borderRadiusTop = const BorderRadius.vertical(top: Radius.circular(borderRadius));
+  static BorderRadius borderRadiusBottom = const BorderRadius.vertical(bottom: Radius.circular(borderRadius));
+  static BorderRadius borderRadiusCircular = const BorderRadius.all(Radius.circular(125));
 
   // Padding
   static const EdgeInsets showcasePadding = EdgeInsets.all(3);
+
+  // TODO: boxShadows için de yap
+  // Shadows
+  static const List<Shadow> basicShadow = [
+    Shadow(
+      color: AppColors.transparantBlack,
+      offset: Offset(1, 1),
+      blurRadius: 2,
+    ),
+  ];
+  static const List<BoxShadow> bottomShadow = [
+    BoxShadow(
+      spreadRadius: 0,
+      blurRadius: 5,
+      offset: Offset(0, 2),
+    ),
+  ];
 
   // Main Colors
   static const Color transparent = Color.fromRGBO(0, 0, 0, 0);
@@ -52,7 +63,7 @@ class AppColors {
   static const Color deepPurple = Color.fromARGB(255, 96, 3, 158);
   static const Color lightGreen = Color.fromARGB(255, 137, 224, 140);
 
-  // App Colors
+  // General Colors
   static Color get cursor {
     if (isDark) {
       return const Color.fromARGB(255, 204, 204, 204);
@@ -70,24 +81,7 @@ class AppColors {
   static Color deepMain = const Color.fromARGB(255, 10, 64, 126);
   static Color dirtyMain = const Color.fromARGB(255, 19, 94, 180);
 
-  // TODO: boxShadows için de yap
-  // Shadows
-  static const List<Shadow> basicShadow = [
-    Shadow(
-      color: AppColors.transparantBlack,
-      offset: Offset(1, 1),
-      blurRadius: 2,
-    ),
-  ];
-  static const List<BoxShadow> bottomShadow = [
-    BoxShadow(
-      spreadRadius: 0,
-      blurRadius: 5,
-      offset: Offset(0, 2),
-    ),
-  ];
-
-  //////////////////////////////////////////////////////////////////////////
+  // Dynamic Colors
   static Color get background {
     if (isDark) {
       return const Color.fromARGB(255, 15, 15, 15);
@@ -177,374 +171,4 @@ class AppColors {
   ];
 
   // ---------------------------------------------------------------------------------------------------------------
-
-  // Dark Theme
-  ThemeData appTheme = ThemeData(
-    // Scaffold Background Color
-    scaffoldBackgroundColor: background,
-
-    // Bottom Navigation Bar
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: panelBackground,
-      elevation: 0,
-      unselectedIconTheme: IconThemeData(
-        color: white.withValues(alpha: 0.7),
-        size: 27,
-      ),
-      unselectedLabelStyle: const TextStyle(
-        fontSize: 12,
-      ),
-      selectedItemColor: white,
-      selectedIconTheme: const IconThemeData(
-        color: white,
-        size: 30,
-      ),
-      selectedLabelStyle: const TextStyle(
-        fontSize: 12,
-      ),
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-    ),
-    // AppBar
-    appBarTheme: AppBarTheme(
-      toolbarHeight: 40,
-      backgroundColor: appbar,
-      surfaceTintColor: appbar,
-      iconTheme: IconThemeData(
-        color: text,
-      ),
-      titleTextStyle: TextStyle(
-        color: text,
-        fontSize: 22,
-        fontWeight: FontWeight.bold,
-      ),
-      actionsIconTheme: IconThemeData(
-        color: text,
-      ),
-      toolbarTextStyle: TextStyle(
-        color: text,
-        fontSize: 14,
-        fontWeight: FontWeight.bold,
-      ),
-      foregroundColor: red,
-      centerTitle: true,
-    ),
-    // List Tile
-    listTileTheme: ListTileThemeData(
-      tileColor: background,
-      selectedTileColor: background,
-      iconColor: text,
-      textColor: text,
-    ),
-    // Divider
-    dividerTheme: DividerThemeData(
-      color: onBackground,
-      thickness: 1,
-    ),
-    radioTheme: RadioThemeData(
-      fillColor: WidgetStateProperty.all<Color>(main),
-    ),
-    // Icon
-    iconTheme: IconThemeData(
-      color: text,
-    ),
-    // Dialog
-    dialogTheme: DialogTheme(
-      backgroundColor: background,
-      surfaceTintColor: background,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(
-          color: AppColors.grey,
-          width: 1,
-        ),
-      ),
-    ),
-    // IconButton
-    iconButtonTheme: IconButtonThemeData(
-      style: ButtonStyle(
-        overlayColor: WidgetStatePropertyAll<Color>(hover),
-      ),
-    ),
-    // Time Picker
-    timePickerTheme: TimePickerThemeData(
-      backgroundColor: background,
-      hourMinuteColor: panelBackground,
-      dialBackgroundColor: panelBackground,
-      dialTextColor: text,
-      entryModeIconColor: text,
-      confirmButtonStyle: ElevatedButton.styleFrom(
-        backgroundColor: main,
-        shape: RoundedRectangleBorder(
-          borderRadius: borderRadiusAll,
-        ),
-      ),
-      hourMinuteTextColor: text,
-      dayPeriodColor: main,
-      dayPeriodBorderSide: BorderSide(
-        color: main,
-        width: 2,
-      ),
-      dayPeriodShape: RoundedRectangleBorder(
-        borderRadius: borderRadiusAll,
-      ),
-      dayPeriodTextColor: text,
-    ),
-    // Textfield
-    inputDecorationTheme: InputDecorationTheme(
-      filled: false,
-      border: OutlineInputBorder(
-        borderRadius: borderRadiusAll,
-        borderSide: BorderSide(
-          color: onBackground,
-          width: 1,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: borderRadiusAll * 1.5,
-        borderSide: BorderSide(
-          color: onBackground,
-          width: 2,
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: borderRadiusAll,
-        borderSide: BorderSide(
-          color: onBackground,
-          width: 1,
-        ),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: borderRadiusAll,
-        borderSide: const BorderSide(
-          color: red,
-          width: 2,
-        ),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: borderRadiusAll,
-        borderSide: const BorderSide(
-          color: red,
-          width: 3,
-        ),
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderRadius: borderRadiusAll,
-        borderSide: BorderSide(
-          color: onBackground,
-          width: 1,
-        ),
-      ),
-      labelStyle: TextStyle(
-        color: text,
-      ),
-      hintStyle: const TextStyle(
-        color: dirtyWhite,
-      ),
-    ),
-
-    // PopMenu
-    popupMenuTheme: PopupMenuThemeData(
-      color: background,
-      shape: RoundedRectangleBorder(
-        borderRadius: borderRadiusAll,
-      ),
-      textStyle: TextStyle(
-        color: text,
-      ),
-      labelTextStyle: WidgetStateProperty.all<TextStyle>(
-        TextStyle(
-          color: text,
-        ),
-      ),
-    ),
-
-    // Date Picker
-    datePickerTheme: DatePickerThemeData(
-      confirmButtonStyle: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(main),
-        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: borderRadiusAll,
-          ),
-        ),
-        foregroundColor: WidgetStateProperty.all<Color>(deepWhite),
-      ),
-      cancelButtonStyle: ButtonStyle(
-        overlayColor: WidgetStateProperty.all<Color>(hover),
-        foregroundColor: WidgetStateProperty.all<Color>(text),
-      ),
-    ),
-
-    // Slider
-    sliderTheme: SliderThemeData(
-      trackHeight: 4,
-      thumbShape: const RoundSliderThumbShape(
-        enabledThumbRadius: 8.0,
-      ),
-      overlayShape: const RoundSliderOverlayShape(
-        overlayRadius: 8.0,
-      ),
-      thumbColor: onBackground,
-      activeTrackColor: main,
-      inactiveTrackColor: grey,
-    ),
-    // BottomSheet
-    bottomSheetTheme: BottomSheetThemeData(
-      backgroundColor: background,
-      surfaceTintColor: background,
-      shape: RoundedRectangleBorder(
-        borderRadius: borderRadiusTop,
-      ),
-    ),
-    // Progress Indicator
-    progressIndicatorTheme: ProgressIndicatorThemeData(
-      color: main,
-    ),
-    // Text
-    textTheme: TextTheme(
-      bodyLarge: TextStyle(color: text, decorationColor: text),
-      bodyMedium: TextStyle(color: text, decorationColor: text),
-      bodySmall: TextStyle(color: text, decorationColor: text),
-      displayLarge: TextStyle(color: text, decorationColor: text),
-      displayMedium: TextStyle(color: text, decorationColor: text),
-      displaySmall: TextStyle(color: text, decorationColor: text),
-      labelLarge: TextStyle(color: text, decorationColor: text),
-      labelMedium: TextStyle(color: text, decorationColor: text),
-      labelSmall: TextStyle(color: text, decorationColor: text),
-      titleLarge: TextStyle(color: text, decorationColor: text, fontWeight: FontWeight.bold),
-      titleMedium: TextStyle(color: text, decorationColor: text, fontWeight: FontWeight.bold),
-      titleSmall: TextStyle(color: text, decorationColor: text, fontWeight: FontWeight.bold),
-      headlineLarge: TextStyle(color: text, decorationColor: text, fontWeight: FontWeight.bold),
-      headlineMedium: TextStyle(color: text, decorationColor: text, fontWeight: FontWeight.bold),
-      headlineSmall: TextStyle(color: text, decorationColor: text, fontWeight: FontWeight.bold),
-    ),
-    // Text Button
-    textButtonTheme: TextButtonThemeData(
-      style: ButtonStyle(
-        foregroundColor: WidgetStateProperty.all<Color>(text),
-        overlayColor: WidgetStateProperty.all<Color>(text.withValues(alpha: 0.1)),
-        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: borderRadiusAll,
-          ),
-        ),
-      ),
-    ),
-
-    // Elevated Button
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(main),
-        foregroundColor: WidgetStateProperty.all<Color>(text),
-        surfaceTintColor: WidgetStateProperty.all<Color>(background),
-        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: borderRadiusAll,
-          ),
-        ),
-        padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-          const EdgeInsets.symmetric(
-            horizontal: 15,
-            vertical: 10,
-          ),
-        ),
-      ),
-    ),
-    // Checkbox
-    checkboxTheme: CheckboxThemeData(
-      checkColor: WidgetStateProperty.all<Color>(background),
-      overlayColor: WidgetStateProperty.all<Color>(hover),
-      side: BorderSide(
-        color: main,
-        width: 2,
-      ),
-    ),
-    // Floating Action Button
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: deepWhite,
-      foregroundColor: black,
-      splashColor: hover,
-      elevation: 3,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(50)),
-      ),
-    ),
-    // Switch
-    switchTheme: SwitchThemeData(
-      thumbColor: WidgetStateProperty.all<Color>(lightMain),
-      trackOutlineColor: WidgetStateProperty.all<Color>(transparent),
-    ),
-    hintColor: dirtyWhite,
-    textSelectionTheme: TextSelectionThemeData(cursorColor: cursor),
-    // SnackBar
-    snackBarTheme: SnackBarThemeData(
-      backgroundColor: appbar,
-      contentTextStyle: TextStyle(
-        color: text,
-        fontSize: 16,
-        overflow: TextOverflow.ellipsis,
-      ),
-    ),
-    // card
-    cardTheme: CardTheme(
-      color: background,
-      shadowColor: black,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: borderRadiusAll,
-      ),
-    ),
-    // TODO:default container radius
-
-    // ---------------------
-
-    // Color Scheme
-    colorScheme: ColorScheme(
-      brightness: Brightness.dark,
-      // primary: main,
-      // onPrimary: lightMain,
-      // secondary: const Color.fromARGB(255, 0, 255, 213),
-      // onSecondary: const Color.fromARGB(255, 0, 255, 0),
-      // error: Colors.red,
-      // onError: const Color.fromARGB(255, 255, 0, 13),
-      // surface: onBackground,
-      // onSurface: background,
-
-      primary: main,
-      onPrimary: background,
-      secondary: lightMain,
-      onSecondary: const Color.fromARGB(157, 0, 241, 0),
-      error: Colors.red,
-      onError: const Color.fromARGB(255, 255, 0, 13),
-      surface: panelBackground2,
-      onSurface: text,
-
-      // TODO: düzenlenecek. gerekli değilse kaldır
-      // errorContainer: const Color(0xFF93000A),
-      // onErrorContainer: const Color(0xFFFFDAD6),
-      // primaryContainer: main,
-      // onPrimaryContainer: const Color(0xFFDCE1FF),
-      // secondaryContainer: const Color(0xFF424659),
-      // onSben önceliklecondaryContainer: const Color(0xFFDEE1F9),
-      // tertiary: const Color(0xFFE3BADA),
-      // onTertiary: const Color(0xFF43273F),
-      // tertiaryContainer: const Color(0xFF5B3D57),
-      // onTertiaryContainer: const Color(0xFFFFD7F5),
-      // surfaceVariant: const Color(0xFF45464F),
-      // onSurfaceVariant: const Color(0xFFC6C5D0),
-      // outline: const Color(0xFF90909A),
-      // onInverseSurface: const Color(0xFF1B1B1F),
-      // inverseSurface: const Color(0xFFE4E1E6),
-      // inversePrimary: lightMain,
-      // shadow: const Color(0xFF000000),
-      // surfaceTint: const Color(0xFFB7C4FF),
-      // outlineVariant: const Color(0xFF45464F),
-      // scrim: const Color(0xFF000000),
-    ),
-  );
-
-// TODO: dark a göre düzenle
-  // Light Theme
 }

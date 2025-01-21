@@ -502,13 +502,4 @@ class ServerManager {
   }
 
   // trigger tasks !!!!! normalde bu kullanılmıyor. 00:00 olduğunda otomatik backendde yapılıyor. test etmek için böyle koyuldu.
-  Future<void> routineToTask() async {
-    // check routines
-
-    //   var response = await dio.post(
-    //     "$_baseUrl/routineToTask",
-    //   );
-
-    //   checkRequest(response);
-  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/day_item.dart';
+import 'package:gamify_todo/3%20Page/Home/Widget/go_today_button.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_list.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
@@ -22,16 +22,7 @@ class HomePage extends StatelessWidget {
             DayItem(date: selectedDate.subtract(const Duration(days: 1))),
             DayItem(date: selectedDate),
             DayItem(date: selectedDate.add(const Duration(days: 1))),
-            InkWell(
-              borderRadius: AppColors.borderRadiusAll,
-              onTap: () {
-                TaskProvider().changeSelectedDate(DateTime.now());
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(5),
-                child: Icon(Icons.today),
-              ),
-            ),
+            const GoTodayButton(),
           ],
         ),
         actions: [
@@ -39,7 +30,6 @@ class HomePage extends StatelessWidget {
           if (kDebugMode)
             InkWell(
               onTap: () async {
-                // ServerManager().routineToTask();
                 NotificationService().notificaitonTest();
               },
               child: const Padding(

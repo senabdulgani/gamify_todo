@@ -1,12 +1,13 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamify_todo/1%20Core/Enums/status_enum.dart';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/2%20General/app_colors.dart';
 import 'package:gamify_todo/3%20Page/Home/Add%20Task/add_task_page.dart';
+import 'package:gamify_todo/3%20Page/Home/Widget/Task%20Item/Widgets/priority_line.dart';
+import 'package:gamify_todo/3%20Page/Home/Widget/Task%20Item/Widgets/title_and_decription.dart';
+import 'package:gamify_todo/3%20Page/Home/Widget/Task%20Item/Widgets/task_time.dart';
 import 'package:gamify_todo/3%20Page/Home/Widget/task_slide_actions.dart';
 import 'package:gamify_todo/3%20Page/Task%20Detail%20Page/routine_detail_page.dart';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
@@ -45,46 +46,13 @@ class _TaskItemState extends State<TaskItem> {
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [
-            // progress(),
+            // TaskProgressContainer(taskModel: widget.taskModel),
             InkWell(
               onTap: () {
-                if (widget.taskModel.routineID != null && !widget.taskModel.taskDate.isBeforeOrSameDay(DateTime.now())) {
-                  Helper().getMessage(
-                    status: StatusEnum.WARNING,
-                    message: LocaleKeys.RoutineForFuture.tr(),
-                  );
-                } else {
-                  taskAction();
-                }
+                taskAction();
               },
               onLongPress: () async {
-                if (widget.taskModel.routineID != null) {
-                  await NavigatorService()
-                      .goTo(
-                    RoutineDetailPage(
-                      taskModel: widget.taskModel,
-                    ),
-                    transition: Transition.size,
-                  )
-                      .then(
-                    (value) {
-                      TaskProvider().updateItems();
-                    },
-                  );
-                } else {
-                  await NavigatorService()
-                      .goTo(
-                    AddTaskPage(
-                      editTask: widget.taskModel,
-                    ),
-                    transition: Transition.size,
-                  )
-                      .then(
-                    (value) {
-                      TaskProvider().updateItems();
-                    },
-                  );
-                }
+                await taskLongPressAction();
               },
               borderRadius: AppColors.borderRadiusAll,
               child: Column(
@@ -99,13 +67,13 @@ class _TaskItemState extends State<TaskItem> {
                       children: [
                         taskActionIcon(),
                         const SizedBox(width: 5),
-                        titleAndDescriptionWidgets(),
+                        TitleAndDescription(taskModel: widget.taskModel),
                         const SizedBox(width: 10),
-                        notificationWidgets(),
+                        TaskTime(taskModel: widget.taskModel),
                       ],
                     ),
                   ),
-                  priortyLine(),
+                  PriorityLine(taskModel: widget.taskModel),
                 ],
               ),
             ),
@@ -115,75 +83,30 @@ class _TaskItemState extends State<TaskItem> {
     );
   }
 
-  Widget priortyLine() {
-    if (widget.taskModel.priority == 3) return const SizedBox();
-
-    return Container(
-      height: 1,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            (widget.taskModel.priority == 1 ? AppColors.red : AppColors.orange2).withValues(alpha: 0.7),
-            Colors.transparent,
-          ],
-          stops: const [0, 1],
-        ),
-      ),
-    );
-  }
-
-  Widget progressText() {
-    if (widget.taskModel.type == TaskTypeEnum.CHECKBOX && widget.taskModel.status == null) return const SizedBox();
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (widget.taskModel.type != TaskTypeEnum.CHECKBOX) ...[
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            decoration: BoxDecoration(
-              color: AppColors.panelBackground2.withAlpha(77),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: widget.taskModel.type == TaskTypeEnum.COUNTER
-                ? Text(
-                    "${widget.taskModel.currentCount ?? 0}/${widget.taskModel.targetCount ?? 0}",
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                : Text(
-                    "${widget.taskModel.currentDuration!.textShortDynamic()}/${widget.taskModel.remainingDuration!.textShortDynamic()}",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: widget.taskModel.isTimerActive! ? AppColors.main : null,
-                    ),
-                  ),
-          ),
-          const SizedBox(width: 5),
-        ],
-        statusText(),
-      ],
-    );
-  }
-
-  AnimatedContainer progress() {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      height: 2,
-      width: widget.taskModel.status == TaskStatusEnum.COMPLETED
-          ? 1.sw
-          : widget.taskModel.type == TaskTypeEnum.TIMER
-              ? ((widget.taskModel.currentDuration?.inSeconds ?? 0) / (widget.taskModel.remainingDuration?.inSeconds ?? 1)).clamp(0.0, 1.0) * 1.sw
-              : widget.taskModel.type == TaskTypeEnum.COUNTER
-                  ? ((widget.taskModel.currentCount ?? 0) / (widget.taskModel.targetCount ?? 1)).clamp(0.0, 1.0) * 1.sw
-                  : 0.sw,
-      decoration: BoxDecoration(
-        color: AppColors.deepMain,
-      ),
-    );
+  Future<void> taskLongPressAction() async {
+    if (widget.taskModel.routineID != null) {
+      await NavigatorService()
+          .goTo(
+        RoutineDetailPage(taskModel: widget.taskModel),
+        transition: Transition.size,
+      )
+          .then(
+        (value) {
+          TaskProvider().updateItems();
+        },
+      );
+    } else {
+      await NavigatorService()
+          .goTo(
+        AddTaskPage(editTask: widget.taskModel),
+        transition: Transition.size,
+      )
+          .then(
+        (value) {
+          TaskProvider().updateItems();
+        },
+      );
+    }
   }
 
   Widget taskActionIcon() {
@@ -209,7 +132,7 @@ class _TaskItemState extends State<TaskItem> {
                   setState(() {
                     taskAction();
                   });
-                  await Future.delayed(const Duration(milliseconds: 60));
+                  await Future.delayed(const Duration(milliseconds: 80));
                 }
               },
               onLongPressEnd: (_) {
@@ -236,6 +159,13 @@ class _TaskItemState extends State<TaskItem> {
   }
 
   void taskAction() {
+    if (widget.taskModel.routineID != null && !widget.taskModel.taskDate.isBeforeOrSameDay(DateTime.now())) {
+      return Helper().getMessage(
+        status: StatusEnum.WARNING,
+        message: LocaleKeys.RoutineForFuture.tr(),
+      );
+    }
+
     if (widget.taskModel.type == TaskTypeEnum.CHECKBOX) {
       widget.taskModel.status = (widget.taskModel.status == null || widget.taskModel.status != TaskStatusEnum.COMPLETED) ? TaskStatusEnum.COMPLETED : null;
 
@@ -261,121 +191,5 @@ class _TaskItemState extends State<TaskItem> {
     if (!_isIncrementing) {
       TaskProvider().updateItems();
     }
-  }
-
-  Widget titleAndDescriptionWidgets() {
-    final priorityColor = (widget.taskModel.priority == 1
-            ? AppColors.red
-            : widget.taskModel.priority == 2
-                ? AppColors.orange2
-                : AppColors.text)
-        .withValues(alpha: 0.9);
-
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          AutoSizeText(
-            widget.taskModel.title,
-            maxLines: 1,
-            minFontSize: 14,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w600,
-              color: priorityColor,
-            ),
-          ),
-          if (widget.taskModel.description != null && widget.taskModel.description!.isNotEmpty)
-            Text(
-              widget.taskModel.description!,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 12,
-                color: priorityColor.withValues(alpha: 0.7),
-              ),
-            ),
-          progressText(),
-        ],
-      ),
-    );
-  }
-
-  Widget statusText() {
-    switch (widget.taskModel.status) {
-      case TaskStatusEnum.FAILED:
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          decoration: BoxDecoration(
-            color: AppColors.red.withAlpha(100),
-            borderRadius: AppColors.borderRadiusAll,
-          ),
-          child: Text(
-            LocaleKeys.Failed.tr(),
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      case TaskStatusEnum.CANCEL:
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          decoration: BoxDecoration(
-            color: AppColors.purple.withAlpha(100),
-            borderRadius: AppColors.borderRadiusAll,
-          ),
-          child: Text(
-            LocaleKeys.Cancel.tr(),
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      case TaskStatusEnum.COMPLETED:
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          decoration: BoxDecoration(
-            color: AppColors.green.withAlpha(80),
-            borderRadius: AppColors.borderRadiusAll,
-          ),
-          child: Text(
-            LocaleKeys.Completed.tr(),
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      default:
-        return const SizedBox();
-    }
-  }
-
-  Widget notificationWidgets() {
-    return Row(
-      children: [
-        if (widget.taskModel.time != null) ...[
-          Text(
-            widget.taskModel.time!.to24Hours(),
-          ),
-          const SizedBox(width: 5),
-        ],
-        if (widget.taskModel.isNotificationOn) ...[
-          Icon(
-            Icons.notifications,
-            color: AppColors.dirtyMain,
-          ),
-        ] else if (widget.taskModel.isAlarmOn) ...[
-          const Icon(
-            Icons.alarm,
-            color: AppColors.dirtyRed,
-          ),
-        ]
-      ],
-    );
   }
 }

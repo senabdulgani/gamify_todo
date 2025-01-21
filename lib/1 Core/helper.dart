@@ -23,6 +23,23 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Helper {
+  void registerAdapters() {
+    Hive.initFlutter();
+
+    Hive.registerAdapter(ColorAdapter());
+    Hive.registerAdapter(DurationAdapter());
+    Hive.registerAdapter(TimeOfDayAdapter());
+
+    Hive.registerAdapter(RoutineModelAdapter());
+    Hive.registerAdapter(ItemModelAdapter());
+    Hive.registerAdapter(TaskModelAdapter());
+    Hive.registerAdapter(UserModelAdapter());
+    Hive.registerAdapter(TraitModelAdapter());
+    Hive.registerAdapter(TaskTypeEnumAdapter());
+    Hive.registerAdapter(TraitTypeEnumAdapter());
+    Hive.registerAdapter(TaskStatusEnumAdapter());
+  }
+
   Future<void> getDialog({
     String? title,
     required String message,
@@ -159,23 +176,6 @@ class Helper {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
     return (to.difference(from).inHours / 24).round();
-  }
-
-  void registerAdapters() {
-    Hive.initFlutter();
-
-    Hive.registerAdapter(ColorAdapter());
-    Hive.registerAdapter(DurationAdapter());
-    Hive.registerAdapter(TimeOfDayAdapter());
-
-    Hive.registerAdapter(RoutineModelAdapter());
-    Hive.registerAdapter(ItemModelAdapter());
-    Hive.registerAdapter(TaskModelAdapter());
-    Hive.registerAdapter(UserModelAdapter());
-    Hive.registerAdapter(TraitModelAdapter());
-    Hive.registerAdapter(TaskTypeEnumAdapter());
-    Hive.registerAdapter(TraitTypeEnumAdapter());
-    Hive.registerAdapter(TaskStatusEnumAdapter());
   }
 
   // Emoji Picker

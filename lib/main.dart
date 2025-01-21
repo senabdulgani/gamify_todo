@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gamify_todo/2%20General/accessible.dart';
-import 'package:gamify_todo/2%20General/app_colors.dart';
+import 'package:gamify_todo/2%20General/app_theme.dart';
 import 'package:gamify_todo/2%20General/init_app.dart';
 import 'package:gamify_todo/3%20Page/Login/login_page.dart';
 import 'package:gamify_todo/3%20Page/navbar_page_manager.dart';
@@ -48,7 +48,7 @@ class Main extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           title: 'NextLevel',
-          theme: AppColors().appTheme,
+          theme: AppTheme().theme,
           debugShowCheckedModeBanner: false,
           showPerformanceOverlay: false,
           home: loginUser != null ? const NavbarPageManager() : const LoginPage(),

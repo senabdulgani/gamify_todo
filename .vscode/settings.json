@@ -1,0 +1,10 @@
+{
+    "favorites.sortDirection": "ASC",
+    "favorites.resources": [
+        {
+            "filePath": "lib",
+            "group": "Default"
+        }
+    ],
+    "favorites.sortOrder": "ASC"
+}
