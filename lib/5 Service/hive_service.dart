@@ -5,6 +5,7 @@ import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
 import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
+import 'package:gamify_todo/6%20Provider/store_provider.dart';
 import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/7%20Enum/task_type_enum.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -195,6 +196,7 @@ class HiveService {
 
   // delete all data
   Future<void> deleteAllData() async {
+    // Clear Hive boxes
     final box = await _userBox;
     await box.clear();
 
@@ -209,6 +211,24 @@ class HiveService {
 
     final box5 = await _taskBox;
     await box5.clear();
+
+    // Clear SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+
+    // Reset last task id
+    await prefs.setInt("last_task_id", 0);
+
+    // Reset last login date to today
+    await prefs.setString('lastLoginDate', DateTime.now().toIso8601String());
+
+    // Refresh providers
+    TaskProvider().taskList.clear();
+    TaskProvider().routineList.clear();
+    TaskProvider().updateItems();
+
+    StoreProvider().storeItemList.clear();
+    StoreProvider().setStateItems();
   }
 
   Future<String?> exportData() async {
@@ -350,6 +370,9 @@ class HiveService {
           final content = await file.readAsString();
           final Map<String, dynamic> allData = jsonDecode(content);
 
+          // Clear existing data first (this will also clear SharedPreferences)
+          await deleteAllData();
+
           // Import users
           final userBox = await _userBox;
           final userData = allData[_userBoxName] as Map<String, dynamic>;
@@ -361,7 +384,9 @@ class HiveService {
           final itemBox = await _itemBox;
           final itemData = allData[_itemBoxName] as Map<String, dynamic>;
           for (var entry in itemData.entries) {
-            await itemBox.put(int.parse(entry.key), ItemModel.fromJson(entry.value));
+            final item = ItemModel.fromJson(entry.value);
+            await itemBox.put(int.parse(entry.key), item);
+            StoreProvider().storeItemList.add(item);
           }
 
           // Import traits
@@ -375,15 +400,29 @@ class HiveService {
           final routineBox = await _routineBox;
           final routineData = allData[_routineBoxName] as Map<String, dynamic>;
           for (var entry in routineData.entries) {
-            await routineBox.put(int.parse(entry.key), RoutineModel.fromJson(entry.value));
+            final routine = RoutineModel.fromJson(entry.value);
+            await routineBox.put(int.parse(entry.key), routine);
+            TaskProvider().routineList.add(routine);
           }
 
           // Import tasks
           final taskBox = await _taskBox;
           final taskData = allData[_taskBoxName] as Map<String, dynamic>;
           for (var entry in taskData.entries) {
-            await taskBox.put(int.parse(entry.key), TaskModel.fromJson(entry.value));
+            final task = TaskModel.fromJson(entry.value);
+            await taskBox.put(int.parse(entry.key), task);
+            TaskProvider().taskList.add(task);
           }
+
+          // Update last task id in SharedPreferences
+          if (TaskProvider().taskList.isNotEmpty) {
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setInt("last_task_id", TaskProvider().taskList.map((e) => e.id).reduce((max, id) => max > id ? max : id));
+          }
+
+          // Refresh providers
+          TaskProvider().updateItems();
+          StoreProvider().setStateItems();
 
           Helper().getMessage(
             message: LocaleKeys.backup_restored_successfully.tr(),
