@@ -77,6 +77,8 @@
     "DeleteAllData": "Tüm Verileri Sil",
     "DeleteAllDataText": "Tüm verileri silmek istediğinizden emin misiniz?",
     "Yes": "Evet",
+    "Hide": "Gizle",
+    "Show": "Göster",
     "storage_permission_required": "Yedekleme için depolama izni gerekli",
     "storage_access_error": "Depolama dizinine erişilemedi",
     "downloads_access_error": "İndirilenler klasörüne erişilemedi",
@@ -84,5 +86,13 @@
     "backup_creation_error": "Yedekleme oluşturulurken hata: {}",
     "backup_restored_successfully": "Veriler başarıyla geri yüklendi",
     "backup_restore_cancelled": "Veriler geri yükleme iptal edildi",
-    "backup_restore_error": "Veriler geri yüklenirken hata: {}"
+    "backup_restore_error": "Veriler geri yüklenirken hata: {}",
+    "task_completed_title": "🎉 {} Tamamlandı",
+    "task_completed_desc": "Toplam süre: {}",
+    "item_expired_title": "⚠️ {} Süresi Doldu",
+    "item_expired_desc": "Süre sınırını aşmayın!",
+    "notification_permission_required": "Bildirim izni gerekli",
+    "alarm_permission_required": "Alarm izni gerekli",
+    "notification_channel_name": "Görev Tamamlama",
+    "notification_channel_desc": "Tamamlanan görevler için bildirimler"
 }

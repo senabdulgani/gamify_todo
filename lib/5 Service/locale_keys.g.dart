@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const Store = 'Store';
   static const Settings = 'Settings';
   static const SelectLanguage = 'SelectLanguage';
@@ -79,6 +79,8 @@ abstract class  LocaleKeys {
   static const DeleteAllData = 'DeleteAllData';
   static const DeleteAllDataText = 'DeleteAllDataText';
   static const Yes = 'Yes';
+  static const Hide = 'Hide';
+  static const Show = 'Show';
   static const storage_permission_required = 'storage_permission_required';
   static const storage_access_error = 'storage_access_error';
   static const downloads_access_error = 'downloads_access_error';
@@ -87,5 +89,12 @@ abstract class  LocaleKeys {
   static const backup_restored_successfully = 'backup_restored_successfully';
   static const backup_restore_cancelled = 'backup_restore_cancelled';
   static const backup_restore_error = 'backup_restore_error';
-
+  static const task_completed_title = 'task_completed_title';
+  static const task_completed_desc = 'task_completed_desc';
+  static const item_expired_title = 'item_expired_title';
+  static const item_expired_desc = 'item_expired_desc';
+  static const notification_permission_required = 'notification_permission_required';
+  static const alarm_permission_required = 'alarm_permission_required';
+  static const notification_channel_name = 'notification_channel_name';
+  static const notification_channel_desc = 'notification_channel_desc';
 }

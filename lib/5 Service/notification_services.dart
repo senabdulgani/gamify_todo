@@ -1,8 +1,10 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:gamify_todo/1%20Core/helper.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:easy_localization/easy_localization.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -23,9 +25,7 @@ class NotificationService {
     if (status.isGranted) {
       return true;
     } else {
-      // TODO:
-      Helper().getDialog(message: "Bildirim için izin vermelisin");
-
+      Helper().getDialog(message: LocaleKeys.notification_permission_required.tr());
       return false;
     }
   }
@@ -36,9 +36,7 @@ class NotificationService {
     if (status.isGranted) {
       return true;
     } else {
-      // TODO:
-      Helper().getDialog(message: "Bildirim için izin vermelisin");
-
+      Helper().getDialog(message: LocaleKeys.alarm_permission_required.tr());
       return false;
     }
   }
@@ -68,7 +66,6 @@ class NotificationService {
     );
 
     if (isAlarm) {
-      // TODO:
       await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         title,

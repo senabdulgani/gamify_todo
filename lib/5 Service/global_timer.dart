@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:gamify_todo/1%20Core/extensions.dart';
 import 'package:gamify_todo/5%20Service/app_helper.dart';
 import 'package:gamify_todo/5%20Service/home_widget_service.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/5%20Service/server_manager.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
@@ -11,6 +12,7 @@ import 'package:gamify_todo/7%20Enum/task_status_enum.dart';
 import 'package:gamify_todo/8%20Model/store_item_model.dart';
 import 'package:gamify_todo/8%20Model/task_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GlobalTimer {
   static final GlobalTimer _instance = GlobalTimer._internal();
@@ -39,8 +41,8 @@ class GlobalTimer {
           final scheduledDate = DateTime.now().add(taskModel.remainingDuration! - taskModel.currentDuration!);
           NotificationService().scheduleNotification(
             id: taskModel.id,
-            title: '🎉 ${taskModel.title} Completed',
-            desc: 'Total duration: ${taskModel.remainingDuration!.textLongDynamicWithoutZero()}',
+            title: LocaleKeys.task_completed_title.tr(args: [taskModel.title]),
+            desc: LocaleKeys.task_completed_desc.tr(args: [taskModel.remainingDuration!.textLongDynamicWithoutZero()]),
             scheduledDate: scheduledDate,
             isAlarm: true,
           );
@@ -66,8 +68,8 @@ class GlobalTimer {
           final scheduledDate = DateTime.now().add(storeItemModel.currentDuration!);
           NotificationService().scheduleNotification(
             id: storeItemModel.id,
-            title: '⚠️ ${storeItemModel.title} Time Expired',
-            desc: 'Do not exceed the time limit!}',
+            title: LocaleKeys.item_expired_title.tr(args: [storeItemModel.title]),
+            desc: LocaleKeys.item_expired_desc.tr(),
             scheduledDate: scheduledDate,
             isAlarm: true,
           );

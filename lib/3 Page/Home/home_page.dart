@@ -6,6 +6,8 @@ import 'package:gamify_todo/3%20Page/Home/Widget/task_list.dart';
 import 'package:gamify_todo/5%20Service/notification_services.dart';
 import 'package:gamify_todo/6%20Provider/task_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:gamify_todo/5%20Service/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -44,7 +46,7 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     TaskProvider().changeShowCompleted();
                   },
-                  child: Text("${TaskProvider().showCompleted ? "Hide" : "Show"} Completed"),
+                  child: Text("${TaskProvider().showCompleted ? LocaleKeys.Hide.tr() : LocaleKeys.Show.tr()} ${LocaleKeys.Completed.tr()}"),
                 ),
               ];
             },
