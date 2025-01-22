@@ -167,9 +167,14 @@ class _TaskItemState extends State<TaskItem> {
     }
 
     if (widget.taskModel.type == TaskTypeEnum.CHECKBOX) {
-      widget.taskModel.status = (widget.taskModel.status == null || widget.taskModel.status != TaskStatusEnum.COMPLETED) ? TaskStatusEnum.COMPLETED : null;
+      if (widget.taskModel.status == null || widget.taskModel.status != TaskStatusEnum.COMPLETED) {
+        widget.taskModel.status = TaskStatusEnum.COMPLETED;
+        AppHelper().addCreditByProgress(widget.taskModel.remainingDuration);
+      } else {
+        widget.taskModel.status = null;
+        AppHelper().addCreditByProgress(widget.taskModel.remainingDuration != null ? -widget.taskModel.remainingDuration! : null);
+      }
 
-      AppHelper().addCreditByProgress(widget.taskModel.remainingDuration);
       HomeWidgetService.updateTaskCount();
     } else if (widget.taskModel.type == TaskTypeEnum.COUNTER) {
       widget.taskModel.currentCount = widget.taskModel.currentCount! + 1;

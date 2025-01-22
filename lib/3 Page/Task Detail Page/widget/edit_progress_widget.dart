@@ -44,10 +44,28 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
   Duration? get currentDuration => isTask ? widget.taskModel!.currentDuration : widget.itemModel!.currentDuration;
   Duration? get targetDuration => isTask ? widget.taskModel!.remainingDuration : widget.itemModel!.addDuration;
 
-  void updateProgress() {
+  void updateProgress(value) {
     if (isTask) {
+      late Duration progressDifference;
+      if (widget.taskModel!.type == TaskTypeEnum.COUNTER) {
+        int previousCount = widget.taskModel!.currentCount ?? 0;
+        widget.taskModel!.currentCount = value;
+
+        // Calculate progress difference for credit adjustment
+        int difference = value - previousCount;
+        progressDifference = widget.taskModel!.remainingDuration! * difference ~/ widget.taskModel!.targetCount!;
+      } else {
+        Duration previousDuration = widget.taskModel!.currentDuration ?? Duration.zero;
+        widget.taskModel!.currentDuration = value;
+
+        // Calculate progress difference for credit adjustment
+        progressDifference = value - previousDuration;
+      }
+
       ServerManager().updateTask(taskModel: widget.taskModel!);
-      AppHelper().addCreditByProgress(widget.taskModel!.remainingDuration);
+      AppHelper().addCreditByProgress(progressDifference);
+
+      HomeWidgetService.updateTaskCount();
     } else {
       ServerManager().updateItem(itemModel: widget.itemModel!);
     }
@@ -56,39 +74,33 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
   void setCount(int value) {
     setState(() {
       if (isTask) {
-        widget.taskModel!.currentCount = value;
         if (value >= widget.taskModel!.targetCount! && widget.taskModel!.status != TaskStatusEnum.COMPLETED) {
           widget.taskModel!.status = TaskStatusEnum.COMPLETED;
         } else if (value < widget.taskModel!.targetCount! && widget.taskModel!.status == TaskStatusEnum.COMPLETED) {
           widget.taskModel!.status = null;
         }
-        AppHelper().addCreditByProgress(widget.taskModel!.remainingDuration);
-        HomeWidgetService.updateTaskCount();
       } else {
         widget.itemModel!.currentCount = value;
       }
     });
-    updateProgress();
+    updateProgress(value);
   }
 
   void setDuration(Duration value) {
     setState(() {
       if (isTask) {
-        widget.taskModel!.currentDuration = value;
         if (value >= widget.taskModel!.remainingDuration! && widget.taskModel!.status != TaskStatusEnum.COMPLETED) {
           widget.taskModel!.status = TaskStatusEnum.COMPLETED;
         } else if (value < widget.taskModel!.remainingDuration! && widget.taskModel!.status == TaskStatusEnum.COMPLETED) {
           widget.taskModel!.status = null;
         }
-        AppHelper().addCreditByProgress(widget.taskModel!.remainingDuration);
-        HomeWidgetService.updateTaskCount();
         _checkAndUpdateNotificationStatusForTask();
       } else {
         widget.itemModel!.currentDuration = value;
         _checkAndUpdateNotificationStatusForStoreItem();
       }
     });
-    updateProgress();
+    updateProgress(value);
   }
 
   @override
@@ -110,14 +122,14 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
         children: [
           GestureDetector(
             onTap: () {
-              if (currentCount > 0) {
+              if (currentCount > 0 || !isTask) {
                 setCount(currentCount - 1);
               }
             },
             onLongPressStart: (_) async {
               _isDecrementing = true;
               while (_isDecrementing && mounted) {
-                if (currentCount > 0) {
+                if (currentCount > 0 || !isTask) {
                   setCount(currentCount - 1);
                 }
                 await Future.delayed(const Duration(milliseconds: 60));
@@ -164,12 +176,12 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
         children: [
           _buildDurationControl(
             label: LocaleKeys.Hour.tr(),
-            value: currentDuration?.inHours ?? 0,
+            value: (currentDuration?.isNegative ?? false) ? -((-currentDuration!.inHours) % 24) : currentDuration?.inHours ?? 0,
             onIncrease: () {
               setDuration((currentDuration ?? Duration.zero) + const Duration(hours: 1));
             },
             onDecrease: () {
-              if ((currentDuration?.inHours ?? 0) > 0) {
+              if ((currentDuration?.inHours ?? 0) > 0 || !isTask) {
                 setDuration((currentDuration ?? Duration.zero) - const Duration(hours: 1));
               }
             },
@@ -177,8 +189,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
               setDuration((currentDuration ?? Duration.zero) + const Duration(hours: 1));
             },
             onLongDecrease: () {
-              final currentHours = currentDuration?.inHours ?? 0;
-              if (currentHours > 0) {
+              if ((currentDuration?.inHours ?? 0) > 0 || !isTask) {
                 setDuration((currentDuration ?? Duration.zero) - const Duration(hours: 1));
               }
             },
@@ -186,12 +197,12 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
           const SizedBox(width: 16),
           _buildDurationControl(
             label: LocaleKeys.Minute.tr(),
-            value: (currentDuration?.inMinutes ?? 0) % 60,
+            value: (currentDuration?.isNegative ?? false) ? -((-currentDuration!.inMinutes) % 60) : (currentDuration?.inMinutes ?? 0) % 60,
             onIncrease: () {
               setDuration((currentDuration ?? Duration.zero) + const Duration(minutes: 1));
             },
             onDecrease: () {
-              if ((currentDuration?.inMinutes ?? 0) > 0) {
+              if ((currentDuration?.inMinutes ?? 0) > 0 || !isTask) {
                 setDuration((currentDuration ?? Duration.zero) - const Duration(minutes: 1));
               }
             },
@@ -199,8 +210,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
               setDuration((currentDuration ?? Duration.zero) + const Duration(minutes: 1));
             },
             onLongDecrease: () {
-              final currentMinutes = currentDuration?.inMinutes ?? 0;
-              if (currentMinutes > 0) {
+              if ((currentDuration?.inMinutes ?? 0) > 0 || !isTask) {
                 setDuration((currentDuration ?? Duration.zero) - const Duration(minutes: 1));
               }
             },
@@ -208,12 +218,12 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
           const SizedBox(width: 16),
           _buildDurationControl(
             label: LocaleKeys.Second.tr(),
-            value: (currentDuration?.inSeconds ?? 0) % 60,
+            value: (currentDuration?.isNegative ?? false) ? -((-currentDuration!.inSeconds) % 60) : (currentDuration?.inSeconds ?? 0) % 60,
             onIncrease: () {
               setDuration((currentDuration ?? Duration.zero) + const Duration(seconds: 1));
             },
             onDecrease: () {
-              if ((currentDuration?.inSeconds ?? 0) > 0) {
+              if ((currentDuration?.inSeconds ?? 0) > 0 || !isTask) {
                 setDuration((currentDuration ?? Duration.zero) - const Duration(seconds: 1));
               }
             },
@@ -221,8 +231,7 @@ class _EditProgressWidgetState extends State<EditProgressWidget> {
               setDuration((currentDuration ?? Duration.zero) + const Duration(seconds: 1));
             },
             onLongDecrease: () {
-              final currentSeconds = currentDuration?.inSeconds ?? 0;
-              if (currentSeconds > 0) {
+              if ((currentDuration?.inSeconds ?? 0) > 0 || !isTask) {
                 setDuration((currentDuration ?? Duration.zero) - const Duration(seconds: 1));
               }
             },
