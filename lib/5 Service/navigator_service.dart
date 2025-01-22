@@ -21,11 +21,11 @@ class NavigatorService {
     );
   }
 
-  void goBack() {
+  void back() {
     Get.back();
   }
 
-  void goBackAll({bool isHome = false}) {
+  void goBackNavbar({bool isHome = false}) {
     Get.until((route) {
       if (route.settings.name == "/NavbarPageManager") {
         return true;

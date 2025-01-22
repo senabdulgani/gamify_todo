@@ -231,7 +231,7 @@ class HiveService {
     StoreProvider().storeItemList.clear();
     StoreProvider().setStateItems();
 
-    NavigatorService().goBackAll(isHome: true);
+    NavigatorService().goBackNavbar(isHome: true);
 
     Helper().getMessage(message: LocaleKeys.DeleteAllDataSuccess.tr());
   }
@@ -348,7 +348,7 @@ class HiveService {
       final jsonString = jsonEncode(allData);
       await file.writeAsString(jsonString);
 
-      NavigatorService().goBack();
+      NavigatorService().back();
 
       Helper().getMessage(message: LocaleKeys.backup_created_successfully.tr());
 
@@ -429,7 +429,7 @@ class HiveService {
           TaskProvider().updateItems();
           StoreProvider().setStateItems();
 
-          NavigatorService().goBackAll(isHome: true);
+          NavigatorService().goBackNavbar(isHome: true);
 
           Helper().getMessage(message: LocaleKeys.backup_restored_successfully.tr());
 

@@ -171,9 +171,9 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
 
       addStoreItemProvider.updateItem(widget.editItemModel!);
 
-      NavigatorService().goBack();
+      NavigatorService().back();
     } else {
-      NavigatorService().goBack();
+      NavigatorService().back();
     }
   }
 }

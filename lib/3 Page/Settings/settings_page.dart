@@ -29,7 +29,7 @@ class SettingsPage extends StatelessWidget {
         leading: InkWell(
           borderRadius: AppColors.borderRadiusAll,
           onTap: () {
-            NavigatorService().goBack();
+            NavigatorService().back();
           },
           child: const Icon(Icons.arrow_back_ios),
         ),

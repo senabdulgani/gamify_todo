@@ -42,7 +42,7 @@ class _RoutineDetailPageState extends State<RoutineDetailPage> {
         title: Text(widget.taskModel.title),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => NavigatorService().goBack(),
+          onPressed: () => NavigatorService().back(),
         ),
         actions: [
           TextButton(

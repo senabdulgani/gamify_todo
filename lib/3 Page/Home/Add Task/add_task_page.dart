@@ -177,7 +177,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         taskProvider.deleteRoutine(addTaskProvider.editTask!.routineID!);
                       }
 
-                      NavigatorService().goBackAll();
+                      NavigatorService().goBackNavbar();
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -292,7 +292,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       }
     }
 
-    NavigatorService().goBackAll();
+    NavigatorService().goBackNavbar();
   }
 
   void goBack() {
@@ -343,9 +343,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
         ),
       );
 
-      NavigatorService().goBack();
+      NavigatorService().back();
     } else {
-      NavigatorService().goBack();
+      NavigatorService().back();
     }
   }
 }

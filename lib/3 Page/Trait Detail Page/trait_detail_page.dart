@@ -94,7 +94,7 @@ class _TraitDetailPageState extends State<TraitDetailPage> {
         ),
         leading: InkWell(
           borderRadius: AppColors.borderRadiusAll,
-          onTap: () => NavigatorService().goBack(),
+          onTap: () => NavigatorService().back(),
           child: const Icon(Icons.arrow_back_ios),
         ),
         actions: [
