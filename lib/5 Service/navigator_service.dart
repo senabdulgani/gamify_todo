@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamify_todo/3%20Page/Login/login_page.dart';
+import 'package:gamify_todo/5%20Service/hive_service.dart';
 import 'package:gamify_todo/5%20Service/home_widget_service.dart';
 import 'package:gamify_todo/6%20Provider/navbar_provider.dart';
 import 'package:get/route_manager.dart';
@@ -25,8 +26,13 @@ class NavigatorService {
     Get.back();
   }
 
-  void goBackNavbar({bool isHome = false}) {
+  void goBackNavbar({bool isHome = false, bool isDialog = false}) {
+    if (isDialog) {
+      Get.back();
+    }
+
     Get.until((route) {
+      // NavbarPageManager veya root route'a ulaşınca dur
       if (route.settings.name == "/NavbarPageManager") {
         return true;
       } else if (route.settings.name == "/" || route.settings.name == null) {
@@ -40,12 +46,14 @@ class NavigatorService {
 
   // delete mail and password on shared preferences and go to login page
   void logout() async {
-    // SharedPreferences
-    HomeWidgetService.resetHomeWidget();
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
     prefs.remove('password');
+
+    HiveService().deleteAllData(isLogout: true);
+
+    HomeWidgetService.resetHomeWidget();
+
     Get.offUntil(
       GetPageRoute(
         page: () => const LoginPage(),

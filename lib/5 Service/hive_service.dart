@@ -196,7 +196,7 @@ class HiveService {
   }
 
   // delete all data
-  Future<void> deleteAllData() async {
+  Future<void> deleteAllData({bool isLogout = false}) async {
     // Clear Hive boxes
     final box = await _userBox;
     await box.clear();
@@ -231,7 +231,10 @@ class HiveService {
     StoreProvider().storeItemList.clear();
     StoreProvider().setStateItems();
 
-    NavigatorService().goBackNavbar(isHome: true);
+    NavigatorService().goBackNavbar(
+      isHome: true,
+      isDialog: true,
+    );
 
     Helper().getMessage(message: LocaleKeys.DeleteAllDataSuccess.tr());
   }
@@ -429,7 +432,10 @@ class HiveService {
           TaskProvider().updateItems();
           StoreProvider().setStateItems();
 
-          NavigatorService().goBackNavbar(isHome: true);
+          NavigatorService().goBackNavbar(
+            isHome: true,
+            isDialog: true,
+          );
 
           Helper().getMessage(message: LocaleKeys.backup_restored_successfully.tr());
 

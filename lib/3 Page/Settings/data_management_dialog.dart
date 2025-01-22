@@ -59,7 +59,6 @@ class DataManagementDialog extends StatelessWidget {
                     creditProgress: Duration.zero,
                     userCredit: 0,
                   );
-                  Navigator.pop(context);
                 },
                 acceptButtonText: LocaleKeys.Yes.tr(),
                 title: "Hurra?",
