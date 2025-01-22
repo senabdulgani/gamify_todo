@@ -55,6 +55,7 @@ class TaskProvider with ChangeNotifier {
       RoutineModel routine = routineList.where((element) => element.id == taskModel.routineID).first;
 
       routine.title = taskModel.title;
+      routine.description = taskModel.description;
       routine.type = taskModel.type;
       routine.time = taskModel.time;
       routine.isNotificationOn = taskModel.isNotificationOn;
