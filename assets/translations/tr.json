@@ -95,5 +95,11 @@
     "notification_permission_required": "Bildirim izni gerekli",
     "alarm_permission_required": "Alarm izni gerekli",
     "notification_channel_name": "Görev Tamamlama",
-    "notification_channel_desc": "Tamamlanan görevler için bildirimler"
+    "notification_channel_desc": "Tamamlanan görevler için bildirimler",
+    "ThemeSelection": "Tema Seçimi",
+    "ThemeSelectionSubtitle": "Koyu/Açık temayı değiştirin",
+    "DataManagement": "Veri Yönetimi",
+    "DataManagementSubtitle": "Verilerinizi yedekleyin veya geri yükleyin",
+    "ExportData": "Verileri Yedekle",
+    "ImportData": "Yedekten Geri Yükle"
 }

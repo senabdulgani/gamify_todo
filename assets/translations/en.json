@@ -95,5 +95,11 @@
     "notification_permission_required": "Notification permission is required",
     "alarm_permission_required": "Alarm permission is required",
     "notification_channel_name": "Task Completion",
-    "notification_channel_desc": "Notifications for completed tasks"
+    "notification_channel_desc": "Notifications for completed tasks",
+    "ThemeSelection": "Theme Selection",
+    "ThemeSelectionSubtitle": "Change Dark/Light theme",
+    "DataManagement": "Data Management",
+    "DataManagementSubtitle": "Backup or restore your data",
+    "ExportData": "Backup Data",
+    "ImportData": "Restore from Backup"
 }
