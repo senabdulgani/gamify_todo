@@ -197,12 +197,22 @@ class TaskProvider with ChangeNotifier {
   }
 
   // Delete routine
-  deleteRoutine(int routineID) {
-    final routineModel = routineList.where((element) => element.id == routineID).first;
+  Future<void> deleteRoutine(int routineID) async {
+    final routineModel = routineList.firstWhere((element) => element.id == routineID);
 
+    // Delete all associated tasks
+    final tasksToDelete = taskList.where((task) => task.routineID == routineID).toList();
+    for (final task in tasksToDelete) {
+      NotificationService().cancelNotificationOrAlarm(task.id);
+      await ServerManager().deleteTask(id: task.id);
+      taskList.remove(task);
+    }
+
+    // Delete the routine
     routineList.remove(routineModel);
-    ServerManager().deleteRoutine(id: routineModel.id);
+    await ServerManager().deleteRoutine(id: routineModel.id);
 
+    HomeWidgetService.updateTaskCount();
     notifyListeners();
   }
 

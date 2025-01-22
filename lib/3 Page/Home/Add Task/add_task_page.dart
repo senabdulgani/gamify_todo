@@ -87,7 +87,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        goBack();
+        // didpop kontrolü şunun için var: eğer geri gelme butonuna basarak pop yaparsak false oluyor fonsiyon ile tetiklersek true oluyor. hata bu sayede düzeltildi. debuglock falan yazıyordu.
+        if (!didPop) goBack();
       },
       child: Scaffold(
         appBar: AppBar(

@@ -81,7 +81,7 @@ Future<void> initApp() async {
           child: Container(
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
-              color: AppColors.main,
+              color: AppColors.red,
               borderRadius: AppColors.borderRadiusAll,
             ),
             child: Wrap(

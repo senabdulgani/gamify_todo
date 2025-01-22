@@ -55,7 +55,7 @@ class _AddStoreItemPageState extends State<AddStoreItemPage> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        goBackCheck();
+        if (!didPop) goBackCheck();
       },
       child: Scaffold(
         appBar: AppBar(
