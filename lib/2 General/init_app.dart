@@ -28,9 +28,9 @@ Future<void> initApp() async {
   EasyLocalization.logger.enableBuildModes = [];
 
   // Notification
-  await NotificationService().init();
-  await NotificationService().requestNotificationPermissions();
-  await NotificationService().requestAlarmPermission();
+  // await NotificationService().init();
+  // await NotificationService().requestNotificationPermissions();
+  // await NotificationService().requestAlarmPermission();
 
   // Desktop Window
   if (!kIsWeb && Platform.isWindows) {
